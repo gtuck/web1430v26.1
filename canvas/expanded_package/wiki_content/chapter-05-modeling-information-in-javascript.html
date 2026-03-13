@@ -7,36 +7,117 @@
 </head>
 <body>
 <h1>Chapter 5: Modeling Information in JavaScript</h1>
-<p>The chapter shows how arrays, objects, and JSON can represent real web content, user choices, and application state.</p>
+<p>Real applications deal with collections of things: products, users, posts, events. This chapter teaches you how to represent those collections as arrays and objects, and how to work with them using the methods that make JavaScript data manipulation readable and expressive.</p>
 <h2>What this chapter is really about</h2>
-<p>The chapter shows how arrays, objects, and JSON can represent real web content, user choices, and application state. Rather than treating the browser like a magic box, this chapter asks students to name the moving parts, decide where responsibility belongs, and make design decisions visible in code.</p>
+<p>Before you can render a product catalog, filter a search result, or build a preferences panel, you need to model the underlying information. This chapter focuses on arrays (ordered lists of things), objects (records with named properties), and the methods that let you transform, filter, and search that data without writing verbose manual loops. It also introduces JSON — the universal language for exchanging data between client and server.</p>
 <h2>Key ideas</h2>
-<p>The web is layered. Content comes first, presentation follows, behavior enhances, and data flows across boundaries. Good client-side code respects those layers instead of blurring them into one large script.</p>
+<p><strong>Arrays</strong> are ordered, zero-indexed collections:</p>
+<pre><code class="language-js">const colors = [&#x27;red&#x27;, &#x27;green&#x27;, &#x27;blue&#x27;];
+console.log(colors[0]);       // &#x27;red&#x27;
+console.log(colors.length);   // 3</code></pre>
+<p><strong>Objects</strong> are collections of named properties:</p>
+<pre><code class="language-js">const product = {
+  name: &#x27;Wireless Keyboard&#x27;,
+  price: 49.99,
+  inStock: true,
+};
+
+console.log(product.name);         // dot notation
+console.log(product[&#x27;price&#x27;]);     // bracket notation (useful with dynamic keys)</code></pre>
+<p><strong>Arrays of objects</strong> are the most common data structure in real applications — for example, a product catalog, a list of users, or search results:</p>
+<pre><code class="language-js">const products = [
+  { id: 1, name: &#x27;Keyboard&#x27;, price: 49.99, category: &#x27;Electronics&#x27; },
+  { id: 2, name: &#x27;Notebook&#x27;, price: 4.99, category: &#x27;Stationery&#x27; },
+  { id: 3, name: &#x27;Monitor&#x27;, price: 299.00, category: &#x27;Electronics&#x27; },
+];</code></pre>
+<p><strong>Key array methods</strong> — learn these; they replace most manual loops:</p>
+<table>
+<thead><tr><th>Method</th><th>What it does</th><th>Returns</th></tr></thead>
+<tbody>
+<tr><td><code>.map(fn)</code></td><td>Transform every item</td><td>New array, same length</td></tr>
+<tr><td><code>.filter(fn)</code></td><td>Keep items that pass a test</td><td>New array, shorter or equal length</td></tr>
+<tr><td><code>.find(fn)</code></td><td>Find the first matching item</td><td>One item or <code>undefined</code></td></tr>
+<tr><td><code>.findIndex(fn)</code></td><td>Find the index of the first match</td><td>Number or <code>-1</code></td></tr>
+<tr><td><code>.forEach(fn)</code></td><td>Run a function on each item</td><td><code>undefined</code> (side effects only)</td></tr>
+<tr><td><code>.some(fn)</code></td><td>True if any item passes</td><td>Boolean</td></tr>
+<tr><td><code>.every(fn)</code></td><td>True if all items pass</td><td>Boolean</td></tr>
+</tbody>
+</table>
+<pre><code class="language-js">// Get only electronics
+const electronics = products.filter(p =&gt; p.category === &#x27;Electronics&#x27;);
+
+// Get just the names
+const names = products.map(p =&gt; p.name);   // [&#x27;Keyboard&#x27;, &#x27;Notebook&#x27;, &#x27;Monitor&#x27;]
+
+// Find a specific item
+const keyboard = products.find(p =&gt; p.id === 1);</code></pre>
+<p><strong>Destructuring</strong> extracts properties from objects and arrays into named variables:</p>
+<pre><code class="language-js">const { name, price } = product;        // object destructuring
+const [first, second] = colors;         // array destructuring</code></pre>
+<p><strong>JSON</strong> (JavaScript Object Notation) is a text format for structured data. It looks like a JavaScript object literal but has strict rules: all keys must be quoted strings, values must be strings, numbers, booleans, arrays, or objects (no functions, no <code>undefined</code>).</p>
+<pre><code class="language-js">// JavaScript object → JSON string
+const json = JSON.stringify(product);
+
+// JSON string → JavaScript object
+const parsed = JSON.parse(json);</code></pre>
 <h2>Mental model</h2>
-<p>Each page is a conversation between structure, style, state, and time. Structure gives the page meaning. Style gives it shape. State tracks what the user has done and what the application knows. Time matters because users click, type, navigate, and wait.</p>
+<p>An array is for an ordered list of similar items — a list of products, a list of names, a list of search results. An object is for a single record with named attributes — a single product, a single user, a single event.</p>
+<p>Most real data is <strong>an array of objects</strong>: a collection of records. When you receive data from an API, you will almost always be working with an array of objects. Build your mental model around that shape and the key methods (<code>.map</code>, <code>.filter</code>, <code>.find</code>) become your primary tools.</p>
+<p>Design your data before writing any rendering code. Ask: what information does this interface need? Then define the shape of the data object that holds it. Writing the data model first makes the rendering code obvious.</p>
 <h2>Working habits</h2>
-<p>Students are encouraged to experiment in small loops: change one thing, observe the result, document the reason, and commit progress in Git. The goal is not simply to make a page work; the goal is to understand why it works.</p>
+<ul>
+<li>Sketch your data structure before writing code. What does one item look like as a JavaScript object?</li>
+<li>Use <code>.map()</code> to transform data into display values (prices, labels, HTML strings).</li>
+<li>Use <code>.filter()</code> to reduce a collection based on user input.</li>
+<li>Use <code>.find()</code> to locate a single item by ID or another unique property.</li>
+<li>Avoid mutating the original array. <code>.map()</code> and <code>.filter()</code> return new arrays; use them instead of modifying the source.</li>
+<li>Always wrap <code>JSON.parse()</code> in a <code>try/catch</code> — invalid JSON throws a <code>SyntaxError</code>.</li>
+</ul>
 <h2>Common mistakes</h2>
-<p>Many beginners overreach too early. They add libraries before they understand the browser, hide logic in anonymous handlers, or skip naming conventions that would make the code readable later. This chapter pushes against that pattern.</p>
+<ul>
+<li><strong>Using <code>.forEach()</code> when you want a return value</strong>. <code>forEach</code> returns <code>undefined</code>. If you need a new array, use <code>.map()</code>.</li>
+<li><strong>Confusing arrays and objects</strong>: arrays are for ordered lists, objects are for records. <code>products[0]</code> is an object. <code>products</code> is an array.</li>
+<li><strong>Forgetting zero-indexing</strong>: the first item is at index <code>0</code>, the last is at <code>array.length - 1</code>.</li>
+<li><strong>Mutating the original array</strong> with <code>.push()</code>, <code>.splice()</code>, or direct index assignment when you should be deriving a new array.</li>
+<li><strong>Treating JSON as JavaScript</strong>: JSON has no <code>undefined</code>, no trailing commas, no functions, no comments. <code>JSON.stringify(undefined)</code> returns <code>undefined</code> (not a string), silently dropping the value.</li>
+<li><strong>Not handling <code>.find()</code> returning <code>undefined</code></strong>: if no item matches, <code>.find()</code> returns <code>undefined</code>. Calling <code>.name</code> on <code>undefined</code> throws a TypeError.</li>
+</ul>
 <h2>Accessibility and UX note</h2>
-<p>Every technical choice has an experience consequence. Heading structure affects screen-reader navigation. Button labeling affects confidence. Error messaging affects recovery. A client-side developer is always shaping user experience, even when writing simple scripts.</p>
+<p>Your data model determines what information is available to render. If your data model doesn't include an <code>alt</code> text field for images, you have no accessible image description to render. If it doesn't include an <code>aria-label</code> for an action, your interface will be unlabeled. Think about accessibility attributes as data — they belong in your data model, not as afterthoughts added to the template.</p>
 <h2>Practice prompt</h2>
-<p>Open one of your existing pages or a provided course starter. Identify one part of the interface that depends on modeling information in javascript and explain what the browser needs in order to make that feature understandable and usable.</p>
+<p>Create an array of at least five objects, each representing a book with <code>id</code>, <code>title</code>, <code>author</code>, <code>year</code>, and <code>genre</code> properties.</p>
+<p>Write four functions:</p>
+<ol>
+<li><code>getBooksAfter(books, year)</code> — returns all books published after the given year</li>
+<li><code>getTitles(books)</code> — returns an array of just the title strings</li>
+<li><code>findByTitle(books, title)</code> — returns the book object with that title, or <code>undefined</code></li>
+<li><code>groupByGenre(books)</code> — returns an object where each key is a genre and its value is an array of books in that genre</li>
+</ol>
+<p>Test all four in the console. Handle the case in <code>findByTitle</code> where no book matches.</p>
 <h2>Reflection</h2>
-<p>What did you assume the browser was doing automatically that actually depends on deliberate authoring? Where can you make your intent more visible in HTML, CSS, or JavaScript?</p>
+<p>What did you discover when you called <code>.find()</code> with a title that didn't exist? When you used <code>.map()</code> vs <code>.forEach()</code>, what was different about the return value? How did you represent the grouped data in <code>groupByGenre</code>, and what does that structure look like when logged?</p>
 <h2>Vocabulary</h2>
 <ul>
-<li>semantics</li>
-<li>enhancement</li>
-<li>state</li>
-<li>rendering</li>
-<li>debugging</li>
+<li><strong>array</strong> — an ordered, zero-indexed list of values</li>
+<li><strong>object</strong> — a collection of named properties (key-value pairs)</li>
+<li><strong>property</strong> — a named value in an object</li>
+<li><strong>method</strong> — a function stored as a property of an object (or a built-in array operation)</li>
+<li><strong>index</strong> — the numeric position of an item in an array (starts at 0)</li>
+<li><strong>destructuring</strong> — syntax for extracting properties from objects or items from arrays into variables</li>
+<li><strong>JSON</strong> — JavaScript Object Notation; a text format for structured data exchange</li>
+<li><strong>iteration</strong> — processing each item in a collection in turn</li>
+<li><strong>map</strong> — an array method that returns a new array of transformed items</li>
+<li><strong>filter</strong> — an array method that returns a new array of items that pass a test</li>
+<li><strong>key-value pair</strong> — a property name and its associated value in an object</li>
 </ul>
 <h2>Mini checklist</h2>
 <ul>
-<li>I can explain the purpose of the layer I am working in.</li>
-<li>I can name the data or state I need.</li>
-<li>I can describe how a user will experience the result.</li>
+<li>I can create an array of objects and access properties using dot notation.</li>
+<li>I can use <code>.filter()</code> to return a subset of an array without mutating the original.</li>
+<li>I can use <code>.map()</code> to transform an array into a new array of different values.</li>
+<li>I can use <code>.find()</code> and handle the case where it returns <code>undefined</code>.</li>
+<li>I can use destructuring to extract object properties into named variables.</li>
+<li>I can use <code>JSON.stringify()</code> and <code>JSON.parse()</code> and explain where each is needed.</li>
 </ul>
 </body>
 </html>

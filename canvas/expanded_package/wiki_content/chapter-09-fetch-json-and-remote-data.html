@@ -7,36 +7,120 @@
 </head>
 <body>
 <h1>Chapter 9: Fetch, JSON, and Remote Data</h1>
-<p>The chapter introduces asynchronous programming by showing how browsers request, receive, and render remote information.</p>
+<p>The browser can request data from remote servers without navigating away from the page. Understanding how that request-response cycle works asynchronously — and how to handle every outcome, including failure — is one of the most practical skills in client-side development.</p>
 <h2>What this chapter is really about</h2>
-<p>The chapter introduces asynchronous programming by showing how browsers request, receive, and render remote information. Rather than treating the browser like a magic box, this chapter asks students to name the moving parts, decide where responsibility belongs, and make design decisions visible in code.</p>
+<p>This chapter introduces asynchronous JavaScript by teaching the Fetch API: how to request remote data, how to parse the response, how to handle errors, and how to keep the interface responsive and informative while the user waits. The goal is to write async code that handles three states every time: loading, success, and error.</p>
 <h2>Key ideas</h2>
-<p>The web is layered. Content comes first, presentation follows, behavior enhances, and data flows across boundaries. Good client-side code respects those layers instead of blurring them into one large script.</p>
+<p><strong>Fetch</strong> initiates an HTTP request and returns a <strong>Promise</strong> — a placeholder for a value that will arrive in the future.</p>
+<pre><code class="language-js">fetch(&#x27;https://api.example.com/products&#x27;)
+  .then(response =&gt; response.json())
+  .then(data =&gt; console.log(data))
+  .catch(error =&gt; console.error(error));</code></pre>
+<p><strong>async/await</strong> is a cleaner syntax for the same thing:</p>
+<pre><code class="language-js">async function loadProducts() {
+  const response = await fetch(&#x27;https://api.example.com/products&#x27;);
+  const data = await response.json();
+  console.log(data);
+}</code></pre>
+<p><code>await</code> pauses the function until the Promise resolves. It can only be used inside an <code>async</code> function.</p>
+<p><strong>The two-step response</strong> — fetch resolves in two stages. The first <code>await</code> resolves when the HTTP response headers arrive (the network round trip is complete). The second <code>await response.json()</code> resolves when the response body is fully read and parsed.</p>
+<p><strong>Always check <code>response.ok</code></strong> before parsing the body. A 404 or 500 status code does not throw — it resolves with <code>response.ok === false</code>:</p>
+<pre><code class="language-js">async function loadProducts() {
+  const response = await fetch(&#x27;https://api.example.com/products&#x27;);
+
+  if (!response.ok) {
+    throw new Error(`Request failed: ${response.status}`);
+  }
+
+  const data = await response.json();
+  return data;
+}</code></pre>
+<p><strong>Always use try/catch</strong> to handle network failures, bad JSON, and unexpected errors:</p>
+<pre><code class="language-js">async function loadAndRender() {
+  showLoading();
+  try {
+    const data = await loadProducts();
+    renderProducts(data);
+  } catch (error) {
+    showError(&#x27;Unable to load products. Please try again.&#x27;);
+    console.error(error);
+  } finally {
+    hideLoading();
+  }
+}</code></pre>
+<p><strong>The three UI states</strong> every async interface must handle:</p>
+<ol>
+<li><strong>Loading</strong> — show a loading indicator before the request starts</li>
+<li><strong>Success</strong> — render the data</li>
+<li><strong>Error</strong> — show a descriptive error message</li>
+</ol>
+<p>Missing any of these leaves users confused.</p>
+<p><strong>CORS (Cross-Origin Resource Sharing)</strong> — browsers block requests to a different domain unless that server explicitly allows it via CORS headers. If you get a CORS error, it is a server configuration issue, not a bug in your JavaScript. Use APIs that explicitly support public access (like JSONPlaceholder, Open Library, or The Movie Database) while learning.</p>
 <h2>Mental model</h2>
-<p>Each page is a conversation between structure, style, state, and time. Structure gives the page meaning. Style gives it shape. State tracks what the user has done and what the application knows. Time matters because users click, type, navigate, and wait.</p>
+<p>Fetch is <strong>non-blocking</strong>. When you call <code>fetch()</code>, the browser sends the request and immediately moves on to the next line of code. The function does not pause and wait — it returns a Promise. When you use <code>await</code>, you are telling JavaScript: "pause <em>this function</em> here and continue other work until the Promise resolves."</p>
+<p>Think of a Promise as a ticket at a deli counter. You order (call <code>fetch</code>), get your ticket (the Promise), and do other things. When your number is called (the Promise resolves), you come back and collect your result (the data).</p>
+<p>Synchronous code runs top to bottom, one step at a time. Asynchronous code schedules work to happen later, in response to events or resolved Promises.</p>
 <h2>Working habits</h2>
-<p>Students are encouraged to experiment in small loops: change one thing, observe the result, document the reason, and commit progress in Git. The goal is not simply to make a page work; the goal is to understand why it works.</p>
+<ul>
+<li>Show a loading indicator <em>before</em> calling <code>fetch</code>. Remove it in <code>finally</code> so it disappears whether the request succeeded or failed.</li>
+<li>Always check <code>response.ok</code> — a 404 is a valid HTTP response, not a thrown error.</li>
+<li>Always wrap async code in <code>try/catch</code>. Network failures, CORS errors, and bad JSON all throw exceptions.</li>
+<li>Show descriptive error messages to users. "Something went wrong" is not helpful. "Could not load products — please check your connection and try again" is.</li>
+<li>Log the full error to the console for debugging while showing a user-friendly message in the UI.</li>
+<li>Read the Network tab in DevTools while your fetch runs. See the request, its status code, and the raw response body.</li>
+</ul>
 <h2>Common mistakes</h2>
-<p>Many beginners overreach too early. They add libraries before they understand the browser, hide logic in anonymous handlers, or skip naming conventions that would make the code readable later. This chapter pushes against that pattern.</p>
+<ul>
+<li><strong>Forgetting <code>await</code> on <code>fetch()</code></strong>: you get a Promise object, not a response. Calling <code>.json()</code> on a Promise throws immediately.</li>
+<li><strong>Forgetting <code>await</code> on <code>response.json()</code></strong>: same problem — you get another Promise, not data.</li>
+<li><strong>Not checking <code>response.ok</code></strong>: a 404 does not throw. Without the check, you call <code>.json()</code> on a 404 response body (often an HTML error page) and get a JSON parse error — confusing and misleading.</li>
+<li><strong>No error handling</strong>: if the server is down, <code>fetch</code> throws. Without <code>try/catch</code>, the error propagates silently or crashes your app.</li>
+<li><strong>No loading state</strong>: users see a blank section and don't know whether to wait or assume something broke.</li>
+<li><strong>Using an API without CORS support</strong>: the browser blocks the request and you see a CORS error in the Console. Check that your chosen API allows cross-origin requests.</li>
+</ul>
 <h2>Accessibility and UX note</h2>
-<p>Every technical choice has an experience consequence. Heading structure affects screen-reader navigation. Button labeling affects confidence. Error messaging affects recovery. A client-side developer is always shaping user experience, even when writing simple scripts.</p>
+<p>Loading states need to be communicated to assistive technology, not just shown visually. Use <code>aria-live=&quot;polite&quot;</code> on the region that updates so screen readers announce changes:</p>
+<pre><code class="language-html">&lt;div id=&quot;results&quot; aria-live=&quot;polite&quot;&gt;
+  &lt;!-- loading message, error, or results are injected here --&gt;
+&lt;/div&gt;</code></pre>
+<p>Error messages must be visible (not just a console log), descriptive, and persistent — not a toast that disappears in 2 seconds. A user navigating slowly with a screen reader may miss a transient message entirely.</p>
 <h2>Practice prompt</h2>
-<p>Open one of your existing pages or a provided course starter. Identify one part of the interface that depends on fetch, json, and remote data and explain what the browser needs in order to make that feature understandable and usable.</p>
+<p>Write an async function called <code>loadPosts()</code> that:</p>
+<ol>
+<li>Shows a "Loading…" message in a designated container before fetching.</li>
+<li>Fetches <code>https://jsonplaceholder.typicode.com/posts?_limit=5</code>.</li>
+<li>Checks <code>response.ok</code> — if false, throws an error with the status code.</li>
+<li>Parses the JSON.</li>
+<li>For each post, creates a <code>&lt;article&gt;</code> element using <code>createElement</code> with the post's <code>title</code> (in an <code>&lt;h2&gt;</code>) and <code>body</code> (in a <code>&lt;p&gt;</code>), and appends it to the container.</li>
+<li>Wraps everything in <code>try/catch</code>. On error, clears the container and shows a descriptive error message.</li>
+<li>Removes the "Loading…" message in a <code>finally</code> block.</li>
+</ol>
+<p>Add <code>aria-live=&quot;polite&quot;</code> to the container. Test the error state by changing the URL to something invalid.</p>
 <h2>Reflection</h2>
-<p>What did you assume the browser was doing automatically that actually depends on deliberate authoring? Where can you make your intent more visible in HTML, CSS, or JavaScript?</p>
+<p>What happened when you removed an <code>await</code> — which one caused the most confusing error? What does the Network tab show while the request is in flight? How did you make the loading state and error message perceivable to a screen reader, not just visually?</p>
 <h2>Vocabulary</h2>
 <ul>
-<li>semantics</li>
-<li>enhancement</li>
-<li>state</li>
-<li>rendering</li>
-<li>debugging</li>
+<li><strong>fetch</strong> — a browser API for making HTTP requests that returns a Promise</li>
+<li><strong>Promise</strong> — an object representing a value that is not yet available but will resolve (or reject) in the future</li>
+<li><strong>async</strong> — a keyword that marks a function as asynchronous; it always returns a Promise</li>
+<li><strong>await</strong> — a keyword used inside async functions to pause execution until a Promise resolves</li>
+<li><strong>response</strong> — the object returned by <code>fetch</code> when the HTTP headers arrive</li>
+<li><strong>JSON</strong> — JavaScript Object Notation; a text format for structured data</li>
+<li><strong>endpoint</strong> — a URL that serves data (e.g., <code>/api/products</code>)</li>
+<li><strong>status code</strong> — a number in the HTTP response indicating success (200), not found (404), server error (500), etc.</li>
+<li><strong>CORS</strong> — Cross-Origin Resource Sharing; a browser security mechanism that blocks requests to different domains unless explicitly permitted by the server</li>
+<li><strong>loading state</strong> — the UI state while a request is in flight</li>
+<li><strong>try/catch</strong> — a JavaScript construct that handles errors thrown in async (and synchronous) code</li>
 </ul>
 <h2>Mini checklist</h2>
 <ul>
-<li>I can explain the purpose of the layer I am working in.</li>
-<li>I can name the data or state I need.</li>
-<li>I can describe how a user will experience the result.</li>
+<li>I can write an async function that fetches data with <code>await</code> and parses the response with <code>await response.json()</code>.</li>
+<li>I can check <code>response.ok</code> and throw a meaningful error when it is false.</li>
+<li>I can wrap a fetch call in <code>try/catch</code> and show a user-facing error message in the catch block.</li>
+<li>I can show a loading state before the request and remove it in a <code>finally</code> block.</li>
+<li>I can handle three distinct UI states: loading, success, and error.</li>
+<li>I can use the Network tab in DevTools to inspect a request's status and response body.</li>
+<li>I can explain what a CORS error is and why the browser enforces it.</li>
 </ul>
 </body>
 </html>

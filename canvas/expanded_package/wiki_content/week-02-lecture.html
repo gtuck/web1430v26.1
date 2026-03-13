@@ -1,11 +1,182 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-<title>Week 02 Lecture Notes</title>
+<title>Week 02 Lecture Notes: Semantic HTML, CSS Architecture, and Mobile-First Layout</title>
 <meta name="identifier" content="i9e85655c523d4750eebb791baa90e22a"/>
 <meta name="workflow_state" content="active"/>
 </head>
 <body>
-<h1>Week 02 Lecture Notes: Semantic HTML, CSS Architecture, and Mobile-First Layout</h1><h2>Weekly focus</h2><p>Semantic Structure and Responsive Foundations</p><h2>Why this matters</h2><p>This week's material helps students move from isolated syntax toward purposeful client-side design decisions. The lecture emphasizes examples that can be inspected in the browser and rebuilt in small pieces.</p><h2>Learning targets</h2><ul><li>Explain the core concept in plain language</li><li>Build one focused example from scratch</li><li>Debug mistakes with browser tools</li><li>Connect this week's ideas to the running course projects</li></ul><h2>Lecture flow</h2><ol><li>Warm-up concept check</li><li>Demonstration of a focused example</li><li>Guided breakdown of the code</li><li>Common bug patterns</li><li>Independent practice prompt</li><li>Bridge to lab, assignment, or quiz</li></ol><h2>Instructor notes</h2><p>Use short code examples, narrate tradeoffs, and revisit accessibility in every demo. Avoid introducing abstractions before students can inspect the DOM, state, or network behavior involved.</p><h2>Exit ticket</h2><p>Ask students to explain one idea from the week using the sentence frame: <em>This matters in the browser because...</em></p>
+<h1>Week 02 Lecture Notes: Semantic HTML, CSS Architecture, and Mobile-First Layout</h1>
+<h2>Weekly focus</h2>
+<p>Writing HTML that means something and CSS that scales — starting from the smallest screen.</p>
+<h2>Why this matters</h2>
+<p>Semantic HTML is the difference between a page that works for everyone and one that only works for sighted mouse users. When you use <code>&lt;nav&gt;</code>, <code>&lt;main&gt;</code>, and <code>&lt;article&gt;</code> instead of nested <code>&lt;div&gt;</code> tags, you give browsers, search engines, and assistive technologies the information they need to do their jobs. CSS custom properties and a mobile-first approach are not just best practices — they are how production teams keep stylesheets maintainable across large projects and diverse devices.</p>
+<h2>Learning targets</h2>
+<ul>
+<li>Identify and correctly apply the HTML5 landmark elements: <code>header</code>, <code>nav</code>, <code>main</code>, <code>section</code>, <code>article</code>, <code>aside</code>, <code>footer</code>, <code>figure</code>, and <code>figcaption</code></li>
+<li>Declare and use CSS custom properties (design tokens) to centralize color, spacing, and typography values</li>
+<li>Write mobile-first media queries using <code>min-width</code> and explain why <code>min-width</code> is preferred over <code>max-width</code></li>
+<li>Build a two-column layout using either Flexbox or CSS Grid and collapse it to a single column on small screens</li>
+<li>Verify WCAG AA color contrast using a browser extension or the DevTools color picker</li>
+</ul>
+<h2>Core concepts</h2>
+<h3>Semantic HTML elements and why <code>&lt;div&gt;</code> is not enough</h3>
+<p>A <code>&lt;div&gt;</code> is a generic container with no inherent meaning. A screen reader encounters a <code>&lt;div&gt;</code> and announces nothing — the user has no idea what region of the page they are in. Semantic elements carry built-in meaning:</p>
+<pre><code class="language-html">&lt;header&gt;
+  &lt;nav aria-label=&quot;Main navigation&quot;&gt;
+    &lt;ul&gt;
+      &lt;li&gt;&lt;a href=&quot;/&quot;&gt;Home&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;/about&quot;&gt;About&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/nav&gt;
+&lt;/header&gt;
+
+&lt;main&gt;
+  &lt;article&gt;
+    &lt;h1&gt;Article Title&lt;/h1&gt;
+    &lt;p&gt;First paragraph of the article.&lt;/p&gt;
+    &lt;figure&gt;
+      &lt;img src=&quot;chart.png&quot; alt=&quot;Bar chart showing sales increasing 40% in Q3&quot;&gt;
+      &lt;figcaption&gt;Figure 1: Q3 Sales Growth&lt;/figcaption&gt;
+    &lt;/figure&gt;
+  &lt;/article&gt;
+
+  &lt;aside&gt;
+    &lt;h2&gt;Related Links&lt;/h2&gt;
+  &lt;/aside&gt;
+&lt;/main&gt;
+
+&lt;footer&gt;
+  &lt;p&gt;&amp;copy; 2026 My Site&lt;/p&gt;
+&lt;/footer&gt;</code></pre>
+<p>Key rules:</p>
+<ul>
+<li>There should be <strong>one <code>&lt;main&gt;</code> per page</strong> — it identifies the primary content.</li>
+<li><code>&lt;section&gt;</code> groups thematically related content and should almost always have a heading.</li>
+<li><code>&lt;article&gt;</code> marks content that could stand alone and be syndicated (a blog post, a news story, a product card).</li>
+<li><code>&lt;aside&gt;</code> is supplementary content tangentially related to the surrounding content (sidebars, pull quotes).</li>
+</ul>
+<h3>CSS custom properties (design tokens)</h3>
+<p>Custom properties let you define a value once and reference it everywhere. They are declared on <code>:root</code> (the document element) and accessed with <code>var()</code>:</p>
+<pre><code class="language-css">:root {
+  --color-primary: #1a56db;
+  --color-text: #111827;
+  --color-bg: #ffffff;
+  --space-md: 1rem;
+  --space-lg: 2rem;
+  --font-body: &#x27;Inter&#x27;, sans-serif;
+}
+
+body {
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  font-family: var(--font-body);
+  padding: var(--space-md);
+}
+
+a {
+  color: var(--color-primary);
+}</code></pre>
+<p>When your client changes the brand color, you update <code>--color-primary</code> in one place instead of hunting through hundreds of rules. Custom properties also cascade and inherit, so you can override them inside a component or for a dark-mode media query.</p>
+<h3>Mobile-first with <code>min-width</code> media queries</h3>
+<p>Mobile-first means: write your base styles for the narrowest viewport, then add complexity as the viewport grows. The keyword is <code>min-width</code>:</p>
+<pre><code class="language-css">/* Base styles — apply to all screen sizes (phones first) */
+.card-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-md);
+}
+
+/* Tablet and up */
+@media (min-width: 48rem) {
+  .card-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Desktop and up */
+@media (min-width: 64rem) {
+  .card-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}</code></pre>
+<p>Why <code>min-width</code> over <code>max-width</code>? When you write <code>max-width</code> queries, you start from a wide desktop layout and progressively shrink it — which tends to produce brittle overrides and forgotten edge cases. <code>min-width</code> means you are progressively <em>enhancing</em>, which aligns with the principle that base content should work everywhere.</p>
+<p>Use <code>rem</code> units in media queries (not <code>px</code>) so they respect user browser font-size preferences.</p>
+<h3>Flexbox fundamentals</h3>
+<p>Flexbox works on a single axis (row or column). Use it for navigation bars, card rows, centering a single item, and any one-dimensional distribution:</p>
+<pre><code class="language-css">.nav-list {
+  display: flex;
+  list-style: none;
+  gap: 1.5rem;
+  padding: 0;
+  margin: 0;
+}
+
+/* Center a single element both axes */
+.hero {
+  display: flex;
+  justify-content: center;  /* main axis (horizontal in row) */
+  align-items: center;      /* cross axis (vertical in row) */
+  min-height: 50vh;
+}</code></pre>
+<p><code>flex-wrap: wrap</code> allows flex items to wrap to a new row when they overflow — useful for responsive card layouts without media queries.</p>
+<h3>CSS Grid fundamentals</h3>
+<p>Grid works on two axes simultaneously. Use it for page-level layout and any two-dimensional arrangement:</p>
+<pre><code class="language-css">.page-layout {
+  display: grid;
+  grid-template-columns: 1fr 3fr;  /* sidebar | main content */
+  grid-template-rows: auto 1fr auto;
+  min-height: 100vh;
+}
+
+/* Named areas make the intent explicit */
+.page-layout {
+  grid-template-areas:
+    &quot;header  header&quot;
+    &quot;sidebar main&quot;
+    &quot;footer  footer&quot;;
+}
+
+header  { grid-area: header; }
+.sidebar { grid-area: sidebar; }
+main    { grid-area: main; }
+footer  { grid-area: footer; }</code></pre>
+<h3>WCAG AA color contrast</h3>
+<p>WCAG AA requires a <strong>minimum contrast ratio of 4.5:1</strong> for normal text and <strong>3:1</strong> for large text (18pt+). This is not optional for professional work.</p>
+<p>Quick checks:</p>
+<ul>
+<li>DevTools: in the Elements panel, click a color swatch next to a <code>color</code> property. Chrome shows the contrast ratio in the color picker and marks it with a checkmark or warning.</li>
+<li>Browser extensions: <strong>axe DevTools</strong> or <strong>Colour Contrast Analyser</strong> check the whole page at once.</li>
+<li>Online tool: <code>webaim.org/resources/contrastchecker/</code></li>
+</ul>
+<p>A common mistake is designing on a bright monitor and assuming the contrast is fine. Always verify with a tool — do not eyeball it.</p>
+<h2>Common mistakes</h2>
+<ol>
+<li><strong>Wrapping everything in <code>&lt;section&gt;</code> or <code>&lt;div&gt;</code>.</strong> <code>&lt;section&gt;</code> is not a semantic replacement for <code>&lt;div&gt;</code> — it implies a distinct, titled region. If the content has no heading, use <code>&lt;div&gt;</code>.</li>
+<li><strong>Forgetting <code>alt</code> text on <code>&lt;img&gt;</code> inside <code>&lt;figure&gt;</code>.</strong> <code>&lt;figure&gt;</code> and <code>&lt;figcaption&gt;</code> do not substitute for <code>alt</code>. The <code>alt</code> attribute on <code>&lt;img&gt;</code> is required for screen reader users and for when the image fails to load.</li>
+<li><strong>Writing <code>max-width</code> media queries when the design brief says "mobile-first."</strong> These work, but they train you to think desktop-first. Force yourself to write base styles for small screens and layer up.</li>
+<li><strong>Hardcoding hex colors instead of custom properties.</strong> When colors repeat across a stylesheet without a variable, a brand update becomes a find-and-replace hazard. Define tokens at <code>:root</code> from the start.</li>
+<li><strong>Using <code>&lt;b&gt;</code> and <code>&lt;i&gt;</code> for emphasis.</strong> These are presentational. Use <code>&lt;strong&gt;</code> for strong importance and <code>&lt;em&gt;</code> for stress emphasis. Screen readers adjust their vocal tone for <code>&lt;strong&gt;</code> and <code>&lt;em&gt;</code>; they ignore <code>&lt;b&gt;</code> and <code>&lt;i&gt;</code>.</li>
+</ol>
+<h2>Accessibility connection</h2>
+<p>The HTML5 landmark elements — <code>&lt;header&gt;</code>, <code>&lt;nav&gt;</code>, <code>&lt;main&gt;</code>, <code>&lt;footer&gt;</code> — expose implicit ARIA landmark roles to the browser's accessibility tree. Screen reader users can navigate directly to any landmark by pressing a shortcut key (e.g., pressing <code>M</code> in NVDA jumps to <code>&lt;main&gt;</code>). A page built entirely from <code>&lt;div&gt;</code> elements forces screen reader users to read linearly through every element to find the content they want. Using semantic elements is therefore a significant navigational aid, not just a stylistic choice.</p>
+<h2>Demo walkthrough</h2>
+<p><strong>Goal:</strong> Convert a <code>&lt;div&gt;</code>-based page layout to semantic HTML, add CSS custom properties, and make it responsive with a single media query.</p>
+<ol>
+<li>Start with a provided <code>starter.html</code> file containing a layout built entirely from <code>&lt;div class=&quot;header&quot;&gt;</code>, <code>&lt;div class=&quot;nav&quot;&gt;</code>, <code>&lt;div class=&quot;main&quot;&gt;</code>, etc.</li>
+<li>Replace each <code>&lt;div&gt;</code> with the appropriate semantic element. Show the before/after in the Elements panel — point out that <code>&lt;nav&gt;</code> now appears in the accessibility tree under "landmarks."</li>
+<li>Open <code>styles.css</code>. Add a <code>:root</code> block declaring <code>--color-primary</code>, <code>--color-text</code>, and <code>--space-md</code>. Replace hardcoded color values throughout the file with <code>var()</code> references.</li>
+<li>Show the existing layout (likely two columns on all screens). Remove the fixed column widths and replace with:</li>
+</ol>
+<pre><code class="language-css">   .content-area { display: grid; grid-template-columns: 1fr; gap: var(--space-md); }
+   @media (min-width: 48rem) { .content-area { grid-template-columns: 1fr 3fr; } }</code></pre>
+<ol>
+<li>Resize the browser window. Show the layout collapsing to one column below 48rem.</li>
+<li>Open DevTools, click on the main heading's color swatch. Show the contrast ratio. If it is below 4.5:1, adjust <code>--color-text</code> until it passes.</li>
+</ol>
+<h2>Practice prompt</h2>
+<p>Build a single HTML page for a fictional blog post. The page must include: a <code>&lt;header&gt;</code> with a site name and <code>&lt;nav&gt;</code>, a <code>&lt;main&gt;</code> containing one <code>&lt;article&gt;</code> with at least two paragraphs and one <code>&lt;figure&gt;</code> with <code>alt</code> text and a <code>&lt;figcaption&gt;</code>, and a <code>&lt;footer&gt;</code> with a copyright line. Style it with at least four CSS custom properties defined at <code>:root</code>. Add one <code>min-width</code> media query that changes the layout in a meaningful way. Verify your heading color passes WCAG AA contrast using DevTools or WebAIM.</p>
+<h2>Bridge</h2>
+<p>Assignment 1 asks you to rebuild a provided design comp as a responsive, semantic HTML/CSS page — you will apply everything in this lecture directly. Pay particular attention to the landmark structure and the mobile-first breakpoint; both are explicitly checked in the rubric. The Chapter 2 reading covers progressive enhancement in more depth, which gives the conceptual grounding behind the mobile-first rule. Read it before starting the assignment so the "why" is clear.</p>
 </body>
 </html>

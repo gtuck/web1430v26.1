@@ -1,11 +1,166 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-<title>Week 09 Lecture Notes</title>
+<title>Week 09 Lecture Notes: Promises, Fetch, Async/Await, and Failure States</title>
 <meta name="identifier" content="i53f972466bc35a3d667c349de25f1426"/>
 <meta name="workflow_state" content="active"/>
 </head>
 <body>
-<h1>Week 09 Lecture Notes: Promises, Fetch, Async/Await, and Failure States</h1><h2>Weekly focus</h2><p>Async JavaScript and APIs</p><h2>Why this matters</h2><p>This week's material helps students move from isolated syntax toward purposeful client-side design decisions. The lecture emphasizes examples that can be inspected in the browser and rebuilt in small pieces.</p><h2>Learning targets</h2><ul><li>Explain the core concept in plain language</li><li>Build one focused example from scratch</li><li>Debug mistakes with browser tools</li><li>Connect this week's ideas to the running course projects</li></ul><h2>Lecture flow</h2><ol><li>Warm-up concept check</li><li>Demonstration of a focused example</li><li>Guided breakdown of the code</li><li>Common bug patterns</li><li>Independent practice prompt</li><li>Bridge to lab, assignment, or quiz</li></ol><h2>Instructor notes</h2><p>Use short code examples, narrate tradeoffs, and revisit accessibility in every demo. Avoid introducing abstractions before students can inspect the DOM, state, or network behavior involved.</p><h2>Exit ticket</h2><p>Ask students to explain one idea from the week using the sentence frame: <em>This matters in the browser because...</em></p>
+<h1>Week 09 Lecture Notes: Promises, Fetch, Async/Await, and Failure States</h1>
+<h2>Weekly focus</h2>
+<p>Write JavaScript that requests data from a remote API, handles loading and error states, and updates the DOM without blocking the page.</p>
+<h2>Why this matters</h2>
+<p>Every modern web application that displays live data — weather, search results, social feeds, maps — uses asynchronous code. Without async patterns, a single slow network request would freeze the browser tab entirely. Understanding how JavaScript handles time and waiting is what makes it possible to build UIs that stay responsive while work happens in the background. This is one of the most important conceptual shifts in the course.</p>
+<h2>Learning targets</h2>
+<ul>
+<li>Explain why JavaScript uses an asynchronous model and what the event loop does at a high level</li>
+<li>Describe the three states of a Promise: pending, fulfilled, and rejected</li>
+<li>Write a <code>fetch()</code> call using <code>async/await</code> that reads JSON from a public API</li>
+<li>Check <code>response.ok</code> before parsing and throw a meaningful error if the request failed</li>
+<li>Handle loading, success, error, and empty states in the DOM</li>
+<li>Use <code>aria-live</code> to announce async content changes to screen readers</li>
+</ul>
+<h2>Core concepts</h2>
+<h3>Why async exists: JavaScript is single-threaded</h3>
+<p>JavaScript runs on a single thread. That means it can only do one thing at a time. If a network request took 3 seconds and JavaScript waited for it synchronously, your entire page — scrolling, clicks, animations — would be completely frozen for those 3 seconds.</p>
+<p>The solution is asynchronous execution: start the request, register a callback for when it finishes, and let the rest of the page continue running. The <strong>event loop</strong> is the mechanism that makes this work. It watches a queue of completed tasks (like "the fetch response arrived") and runs the registered callbacks when the main thread is free.</p>
+<p>You do not need to implement the event loop — you need a mental model: <em>JavaScript starts async work, moves on, and comes back to the result later.</em></p>
+<h3>Promises: pending, fulfilled, rejected</h3>
+<p>A <code>Promise</code> is an object that represents a value that is not available yet. It is always in one of three states:</p>
+<ul>
+<li><strong>Pending</strong> — the operation has started but has not completed</li>
+<li><strong>Fulfilled</strong> — the operation completed successfully; the value is available</li>
+<li><strong>Rejected</strong> — the operation failed; an error is available</li>
+</ul>
+<p><code>fetch()</code> returns a Promise. You do not get the response immediately — you get a promise that the response <em>will</em> arrive.</p>
+<h3>async/await syntax</h3>
+<p><code>async/await</code> is syntactic sugar over Promises. It lets you write async code that reads like synchronous code, without losing the non-blocking behavior.</p>
+<pre><code class="language-js">async function loadUser(userId) {
+  const response = await fetch(`https://jsonplaceholder.typicode.com/users/${userId}`);
+  const data = await response.json();
+  return data;
+}</code></pre>
+<p>Rules:</p>
+<ul>
+<li><code>await</code> can only be used inside a function marked <code>async</code></li>
+<li><code>await</code> pauses execution of that function until the Promise settles</li>
+<li>The function itself returns a Promise, so callers can <code>await</code> it too</li>
+</ul>
+<h3>Checking response.ok and throwing errors</h3>
+<p><code>fetch()</code> only rejects its Promise for network-level failures (no connection, DNS error). A <code>404 Not Found</code> or <code>500 Server Error</code> still resolves — it just has <code>response.ok === false</code>. You must check this manually.</p>
+<pre><code class="language-js">async function fetchBreed(breed) {
+  const response = await fetch(`https://dog.ceo/api/breed/${breed}/images/random`);
+
+  if (!response.ok) {
+    throw new Error(`Request failed: ${response.status} ${response.statusText}`);
+  }
+
+  return await response.json();
+}</code></pre>
+<p>By throwing an error explicitly, you allow the <code>catch</code> block up the call stack to handle it uniformly.</p>
+<h3>try/catch/finally</h3>
+<p>Wrap <code>await</code> calls in <code>try/catch</code> to handle both network errors and the explicit errors you throw:</p>
+<pre><code class="language-js">async function loadBreedImage(breed) {
+  try {
+    const data = await fetchBreed(breed);
+    displayImage(data.message);
+  } catch (error) {
+    displayError(error.message);
+  } finally {
+    hideLoadingSpinner();
+  }
+}</code></pre>
+<p><code>finally</code> runs whether the request succeeded or failed — use it to clean up loading state.</p>
+<h3>Modeling UI states</h3>
+<p>Every async operation can be in one of four states. Your UI should reflect all of them:</p>
+<table>
+<thead><tr><th>State</th><th>When</th><th>What to show</th></tr></thead>
+<tbody>
+<tr><td>Loading</td><td>After request starts, before it resolves</td><td>Spinner, "Loading..." text</td></tr>
+<tr><td>Success</td><td>Response arrived and data is valid</td><td>Rendered content</td></tr>
+<tr><td>Error</td><td>Network failure or bad status</td><td>Error message with instructions</td></tr>
+<tr><td>Empty</td><td>Request succeeded but returned no results</td><td>"No results found" message</td></tr>
+</tbody>
+</table>
+<p>A clean pattern that handles all four:</p>
+<pre><code class="language-js">async function searchPokemon(name) {
+  showLoading();
+
+  try {
+    const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${name.toLowerCase()}`);
+
+    if (!response.ok) {
+      throw new Error(`Pokemon not found (status ${response.status})`);
+    }
+
+    const pokemon = await response.json();
+
+    if (!pokemon) {
+      showEmpty();
+      return;
+    }
+
+    renderPokemon(pokemon);
+  } catch (error) {
+    showError(error.message);
+  } finally {
+    hideLoading();
+  }
+}
+
+function showLoading() {
+  document.getElementById(&quot;status&quot;).textContent = &quot;Loading...&quot;;
+  document.getElementById(&quot;results&quot;).innerHTML = &quot;&quot;;
+}
+
+function showError(message) {
+  document.getElementById(&quot;status&quot;).textContent = &quot;&quot;;
+  document.getElementById(&quot;error&quot;).textContent = message;
+}
+
+function hideLoading() {
+  document.getElementById(&quot;status&quot;).textContent = &quot;&quot;;
+}</code></pre>
+<h3>aria-live for async updates</h3>
+<p>When content changes dynamically — after a fetch completes — screen readers are not automatically notified. The <code>aria-live</code> attribute tells assistive technology to announce changes to a region when they happen.</p>
+<pre><code class="language-html">&lt;div id=&quot;status&quot; aria-live=&quot;polite&quot; aria-atomic=&quot;true&quot;&gt;&lt;/div&gt;
+&lt;div id=&quot;results&quot;&gt;&lt;/div&gt;</code></pre>
+<ul>
+<li><code>aria-live=&quot;polite&quot;</code> — announces the change after the user finishes what they are doing</li>
+<li><code>aria-live=&quot;assertive&quot;</code> — interrupts immediately (use sparingly, for critical errors)</li>
+<li><code>aria-atomic=&quot;true&quot;</code> — reads the entire region's content, not just the changed part</li>
+</ul>
+<p>When you update <code>status.textContent</code> with "Loading..." or an error message, screen readers will read it aloud without any extra JavaScript.</p>
+<h2>Common mistakes</h2>
+<ol>
+<li><strong>Forgetting <code>await</code> on <code>response.json()</code>.</strong> <code>response.json()</code> also returns a Promise. Writing <code>const data = response.json()</code> gives you a Promise object, not the parsed data. Both <code>fetch()</code> and <code>.json()</code> need <code>await</code>.</li>
+<li><strong>Treating a 404 as an error automatically.</strong> As covered above, <code>fetch()</code> resolves on a 404. Students often expect it to throw. Always check <code>response.ok</code>.</li>
+<li><strong>Putting the entire app inside one giant <code>try</code> block.</strong> This makes it impossible to know which line failed. Keep <code>try/catch</code> scoped tightly around the async calls.</li>
+<li><strong>Not showing any UI feedback during loading.</strong> If the request takes 2 seconds and the page shows nothing, users assume it is broken. Always set a loading state before <code>await</code>.</li>
+<li><strong>Using <code>async</code> on a function and then not <code>await</code>-ing it at the call site.</strong> Calling <code>loadData()</code> without <code>await</code> in an async context means the function starts but errors are silently swallowed. Either <code>await</code> the call or attach a <code>.catch()</code> handler.</li>
+</ol>
+<h2>Accessibility connection</h2>
+<p>Asynchronous content updates are one of the most common accessibility failures in modern web apps. When a fetch completes and new content appears, sighted users see it instantly — but screen reader users receive no notification unless you explicitly mark regions with <code>aria-live</code>. Error messages are equally important: an error that appears visually but is never announced leaves keyboard-only and screen reader users unable to understand why their action failed.</p>
+<h2>Demo walkthrough</h2>
+<ol>
+<li>Start with a static HTML page: a search input, a button, an empty <code>&lt;div id=&quot;results&quot;&gt;</code>, and a <code>&lt;div id=&quot;status&quot; aria-live=&quot;polite&quot;&gt;</code>.</li>
+<li>Write a bare <code>fetch()</code> call in the console, show the Promise object before it resolves.</li>
+<li>Add <code>await</code> inside an <code>async</code> function — show the resolved response object.</li>
+<li>Show <code>response.ok</code> and <code>response.status</code> in the console.</li>
+<li>Add <code>.json()</code> with <code>await</code> — show the parsed object.</li>
+<li>Wire up the button to call the async function; show the four UI states in sequence by temporarily adding <code>throw new Error()</code> lines.</li>
+<li>Add <code>aria-live=&quot;polite&quot;</code> to the status div; use a screen reader or accessibility tree to verify the announcement fires.</li>
+</ol>
+<h2>Practice prompt</h2>
+<p>Using the <a href="https://dog.ceo/api/breeds/image/random">Dog CEO API</a> or the <a href="https://jsonplaceholder.typicode.com/posts">JSONPlaceholder API</a>, build a small page with:</p>
+<ul>
+<li>A button that triggers a <code>fetch()</code> call</li>
+<li>A loading state displayed while the request is in flight</li>
+<li>The result rendered to the DOM on success</li>
+<li>An error message rendered to the DOM on failure (test it by mistyping the URL)</li>
+<li>An <code>aria-live</code> region that announces status changes</li>
+</ul>
+<h2>Bridge</h2>
+<p>Lab 08 has you build a full API-powered viewer using the patterns from this lecture — you will need the four-state UI model and the <code>aria-live</code> region. Quiz 5 will test whether you can read async code and trace its execution order, and whether you know what happens when <code>response.ok</code> is false. Assignment 4 extends the lab into a more complete feature; the cleaner you keep your state-management functions, the easier that extension will be.</p>
 </body>
 </html>

@@ -7,36 +7,95 @@
 </head>
 <body>
 <h1>Chapter 6: The Document Object Model</h1>
-<p>The chapter explains how JavaScript reads and changes a document tree and how to avoid fragile, overly-coupled page logic.</p>
+<p>The DOM is the live, scriptable representation of your page. Every element is an object. JavaScript can read it, modify it, add to it, and remove from it — and any change is immediately reflected in the browser.</p>
 <h2>What this chapter is really about</h2>
-<p>The chapter explains how JavaScript reads and changes a document tree and how to avoid fragile, overly-coupled page logic. Rather than treating the browser like a magic box, this chapter asks students to name the moving parts, decide where responsibility belongs, and make design decisions visible in code.</p>
+<p>This chapter teaches you how to select elements, read and change their content, manipulate their classes, and create new elements dynamically. It also teaches you what <em>not</em> to do: avoid <code>innerHTML</code> with user data, avoid selecting inside loops, and avoid writing JavaScript that is tightly coupled to fragile HTML structure.</p>
 <h2>Key ideas</h2>
-<p>The web is layered. Content comes first, presentation follows, behavior enhances, and data flows across boundaries. Good client-side code respects those layers instead of blurring them into one large script.</p>
+<p><strong>Selecting elements</strong> — use <code>querySelector</code> and <code>querySelectorAll</code>:</p>
+<pre><code class="language-js">const heading = document.querySelector(&#x27;h1&#x27;);              // first match
+const items = document.querySelectorAll(&#x27;.list-item&#x27;);     // all matches (NodeList)
+const btn = document.querySelector(&#x27;#submit-btn&#x27;);         // by ID</code></pre>
+<p><code>querySelectorAll</code> returns a <code>NodeList</code>, not an array. You can iterate it with <code>for...of</code>, but it doesn't have <code>.map()</code> or <code>.filter()</code>. Convert with <code>Array.from()</code> if you need those methods.</p>
+<p><strong>Reading and setting content</strong>:</p>
+<pre><code class="language-js">heading.textContent = &#x27;New Heading&#x27;;         // safe — treats value as text
+heading.innerHTML = &#x27;&lt;em&gt;New&lt;/em&gt; Heading&#x27;;  // unsafe with user input — can run scripts</code></pre>
+<p>Prefer <code>textContent</code> for plain text. Use <code>innerHTML</code> only when you control the content entirely and need embedded HTML structure.</p>
+<p><strong>Manipulating classes</strong>:</p>
+<pre><code class="language-js">element.classList.add(&#x27;active&#x27;);
+element.classList.remove(&#x27;hidden&#x27;);
+element.classList.toggle(&#x27;expanded&#x27;);
+element.classList.contains(&#x27;active&#x27;);   // returns true or false</code></pre>
+<p>Let CSS do the visual work. Add and remove classes with JavaScript; define what those classes look like in CSS.</p>
+<p><strong>Creating and adding elements</strong>:</p>
+<pre><code class="language-js">const card = document.createElement(&#x27;div&#x27;);
+card.classList.add(&#x27;card&#x27;);
+card.textContent = &#x27;Hello&#x27;;
+
+const list = document.querySelector(&#x27;.card-list&#x27;);
+list.append(card);      // adds to the end</code></pre>
+<p><strong>Reading form input values</strong>:</p>
+<pre><code class="language-js">const input = document.querySelector(&#x27;#search-input&#x27;);
+const value = input.value.trim();</code></pre>
+<p><strong>Waiting for the DOM to load</strong> — if your script is in <code>&lt;head&gt;</code>, use <code>DOMContentLoaded</code>:</p>
+<pre><code class="language-js">document.addEventListener(&#x27;DOMContentLoaded&#x27;, () =&gt; {
+  // safe to query the DOM here
+});</code></pre>
+<p>Or place your <code>&lt;script&gt;</code> tag at the bottom of <code>&lt;body&gt;</code>, just before <code>&lt;/body&gt;</code>, so the DOM is already built when the script runs.</p>
 <h2>Mental model</h2>
-<p>Each page is a conversation between structure, style, state, and time. Structure gives the page meaning. Style gives it shape. State tracks what the user has done and what the application knows. Time matters because users click, type, navigate, and wait.</p>
+<p>The DOM is a live mirror of the document. When you call <code>document.createElement()</code> and <code>append()</code>, the new element appears on the page immediately. When you remove an element with <code>.remove()</code>, it disappears immediately. The DOM is always synchronized with what the user sees.</p>
+<p>Think of DOM manipulation as working in two stages: (1) <strong>select</strong> the elements you need (store them in <code>const</code> variables at the top of your script), then (2) <strong>operate</strong> on them inside event handlers or functions. Selecting inside a handler that runs repeatedly is wasteful — select once, use many times.</p>
 <h2>Working habits</h2>
-<p>Students are encouraged to experiment in small loops: change one thing, observe the result, document the reason, and commit progress in Git. The goal is not simply to make a page work; the goal is to understand why it works.</p>
+<ul>
+<li>Select elements once and store in <code>const</code> variables at the top of your script or function.</li>
+<li>Never set <code>innerHTML</code> with user-supplied data — this creates a cross-site scripting (XSS) vulnerability. Use <code>textContent</code> instead, or <code>createElement</code> for structured content.</li>
+<li>Add and remove CSS classes rather than setting <code>style</code> attributes directly. It keeps styling in CSS and logic in JavaScript.</li>
+<li>When building a list of items from an array, use <code>createElement</code> and <code>append</code> in a loop rather than building a giant <code>innerHTML</code> string.</li>
+<li>Verify element selection worked before calling methods on it. If <code>querySelector</code> finds nothing, it returns <code>null</code>, and calling <code>.classList</code> on <code>null</code> throws a TypeError.</li>
+</ul>
 <h2>Common mistakes</h2>
-<p>Many beginners overreach too early. They add libraries before they understand the browser, hide logic in anonymous handlers, or skip naming conventions that would make the code readable later. This chapter pushes against that pattern.</p>
+<ul>
+<li><strong>Selecting before the DOM loads</strong>: a <code>&lt;script&gt;</code> in <code>&lt;head&gt;</code> runs before the <code>&lt;body&gt;</code> is parsed. <code>querySelector</code> returns <code>null</code> for everything. Fix: move the script to the end of <code>&lt;body&gt;</code>, or use <code>DOMContentLoaded</code>.</li>
+<li><strong>Setting <code>innerHTML</code> with user data</strong>: if a user types <code>&lt;script&gt;alert(&#x27;xss&#x27;)&lt;/script&gt;</code> into a field and you insert it with <code>innerHTML</code>, the script runs. Always use <code>textContent</code> for user-supplied strings.</li>
+<li><strong>Selecting inside a loop</strong>: <code>document.querySelector(&#x27;.list&#x27;)</code> inside a loop that runs 100 times queries the DOM 100 times. Select once before the loop.</li>
+<li><strong>Tight coupling to HTML structure</strong>: if your JavaScript depends on <code>document.querySelector(&#x27;.sidebar &gt; nav &gt; ul &gt; li:first-child&#x27;)</code>, a small HTML change breaks everything. Select by ID or semantic class name instead.</li>
+<li><strong>Forgetting that <code>querySelectorAll</code> returns a NodeList, not an array</strong>: you can't call <code>.map()</code> on a NodeList directly.</li>
+</ul>
 <h2>Accessibility and UX note</h2>
-<p>Every technical choice has an experience consequence. Heading structure affects screen-reader navigation. Button labeling affects confidence. Error messaging affects recovery. A client-side developer is always shaping user experience, even when writing simple scripts.</p>
+<p>Dynamically added content must be accessible. Elements created with <code>createElement</code> are not automatically announced by screen readers unless they are added to an <code>aria-live</code> region or focus is moved to them. Interactive elements (buttons, links, form controls) must be keyboard-reachable — a <code>&lt;div&gt;</code> with a click handler is not, but a <code>&lt;button&gt;</code> is. When you add a new piece of content that represents the result of a user action (a confirmation message, a search result), consider where keyboard focus should go next.</p>
 <h2>Practice prompt</h2>
-<p>Open one of your existing pages or a provided course starter. Identify one part of the interface that depends on the document object model and explain what the browser needs in order to make that feature understandable and usable.</p>
+<p>Given a plain HTML page with an empty <code>&lt;ul id=&quot;task-list&quot;&gt;</code> and an <code>&lt;input id=&quot;task-input&quot;&gt;</code> and a <code>&lt;button id=&quot;add-btn&quot;&gt;</code>:</p>
+<ol>
+<li>Store all three elements in <code>const</code> variables at the top of your script.</li>
+<li>When the button is clicked, read the input value (trimmed). If it is non-empty, create a new <code>&lt;li&gt;</code> element using <code>createElement</code>, set its <code>textContent</code> to the input value, and <code>append</code> it to the list. Then clear the input.</li>
+<li>If the input is empty, add a visible error message without using <code>innerHTML</code>.</li>
+<li>Add a "Remove" <code>&lt;button&gt;</code> inside each <code>&lt;li&gt;</code> that removes that item when clicked.</li>
+</ol>
+<p>Do not use <code>innerHTML</code> anywhere.</p>
 <h2>Reflection</h2>
-<p>What did you assume the browser was doing automatically that actually depends on deliberate authoring? Where can you make your intent more visible in HTML, CSS, or JavaScript?</p>
+<p>What happened when you tried to select an element before the DOM was ready? What is the difference between <code>textContent</code> and <code>innerHTML</code>, and what would happen if a user typed <code>&lt;b&gt;bold&lt;/b&gt;</code> into the input with each approach? Why is it safer to add and remove CSS classes from JavaScript rather than directly setting <code>style.color</code> or <code>style.display</code>?</p>
 <h2>Vocabulary</h2>
 <ul>
-<li>semantics</li>
-<li>enhancement</li>
-<li>state</li>
-<li>rendering</li>
-<li>debugging</li>
+<li><strong>DOM</strong> — Document Object Model; the live, scriptable tree of objects representing the page</li>
+<li><strong>node</strong> — any object in the DOM tree (elements, text nodes, comment nodes)</li>
+<li><strong>element</strong> — an HTML tag represented as a DOM node</li>
+<li><strong>selector</strong> — a CSS-style string used to target elements (<code>&#x27;h1&#x27;</code>, <code>&#x27;#id&#x27;</code>, <code>&#x27;.class&#x27;</code>)</li>
+<li><strong>querySelector</strong> — returns the first element matching a selector, or <code>null</code></li>
+<li><strong>querySelectorAll</strong> — returns a NodeList of all elements matching a selector</li>
+<li><strong>classList</strong> — an interface for adding, removing, toggling, and checking CSS classes</li>
+<li><strong>textContent</strong> — the plain text content of an element (safe for user data)</li>
+<li><strong>innerHTML</strong> — the HTML markup inside an element (dangerous with user data)</li>
+<li><strong>createElement</strong> — creates a new DOM element that can be appended to the document</li>
+<li><strong>append</strong> — adds a node or string to the end of an element's children</li>
+<li><strong>DOMContentLoaded</strong> — an event that fires when the HTML is fully parsed and the DOM is ready</li>
 </ul>
 <h2>Mini checklist</h2>
 <ul>
-<li>I can explain the purpose of the layer I am working in.</li>
-<li>I can name the data or state I need.</li>
-<li>I can describe how a user will experience the result.</li>
+<li>I can select elements with <code>querySelector</code> and <code>querySelectorAll</code> and store them in <code>const</code> variables.</li>
+<li>I can set element text content using <code>textContent</code> (not <code>innerHTML</code>) for user-supplied values.</li>
+<li>I can add, remove, and toggle CSS classes with <code>classList</code>.</li>
+<li>I can create new elements with <code>createElement</code>, set their content, and <code>append</code> them to the DOM.</li>
+<li>I can explain why <code>innerHTML</code> with user input is a security risk.</li>
+<li>I can ensure my script runs after the DOM is ready.</li>
 </ul>
 </body>
 </html>

@@ -6,6 +6,176 @@
 <meta name="workflow_state" content="active"/>
 </head>
 <body>
-<h1>Lab 13 – Lighthouse, Accessibility, and Deployment</h1><h2>Purpose</h2><p>This lab gives students a constrained practice space for the week's concepts. The emphasis is on seeing, changing, and explaining what the browser does.</p><h2>Tasks</h2><ol><li>Create or update your repo branch for this lab.</li><li>Build the required interface or script in small increments.</li><li>Test keyboard access, responsiveness, and error states.</li><li>Write a brief notes section describing what worked, what broke, and how you fixed it.</li><li>Commit meaningful progress with short messages.</li></ol><h2>Deliverable</h2><p>Submit a deployed link, repository link, and a short process reflection.</p><h2>Suggested rubric</h2><ul><li>Functionality</li><li>Code organization</li><li>Accessibility and UX clarity</li><li>Reflection quality</li></ul>
+<h1>Lab 13 – Lighthouse, Accessibility, and Deployment</h1>
+<h2>Purpose</h2>
+<p>Code that runs locally but is never deployed is unfinished. Code that deploys but scores poorly on performance and accessibility is incomplete. This lab closes the loop: you will audit a previous project with Lighthouse, identify and fix issues, verify improvements, and deploy a production-ready build.</p>
+<h2>Skills practiced</h2>
+<ul>
+<li>Running a Lighthouse audit in Chrome DevTools</li>
+<li>Reading and interpreting Lighthouse scores (Performance, Accessibility, Best Practices, SEO)</li>
+<li>Identifying and fixing common accessibility failures (missing labels, low contrast, missing alt text)</li>
+<li>Identifying and fixing common performance issues (missing meta viewport, large images, render-blocking resources)</li>
+<li>Deploying a Vite project to Netlify or GitHub Pages</li>
+<li>Verifying deployment with a second Lighthouse audit</li>
+</ul>
+<h2>What you're auditing</h2>
+<p>Choose <strong>one</strong> of your previous projects or labs that is already deployed or can be deployed. Recommended: your Lab 08 (API viewer) or Lab 05 (product explorer) — pages with enough content and interactivity to produce interesting audit results.</p>
+<p>If none of your previous work is deployed, use Lab 05 as a starting point. Deploy it to GitHub Pages or Netlify before beginning the audit.</p>
+<hr />
+<h2>Part 1: Run the initial Lighthouse audit</h2>
+<ol>
+<li>Open your deployed page in <strong>Chrome</strong> (Lighthouse works best in Chrome).</li>
+<li>Open DevTools → <strong>Lighthouse</strong> tab (or right-click → Inspect → Lighthouse).</li>
+<li>Configure:</li>
+</ol>
+<ul>
+<li>Categories: Performance, Accessibility, Best Practices, SEO</li>
+<li>Device: Mobile</li>
+</ul>
+<ol>
+<li>Click <strong>Analyze page load</strong>.</li>
+<li>Wait for the audit to complete (30–60 seconds).</li>
+<li>Take a <strong>full-page screenshot</strong> of the results panel showing all four scores.</li>
+</ol>
+<p>Record your baseline scores in <code>labs/lab13/notes.md</code>:</p>
+<pre><code>## Baseline scores (mobile)
+- Performance: XX
+- Accessibility: XX
+- Best Practices: XX
+- SEO: XX</code></pre>
+<hr />
+<h2>Part 2: Read and understand the audit</h2>
+<p>Expand each failed or warning-level audit item. For each issue, Lighthouse shows:</p>
+<ul>
+<li>What failed and why</li>
+<li>How many elements are affected</li>
+<li>A link to documentation</li>
+</ul>
+<p>In your <code>notes.md</code>, document at least <strong>six issues</strong> Lighthouse flagged, organized by category:</p>
+<pre><code>## Issues found
+
+### Accessibility
+1. [Issue name] — [what it means in plain language] — [which element(s) affected]
+2. ...
+
+### Performance
+3. ...
+
+### Best Practices / SEO
+5. ...</code></pre>
+<hr />
+<h2>Part 3: Fix the issues</h2>
+<p>Fix at least <strong>five</strong> of the issues you documented. For each fix, record:</p>
+<ul>
+<li>What you changed</li>
+<li>The file and line number</li>
+<li>Why the fix addresses the issue</li>
+</ul>
+<h3>Common accessibility fixes</h3>
+<p><strong>Missing form labels:</strong></p>
+<pre><code class="language-html">&lt;!-- Before --&gt;
+&lt;input type=&quot;text&quot; placeholder=&quot;Search...&quot;&gt;
+
+&lt;!-- After --&gt;
+&lt;label for=&quot;search-input&quot;&gt;Search&lt;/label&gt;
+&lt;input type=&quot;text&quot; id=&quot;search-input&quot; placeholder=&quot;Search...&quot;&gt;</code></pre>
+<p><strong>Images without alt text:</strong></p>
+<pre><code class="language-html">&lt;!-- Before --&gt;
+&lt;img src=&quot;cover.jpg&quot;&gt;
+
+&lt;!-- After --&gt;
+&lt;img src=&quot;cover.jpg&quot; alt=&quot;Book cover: Dune by Frank Herbert&quot;&gt;</code></pre>
+<p><strong>Insufficient color contrast:</strong> Change the color values in your CSS custom properties so the contrast ratio is at least 4.5:1 for normal text. Use the WebAIM Contrast Checker (webaim.org/resources/contrastchecker/) to verify.</p>
+<p><strong>Missing <code>lang</code> attribute:</strong></p>
+<pre><code class="language-html">&lt;html lang=&quot;en&quot;&gt;</code></pre>
+<p><strong>Links with no discernible text</strong> (e.g., icon-only links):</p>
+<pre><code class="language-html">&lt;!-- Before --&gt;
+&lt;a href=&quot;...&quot;&gt;&lt;img src=&quot;github-icon.svg&quot;&gt;&lt;/a&gt;
+
+&lt;!-- After --&gt;
+&lt;a href=&quot;...&quot; aria-label=&quot;View project on GitHub&quot;&gt;&lt;img src=&quot;github-icon.svg&quot; alt=&quot;&quot;&gt;&lt;/a&gt;</code></pre>
+<h3>Common performance fixes</h3>
+<p><strong>Missing meta viewport</strong> (already in lab templates, but check):</p>
+<pre><code class="language-html">&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;</code></pre>
+<p><strong>Render-blocking scripts:</strong> Move <code>&lt;script&gt;</code> tags to end of <code>&lt;body&gt;</code> or add <code>defer</code>.</p>
+<p><strong>Missing <code>&lt;title&gt;</code> element:</strong></p>
+<pre><code class="language-html">&lt;title&gt;Open Library Book Search – WEB 1430 Lab 08&lt;/title&gt;</code></pre>
+<p><strong>Images without explicit width/height</strong> (causes layout shift):</p>
+<pre><code class="language-html">&lt;img src=&quot;cover.jpg&quot; alt=&quot;...&quot; width=&quot;200&quot; height=&quot;300&quot;&gt;</code></pre>
+<h3>Common SEO fixes</h3>
+<p><strong>Missing meta description:</strong></p>
+<pre><code class="language-html">&lt;meta name=&quot;description&quot; content=&quot;Search books by title using the Open Library API.&quot;&gt;</code></pre>
+<hr />
+<h2>Part 4: Run the audit again</h2>
+<p>After fixing at least five issues:</p>
+<ol>
+<li>Rebuild if it's a Vite project (<code>npm run build</code>) and redeploy</li>
+<li>Clear the browser cache (DevTools → Application → Clear Site Data, or open in Incognito)</li>
+<li>Run Lighthouse again with the same settings</li>
+<li>Take a screenshot of the new results</li>
+</ol>
+<p>Record your final scores:</p>
+<pre><code>## Final scores (mobile)
+- Performance: XX (+/- from baseline)
+- Accessibility: XX (+/- from baseline)
+- Best Practices: XX
+- SEO: XX</code></pre>
+<p><strong>Target:</strong> Accessibility score of 90 or above. Performance and SEO scores of 70 or above.</p>
+<hr />
+<h2>Part 5: Deployment verification</h2>
+<p>If you deployed a Vite project, verify the deployment was built correctly:</p>
+<ol>
+<li>The deployed URL loads without a blank screen</li>
+<li>All assets (CSS, JS, images) load — check the Network tab for 404 errors</li>
+<li>The page functions the same as on the dev server</li>
+<li>Run Lighthouse on the deployed URL (not localhost)</li>
+</ol>
+<p>Common deployment issues:</p>
+<ul>
+<li><strong>Blank screen on Netlify</strong>: Check that the publish directory is set to <code>dist/</code></li>
+<li><strong>404 on GitHub Pages</strong>: Ensure you're deploying from the correct branch and folder</li>
+<li><strong>Assets not loading</strong>: Check that all import paths are relative, not absolute</li>
+</ul>
+<hr />
+<h2>Part 6: Final accessibility walkthrough</h2>
+<p>Do a manual accessibility check before submitting:</p>
+<ul>
+<li>[ ] Tab through the entire page — every interactive element is reachable</li>
+<li>[ ] Focus ring is visible on all focused elements</li>
+<li>[ ] No keyboard traps (you can tab into and out of all components)</li>
+<li>[ ] Test with VoiceOver (Mac: Cmd+F5) or NVDA (Windows: free download) — navigate to the main heading and through at least three interactive elements. See the <a href="screen-reader-testing-guide.html">Screen Reader Testing Guide</a> for step-by-step instructions.</li>
+<li>[ ] Color is not the only indicator for any state (error, active, selected)</li>
+</ul>
+<hr />
+<h2>Deliverable</h2>
+<p>In <code>labs/lab13/</code>:</p>
+<ul>
+<li><code>notes.md</code> — baseline scores, six documented issues, five fixes documented, final scores</li>
+<li><code>screenshot-baseline.png</code> — initial Lighthouse report</li>
+<li><code>screenshot-final.png</code> — final Lighthouse report</li>
+<li>A link to the deployed, audited project</li>
+</ul>
+<p>Submit to Canvas: your deployed project URL, GitHub repo URL, and the link to <code>labs/lab13/notes.md</code>.</p>
+<hr />
+<h2>Process reflection (in notes.md)</h2>
+<p>Answer in 4–6 sentences:</p>
+<ul>
+<li>Which Lighthouse issue surprised you most and why?</li>
+<li>Which fix had the biggest impact on your scores?</li>
+<li>What is one accessibility issue that Lighthouse cannot detect automatically, and how would you test for it?</li>
+</ul>
+<hr />
+<h2>Rubric</h2>
+<table>
+<thead><tr><th>Criterion</th><th>Excellent (4)</th><th>Proficient (3)</th><th>Developing (2)</th><th>Incomplete (1)</th></tr></thead>
+<tbody>
+<tr><td><strong>Baseline audit</strong></td><td>Lighthouse run on deployed site; all four scores documented; screenshot provided</td><td>Three scores documented; screenshot present</td><td>Scores documented; no screenshot</td><td>No audit</td></tr>
+<tr><td><strong>Issue documentation</strong></td><td>Six issues documented with plain-language explanation and affected elements</td><td>Four or five issues</td><td>Two or three issues</td><td>Fewer than two</td></tr>
+<tr><td><strong>Fixes</strong></td><td>Five issues fixed; each fix documented with file, line, and explanation</td><td>Four fixes documented</td><td>Two or three fixes</td><td>One or zero</td></tr>
+<tr><td><strong>Final audit</strong></td><td>Re-audit run; final scores documented; Accessibility ≥ 90 achieved</td><td>Accessibility 75–89</td><td>Accessibility 60–74</td><td>No re-audit</td></tr>
+<tr><td><strong>Manual walkthrough</strong></td><td>All six checklist items verified; screen reader test documented</td><td>Four items verified</td><td>Two items</td><td>Not completed</td></tr>
+<tr><td><strong>Reflection</strong></td><td>Specific; all three prompts addressed</td><td>Two prompts</td><td>Vague</td><td>Missing</td></tr>
+</tbody>
+</table>
 </body>
 </html>

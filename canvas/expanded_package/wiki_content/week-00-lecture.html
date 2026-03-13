@@ -1,11 +1,113 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-<title>Week 00 Lecture Notes</title>
+<title>Week 00 Lecture Notes: Online Learning, Canvas, GitHub, and the Course Toolchain</title>
 <meta name="identifier" content="i8a35204e8032f6b64c80f9ab5d10f056"/>
 <meta name="workflow_state" content="active"/>
 </head>
 <body>
-<h1>Week 00 Lecture Notes: Online Learning, Canvas, GitHub, and the Course Toolchain</h1><h2>Weekly focus</h2><p>Start Here: Orientation and Workflow</p><h2>Why this matters</h2><p>This week's material helps students move from isolated syntax toward purposeful client-side design decisions. The lecture emphasizes examples that can be inspected in the browser and rebuilt in small pieces.</p><h2>Learning targets</h2><ul><li>Explain the core concept in plain language</li><li>Build one focused example from scratch</li><li>Debug mistakes with browser tools</li><li>Connect this week's ideas to the running course projects</li></ul><h2>Lecture flow</h2><ol><li>Warm-up concept check</li><li>Demonstration of a focused example</li><li>Guided breakdown of the code</li><li>Common bug patterns</li><li>Independent practice prompt</li><li>Bridge to lab, assignment, or quiz</li></ol><h2>Instructor notes</h2><p>Use short code examples, narrate tradeoffs, and revisit accessibility in every demo. Avoid introducing abstractions before students can inspect the DOM, state, or network behavior involved.</p><h2>Exit ticket</h2><p>Ask students to explain one idea from the week using the sentence frame: <em>This matters in the browser because...</em></p>
+<h1>Week 00 Lecture Notes: Online Learning, Canvas, GitHub, and the Course Toolchain</h1>
+<h2>Weekly focus</h2>
+<p>Getting every student to the same starting line: tools installed, accounts connected, and the weekly rhythm understood before a single line of code is written.</p>
+<h2>Why this matters</h2>
+<p>In a fully online course, the toolchain <em>is</em> the classroom. If your editor, terminal, and GitHub account are not working together from day one, every subsequent lab becomes a debugging session about setup rather than about web development. This week removes that friction so the rest of the semester can move quickly. The habits you build now — committing early, reading Canvas announcements, checking due dates on Sunday — compound over 16 weeks.</p>
+<h2>Learning targets</h2>
+<ul>
+<li>Navigate Canvas to find weekly modules, the syllabus, assignment rubrics, and the discussion board</li>
+<li>Install and configure VS Code with the recommended extensions for this course</li>
+<li>Create a GitHub account and explain the difference between Git (local version control) and GitHub (remote hosting)</li>
+<li>Clone a repository to your machine, make a change, commit it, and push it back to GitHub</li>
+<li>Describe the weekly rhythm: when to read, when labs are due, and how to ask for help asynchronously</li>
+<li>Submit the Welcome Survey and the GitHub Repo Setup deliverable</li>
+</ul>
+<h2>Core concepts</h2>
+<h3>How this course is structured</h3>
+<p>WEB 1430 runs on a Monday–Sunday weekly cycle. Each week opens Monday morning and contains:</p>
+<ul>
+<li><strong>Lecture notes</strong> (this document and others like it) — read these first</li>
+<li><strong>Chapter reading</strong> from the course textbook</li>
+<li><strong>A lab</strong> due by Sunday at 11:59 PM</li>
+<li>Occasional <strong>quizzes</strong> or <strong>assignments</strong> due on the same Sunday</li>
+</ul>
+<p>There are no live sessions. Instructor feedback comes via Canvas comments and GitHub pull-request reviews. Check Canvas at least three times per week: Monday to see what opened, midweek to track your progress, and Saturday to catch anything before the deadline.</p>
+<h3>Canvas navigation</h3>
+<p>The left sidebar in Canvas has four links you will use every week:</p>
+<ol>
+<li><strong>Modules</strong> — the authoritative list of what to do and in what order</li>
+<li><strong>Assignments</strong> — where you submit work and see rubric scores</li>
+<li><strong>Grades</strong> — running total; check this after each submission</li>
+<li><strong>Announcements</strong> — where the instructor posts corrections, tips, and reminders</li>
+</ol>
+<p>Do not rely on the Canvas dashboard tiles for due dates. Always go to <strong>Modules</strong> to confirm what is required this week.</p>
+<h3>VS Code setup</h3>
+<p>Download VS Code from <code>code.visualstudio.com</code>. After installing, add these extensions from the Extensions panel (<code>Ctrl+Shift+X</code> / <code>Cmd+Shift+X</code>):</p>
+<ul>
+<li><strong>Prettier – Code formatter</strong> (esbenp.prettier-vscode) — auto-formats on save</li>
+<li><strong>ESLint</strong> (dbaeumer.vscode-eslint) — flags JavaScript errors as you type</li>
+<li><strong>Live Server</strong> (ritwickdey.LiveServer) — launches a local dev server with auto-reload</li>
+<li><strong>GitLens</strong> (eamodio.gitlens) — shows inline Git blame and history</li>
+</ul>
+<p>Enable format-on-save: open Settings (<code>Ctrl+,</code>), search for <code>format on save</code>, and check the box. This keeps your code consistently formatted without manual effort.</p>
+<h3>Git and GitHub — the conceptual model</h3>
+<p>Git is software installed on your computer that tracks changes to files. GitHub is a website that stores a copy of your repository so others (and you, from other machines) can access it.</p>
+<p>The three-step local workflow you will repeat every week:</p>
+<pre><code class="language-bash">git add .                        # stage all changed files
+git commit -m &quot;describe the change&quot;  # save a snapshot locally
+git push                         # send the snapshot to GitHub</code></pre>
+<p>A commit message should finish the sentence "This commit will…". Write <code>&quot;Add hero section HTML&quot;</code>, not <code>&quot;stuff&quot;</code> or <code>&quot;asdfgh&quot;</code>.</p>
+<h3>Cloning the course starter repo</h3>
+<p>The instructor will share a GitHub Classroom link in the Week 00 module. Clicking it creates a personal copy of the starter repository under your GitHub account. To get it onto your machine:</p>
+<pre><code class="language-bash"># Replace YOUR-USERNAME and REPO-NAME with the actual values shown on GitHub
+git clone https://github.com/YOUR-USERNAME/REPO-NAME.git
+cd REPO-NAME
+code .          # opens the folder in VS Code</code></pre>
+<p>After cloning, open the integrated terminal in VS Code (<code>Ctrl+</code><code> </code> `<code>/ </code>Cmd+`<code> </code> ``) — you will run all Git commands there.</p>
+<h3>The terminal basics you need right now</h3>
+<p>You do not need to be a command-line expert. You need four commands:</p>
+<pre><code class="language-bash">pwd        # print working directory — where am I?
+ls         # list files in the current folder
+cd folder  # change into a folder
+cd ..      # go up one level</code></pre>
+<p>If a Git command fails, read the error message. Git errors are usually self-explanatory: "nothing to commit," "not a git repository," "rejected — fetch first." Google the exact error text when you are stuck.</p>
+<h3>Asking for help online</h3>
+<p>This course has a <strong>Help &amp; Questions</strong> discussion board in Canvas. Post there before emailing. Include:</p>
+<ul>
+<li>What you were trying to do</li>
+<li>The exact command or step that failed</li>
+<li>The exact error message (paste it, do not paraphrase)</li>
+<li>A screenshot if relevant</li>
+</ul>
+<p>Other students can answer, which benefits everyone. The instructor checks the board at least once per business day.</p>
+<h2>Common mistakes</h2>
+<ol>
+<li><strong>Skipping the Modules view.</strong> Students who navigate Canvas by clicking dashboard tiles miss hidden links and submission instructions buried in module pages.</li>
+<li><strong>Committing without a message.</strong> Running <code>git commit</code> without <code>-m &quot;...&quot;</code> drops you into a terminal text editor (Vim). If this happens, type <code>:q!</code> and press Enter to exit, then re-run with the <code>-m</code> flag.</li>
+<li><strong>Editing files directly on GitHub.com instead of locally.</strong> This creates a diverged history. Always work locally and push.</li>
+<li><strong>Not installing Live Server before Lab 01.</strong> Lab 01 requires a running local server. Install it now so you are not troubleshooting an extension during a lab deadline.</li>
+<li><strong>Confusing the repo URL formats.</strong> GitHub shows both HTTPS and SSH clone URLs. Use HTTPS unless you have set up an SSH key — the HTTPS URL starts with <code>https://github.com/</code>.</li>
+</ol>
+<h2>Accessibility connection</h2>
+<p>Accessible online course design starts with the instructor, but students benefit from understanding it too. Canvas pages use heading structure, alt text on images, and sufficient color contrast — pay attention to how well-structured documents help you navigate faster, because you will apply the same principles to your own HTML pages starting in Week 02. Screen reader users and keyboard-only users depend on that structure.</p>
+<h2>Demo walkthrough</h2>
+<p><strong>Goal:</strong> Clone the starter repo, make one small change, and push it back to GitHub — in under 10 minutes.</p>
+<ol>
+<li>Open the GitHub Classroom link from the Week 00 Canvas module and accept the assignment. Note the URL of your new repository.</li>
+<li>Copy the HTTPS clone URL from the green "Code" button on GitHub.</li>
+<li>Open a terminal on your machine and run <code>git clone &lt;url&gt;</code>. Verify the folder appears with <code>ls</code>.</li>
+<li><code>cd</code> into the folder and run <code>code .</code> to open it in VS Code.</li>
+<li>Open <code>README.md</code>. Add one line at the bottom: <code>Student: Your Name</code>.</li>
+<li>Save the file. In the VS Code integrated terminal:</li>
+</ol>
+<pre><code class="language-bash">   git add README.md
+   git commit -m &quot;Add student name to README&quot;
+   git push</code></pre>
+<ol>
+<li>Refresh your GitHub repository page. Confirm the README now shows your name.</li>
+<li>Show the commit history on GitHub: click the clock icon ("N commits") above the file list to see every snapshot.</li>
+</ol>
+<h2>Practice prompt</h2>
+<p>Open VS Code and create a new folder called <code>week-00-practice</code> on your Desktop. Inside it, create a file called <code>notes.txt</code> and type three things you want to learn in this course. Initialize a Git repository in that folder (<code>git init</code>), stage the file, commit it with a descriptive message, and inspect the log with <code>git log --oneline</code>. You do not need to push this one — the goal is to practice the local commit cycle without a remote repository.</p>
+<h2>Bridge</h2>
+<p>Completing the GitHub Repo Setup deliverable this week is the prerequisite for every lab in the course — all labs are submitted as pushes to GitHub repositories created through GitHub Classroom. The Canvas Orientation Quiz checks that you can find key course resources; take it after you finish reading through the Modules page so the answers are fresh. If anything in your setup is broken, post in the Help board now, before Lab 01 opens Monday.</p>
 </body>
 </html>

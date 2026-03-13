@@ -6,6 +6,126 @@
 <meta name="workflow_state" content="active"/>
 </head>
 <body>
-<h1>Assignment 4 – API Data Story</h1><h2>Summary</h2><p>Use a public JSON API to tell a small visual story with filtering, loading states, and error handling.</p><h2>What to build</h2><ul><li>A working client-side experience</li><li>Clean project structure</li><li>Meaningful commit history</li><li>Deployment link</li><li>Short rationale describing audience, decisions, and known limitations</li></ul><h2>Requirements</h2><ul><li>Semantic HTML</li><li>Responsive behavior</li><li>Accessible interaction patterns</li><li>Readable JavaScript with named functions or modules</li><li>Testing notes and final review checklist</li></ul><h2>Submission</h2><p>Submit the live URL, repo URL, and a concise reflection.</p><h2>Rubric highlights</h2><ul><li>Technical completion</li><li>UX clarity</li><li>Maintainability</li><li>Accessibility</li><li>Reflection and communication</li></ul>
+<h1>Assignment 4 – API Data Story</h1>
+<p><strong>Due:</strong> End of Week 9<br />
+<strong>Weight:</strong> One of six assignments (20% combined)<br />
+<strong>Skills:</strong> Fetch API, async/await, error handling, loading states, data normalization, DOM rendering from remote data</p>
+<hr />
+<h2>Overview</h2>
+<p>You will choose a public JSON API, pull real data into a browser interface, and present that data as a coherent, interactive <strong>data story</strong> — a page that gives users a way to explore the dataset and understand something meaningful from it. The page must handle three async states (loading, success, error) and be accessible to screen reader users.</p>
+<hr />
+<h2>Scenario</h2>
+<p>You are building a public-facing data explorer. Your audience may not know the underlying API or data format — they just want to find and understand relevant information quickly. Your job is to make the data clear, interactive, and resilient: it should work gracefully whether the API responds in 200ms or fails entirely.</p>
+<hr />
+<h2>Choose an API</h2>
+<p>Select <strong>one</strong> public API that:</p>
+<ul>
+<li>Returns JSON</li>
+<li>Does not require authentication (or has free-tier key access that does not require payment)</li>
+<li>Has consistent enough data that you can normalize it reliably</li>
+</ul>
+<p><strong>Suggested options</strong> (no API key required):</p>
+<ul>
+<li>Open Library Search API — <code>https://openlibrary.org/search.json</code></li>
+<li>JSONPlaceholder — <code>https://jsonplaceholder.typicode.com</code></li>
+<li>REST Countries — <code>https://restcountries.com/v3.1</code></li>
+<li>The Dog API — <code>https://dog.ceo/api</code></li>
+<li>Open-Meteo (weather) — <code>https://open-meteo.com</code></li>
+<li>NASA APOD — <code>https://api.nasa.gov</code> (free key)</li>
+</ul>
+<p>If you use a different API, confirm it supports browser cross-origin requests (no CORS block) before committing to it.</p>
+<blockquote>
+<p><strong>Reference:</strong> See <code>course/api-troubleshooting-guide.md</code> for help with deeply nested responses, null fields, type inconsistencies, CORS errors, and rate limiting.</p>
+</blockquote>
+<hr />
+<h2>What to build</h2>
+<h3>Required features</h3>
+<p><strong>1. Initial load view</strong> When the page opens, automatically fetch a meaningful starting dataset and render it. Do not require the user to take an action before seeing any data.</p>
+<p><strong>2. Search or filter control</strong> A form input (search field, dropdown, or set of filter buttons) that lets users narrow, sort, or explore the dataset. This control must trigger a new fetch or filter the already-loaded data — at minimum one of the two.</p>
+<p><strong>3. Detail view</strong> (one of the following)</p>
+<ul>
+<li>Clicking a result card reveals additional details about that item (expand in place, or render to a dedicated panel)</li>
+<li>A second fetch triggered by clicking an item retrieves and displays additional data for that specific item</li>
+</ul>
+<p><strong>4. Three async UI states</strong> Every fetch must handle all three:</p>
+<ul>
+<li><strong>Loading</strong> — a visible loading indicator while the request is in flight</li>
+<li><strong>Success</strong> — the data rendered</li>
+<li><strong>Error</strong> — a visible, descriptive error message (not just a console log)</li>
+</ul>
+<h3>Required JavaScript structure</h3>
+<p>In a file named <code>app.js</code> (or organized into modules if you prefer):</p>
+<pre><code>fetchData(query)        — async, checks response.ok, throws on failure
+normalizeData(rawDocs)  — transforms raw API fields into clean, consistent objects
+showLoading()           — clears the results region, shows loading message
+showError(message)      — clears the results region, shows error
+showEmpty()             — clears the results region, shows &quot;no results&quot; message
+renderResults(items)    — renders an array of normalized objects to the DOM</code></pre>
+<p>The normalization function must provide default values for any API fields that may be absent (e.g., <code>author: doc.author_name?.[0] ?? &#x27;Unknown&#x27;</code>).</p>
+<h3>Accessibility requirements</h3>
+<ul>
+<li>Results container has <code>aria-live=&quot;polite&quot;</code> so screen readers announce updates</li>
+<li>Loading, error, and empty messages are text-based (not spinner-only)</li>
+<li>Each result card uses a semantic element (<code>&lt;article&gt;</code> or <code>&lt;li&gt;</code>)</li>
+<li>If the detail view changes what is visible, move keyboard focus to the new content</li>
+</ul>
+<hr />
+<h2>Error handling requirements</h2>
+<p>Your <code>try/catch</code> must handle:</p>
+<ul>
+<li>Network failure (tested by disabling Wi-Fi before submitting)</li>
+<li>HTTP error status (test by temporarily using a bad URL — verify <code>response.ok</code> check fires)</li>
+<li>Empty results (test with a query that returns zero results)</li>
+</ul>
+<p>Each error condition must produce a different, human-readable message in the UI.</p>
+<hr />
+<h2>Constraints</h2>
+<ul>
+<li>No front-end frameworks (Vue, React, etc.) — vanilla JavaScript only</li>
+<li>No jQuery</li>
+<li>No CSS frameworks</li>
+<li><code>innerHTML</code> may be used only for static structural markup you fully control — never for any value derived from API data</li>
+<li>Validate HTML; fix all errors</li>
+</ul>
+<hr />
+<h2>Above baseline (stretch)</h2>
+<p>Work in this section is reflected in the Excellent (4) column of the rubric.</p>
+<ul>
+<li>Cache the most recent successful result in <code>sessionStorage</code> and restore it on page reload so users don't see a blank page on refresh</li>
+<li>Add pagination or a "load more" button that fetches the next page of results</li>
+<li>Implement an <code>AbortController</code> to cancel in-flight requests when a new search is submitted before the previous one completes</li>
+</ul>
+<hr />
+<h2>Deliverable</h2>
+<p>In your course repository, create <code>assignments/assignment-4/</code>:</p>
+<ul>
+<li><code>index.html</code></li>
+<li><code>app.js</code></li>
+<li><code>style.css</code></li>
+<li><code>rationale.md</code></li>
+</ul>
+<p>Deploy and submit live URL, repo URL, and rationale link to Canvas.</p>
+<hr />
+<h2>Rationale (in rationale.md)</h2>
+<p>Write 4–6 sentences addressing:</p>
+<ul>
+<li>What API did you choose and what data story does your page tell?</li>
+<li>How does your normalization function protect your rendering code from inconsistent API responses?</li>
+<li>Walk through one error path: what happens in the UI when the request fails?</li>
+<li>What would you add or change if you were building this for a real audience?</li>
+</ul>
+<hr />
+<h2>Rubric</h2>
+<table>
+<thead><tr><th>Criterion</th><th>Excellent (4)</th><th>Proficient (3)</th><th>Developing (2)</th><th>Incomplete (1)</th></tr></thead>
+<tbody>
+<tr><td><strong>Async handling</strong></td><td><code>response.ok</code> checked; <code>try/catch/finally</code> used; all three states (loading, success, error) produce distinct, appropriate UI</td><td>Two states handled; <code>response.ok</code> checked</td><td>One state handled; no <code>response.ok</code> check</td><td>No error handling</td></tr>
+<tr><td><strong>Data normalization</strong></td><td>Normalization function covers all rendered fields; default values for missing data; rendering code uses only normalized objects</td><td>Two of three fields normalized; some raw API fields in renderer</td><td>No normalization; raw API data passed directly to renderer</td><td></td></tr>
+<tr><td><strong>Search / filter</strong></td><td>User control triggers data update; empty results handled</td><td>Control works; empty results not handled</td><td>Control partially functional</td><td>No interactive control</td></tr>
+<tr><td><strong>Accessible async</strong></td><td><code>aria-live</code> on results region; loading/error messages are text-based and descriptive; focus managed on detail view</td><td><code>aria-live</code> present; text messages present; focus not managed</td><td>Partially accessible</td><td>No accessible state management</td></tr>
+<tr><td><strong>Code structure</strong></td><td>Named functions for fetch, normalize, and each UI state; no <code>innerHTML</code> with API data</td><td>Named functions; one minor <code>innerHTML</code> issue</td><td>Partial function separation</td><td>All logic inline</td></tr>
+<tr><td><strong>Rationale</strong></td><td>Specific, honest, addresses all four prompts</td><td>Addresses three prompts</td><td>Vague or two prompts</td><td>Missing</td></tr>
+</tbody>
+</table>
 </body>
 </html>

@@ -6,6 +6,111 @@
 <meta name="workflow_state" content="active"/>
 </head>
 <body>
-<h1>Lab 02 – Rebuilding a Responsive Layout</h1><h2>Purpose</h2><p>This lab gives students a constrained practice space for the week's concepts. The emphasis is on seeing, changing, and explaining what the browser does.</p><h2>Tasks</h2><ol><li>Create or update your repo branch for this lab.</li><li>Build the required interface or script in small increments.</li><li>Test keyboard access, responsiveness, and error states.</li><li>Write a brief notes section describing what worked, what broke, and how you fixed it.</li><li>Commit meaningful progress with short messages.</li></ol><h2>Deliverable</h2><p>Submit a deployed link, repository link, and a short process reflection.</p><h2>Suggested rubric</h2><ul><li>Functionality</li><li>Code organization</li><li>Accessibility and UX clarity</li><li>Reflection quality</li></ul>
+<h1>Lab 02 – Rebuilding a Responsive Layout</h1>
+<h2>Purpose</h2>
+<p>Reading about semantic HTML and mobile-first CSS is not the same as writing it. This lab puts you in a constrained, low-stakes environment to practice the core skills from Chapter 2: choosing semantic elements deliberately, building a layout that works at every screen size, and validating your markup.</p>
+<h2>Skills practiced</h2>
+<ul>
+<li>Choosing semantic HTML elements over generic <code>&lt;div&gt;</code> containers</li>
+<li>Writing mobile-first CSS with <code>min-width</code> media queries</li>
+<li>Using Flexbox or CSS Grid for layout</li>
+<li>Connecting form labels to inputs</li>
+<li>Validating HTML at validator.w3.org</li>
+<li>Testing at narrow viewport widths</li>
+</ul>
+<h2>What you're building</h2>
+<p>A responsive page for a fictional campus club — the <strong>Wildcat Hiking Club</strong> — that includes a site header with navigation, a featured announcement section, a two-column member spotlight grid (collapsing to one column on mobile), a simple contact form, and a footer. No JavaScript is required for this lab.</p>
+<hr />
+<h2>Provided wireframe description</h2>
+<p><strong>Mobile (single column, top to bottom):</strong></p>
+<ol>
+<li>Site header: club name + a hamburger menu icon (static, no JS needed)</li>
+<li>Hero section: large heading, one-sentence tagline, a "Join Us" link styled as a button</li>
+<li>Upcoming hike card: date, trail name, difficulty rating, and a short description</li>
+<li>Member spotlight: three member cards (name + short bio), stacked vertically</li>
+<li>Contact form: name, email, message fields + submit button</li>
+<li>Footer: copyright line and three social links</li>
+</ol>
+<p><strong>Desktop (min-width: 768px):</strong></p>
+<ul>
+<li>Member spotlight cards display in a three-column grid</li>
+<li>Contact form is centered with a max-width of 600px</li>
+<li>Header nav links display horizontally (no hamburger)</li>
+</ul>
+<hr />
+<h2>Tasks</h2>
+<h3>Task 1: HTML structure (no CSS yet)</h3>
+<p>Create <code>labs/lab02/index.html</code>. Build the complete HTML for the page described above.</p>
+<p>Requirements:</p>
+<ul>
+<li>Use <code>&lt;header&gt;</code>, <code>&lt;nav&gt;</code>, <code>&lt;main&gt;</code>, <code>&lt;section&gt;</code>, <code>&lt;article&gt;</code>, <code>&lt;form&gt;</code>, <code>&lt;footer&gt;</code> — use a semantic element wherever one fits.</li>
+<li>No <code>&lt;div&gt;</code> where a semantic element would work.</li>
+<li>Every form input must have a <code>&lt;label&gt;</code> connected via matching <code>for</code> and <code>id</code> attributes.</li>
+<li>Every image (if you include any) must have a meaningful <code>alt</code> attribute.</li>
+<li>Your <code>&lt;h1&gt;</code> should appear exactly once, in <code>&lt;main&gt;</code>.</li>
+</ul>
+<p>Open the raw HTML (no CSS) in a browser. Does it read logically top to bottom? Can you tab through the navigation and form fields with your keyboard?</p>
+<h3>Task 2: Mobile-first CSS</h3>
+<p>Create <code>labs/lab02/style.css</code>. Link it in the <code>&lt;head&gt;</code>.</p>
+<p>Write base styles for the narrowest viewport first (assume 375px wide, no media queries needed for the base). Your base styles should produce a working, readable single-column layout.</p>
+<p>Requirements for base styles:</p>
+<ul>
+<li>Reset box model: <code>*, *::before, *::after { box-sizing: border-box; }</code></li>
+<li>Define at least five CSS custom properties in <code>:root</code> for color, spacing, and font size</li>
+<li>Style the header, navigation, hero section, cards, form, and footer</li>
+<li>The member cards should stack vertically</li>
+</ul>
+<h3>Task 3: Responsive breakpoints</h3>
+<p>Add at least two <code>min-width</code> media queries:</p>
+<pre><code class="language-css">@media (min-width: 600px) {
+  /* tablet: two-column card grid */
+}
+
+@media (min-width: 900px) {
+  /* desktop: three-column card grid, horizontal nav */
+}</code></pre>
+<p>Test by dragging the browser window narrower and wider, or using DevTools → Toggle Device Toolbar (the phone/tablet icon).</p>
+<h3>Task 4: Validate and fix</h3>
+<p>Run your HTML through validator.w3.org (paste in the HTML source). Fix every error and warning. Take a screenshot showing a clean validation result (zero errors).</p>
+<h3>Task 5: Accessibility check</h3>
+<p>Tab through your entire page using only the keyboard (no mouse). Every link and button should be reachable and visually highlighted when focused. If the focus ring is invisible, add:</p>
+<pre><code class="language-css">:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 2px;
+}</code></pre>
+<hr />
+<h2>Deliverable</h2>
+<p>In <code>labs/lab02/</code>:</p>
+<ul>
+<li><code>index.html</code></li>
+<li><code>style.css</code></li>
+<li><code>notes.md</code> — your reflection (see below)</li>
+<li><code>screenshot-validation.png</code> — validator.w3.org showing no errors</li>
+<li><code>screenshot-mobile.png</code> — page at 375px width</li>
+<li><code>screenshot-desktop.png</code> — page at 900px+ width</li>
+</ul>
+<p>Deploy via GitHub Pages or Netlify. Commit and push with at least three commits showing incremental progress (HTML first, then base CSS, then responsive CSS).</p>
+<p>Submit to Canvas: live URL, GitHub repo URL, and a link to <code>labs/lab02/notes.md</code>.</p>
+<hr />
+<h2>Process reflection (in notes.md)</h2>
+<p>Answer these questions in 4–6 sentences total:</p>
+<ul>
+<li>Which semantic element choice was least obvious to you, and why did you choose it?</li>
+<li>What happened when you started CSS at 375px instead of desktop width?</li>
+<li>What error did the validator catch that you didn't notice yourself?</li>
+</ul>
+<hr />
+<h2>Rubric</h2>
+<table>
+<thead><tr><th>Criterion</th><th>Excellent (4)</th><th>Proficient (3)</th><th>Developing (2)</th><th>Incomplete (1)</th></tr></thead>
+<tbody>
+<tr><td><strong>Semantic HTML</strong></td><td>All sections use appropriate semantic elements; no <code>&lt;div&gt;</code> where a semantic element fits; labels connected to inputs</td><td>Most sections semantic; one or two missed opportunities</td><td>Some semantic elements present; divs used for most structure</td><td>No semantic elements beyond default</td></tr>
+<tr><td><strong>Mobile-first CSS</strong></td><td>Base styles target narrow viewport; <code>min-width</code> queries add layout; custom properties defined</td><td>Base styles present; breakpoints work but not strictly mobile-first</td><td>CSS present but written desktop-first with overrides</td><td>Minimal or no CSS</td></tr>
+<tr><td><strong>Responsive behavior</strong></td><td>Layout adapts correctly at 375px, 600px, and 900px; tested in DevTools</td><td>Adapts at two breakpoints</td><td>Partially responsive</td><td>Single fixed-width layout</td></tr>
+<tr><td><strong>Validation</strong></td><td>Zero errors on validator.w3.org; screenshot provided</td><td>1–2 minor errors</td><td>Several errors</td><td>Not validated</td></tr>
+<tr><td><strong>Keyboard accessibility</strong></td><td>All interactive elements reachable and visually focused</td><td>Most reachable</td><td>Some reachable</td><td>Not tested</td></tr>
+<tr><td><strong>Reflection</strong></td><td>Specific answers to all three prompts</td><td>Addresses two prompts</td><td>Vague or one prompt</td><td>Missing</td></tr>
+</tbody>
+</table>
 </body>
 </html>

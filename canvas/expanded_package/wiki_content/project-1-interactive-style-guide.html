@@ -6,6 +6,151 @@
 <meta name="workflow_state" content="active"/>
 </head>
 <body>
-<h1>Project 1 – Interactive Style Guide</h1><h2>Summary</h2><p>Design and build a style guide that demonstrates typography, color, spacing, buttons, cards, navigation, and at least three scripted interface patterns.</p><h2>What to build</h2><ul><li>A working client-side experience</li><li>Clean project structure</li><li>Meaningful commit history</li><li>Deployment link</li><li>Short rationale describing audience, decisions, and known limitations</li></ul><h2>Requirements</h2><ul><li>Semantic HTML</li><li>Responsive behavior</li><li>Accessible interaction patterns</li><li>Readable JavaScript with named functions or modules</li><li>Testing notes and final review checklist</li></ul><h2>Submission</h2><p>Submit the live URL, repo URL, and a concise reflection.</p><h2>Rubric highlights</h2><ul><li>Technical completion</li><li>UX clarity</li><li>Maintainability</li><li>Accessibility</li><li>Reflection and communication</li></ul><h2>Milestones</h2><ul><li>Proposal</li><li>Build Checkpoint</li><li>Final Submission</li></ul>
+<h1>Project 1 – Interactive Style Guide</h1>
+<p><strong>Due:</strong> End of Week 8 (three milestones across Weeks 5, 7, and 8)<br />
+<strong>Weight:</strong> Part of Projects (30% of course grade)<br />
+<strong>Skills:</strong> CSS custom properties, design tokens, semantic HTML, DOM manipulation, accessible interactive patterns, file organization</p>
+<hr />
+<h2>Overview</h2>
+<p>A style guide is the source of truth for a design system: it defines the visual language (colors, typography, spacing) and documents the interactive patterns (buttons, cards, navigation, accordions, tabs) that a project will use consistently. You will build a <strong>living style guide</strong> — a deployed web page that both documents and demonstrates every element of your design system.</p>
+<p>This project brings together everything from the first half of the course: semantic HTML, mobile-first CSS, JavaScript-driven interaction, and accessibility. It is larger in scope than any individual lab or assignment, and requires planning before building.</p>
+<hr />
+<h2>Scenario</h2>
+<p>You have been hired to build the front-end foundation for a fictional product, organization, or publication of your choice. Before any feature work begins, the team needs a shared visual language and a set of reusable, tested UI components. Your deliverable is a style guide page that a developer could open and immediately understand what CSS variables are available, what each component looks like, and how each interactive pattern behaves.</p>
+<hr />
+<h2>Milestone 1 — Proposal</h2>
+<p><strong>Due:</strong> End of Week 5</p>
+<p>Submit a <code>proposal.md</code> file in <code>projects/project-1/</code> containing:</p>
+<ol>
+<li><strong>Project context:</strong> What is the fictional product or organization? Who is the audience?</li>
+<li><strong>Color palette:</strong> At minimum four named colors (brand, text, background, accent). Include hex values and confirm contrast ratios using WebAIM Contrast Checker.</li>
+<li><strong>Typography plan:</strong> Font family choices (Google Fonts or system fonts), scale (at minimum body, small, large, heading sizes in rem).</li>
+<li><strong>Component list:</strong> The five components you will document (from the required list below).</li>
+<li><strong>Rough sketch:</strong> A hand-drawn or digital wireframe showing how the style guide page will be organized.</li>
+<li><strong>Accessibility plan:</strong> For each interactive pattern you plan to implement, answer two questions: (a) How will a keyboard-only user operate it? (b) What ARIA attributes will communicate its state to a screen reader? This does not need to be code — a sentence or two per pattern is sufficient.</li>
+</ol>
+<p>Proposal does not need to be code — it is a planning document.</p>
+<hr />
+<h2>Milestone 2 — Build Checkpoint</h2>
+<p><strong>Due:</strong> End of Week 7</p>
+<p>A deployed, in-progress version with:</p>
+<ul>
+<li>All CSS custom properties defined in <code>:root</code></li>
+<li>The typography section and color swatch section complete</li>
+<li>At least two interactive components functional (even if not polished)</li>
+<li><code>node_modules/</code> and <code>dist/</code> absent from the repo</li>
+</ul>
+<p>Submit the live URL and repo URL to Canvas with a brief note on what is remaining.</p>
+<hr />
+<h2>Milestone 3 — Final Submission</h2>
+<p><strong>Due:</strong> End of Week 8</p>
+<hr />
+<h2>Required sections</h2>
+<p>Your style guide page must include all of the following sections, each with an <code>&lt;h2&gt;</code> heading and an anchor in the page navigation.</p>
+<h3>1. Design tokens</h3>
+<p>A visual reference of every CSS custom property defined in <code>:root</code>:</p>
+<ul>
+<li><strong>Colors:</strong> Each color displayed as a swatch (a <code>&lt;div&gt;</code> with <code>background-color</code> set to the variable) with its variable name and hex value labeled</li>
+<li><strong>Spacing:</strong> Each spacing token shown as a colored bar whose width or height equals the token value, labeled with the variable name and computed value</li>
+<li><strong>Typography:</strong> Each font-size token shown as sample text at that size</li>
+</ul>
+<h3>2. Typography</h3>
+<p>Live examples of:</p>
+<ul>
+<li>All heading levels (<code>&lt;h1&gt;</code> through <code>&lt;h4&gt;</code>) using your type scale</li>
+<li>Body text paragraph with proper line height and measure (45–75 characters per line)</li>
+<li>A <code>&lt;blockquote&gt;</code> with attribution</li>
+<li>An <code>&lt;ol&gt;</code> and a <code>&lt;ul&gt;</code> in body context</li>
+<li><code>&lt;code&gt;</code> inline and a <code>&lt;pre&gt;&lt;code&gt;</code> block</li>
+</ul>
+<h3>3. Buttons</h3>
+<p>At minimum four button variants, each shown in default, hover, focus, and disabled states:</p>
+<ul>
+<li>Primary button</li>
+<li>Secondary button</li>
+<li>Destructive/danger button</li>
+<li>Icon button (button with an icon and a visible or visually-hidden label)</li>
+</ul>
+<p>All buttons must be <code>&lt;button&gt;</code> elements. Hover and focus states must be visible. Disabled buttons must use the <code>disabled</code> attribute (not just a class).</p>
+<h3>4. Cards</h3>
+<p>A reusable card component shown in at minimum two configurations:</p>
+<ul>
+<li>A basic card (image, title, body text, action)</li>
+<li>A horizontal card (image beside text)</li>
+</ul>
+<p>Cards must be built with <code>createElement</code> in a <code>renderCard(data)</code> function. Demonstrate rendering at least three cards from a hardcoded data array.</p>
+<h3>5. Navigation</h3>
+<p>A responsive <code>&lt;nav&gt;</code> with:</p>
+<ul>
+<li>A logo/brand link</li>
+<li>At least four nav links</li>
+<li>A mobile-friendly state: at narrow viewport, links collapse (can be CSS-only or JavaScript-toggled)</li>
+<li>If JavaScript-toggled: <code>aria-expanded</code> on the toggle button, keyboard-accessible open/close</li>
+</ul>
+<h3>6. Interactive patterns (choose two of three)</h3>
+<p><strong>Option A – Accordion</strong> At least four items. One-open-at-a-time behavior. <code>aria-expanded</code> and <code>aria-controls</code> on triggers.</p>
+<p><strong>Option B – Tabs</strong> At least three tabs. Correct ARIA roles (<code>tablist</code>, <code>tab</code>, <code>tabpanel</code>). Arrow key navigation between tabs.</p>
+<p><strong>Option C – Modal/Dialog</strong> A trigger button that opens a dialog overlay. Focus trapped inside the modal while open. Closed by Escape key, a close button, or clicking the backdrop. <code>role=&quot;dialog&quot;</code> and <code>aria-labelledby</code> referencing the dialog title.</p>
+<hr />
+<h2>Technical requirements</h2>
+<ul>
+<li>All design values as CSS custom properties in <code>:root</code> — no magic numbers anywhere in the CSS</li>
+<li>CSS organized into at minimum: <code>base.css</code> (reset + tokens), <code>components.css</code>, imported into a main stylesheet</li>
+<li>JavaScript organized into at minimum two files: one for rendering utilities, one for interactive pattern initialization</li>
+<li>Each JS file has a one-sentence comment at the top stating its responsibility</li>
+<li>No CSS frameworks; no JS UI libraries</li>
+<li>HTML validates with no errors at validator.w3.org</li>
+<li>Deployed and accessible at a live URL</li>
+</ul>
+<hr />
+<h2>Accessibility requirements</h2>
+<ul>
+<li>Every interactive element keyboard-reachable and operable</li>
+<li>All ARIA attributes used correctly (no <code>aria-label</code> on elements that already have visible text)</li>
+<li>Color contrast meets WCAG AA for all text/background combinations</li>
+<li>Focus visible on all interactive elements (<code>:focus-visible</code> style defined)</li>
+<li>Images (if any) have descriptive <code>alt</code> text</li>
+</ul>
+<hr />
+<h2>Above baseline (stretch)</h2>
+<ul>
+<li>A CSS-only dark mode via <code>@media (prefers-color-scheme: dark)</code> that swaps custom property values</li>
+<li>A "copy to clipboard" button next to each CSS custom property name</li>
+<li>A <code>print.css</code> stylesheet that removes interactive elements and renders only the design token reference</li>
+</ul>
+<hr />
+<h2>Deliverable</h2>
+<p><code>projects/project-1/</code> in your repository containing:</p>
+<ul>
+<li><code>index.html</code></li>
+<li><code>css/</code> folder with organized stylesheets</li>
+<li><code>js/</code> folder with organized scripts</li>
+<li><code>proposal.md</code></li>
+<li><code>rationale.md</code></li>
+</ul>
+<p>Deploy to GitHub Pages, Netlify, or Vercel.</p>
+<p><strong>Submit to Canvas (Milestone 3):</strong> Live URL, repo URL, rationale link.</p>
+<hr />
+<h2>Rationale (rationale.md)</h2>
+<p>Write 6–8 sentences addressing:</p>
+<ul>
+<li>What organization or product did you design for, and what drove your color and typography choices?</li>
+<li>How did you decide what counts as a "component" vs. a one-off element?</li>
+<li>What was the hardest interactive pattern to implement accessibly and what did you learn?</li>
+<li>What would a developer need to know to use your style guide on a real project?</li>
+</ul>
+<hr />
+<h2>Rubric</h2>
+<table>
+<thead><tr><th>Criterion</th><th>Excellent (4)</th><th>Proficient (3)</th><th>Developing (2)</th><th>Incomplete (1)</th></tr></thead>
+<tbody>
+<tr><td><strong>Design tokens</strong></td><td>All colors, spacing, and type tokens defined as custom properties; swatch/bar visualizations present and labeled; no magic numbers in CSS</td><td>Most tokens defined; visualizations present; 1–2 magic numbers</td><td>Tokens partially defined; no visualization</td><td>No custom properties</td></tr>
+<tr><td><strong>Component completeness</strong></td><td>All six sections present and functional; cards rendered from data array; buttons show all four states</td><td>Five sections present; cards hardcoded; three button states</td><td>Four sections present; significant gaps</td><td>Three or fewer sections</td></tr>
+<tr><td><strong>Interactive patterns</strong></td><td>Both chosen patterns functional, keyboard-accessible, and ARIA-correct</td><td>Both functional; one ARIA attribute missing</td><td>One pattern functional</td><td>Neither pattern functional</td></tr>
+<tr><td><strong>Code organization</strong></td><td>CSS in separate files by responsibility; JS in separate files with responsibility comments; no mixed concerns</td><td>Two files each; minor mixing</td><td>One CSS file; one JS file</td><td>Single monolithic file</td></tr>
+<tr><td><strong>Accessibility</strong></td><td>All interactive elements keyboard-operable; contrast passes; ARIA used correctly; focus visible</td><td>Three of four criteria</td><td>Two criteria</td><td>One or none</td></tr>
+<tr><td><strong>Proposal and rationale</strong></td><td>Proposal submitted on time with all six elements (including accessibility plan); rationale addresses all four prompts specifically</td><td>Proposal complete; accessibility plan vague; rationale addresses three prompts</td><td>Proposal partially complete; rationale vague</td><td>Proposal missing or rationale missing</td></tr>
+</tbody>
+</table>
 </body>
 </html>

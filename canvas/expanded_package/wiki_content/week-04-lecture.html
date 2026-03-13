@@ -1,11 +1,143 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-<title>Week 04 Lecture Notes</title>
+<title>Week 04 Lecture Notes: Conditionals, Loops, Functions, Scope, and Parameters</title>
 <meta name="identifier" content="i8a69ae07e18e410b6171c92c68e1d561"/>
 <meta name="workflow_state" content="active"/>
 </head>
 <body>
-<h1>Week 04 Lecture Notes: Conditionals, Loops, Functions, Scope, and Parameters</h1><h2>Weekly focus</h2><p>Control Flow and Functions</p><h2>Why this matters</h2><p>This week's material helps students move from isolated syntax toward purposeful client-side design decisions. The lecture emphasizes examples that can be inspected in the browser and rebuilt in small pieces.</p><h2>Learning targets</h2><ul><li>Explain the core concept in plain language</li><li>Build one focused example from scratch</li><li>Debug mistakes with browser tools</li><li>Connect this week's ideas to the running course projects</li></ul><h2>Lecture flow</h2><ol><li>Warm-up concept check</li><li>Demonstration of a focused example</li><li>Guided breakdown of the code</li><li>Common bug patterns</li><li>Independent practice prompt</li><li>Bridge to lab, assignment, or quiz</li></ol><h2>Instructor notes</h2><p>Use short code examples, narrate tradeoffs, and revisit accessibility in every demo. Avoid introducing abstractions before students can inspect the DOM, state, or network behavior involved.</p><h2>Exit ticket</h2><p>Ask students to explain one idea from the week using the sentence frame: <em>This matters in the browser because...</em></p>
+<h1>Week 04 Lecture Notes: Conditionals, Loops, Functions, Scope, and Parameters</h1>
+<h2>Weekly focus</h2>
+<p>Writing reusable logic: making decisions with conditionals, repeating work with loops, and packaging behavior into functions.</p>
+<h2>Why this matters</h2>
+<p>Every interactive feature on the web — a form that validates input, a button that changes state, a list that filters results — is built on conditionals and functions. Without this layer of logic, JavaScript can only run top-to-bottom once; it cannot respond, repeat, or adapt. Mastering functions now also sets the foundation for every remaining week in this course.</p>
+<h2>Learning targets</h2>
+<ul>
+<li>Write <code>if/else</code> and <code>switch</code> statements that branch based on a value or condition</li>
+<li>Use <code>for</code> and <code>while</code> loops to repeat an operation without copy-pasting code</li>
+<li>Distinguish between function declarations, function expressions, and arrow functions</li>
+<li>Define parameters and use <code>return</code> to send a value back to the caller</li>
+<li>Explain the difference between block scope, function scope, and global scope</li>
+<li>Identify and refactor a guard clause to exit a function early on bad input</li>
+</ul>
+<h2>Core concepts</h2>
+<h3>Conditionals: if/else and switch</h3>
+<p>An <code>if</code> statement runs a block of code only when a condition is truthy. The optional <code>else if</code> and <code>else</code> branches handle other cases. Use <code>switch</code> when you are comparing one value against many fixed options — it keeps the code readable.</p>
+<pre><code class="language-js">function describeScore(score) {
+  if (score &gt;= 90) {
+    return &quot;A&quot;;
+  } else if (score &gt;= 80) {
+    return &quot;B&quot;;
+  } else if (score &gt;= 70) {
+    return &quot;C&quot;;
+  } else {
+    return &quot;F&quot;;
+  }
+}
+
+console.log(describeScore(85)); // &quot;B&quot;</code></pre>
+<pre><code class="language-js">function dayLabel(num) {
+  switch (num) {
+    case 1: return &quot;Monday&quot;;
+    case 2: return &quot;Tuesday&quot;;
+    case 3: return &quot;Wednesday&quot;;
+    default: return &quot;Unknown&quot;;
+  }
+}</code></pre>
+<p>Prefer <code>if/else</code> when you are testing ranges or complex expressions. Use <code>switch</code> when one variable maps to a set of known string or number values.</p>
+<h3>Loops: for and while</h3>
+<p>A <code>for</code> loop is best when you know in advance how many times to repeat. A <code>while</code> loop is best when you repeat until a condition changes.</p>
+<pre><code class="language-js">// Count from 1 to 5
+for (let i = 1; i &lt;= 5; i++) {
+  console.log(i);
+}
+
+// Repeat until the user has valid input (conceptual example)
+let attempts = 0;
+while (attempts &lt; 3) {
+  console.log(&quot;Attempt:&quot;, attempts + 1);
+  attempts++;
+}</code></pre>
+<p>Off-by-one errors are the most common loop bug. Before you write the loop, ask: "Does my condition use <code>&lt;</code> or <code>&lt;=</code>? Does my counter start at 0 or 1?"</p>
+<h3>Function declarations vs expressions vs arrow functions</h3>
+<p>All three create reusable blocks of code. They differ in syntax and in how they handle <code>this</code> (important later).</p>
+<pre><code class="language-js">// Declaration — hoisted, can be called before the line it appears on
+function greet(name) {
+  return `Hello, ${name}!`;
+}
+
+// Expression — stored in a variable, not hoisted
+const greet = function(name) {
+  return `Hello, ${name}!`;
+};
+
+// Arrow function — concise, preferred in modern code
+const greet = (name) =&gt; `Hello, ${name}!`;</code></pre>
+<p>For beginners, start with declarations while learning. Move to arrow functions once you are comfortable, because you will see them everywhere in modern JavaScript.</p>
+<h3>Parameters and return values</h3>
+<p>Parameters are placeholders defined in the function signature. Arguments are the actual values passed when the function is called. <code>return</code> sends a value back — without it, a function returns <code>undefined</code>.</p>
+<pre><code class="language-js">function calculateTax(price, rate) {
+  return price * rate;
+}
+
+const tax = calculateTax(100, 0.07); // 7
+console.log(tax);                    // 7</code></pre>
+<p>A function should do one thing and return a result. Avoid functions that both compute a value and directly update the page — that mixing makes code harder to test and reuse.</p>
+<h3>Scope: block, function, and global</h3>
+<p><code>const</code> and <code>let</code> are block-scoped: they exist only inside the <code>{}</code> where they are declared. Variables declared with <code>var</code> are function-scoped (legacy behavior — avoid <code>var</code>). Variables declared outside any function are global and visible everywhere, which makes them risky.</p>
+<pre><code class="language-js">let total = 0; // global — visible everywhere below
+
+function addItem(price) {
+  const tax = price * 0.07; // block-scoped to this function
+  total += price + tax;     // reads the global total
+}
+
+addItem(10);
+console.log(total); // 10.7
+// console.log(tax); // ReferenceError — tax is not visible here</code></pre>
+<p>As a rule of thumb: keep variables as local as possible. If you find yourself reaching for a global variable, consider passing the value as a parameter instead.</p>
+<h3>Pure functions and guard clauses</h3>
+<p>A pure function always returns the same output for the same input and does not modify anything outside itself. Pure functions are predictable and easy to test.</p>
+<p>A guard clause is an early <code>return</code> that exits the function when input is invalid. It avoids deeply nested <code>if</code> blocks.</p>
+<pre><code class="language-js">// Without guard clause — hard to read
+function getDiscount(price) {
+  if (typeof price === &quot;number&quot;) {
+    if (price &gt; 0) {
+      return price * 0.1;
+    }
+  }
+  return 0;
+}
+
+// With guard clauses — easier to read
+function getDiscount(price) {
+  if (typeof price !== &quot;number&quot;) return 0;
+  if (price &lt;= 0) return 0;
+  return price * 0.1;
+}</code></pre>
+<h2>Common mistakes</h2>
+<ol>
+<li><strong>Using <code>=</code> instead of <code>===</code> in a condition.</strong> <code>if (x = 5)</code> assigns 5 to <code>x</code> and always evaluates to truthy. Always use <code>===</code> for comparison.</li>
+<li><strong>Forgetting <code>return</code>.</strong> A function that calculates a value but never <code>return</code>s it gives back <code>undefined</code>. Check the console: if you see <code>undefined</code> where you expected a number, look for a missing <code>return</code>.</li>
+<li><strong>Infinite loops.</strong> A <code>while</code> loop whose condition never becomes false freezes the browser tab. Always verify your counter variable is being updated inside the loop body.</li>
+<li><strong>Scope confusion with <code>var</code>.</strong> <code>var</code> leaks out of <code>if</code> blocks and <code>for</code> loops. Use <code>const</code> or <code>let</code> exclusively and never declare the same variable twice with <code>let</code> in the same scope.</li>
+<li><strong>Writing one giant function that does too much.</strong> If a function is longer than about 15 lines, it is probably doing more than one job. Break it into smaller, named functions — your future self will thank you.</li>
+</ol>
+<h2>Accessibility connection</h2>
+<p>Well-named functions make code more maintainable, and maintainable code is more likely to stay accessible over time. When functions handle one thing — like <code>validateEmailInput()</code> rather than a 50-line anonymous blob — future developers can update validation logic without accidentally breaking the ARIA attributes or error messages attached to that form field. Descriptive function names also serve as inline documentation that helps teams with diverse experience levels contribute to accessibility improvements.</p>
+<h2>Demo walkthrough</h2>
+<p><strong>Demo: Grade Classifier with Guard Clauses</strong></p>
+<ol>
+<li>Open a new <code>demo-04.js</code> file and link it to a minimal HTML file with a <code>&lt;p id=&quot;output&quot;&gt;&lt;/p&gt;</code>.</li>
+<li>Write <code>classifyGrade(score)</code> using guard clauses: return <code>&quot;Invalid&quot;</code> if score is not a number or is outside 0–100, then use <code>if/else if</code> to return letter grades.</li>
+<li>Write a <code>for</code> loop that iterates over an array <code>[55, 73, 88, 95, 101, -5]</code>, calls <code>classifyGrade()</code> for each, and logs the result.</li>
+<li>In the browser console, call <code>classifyGrade(88)</code> directly to show how testing a pure function is trivial.</li>
+<li>Update <code>document.getElementById(&quot;output&quot;).textContent</code> with the result of one call to show the connection to the DOM (a preview of Week 06).</li>
+<li>Introduce a deliberate bug — change <code>===</code> to <code>=</code> in a condition — and show how the console reveals the problem.</li>
+</ol>
+<h2>Practice prompt</h2>
+<p>Write a function called <code>shippingCost(weightLbs, expedited)</code> that returns a shipping price. Rules: under 1 lb is $3.99, 1–5 lbs is $6.99, over 5 lbs is $12.99. If <code>expedited</code> is <code>true</code>, add $5.00 to any tier. Use guard clauses to return <code>null</code> if <code>weightLbs</code> is not a positive number. Test it with at least five calls in the console.</p>
+<h2>Bridge</h2>
+<p>The logic patterns from this lecture — conditionals, loops, and functions with return values — are exactly what you need for Lab 04's form decision tree. Assignment 2 will ask you to build a multi-step calculator, so practice writing functions that accept parameters and return values rather than hardcoding answers. As you work through the lab, keep your functions short and pure so they are easy to test piece by piece.</p>
 </body>
 </html>

@@ -1,11 +1,110 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-<title>Week 01 Lecture Notes</title>
+<title>Week 01 Lecture Notes: How the Browser Parses, Paints, and Executes</title>
 <meta name="identifier" content="i564beda5d88738ffdc5a0ec7b4677e9a"/>
 <meta name="workflow_state" content="active"/>
 </head>
 <body>
-<h1>Week 01 Lecture Notes: How the Browser Parses, Paints, and Executes</h1><h2>Weekly focus</h2><p>The Browser as a Platform</p><h2>Why this matters</h2><p>This week's material helps students move from isolated syntax toward purposeful client-side design decisions. The lecture emphasizes examples that can be inspected in the browser and rebuilt in small pieces.</p><h2>Learning targets</h2><ul><li>Explain the core concept in plain language</li><li>Build one focused example from scratch</li><li>Debug mistakes with browser tools</li><li>Connect this week's ideas to the running course projects</li></ul><h2>Lecture flow</h2><ol><li>Warm-up concept check</li><li>Demonstration of a focused example</li><li>Guided breakdown of the code</li><li>Common bug patterns</li><li>Independent practice prompt</li><li>Bridge to lab, assignment, or quiz</li></ol><h2>Instructor notes</h2><p>Use short code examples, narrate tradeoffs, and revisit accessibility in every demo. Avoid introducing abstractions before students can inspect the DOM, state, or network behavior involved.</p><h2>Exit ticket</h2><p>Ask students to explain one idea from the week using the sentence frame: <em>This matters in the browser because...</em></p>
+<h1>Week 01 Lecture Notes: How the Browser Parses, Paints, and Executes</h1>
+<h2>Weekly focus</h2>
+<p>Understanding the browser as a runtime environment, not just a display window.</p>
+<h2>Why this matters</h2>
+<p>Most beginners think of the browser as something that "shows" a web page. In reality it is a complex program that fetches resources over a network, builds in-memory data structures, and runs JavaScript — all before anything appears on screen. Knowing this model helps you make intentional decisions: where to place scripts, why a layout shift happens, and how to measure what is actually slow. DevTools stops being a mystery and becomes your primary debugging instrument starting this week.</p>
+<h2>Learning targets</h2>
+<ul>
+<li>Describe the HTTP request/response cycle: what the browser sends, what the server returns, and what status codes mean</li>
+<li>Explain how the browser converts HTML bytes into a DOM tree and CSS bytes into a CSSOM tree</li>
+<li>Define the render tree and describe why elements hidden with <code>display: none</code> are excluded from it</li>
+<li>Explain what "render-blocking" means and correctly place scripts using <code>defer</code> or <code>async</code></li>
+<li>Use the DevTools Elements tab to inspect and live-edit the DOM and computed styles</li>
+<li>Use the DevTools Network tab to identify resource sizes, load order, and HTTP status codes</li>
+</ul>
+<h2>Core concepts</h2>
+<h3>The HTTP request/response cycle</h3>
+<p>When you type a URL and press Enter, the browser performs a DNS lookup to resolve the domain name to an IP address, then opens a TCP connection to the server and sends an HTTP request. The request looks roughly like this:</p>
+<pre><code>GET /index.html HTTP/1.1
+Host: example.com
+Accept: text/html</code></pre>
+<p>The server responds with a status code and a body:</p>
+<pre><code>HTTP/1.1 200 OK
+Content-Type: text/html; charset=UTF-8
+
+&lt;!doctype html&gt;
+&lt;html&gt;...</code></pre>
+<p>Common status codes to know now: <strong>200</strong> (OK), <strong>301/302</strong> (redirect), <strong>404</strong> (not found), <strong>500</strong> (server error). You will see all of these in the Network tab this week.</p>
+<h3>Parsing HTML into the DOM</h3>
+<p>The browser reads the HTML response as a byte stream and parses it top-to-bottom into nodes. Each HTML element becomes a node in the <strong>Document Object Model (DOM)</strong> — a tree structure in memory. The DOM is what JavaScript reads and modifies; it is not the HTML source file. If you write malformed HTML, the browser silently repairs it, so the DOM may differ from what you typed.</p>
+<p>Key implication: when JavaScript runs and calls <code>document.querySelector(&#x27;h1&#x27;)</code>, it is querying the DOM tree, not the HTML text file.</p>
+<h3>Parsing CSS into the CSSOM</h3>
+<p>In parallel with HTML parsing, when the browser encounters a <code>&lt;link rel=&quot;stylesheet&quot;&gt;</code> tag it fetches the CSS file and parses it into the <strong>CSS Object Model (CSSOM)</strong> — a separate tree of style rules. CSS parsing is render-blocking: the browser will not paint anything until it has a complete CSSOM, because any rule could affect any element.</p>
+<h3>The render tree and painting</h3>
+<p>Once both the DOM and CSSOM are ready, the browser merges them into a <strong>render tree</strong> containing only the nodes that will actually be drawn. Nodes with <code>display: none</code> are excluded entirely. Nodes with <code>visibility: hidden</code> remain in the render tree (they occupy space) but are not painted.</p>
+<p>After the render tree is built, the browser performs <strong>layout</strong> (computing the size and position of each box) and then <strong>paint</strong> (filling in pixels). Changes to layout properties like <code>width</code>, <code>height</code>, or <code>margin</code> trigger a full re-layout — an expensive operation called <strong>reflow</strong>.</p>
+<h3>Why script placement matters: defer and async</h3>
+<p>A <code>&lt;script&gt;</code> tag without attributes is render-blocking: the HTML parser stops, the script is fetched and executed, then parsing resumes. This is why scripts placed in <code>&lt;head&gt;</code> without <code>defer</code> or <code>async</code> can make a page appear blank for a noticeable time.</p>
+<pre><code class="language-html">&lt;!-- Blocks parsing — avoid in &lt;head&gt; --&gt;
+&lt;script src=&quot;app.js&quot;&gt;&lt;/script&gt;
+
+&lt;!-- Fetches in parallel, executes after HTML is fully parsed — preferred --&gt;
+&lt;script src=&quot;app.js&quot; defer&gt;&lt;/script&gt;
+
+&lt;!-- Fetches in parallel, executes immediately when downloaded — use for independent scripts --&gt;
+&lt;script src=&quot;analytics.js&quot; async&gt;&lt;/script&gt;</code></pre>
+<p>Use <code>defer</code> for any script that needs to access the DOM. Use <code>async</code> only for scripts that are completely independent (e.g., analytics). The safest fallback is placing a plain <code>&lt;script&gt;</code> tag just before <code>&lt;/body&gt;</code>, but <code>defer</code> in <code>&lt;head&gt;</code> is the modern standard because the fetch starts earlier.</p>
+<h3>DevTools: Elements tab</h3>
+<p>Open DevTools with <code>F12</code> or <code>Cmd+Option+I</code>. The <strong>Elements</strong> tab shows a live, editable view of the DOM — not the HTML source. You can:</p>
+<ul>
+<li>Click any element to highlight it in the viewport</li>
+<li>Double-click text to edit it in-place (changes are temporary, in-memory only)</li>
+<li>View <strong>Computed</strong> styles on the right panel to see which CSS rules are actually applied after inheritance and specificity resolution</li>
+</ul>
+<p>The Elements tab is the fastest way to answer: "Why is this element positioned there?" and "Which CSS rule is overriding my style?"</p>
+<h3>DevTools: Network tab</h3>
+<p>The <strong>Network</strong> tab records every resource the browser requests: HTML, CSS, JS, images, fonts. Reload the page with the tab open to see the waterfall. Key things to notice:</p>
+<ul>
+<li>The order resources are requested</li>
+<li>Which resources block rendering (shown with a long initial bar)</li>
+<li>File sizes and whether responses are served from cache (status 304)</li>
+<li>Response headers, including <code>Content-Type</code> and caching directives</li>
+</ul>
+<p>Filter by type (JS, CSS, Img) to reduce noise. Click any row to see the full request and response headers.</p>
+<h3>DevTools: Console tab</h3>
+<p>The <strong>Console</strong> is a live JavaScript REPL. You can type any JavaScript expression and see the result immediately:</p>
+<pre><code class="language-javascript">document.title                   // returns the page title
+document.querySelectorAll(&#x27;p&#x27;).length  // counts paragraph elements</code></pre>
+<p>Errors from your scripts appear here in red with a file name and line number. This is your first stop when something does not work.</p>
+<h2>Common mistakes</h2>
+<ol>
+<li><strong>Thinking DevTools shows the HTML file.</strong> The Elements tab shows the live DOM. If the browser repaired malformed HTML, or if JavaScript modified the page, the Elements view will differ from the source. Use <code>View Page Source</code> (<code>Ctrl+U</code>) to see the actual HTML that was delivered.</li>
+<li><strong>Placing scripts in <code>&lt;head&gt;</code> without <code>defer</code>.</strong> This blocks rendering. Students often wonder why their page is slow to appear — the Network tab will show the script request completing before any painting occurs.</li>
+<li><strong>Confusing <code>async</code> and <code>defer</code>.</strong> Using <code>async</code> on a script that manipulates the DOM can cause "cannot read properties of null" errors because the DOM may not be ready when the script executes.</li>
+<li><strong>Ignoring the Console.</strong> Many students open DevTools to inspect elements but never look at the Console. Any JavaScript error — including errors from browser extensions — appears there. Clear it before debugging your own code.</li>
+<li><strong>Conflating HTTP status 200 with "the page works."</strong> A 200 response means the server returned something — but it could be an error page served as HTML. Always read the response body in the Network tab, not just the status code.</li>
+</ol>
+<h2>Accessibility connection</h2>
+<p>The DOM tree that the browser builds from your HTML is the same structure that screen readers traverse to announce page content to users who cannot see the screen. If your HTML is not semantic — for example, if you build a navigation list out of <code>&lt;div&gt;</code> tags instead of <code>&lt;nav&gt;</code> and <code>&lt;ul&gt;</code> — the DOM still exists but carries no meaning for assistive technologies. Understanding the DOM as a tree (not just a visual layout) is the foundation for writing accessible markup starting next week.</p>
+<h2>Demo walkthrough</h2>
+<p><strong>Goal:</strong> Use DevTools to watch a page load and trace exactly what happens.</p>
+<ol>
+<li>Open a browser and navigate to <code>https://example.com</code> (a simple, fast page).</li>
+<li>Open DevTools (<code>F12</code>) and click the <strong>Network</strong> tab. Check "Disable cache" in the toolbar.</li>
+<li>Reload the page. Watch the waterfall appear. Identify the initial HTML document request (status 200) and any subsequent CSS or image requests.</li>
+<li>Click the HTML row. Show the <strong>Headers</strong> tab: point out the <code>GET</code> request and the <code>200 OK</code> response. Show the <strong>Response</strong> tab to see the raw HTML.</li>
+<li>Switch to the <strong>Elements</strong> tab. Expand the DOM tree. Click the <code>&lt;h1&gt;</code> element — the viewport highlights it.</li>
+<li>In the right panel, switch to <strong>Computed</strong> and scroll to <code>display</code>. Show that it reads <code>block</code>.</li>
+<li>Double-click the text inside <code>&lt;h1&gt;</code> in the Elements panel and change it. Show that the page updates but refreshing reverts it ("this is DOM editing, not file editing").</li>
+<li>Open a new tab, navigate to any page with a <code>&lt;script&gt;</code> tag in <code>&lt;head&gt;</code>. View page source (<code>Ctrl+U</code>) and find the script tag. Return to DevTools, Network tab, and show the script request in the waterfall — point out if it appears before CSS finishes loading.</li>
+</ol>
+<h2>Practice prompt</h2>
+<p>Pick any public website you visit regularly. Open DevTools and go to the Network tab. Reload the page. Answer these questions in writing (a text file or Canvas journal entry):</p>
+<ul>
+<li>How many total requests were made?</li>
+<li>What was the size of the initial HTML document?</li>
+<li>Did any requests return a non-200 status code? If so, what were they?</li>
+<li>Can you find a <code>&lt;script&gt;</code> tag in the Elements panel? Does it have <code>defer</code> or <code>async</code>?</li>
+</ul>
+<h2>Bridge</h2>
+<p>Lab 01 – Inspecting the Web asks you to use the Network and Elements tabs to document the load behavior of an assigned page — exactly the skills practiced in the demo and practice prompt above. Quiz 1 covers the request/response cycle, render-blocking, and the difference between <code>defer</code> and <code>async</code>; re-read the script placement section before taking it. Bring any DevTools questions to the Help board before the Sunday deadline.</p>
 </body>
 </html>

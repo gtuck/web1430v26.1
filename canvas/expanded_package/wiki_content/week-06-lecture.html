@@ -1,11 +1,132 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-<title>Week 06 Lecture Notes</title>
+<title>Week 06 Lecture Notes: Selecting, Creating, Updating, and Removing Elements</title>
 <meta name="identifier" content="id1f744402ac11cb289c9159c679d129c"/>
 <meta name="workflow_state" content="active"/>
 </head>
 <body>
-<h1>Week 06 Lecture Notes: Selecting, Creating, Updating, and Removing Elements</h1><h2>Weekly focus</h2><p>DOM Fundamentals</p><h2>Why this matters</h2><p>This week's material helps students move from isolated syntax toward purposeful client-side design decisions. The lecture emphasizes examples that can be inspected in the browser and rebuilt in small pieces.</p><h2>Learning targets</h2><ul><li>Explain the core concept in plain language</li><li>Build one focused example from scratch</li><li>Debug mistakes with browser tools</li><li>Connect this week's ideas to the running course projects</li></ul><h2>Lecture flow</h2><ol><li>Warm-up concept check</li><li>Demonstration of a focused example</li><li>Guided breakdown of the code</li><li>Common bug patterns</li><li>Independent practice prompt</li><li>Bridge to lab, assignment, or quiz</li></ol><h2>Instructor notes</h2><p>Use short code examples, narrate tradeoffs, and revisit accessibility in every demo. Avoid introducing abstractions before students can inspect the DOM, state, or network behavior involved.</p><h2>Exit ticket</h2><p>Ask students to explain one idea from the week using the sentence frame: <em>This matters in the browser because...</em></p>
+<h1>Week 06 Lecture Notes: Selecting, Creating, Updating, and Removing Elements</h1>
+<h2>Weekly focus</h2>
+<p>Taking a data array from Week 05 and rendering it into the live DOM — safely, cleanly, and dynamically.</p>
+<h2>Why this matters</h2>
+<p>The DOM (Document Object Model) is the bridge between your JavaScript data and what the user actually sees. Without DOM manipulation, JavaScript has no way to update the page after it loads — no dynamic lists, no toggling panels, no live search results. Every framework (React, Vue, Svelte) is ultimately doing this same work under the hood; understanding the raw DOM API makes you a better framework user and a more capable debugger.</p>
+<h2>Learning targets</h2>
+<ul>
+<li>Select one or multiple elements using <code>querySelector</code> and <code>querySelectorAll</code></li>
+<li>Create new elements with <code>createElement</code> and insert them using <code>append</code> and <code>prepend</code></li>
+<li>Set element content safely using <code>textContent</code>, and understand when and why to avoid <code>innerHTML</code></li>
+<li>Manipulate CSS classes with <code>classList.add</code>, <code>.remove</code>, <code>.toggle</code>, and <code>.contains</code></li>
+<li>Read and write <code>data-*</code> attributes using the <code>dataset</code> API</li>
+<li>Navigate the DOM tree using <code>parentElement</code>, <code>children</code>, and <code>nextElementSibling</code></li>
+</ul>
+<h2>Core concepts</h2>
+<h3>querySelector and querySelectorAll</h3>
+<p><code>document.querySelector(selector)</code> returns the first matching element, or <code>null</code> if none is found. <code>document.querySelectorAll(selector)</code> returns a static <code>NodeList</code> of all matching elements. Both accept any valid CSS selector string.</p>
+<pre><code class="language-js">const title = document.querySelector(&quot;h1&quot;);
+const allCards = document.querySelectorAll(&quot;.product-card&quot;);
+
+// querySelectorAll returns a NodeList, not an array
+// Convert with Array.from to use .map(), .filter(), etc.
+const cards = Array.from(allCards);
+cards.forEach(card =&gt; console.log(card.textContent));</code></pre>
+<p>If <code>querySelector</code> returns <code>null</code> and you immediately try to access a property on it, you get a TypeError. Always check that the element exists, or make sure your script runs after the DOM is ready.</p>
+<h3>createElement and inserting elements</h3>
+<p><code>document.createElement(tagName)</code> creates a new element that is not yet attached to the page. Build it completely, then insert it. This is more efficient than inserting HTML strings and then selecting the result.</p>
+<pre><code class="language-js">function createProductCard(product) {
+  const article = document.createElement(&quot;article&quot;);
+  article.classList.add(&quot;product-card&quot;);
+
+  const heading = document.createElement(&quot;h2&quot;);
+  heading.textContent = product.name;
+
+  const price = document.createElement(&quot;p&quot;);
+  price.textContent = `$${product.price.toFixed(2)}`;
+
+  article.append(heading, price);
+  return article;
+}
+
+const container = document.querySelector(&quot;#product-list&quot;);
+products.forEach(p =&gt; container.append(createProductCard(p)));</code></pre>
+<p><code>append</code> adds a child at the end. <code>prepend</code> adds it at the beginning. Both accept multiple arguments.</p>
+<h3>textContent vs innerHTML — and the XSS risk</h3>
+<p><code>textContent</code> sets or reads the plain text content of an element. It treats the value as raw text, so angle brackets are displayed literally and never interpreted as HTML. Use it whenever you are inserting user-supplied or data-sourced content.</p>
+<p><code>innerHTML</code> sets or reads content as an HTML string. The browser parses it and creates real elements. This is powerful but dangerous: if the string contains user input, an attacker can inject a <code>&lt;script&gt;</code> tag or an event handler attribute. This is called a cross-site scripting (XSS) attack.</p>
+<pre><code class="language-js">const el = document.querySelector(&quot;#message&quot;);
+
+// Safe — displayed as literal text, even if input contains &lt;script&gt;
+el.textContent = userInput;
+
+// Dangerous if userInput is not fully controlled
+el.innerHTML = userInput; // never do this with untrusted data</code></pre>
+<p>If you must render HTML strings from a controlled source (your own data, not user input), <code>innerHTML</code> is acceptable. For anything typed by a user, always use <code>textContent</code>.</p>
+<h3>Removing elements</h3>
+<p>Call <code>.remove()</code> directly on the element you want to delete. To clear all children from a container, set <code>textContent = &quot;&quot;</code> — that is the shortest safe approach.</p>
+<pre><code class="language-js">const card = document.querySelector(&quot;.product-card&quot;);
+card.remove(); // removes the element from the DOM entirely
+
+// Clear a list before re-rendering
+const list = document.querySelector(&quot;#product-list&quot;);
+list.textContent = &quot;&quot;;
+products.forEach(p =&gt; list.append(createProductCard(p)));</code></pre>
+<h3>classList: add, remove, toggle, contains</h3>
+<p>Rather than building CSS class strings by hand, use the <code>classList</code> API. Each method is atomic — it changes exactly one class without affecting others.</p>
+<pre><code class="language-js">const btn = document.querySelector(&quot;#menu-btn&quot;);
+const nav = document.querySelector(&quot;#main-nav&quot;);
+
+btn.addEventListener(&quot;click&quot;, () =&gt; {
+  nav.classList.toggle(&quot;is-open&quot;);           // adds if absent, removes if present
+  btn.classList.toggle(&quot;btn--active&quot;);
+
+  const isOpen = nav.classList.contains(&quot;is-open&quot;);
+  btn.setAttribute(&quot;aria-expanded&quot;, isOpen); // keep ARIA in sync
+});</code></pre>
+<h3>dataset attributes</h3>
+<p><code>data-*</code> attributes let you embed custom data directly in HTML elements. The <code>dataset</code> property on a DOM node exposes them as a plain object. Camel-case in JavaScript maps to hyphenated HTML: <code>dataset.productId</code> corresponds to <code>data-product-id</code>.</p>
+<pre><code class="language-js">// HTML: &lt;button data-product-id=&quot;42&quot; data-category=&quot;footwear&quot;&gt;View&lt;/button&gt;
+const btn = document.querySelector(&quot;button&quot;);
+
+console.log(btn.dataset.productId);  // &quot;42&quot; (always a string)
+console.log(btn.dataset.category);   // &quot;footwear&quot;
+
+// Use the id to look up the item in your data array
+const id = Number(btn.dataset.productId);
+const product = products.find(p =&gt; p.id === id);</code></pre>
+<p><code>dataset</code> values are always strings. Convert to a number with <code>Number()</code> or <code>parseInt()</code> before comparing with <code>===</code> to a numeric id.</p>
+<h3>DOM traversal</h3>
+<p>Sometimes you need to move from a known element to a related one without running another <code>querySelector</code>. These properties navigate the live DOM tree:</p>
+<pre><code class="language-js">const item = document.querySelector(&quot;.active-item&quot;);
+
+const parent = item.parentElement;          // one level up
+const siblings = parent.children;          // HTMLCollection of all children
+const next = item.nextElementSibling;      // next sibling element
+const prev = item.previousElementSibling; // previous sibling element</code></pre>
+<p>Traversal is useful inside event handlers when <code>event.target</code> gives you a child element and you need to reach the containing card or list item.</p>
+<h2>Common mistakes</h2>
+<ol>
+<li><strong>Calling <code>querySelector</code> before the DOM is loaded.</strong> If your <code>&lt;script&gt;</code> tag is in <code>&lt;head&gt;</code> without <code>defer</code>, the element does not exist yet and you get <code>null</code>. Add <code>defer</code> to your script tag or move it just before <code>&lt;/body&gt;</code>.</li>
+<li><strong>Using <code>innerHTML</code> with form input values.</strong> Students often write <code>el.innerHTML = inputField.value</code> — this is the textbook XSS bug. Always use <code>textContent</code> for user-supplied content.</li>
+<li><strong>Forgetting that <code>querySelectorAll</code> returns a NodeList, not an array.</strong> <code>NodeList</code> has <code>.forEach</code> but not <code>.map</code> or <code>.filter</code>. Use <code>Array.from(nodeList)</code> to get a real array.</li>
+<li><strong>Re-rendering without clearing the container first.</strong> If you call a render function twice (e.g., on filter change), you get duplicate cards unless you clear the container with <code>list.textContent = &quot;&quot;</code> before appending.</li>
+<li><strong>Reading <code>dataset</code> values as numbers without converting.</strong> <code>dataset.productId === 42</code> is always <code>false</code> because <code>dataset</code> returns strings. Always convert: <code>Number(btn.dataset.productId) === 42</code>.</li>
+</ol>
+<h2>Accessibility connection</h2>
+<p><code>classList.toggle</code> is the right tool for show/hide patterns (accordions, modals, navigation menus), but toggling a CSS class is invisible to screen readers unless you also update ARIA state. When you toggle <code>is-open</code> on a nav, pair it with <code>setAttribute(&quot;aria-expanded&quot;, true/false)</code> on the button that controls it. Similarly, when you use <code>createElement</code> to render dynamic content, apply semantic elements (<code>&lt;article&gt;</code>, <code>&lt;ul&gt;</code>, <code>&lt;button&gt;</code>) rather than generic <code>&lt;div&gt;</code> tags — screen readers use those semantics to describe the page structure to non-visual users.</p>
+<h2>Demo walkthrough</h2>
+<p><strong>Demo: Render and Filter a Product List</strong></p>
+<ol>
+<li>Start with an HTML file containing <code>&lt;div id=&quot;product-list&quot;&gt;&lt;/div&gt;</code> and <code>&lt;button id=&quot;filter-btn&quot;&gt;Show In-Stock Only&lt;/button&gt;</code>.</li>
+<li>In <code>demo-06.js</code>, define a <code>products</code> array of five objects (reuse the Week 05 data shape).</li>
+<li>Write a <code>renderProducts(list)</code> function that clears <code>#product-list</code> and appends a card for each item. Each card is an <code>&lt;article&gt;</code> with an <code>&lt;h2&gt;</code> (name), <code>&lt;p&gt;</code> (price), and a <code>data-product-id</code> attribute.</li>
+<li>Call <code>renderProducts(products)</code> on load to show all items.</li>
+<li>Add a click listener to <code>#filter-btn</code>: on click, toggle between showing all products and in-stock only. Use a boolean variable <code>showingAll</code> to track state. Update the button's <code>textContent</code> to reflect the current action.</li>
+<li>In DevTools, show the Elements panel updating live as the filter runs. Point out the <code>data-product-id</code> attributes.</li>
+<li>Deliberately set <code>el.innerHTML = &quot;&lt;img src=x onerror=alert(&#x27;XSS&#x27;)&gt;&quot;</code> in the console to demonstrate why <code>textContent</code> is safer.</li>
+</ol>
+<h2>Practice prompt</h2>
+<p>Build a page with a <code>&lt;ul id=&quot;task-list&quot;&gt;&lt;/ul&gt;</code> and an <code>&lt;input&gt;</code>/<code>&lt;button&gt;</code> for adding tasks. Write an <code>addTask(text)</code> function that creates a <code>&lt;li&gt;</code> with the task text and a "Done" button. When "Done" is clicked, toggle a <code>.completed</code> CSS class on the <code>&lt;li&gt;</code> (style it with strikethrough in your CSS). Add a <code>data-created</code> attribute to each <code>&lt;li&gt;</code> storing the timestamp of when it was added (<code>Date.now()</code>). Log the timestamp to the console when the "Done" button is clicked.</p>
+<h2>Bridge</h2>
+<p>Lab 06 asks you to build an interactive FAQ and tabs interface — both require <code>classList.toggle</code> for show/hide and <code>querySelector</code> for finding the right panel to reveal. Assignment 3 will have you render a data array into the DOM, which is exactly the <code>renderProducts</code> pattern from the demo. As you work, keep rendering and data logic in separate functions — that separation will make Assignment 3 much easier to debug and extend.</p>
 </body>
 </html>

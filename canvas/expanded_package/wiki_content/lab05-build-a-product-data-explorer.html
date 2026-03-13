@@ -6,6 +6,116 @@
 <meta name="workflow_state" content="active"/>
 </head>
 <body>
-<h1>Lab 05 – Build a Product Data Explorer</h1><h2>Purpose</h2><p>This lab gives students a constrained practice space for the week's concepts. The emphasis is on seeing, changing, and explaining what the browser does.</p><h2>Tasks</h2><ol><li>Create or update your repo branch for this lab.</li><li>Build the required interface or script in small increments.</li><li>Test keyboard access, responsiveness, and error states.</li><li>Write a brief notes section describing what worked, what broke, and how you fixed it.</li><li>Commit meaningful progress with short messages.</li></ol><h2>Deliverable</h2><p>Submit a deployed link, repository link, and a short process reflection.</p><h2>Suggested rubric</h2><ul><li>Functionality</li><li>Code organization</li><li>Accessibility and UX clarity</li><li>Reflection quality</li></ul>
+<h1>Lab 05 – Build a Product Data Explorer</h1>
+<h2>Purpose</h2>
+<p>Data modeling and DOM rendering are most useful when they work together. This lab asks you to define a structured dataset, write functions to filter and transform it, and render the results to the page — all without touching the data directly in your rendering code.</p>
+<h2>Skills practiced</h2>
+<ul>
+<li>Designing an array of objects with consistent structure</li>
+<li>Using <code>.filter()</code>, <code>.map()</code>, and <code>.find()</code> without mutating the source array</li>
+<li>Separating data, logic, and rendering into distinct functions</li>
+<li>Dynamically rendering a list of cards from a dataset</li>
+<li>Updating the DOM in response to a filter control</li>
+</ul>
+<h2>What you're building</h2>
+<p>A <strong>Campus Store Product Explorer</strong> — a simple browser-based product browser that displays a list of products as cards and allows the user to filter by category. All data is hardcoded in a JavaScript file. No network requests are needed.</p>
+<hr />
+<h2>Part 1: Data file</h2>
+<p>Create <code>labs/lab05/data.js</code>. Define and export (or just declare — use what you know) the following array. You may adjust product names and prices, but keep the structure exactly as shown:</p>
+<pre><code class="language-js">const products = [
+  { id: 1, name: &#x27;WEB 1430 Textbook&#x27;, category: &#x27;Books&#x27;, price: 54.99, inStock: true },
+  { id: 2, name: &#x27;Campus Hoodie&#x27;, category: &#x27;Apparel&#x27;, price: 39.99, inStock: true },
+  { id: 3, name: &#x27;Mechanical Keyboard&#x27;, category: &#x27;Electronics&#x27;, price: 89.99, inStock: false },
+  { id: 4, name: &#x27;Introduction to Python&#x27;, category: &#x27;Books&#x27;, price: 49.99, inStock: true },
+  { id: 5, name: &#x27;USB-C Hub&#x27;, category: &#x27;Electronics&#x27;, price: 29.99, inStock: true },
+  { id: 6, name: &#x27;Campus Cap&#x27;, category: &#x27;Apparel&#x27;, price: 24.99, inStock: true },
+  { id: 7, name: &#x27;Wireless Mouse&#x27;, category: &#x27;Electronics&#x27;, price: 34.99, inStock: false },
+  { id: 8, name: &#x27;Data Structures Handbook&#x27;, category: &#x27;Books&#x27;, price: 62.99, inStock: true },
+  { id: 9, name: &#x27;Laptop Sleeve&#x27;, category: &#x27;Accessories&#x27;, price: 19.99, inStock: true },
+  { id: 10, name: &#x27;HDMI Cable&#x27;, category: &#x27;Accessories&#x27;, price: 12.99, inStock: true },
+];</code></pre>
+<hr />
+<h2>Part 2: Logic functions</h2>
+<p>In <code>labs/lab05/lab05.js</code>, write the following functions. Each must be a <strong>pure function</strong> — it should not modify <code>products</code> or any global state.</p>
+<h3><code>filterByCategory(productList, category)</code></h3>
+<p>Returns a new array containing only products where <code>product.category === category</code>. If <code>category</code> is <code>&#x27;All&#x27;</code>, returns the full list unchanged.</p>
+<h3><code>getCategories(productList)</code></h3>
+<p>Returns an array of unique category strings derived from the product list. The result should include <code>&#x27;All&#x27;</code> as the first element.</p>
+<p>Example: <code>[&#x27;All&#x27;, &#x27;Books&#x27;, &#x27;Apparel&#x27;, &#x27;Electronics&#x27;, &#x27;Accessories&#x27;]</code></p>
+<p>Hint: use a <code>Set</code> to deduplicate: <code>[...new Set(productList.map(p =&gt; p.category))]</code></p>
+<h3><code>formatPrice(amount)</code></h3>
+<p>Returns a formatted price string: <code>49.99</code> → <code>&#x27;$49.99&#x27;</code>.</p>
+<h3><code>sortByPrice(productList, direction)</code></h3>
+<p>Returns a new sorted array. <code>direction</code> is <code>&#x27;asc&#x27;</code> (lowest first) or <code>&#x27;desc&#x27;</code> (highest first). Do not mutate the original array — use <code>.slice()</code> before sorting.</p>
+<hr />
+<h2>Part 3: Rendering functions</h2>
+<p>Write the following DOM functions. Use <code>createElement</code> and <code>textContent</code> — <strong>no <code>innerHTML</code></strong>.</p>
+<h3><code>renderProductCard(product)</code></h3>
+<p>Creates and returns an <code>&lt;article&gt;</code> element with class <code>product-card</code> containing:</p>
+<ul>
+<li>Product name in an <code>&lt;h2&gt;</code></li>
+<li>Category in a <code>&lt;p&gt;</code> with class <code>product-category</code></li>
+<li>Formatted price in a <code>&lt;p&gt;</code> with class <code>product-price</code></li>
+<li>A stock status indicator: a <code>&lt;span&gt;</code> reading "In Stock" or "Out of Stock", with class <code>in-stock</code> or <code>out-of-stock</code> accordingly</li>
+<li>A <code>&lt;button&gt;</code> reading "Add to Cart" that is <code>disabled</code> when <code>inStock</code> is <code>false</code></li>
+</ul>
+<h3><code>renderProductList(productList, container)</code></h3>
+<p>Clears <code>container</code> and appends a <code>renderProductCard(product)</code> for each product in the list. If the list is empty, display a <code>&lt;p&gt;</code> reading "No products found."</p>
+<h3><code>renderCategoryFilter(categories, container)</code></h3>
+<p>Renders a <code>&lt;select&gt;</code> element into <code>container</code> with one <code>&lt;option&gt;</code> per category. The <code>value</code> of each option should equal the category string.</p>
+<hr />
+<h2>Part 4: Wire it together</h2>
+<p>In <code>labs/lab05/index.html</code>, create a page with:</p>
+<ul>
+<li>A <code>&lt;div id=&quot;filter-bar&quot;&gt;</code> for the category filter select</li>
+<li>A <code>&lt;select id=&quot;sort-order&quot;&gt;</code> with options "Price: Low to High" and "Price: High to Low"</li>
+<li>A <code>&lt;div id=&quot;product-grid&quot;&gt;</code> for the product cards</li>
+</ul>
+<p>In <code>labs/lab05/lab05.js</code>, on <code>DOMContentLoaded</code>:</p>
+<ol>
+<li>Call <code>renderCategoryFilter(getCategories(products), filterBar)</code> to populate the filter</li>
+<li>Call <code>renderProductList(products, productGrid)</code> to show all products initially</li>
+<li>Add a <code>change</code> listener to the category filter: when it changes, filter the products and re-render the list</li>
+<li>Add a <code>change</code> listener to the sort select: when it changes, apply the sort and re-render (preserving any active category filter)</li>
+</ol>
+<hr />
+<h2>CSS requirements</h2>
+<p>In <code>labs/lab05/style.css</code>:</p>
+<ul>
+<li>Product cards display in a responsive grid (one column on mobile, three columns on desktop)</li>
+<li>Out-of-stock cards have a visually distinct appearance (e.g., reduced opacity, a strikethrough price, or a muted color scheme)</li>
+<li>The "Add to Cart" button looks disabled when the product is out of stock</li>
+</ul>
+<hr />
+<h2>Deliverable</h2>
+<p>In <code>labs/lab05/</code>:</p>
+<ul>
+<li><code>index.html</code></li>
+<li><code>lab05.js</code></li>
+<li><code>style.css</code></li>
+<li><code>notes.md</code></li>
+</ul>
+<p>Commit at least three times (after data + functions, after rendering, after wiring). Push and deploy.</p>
+<p>Submit to Canvas: live URL, repo URL, notes.md link.</p>
+<hr />
+<h2>Process reflection (in notes.md)</h2>
+<p>Answer in 4–6 sentences:</p>
+<ul>
+<li>What did your <code>getCategories</code> function look like before you used <code>Set</code>, and how did the approach change?</li>
+<li>What happened when you tried to sort the array in place with <code>.sort()</code> without <code>.slice()</code> first?</li>
+<li>How did you keep the active category filter applied when the sort order changed?</li>
+</ul>
+<hr />
+<h2>Rubric</h2>
+<table>
+<thead><tr><th>Criterion</th><th>Excellent (4)</th><th>Proficient (3)</th><th>Developing (2)</th><th>Incomplete (1)</th></tr></thead>
+<tbody>
+<tr><td><strong>Data functions</strong></td><td>All four functions correct and pure; source array never mutated</td><td>Three functions correct</td><td>Two correct</td><td>One or zero</td></tr>
+<tr><td><strong>Rendering functions</strong></td><td>Cards render all fields correctly; empty state handled; no <code>innerHTML</code></td><td>Cards render; one field missing or <code>innerHTML</code> used</td><td>Cards render but incomplete</td><td>Not functional</td></tr>
+<tr><td><strong>Filter and sort</strong></td><td>Both controls work independently and together; active filter persists across sort changes</td><td>Both controls work separately</td><td>One control works</td><td>Neither works</td></tr>
+<tr><td><strong>CSS layout</strong></td><td>Responsive grid; out-of-stock styling distinct; disabled button styled</td><td>Responsive grid; no out-of-stock styling</td><td>Single-column layout</td><td>No meaningful CSS</td></tr>
+<tr><td><strong>Reflection</strong></td><td>Specific; addresses all three prompts</td><td>Two prompts addressed</td><td>Vague</td><td>Missing</td></tr>
+</tbody>
+</table>
 </body>
 </html>

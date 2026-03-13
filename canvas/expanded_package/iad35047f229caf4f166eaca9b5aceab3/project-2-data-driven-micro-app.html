@@ -4,6 +4,170 @@
 <title>Assignment: Project 2 – Data-Driven Micro-App</title>
 </head>
 <body>
-<h1>Project 2 – Data-Driven Micro-App</h1><p>Create a small application that loads external data, stores user preferences, and presents a clear interaction model.</p><p>See the repository markdown file for the complete brief.</p>
+<h1>Project 2 – Data-Driven Micro-App</h1>
+<p><strong>Due:</strong> End of Week 14 (three milestones across Weeks 10, 12, and 14)<br />
+<strong>Weight:</strong> Part of Projects (30% of course grade)<br />
+<strong>Skills:</strong> Fetch API, async/await, error handling, localStorage, ES modules, Vite, file organization by responsibility</p>
+<hr />
+<h2>Overview</h2>
+<p>A micro-app is a small, focused browser application that does one thing well. It loads real data from an external source, lets users interact with and filter that data, remembers user preferences across sessions, and handles every possible state — loading, success, error, empty — gracefully.</p>
+<p>This project is the culmination of the async and state management half of the course. It requires you to combine the Fetch API, <code>localStorage</code>, and ES module organization into a deployed, production-ready application.</p>
+<hr />
+<h2>Scenario</h2>
+<p>You are building a small public-facing tool for a specific audience. Start by identifying a problem worth solving — then find the data that solves it. A tool built backward from an API tends to feel like a tech demo; a tool built from a real need tends to feel like a product.</p>
+<p><strong>Start here — three questions before you write any code:</strong></p>
+<ol>
+<li>Who is this for? (a specific type of person, not "everyone")</li>
+<li>What do they need to do, and why is it currently inconvenient?</li>
+<li>What data would make that task faster or easier?</li>
+</ol>
+<p>Once you can answer those three questions, find a public API that provides the data you need.</p>
+<p><strong>Examples that start from the problem:</strong></p>
+<ul>
+<li><em>College students planning meals on a budget</em> → a recipe finder filtered by ingredient and cost (using TheMealDB or Spoonacular free tier)</li>
+<li><em>Someone curious about a country before traveling</em> → a country snapshot with population, currency, and time zone (using REST Countries)</li>
+<li><em>A space enthusiast wanting a daily photo</em> → a NASA APOD viewer with a saved personal gallery (using NASA Open APIs)</li>
+<li><em>A reader managing a reading list</em> → a book search with saved favorites (using Open Library)</li>
+<li><em>A dog owner comparing breeds</em> → a filtered gallery with saved preferences (using Dog CEO API)</li>
+</ul>
+<p>Notice that the problem comes first in every example. Choose a public API that does not require payment information for access.</p>
+<blockquote>
+<p><strong>Reference:</strong> See <code>course/api-troubleshooting-guide.md</code> for help with deeply nested responses, fields that are sometimes null, inconsistent types, CORS errors, rate limiting, and a debugging checklist.</p>
+</blockquote>
+<hr />
+<h2>Milestone 1 — Proposal and Data Plan</h2>
+<p><strong>Due:</strong> End of Week 10</p>
+<p>Submit <code>projects/project-2/proposal.md</code> containing these sections <strong>in this order</strong>:</p>
+<ol>
+<li><strong>Problem statement:</strong> Who specifically is this for? What task does the tool help them complete? Why is that task currently inconvenient without this tool?</li>
+<li><strong>API:</strong> Which API provides the data needed to solve that problem? Paste the endpoint URL you will use. Paste one example of the raw JSON response (or a relevant excerpt).</li>
+<li><strong>Data model:</strong> What does one normalized item look like as a JavaScript object? List each property, its type, and where it comes from in the raw API response.</li>
+<li><strong>UI sketch:</strong> A wireframe showing the layout of the loaded state, the loading state, and the error state.</li>
+<li><strong>localStorage plan:</strong> What preferences or data will you persist? What is the key name and what does the stored value look like?</li>
+</ol>
+<p>The proposal will be reviewed against the problem statement first. If the problem statement is vague ("users can search for things"), the proposal will be returned for revision before you build.</p>
+<hr />
+<h2>Milestone 2 — Build Checkpoint</h2>
+<p><strong>Due:</strong> End of Week 12</p>
+<p>Milestone 2 must represent a substantially complete application. Weeks 13 and 14 are for polish, accessibility review, deployment, and final quality checks — not initial scaffolding. An incomplete Milestone 2 means an incomplete final submission.</p>
+<p>A deployed version with <strong>all of the following</strong>:</p>
+<ul>
+<li>Vite project scaffolded, running, and deployed (<code>npm run dev</code> works; live URL accessible)</li>
+<li>All five required module files exist (<code>api.js</code>, <code>normalize.js</code>, <code>render.js</code>, <code>state.js</code>, <code>events.js</code>), each with its one-sentence comment and correct single responsibility</li>
+<li>Fetch, normalization, and render pipeline complete — real API data flows through <code>normalizeData()</code> before any rendering function touches it</li>
+<li>Loading, success, and error states all produce distinct UI (not placeholder text)</li>
+<li>At least <strong>one</strong> user interaction type (search, filter, or sort) functional end-to-end</li>
+<li>At least <strong>one</strong> localStorage feature reading and writing correctly (preference restored on page reload)</li>
+</ul>
+<p>Submit live URL and repo URL. Include a <code>checkpoint.md</code> note (3–5 sentences) covering:</p>
+<ul>
+<li>What two features remain for Week 12?</li>
+<li>Did you encounter any API quirks during normalization? How did you handle them?</li>
+</ul>
+<hr />
+<h2>Milestone 3 — Final Submission</h2>
+<p><strong>Due:</strong> End of Week 14</p>
+<hr />
+<h2>Required features</h2>
+<h3>Data loading</h3>
+<ul>
+<li>On initial page load, fetch and render a meaningful starting dataset automatically (do not require user action before seeing data)</li>
+<li>Show a loading indicator before the request; remove it in <code>finally</code></li>
+<li>Check <code>response.ok</code>; throw a descriptive error if false</li>
+<li>Wrap in <code>try/catch</code>; show a user-facing error message in the catch block (not just a console log)</li>
+</ul>
+<h3>User interaction</h3>
+<p>At least <strong>two</strong> of the following interaction types:</p>
+<ul>
+<li><strong>Search:</strong> A text input that filters results by querying the API or filtering loaded data</li>
+<li><strong>Filter:</strong> A dropdown, set of buttons, or checkboxes that narrows results by a data property (category, region, type, etc.)</li>
+<li><strong>Sort:</strong> A control that reorders results by a property (name, date, popularity, etc.)</li>
+<li><strong>Pagination or load more:</strong> A button that fetches the next page of results</li>
+</ul>
+<h3>Persistence</h3>
+<p>At least <strong>two</strong> of the following persistence features:</p>
+<ul>
+<li>Save a user preference (theme, filter state, sort order) to <code>localStorage</code> and restore it on page load</li>
+<li>Save a list of favorited or bookmarked items to <code>localStorage</code>; display a count or a saved list</li>
+<li>Cache the most recent successful result in <code>sessionStorage</code> and restore it on reload</li>
+</ul>
+<h3>Detail view</h3>
+<p>Clicking a result card must reveal additional information about that item — either:</p>
+<ul>
+<li>Expanded inline (toggle a detail panel within the card)</li>
+<li>Rendered to a dedicated detail section on the same page</li>
+<li>A second fetch that retrieves additional data for that specific item</li>
+</ul>
+<h3>Empty and error states</h3>
+<ul>
+<li>An empty state message when a search or filter returns no results</li>
+<li>A specific error message for each failure type (network error, HTTP error, empty results)</li>
+</ul>
+<hr />
+<h2>Required module structure</h2>
+<pre><code>projects/project-2/
+  index.html
+  package.json
+  .gitignore          ← node_modules/ and dist/
+  src/
+    main.js           ← entry: imports and initializes
+    api.js            ← fetch functions; no DOM access
+    normalize.js      ← data transformation; pure functions
+    render.js         ← DOM rendering functions; no fetch calls
+    state.js          ← localStorage read/write functions
+    events.js         ← event listener setup</code></pre>
+<p>Each file must have a one-sentence comment at the top. <code>node_modules/</code> and <code>dist/</code> must not be committed.</p>
+<hr />
+<h2>Accessibility requirements</h2>
+<ul>
+<li>Results container has <code>aria-live=&quot;polite&quot;</code></li>
+<li>Loading, error, and empty messages are descriptive text (not spinner-only)</li>
+<li>All interactive controls (search, filter, sort) have visible <code>&lt;label&gt;</code> elements</li>
+<li>Keyboard focus is managed when detail view opens (focus moves to the detail content)</li>
+<li>Color contrast meets WCAG AA</li>
+</ul>
+<hr />
+<h2>Constraints</h2>
+<ul>
+<li>Vanilla JavaScript only (no Vue, React, etc.)</li>
+<li>No jQuery</li>
+<li>No CSS frameworks</li>
+<li><code>innerHTML</code> forbidden for any content derived from API data — use <code>createElement</code> / <code>textContent</code></li>
+<li>HTML validates with no errors</li>
+</ul>
+<hr />
+<h2>Above baseline (stretch)</h2>
+<ul>
+<li>Implement <code>AbortController</code> to cancel in-flight requests when a new search fires before the previous completes</li>
+<li>Add offline detection: if <code>navigator.onLine</code> is false, show a specific "You appear to be offline" message and load from cached <code>sessionStorage</code> data if available</li>
+<li>Add keyboard shortcut: pressing <code>/</code> focuses the search input</li>
+</ul>
+<hr />
+<h2>Deliverable</h2>
+<p><code>projects/project-2/</code> in your repository (Vite project source, no <code>node_modules/</code> or <code>dist/</code>).</p>
+<p>Deploy to Netlify or Vercel.</p>
+<p><strong>Submit to Canvas (Milestone 3):</strong> Live URL, repo URL, rationale link.</p>
+<hr />
+<h2>Rationale (rationale.md)</h2>
+<p>Write 6–8 sentences addressing:</p>
+<ul>
+<li>Who is this app for, and what problem does it solve for them?</li>
+<li>Walk through one complete user flow from initial load to seeing a result — what happens at each step in the code?</li>
+<li>How does your normalization function protect the rest of the app from API inconsistency?</li>
+<li>What would you need to change to support a different API with the same UI?</li>
+</ul>
+<hr />
+<h2>Rubric</h2>
+<table>
+<thead><tr><th>Criterion</th><th>Excellent (4)</th><th>Proficient (3)</th><th>Developing (2)</th><th>Incomplete (1)</th></tr></thead>
+<tbody>
+<tr><td><strong>Async handling</strong></td><td><code>response.ok</code> checked; <code>try/catch/finally</code> used; loading, success, error, and empty states all produce distinct, appropriate UI</td><td>Three states handled; <code>response.ok</code> checked</td><td>Two states handled; no <code>response.ok</code> check</td><td>No error handling</td></tr>
+<tr><td><strong>User interaction</strong></td><td>Two interaction types functional; interactions work together (e.g., search + filter both active simultaneously)</td><td>Two types present; minor interaction conflict</td><td>One type functional</td><td>No user interaction beyond initial load</td></tr>
+<tr><td><strong>Persistence</strong></td><td>Two persistence features implemented; preferences restored correctly on page load; <code>JSON.stringify/parse</code> used correctly</td><td>Two features present; one restoration issue</td><td>One feature implemented</td><td>No localStorage use</td></tr>
+<tr><td><strong>Module structure</strong></td><td>All five required files present; each file has one responsibility and a comment; no circular imports</td><td>Four files with correct responsibilities</td><td>Three files; some mixing</td><td>Single file or no modules</td></tr>
+<tr><td><strong>Accessibility</strong></td><td><code>aria-live</code> on results; text-based state messages; labels on all controls; focus managed</td><td>Three of four criteria</td><td>Two criteria</td><td>One or none</td></tr>
+<tr><td><strong>Proposal and rationale</strong></td><td>Proposal complete with all five elements; rationale walks through code flow specifically</td><td>Proposal complete; rationale addresses three prompts</td><td>Proposal partially complete</td><td>Missing</td></tr>
+</tbody>
+</table>
 </body>
 </html>

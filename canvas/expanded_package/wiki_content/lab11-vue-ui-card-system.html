@@ -6,6 +6,253 @@
 <meta name="workflow_state" content="active"/>
 </head>
 <body>
-<h1>Lab 11 – Vue UI Card System</h1><h2>Purpose</h2><p>This lab gives students a constrained practice space for the week's concepts. The emphasis is on seeing, changing, and explaining what the browser does.</p><h2>Tasks</h2><ol><li>Create or update your repo branch for this lab.</li><li>Build the required interface or script in small increments.</li><li>Test keyboard access, responsiveness, and error states.</li><li>Write a brief notes section describing what worked, what broke, and how you fixed it.</li><li>Commit meaningful progress with short messages.</li></ol><h2>Deliverable</h2><p>Submit a deployed link, repository link, and a short process reflection.</p><h2>Suggested rubric</h2><ul><li>Functionality</li><li>Code organization</li><li>Accessibility and UX clarity</li><li>Reflection quality</li></ul>
+<h1>Lab 11 – Vue UI Card System</h1>
+<h2>Purpose</h2>
+<p>Components are the core building block of Vue. This lab introduces Single File Components by building a reusable card system and composing those cards from a reactive data array in the parent. The focus is on understanding how data flows down through props and how the template reacts automatically when data changes.</p>
+<h2>Skills practiced</h2>
+<ul>
+<li>Creating Vue Single File Components (<code>.vue</code> files)</li>
+<li>Declaring reactive data with <code>ref()</code> and arrays</li>
+<li>Passing data to child components using <code>defineProps</code></li>
+<li>Rendering lists with <code>v-for</code> and <code>:key</code></li>
+<li>Conditional rendering with <code>v-if</code> and <code>v-else</code></li>
+<li>Dynamic attribute binding with <code>:class</code> and <code>:disabled</code></li>
+<li>Keeping component templates focused and readable</li>
+</ul>
+<h2>What you're building</h2>
+<p>A <strong>Team Directory</strong> for a fictional campus department. Each team member is displayed as a card showing their name, role, department, and availability status. A filter control in the parent component allows filtering by department. All data is reactive — changing the filter updates the displayed cards with no manual DOM manipulation.</p>
+<hr />
+<h2>Part 1: Scaffold the Vue project</h2>
+<p>In <code>labs/</code>, run:</p>
+<pre><code class="language-bash">npm create vite@latest lab11 -- --template vue
+cd lab11
+npm install
+npm run dev</code></pre>
+<p>Verify the default Vue app runs in the browser. Then:</p>
+<ul>
+<li>Delete the contents of <code>src/App.vue</code> (you will rewrite it)</li>
+<li>Delete <code>src/components/HelloWorld.vue</code></li>
+<li>Create <code>src/components/MemberCard.vue</code> (empty for now)</li>
+<li>Add <code>node_modules/</code> and <code>dist/</code> to <code>.gitignore</code></li>
+</ul>
+<hr />
+<h2>Part 2: Team data</h2>
+<p>In <code>src/App.vue</code>, inside <code>&lt;script setup&gt;</code>, define the following reactive data:</p>
+<pre><code class="language-js">import { ref, computed } from &#x27;vue&#x27;;
+
+const members = ref([
+  { id: 1, name: &#x27;Dr. Sarah Chen&#x27;, role: &#x27;Professor&#x27;, department: &#x27;Computer Science&#x27;, available: true },
+  { id: 2, name: &#x27;Marcus Johnson&#x27;, role: &#x27;Lab Assistant&#x27;, department: &#x27;Computer Science&#x27;, available: false },
+  { id: 3, name: &#x27;Priya Patel&#x27;, role: &#x27;Advisor&#x27;, department: &#x27;Student Services&#x27;, available: true },
+  { id: 4, name: &#x27;Tom Rivera&#x27;, role: &#x27;Technician&#x27;, department: &#x27;IT Support&#x27;, available: true },
+  { id: 5, name: &#x27;Aisha Williams&#x27;, role: &#x27;Professor&#x27;, department: &#x27;Computer Science&#x27;, available: true },
+  { id: 6, name: &#x27;Jake Morrison&#x27;, role: &#x27;Counselor&#x27;, department: &#x27;Student Services&#x27;, available: false },
+  { id: 7, name: &#x27;Keiko Tanaka&#x27;, role: &#x27;Help Desk&#x27;, department: &#x27;IT Support&#x27;, available: true },
+  { id: 8, name: &#x27;Luis Garcia&#x27;, role: &#x27;Professor&#x27;, department: &#x27;Computer Science&#x27;, available: false },
+]);
+
+const selectedDepartment = ref(&#x27;All&#x27;);
+
+const departments = computed(() =&gt; {
+  const depts = [...new Set(members.value.map(m =&gt; m.department))];
+  return [&#x27;All&#x27;, ...depts];
+});
+
+const filteredMembers = computed(() =&gt; {
+  if (selectedDepartment.value === &#x27;All&#x27;) return members.value;
+  return members.value.filter(m =&gt; m.department === selectedDepartment.value);
+});</code></pre>
+<hr />
+<h2>Part 3: MemberCard component</h2>
+<p>In <code>src/components/MemberCard.vue</code>:</p>
+<pre><code class="language-vue">&lt;script setup&gt;
+defineProps({
+  name: {
+    type: String,
+    required: true,
+  },
+  role: {
+    type: String,
+    required: true,
+  },
+  department: {
+    type: String,
+    required: true,
+  },
+  available: {
+    type: Boolean,
+    default: false,
+  },
+});
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;article class=&quot;member-card&quot; :class=&quot;{ &#x27;member-card--unavailable&#x27;: !available }&quot;&gt;
+    &lt;header class=&quot;member-card__header&quot;&gt;
+      &lt;h2 class=&quot;member-card__name&quot;&gt;{{ name }}&lt;/h2&gt;
+      &lt;span
+        class=&quot;member-card__status&quot;
+        :class=&quot;available ? &#x27;status--available&#x27; : &#x27;status--unavailable&#x27;&quot;
+        :aria-label=&quot;available ? &#x27;Available&#x27; : &#x27;Not available&#x27;&quot;
+      &gt;
+        {{ available ? &#x27;Available&#x27; : &#x27;Unavailable&#x27; }}
+      &lt;/span&gt;
+    &lt;/header&gt;
+
+    &lt;p class=&quot;member-card__role&quot;&gt;{{ role }}&lt;/p&gt;
+    &lt;p class=&quot;member-card__department&quot;&gt;{{ department }}&lt;/p&gt;
+
+    &lt;button
+      class=&quot;member-card__btn&quot;
+      :disabled=&quot;!available&quot;
+      :aria-disabled=&quot;!available&quot;
+    &gt;
+      Schedule Meeting
+    &lt;/button&gt;
+  &lt;/article&gt;
+&lt;/template&gt;
+
+&lt;style scoped&gt;
+.member-card {
+  border: 1px solid #ddd;
+  border-radius: 0.5rem;
+  padding: 1rem;
+}
+
+.member-card--unavailable {
+  opacity: 0.6;
+}
+
+.member-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.status--available { color: green; }
+.status--unavailable { color: #999; }
+
+.member-card__btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+&lt;/style&gt;</code></pre>
+<hr />
+<h2>Part 4: App.vue template</h2>
+<pre><code class="language-vue">&lt;script setup&gt;
+// (data from Part 2)
+import MemberCard from &#x27;./components/MemberCard.vue&#x27;;
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;div class=&quot;app&quot;&gt;
+    &lt;header class=&quot;app-header&quot;&gt;
+      &lt;h1&gt;Department Directory&lt;/h1&gt;
+    &lt;/header&gt;
+
+    &lt;main&gt;
+      &lt;div class=&quot;filter-bar&quot; role=&quot;group&quot; aria-label=&quot;Filter by department&quot;&gt;
+        &lt;button
+          v-for=&quot;dept in departments&quot;
+          :key=&quot;dept&quot;
+          :class=&quot;[&#x27;filter-btn&#x27;, { &#x27;filter-btn--active&#x27;: selectedDepartment === dept }]&quot;
+          :aria-pressed=&quot;selectedDepartment === dept&quot;
+          @click=&quot;selectedDepartment = dept&quot;
+        &gt;
+          {{ dept }}
+        &lt;/button&gt;
+      &lt;/div&gt;
+
+      &lt;p class=&quot;result-count&quot; aria-live=&quot;polite&quot;&gt;
+        Showing {{ filteredMembers.length }} of {{ members.length }} members
+      &lt;/p&gt;
+
+      &lt;div class=&quot;member-grid&quot; v-if=&quot;filteredMembers.length &gt; 0&quot;&gt;
+        &lt;MemberCard
+          v-for=&quot;member in filteredMembers&quot;
+          :key=&quot;member.id&quot;
+          :name=&quot;member.name&quot;
+          :role=&quot;member.role&quot;
+          :department=&quot;member.department&quot;
+          :available=&quot;member.available&quot;
+        /&gt;
+      &lt;/div&gt;
+
+      &lt;p v-else class=&quot;empty-state&quot;&gt;No members in this department.&lt;/p&gt;
+    &lt;/main&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;style&gt;
+/* Global styles in App.vue or a separate main.css */
+.member-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+&lt;/style&gt;</code></pre>
+<hr />
+<h2>Part 5: Required additions</h2>
+<p>After the base app works, add the following enhancements:</p>
+<h3>5.1 Available-only toggle</h3>
+<p>Add a checkbox above the grid:</p>
+<pre><code class="language-vue">&lt;label&gt;
+  &lt;input type=&quot;checkbox&quot; v-model=&quot;showAvailableOnly&quot;&gt;
+  Show available only
+&lt;/label&gt;</code></pre>
+<p>Update <code>filteredMembers</code> to also filter by <code>showAvailableOnly</code>:</p>
+<pre><code class="language-js">const showAvailableOnly = ref(false);
+
+const filteredMembers = computed(() =&gt; {
+  let result = members.value;
+  if (selectedDepartment.value !== &#x27;All&#x27;) {
+    result = result.filter(m =&gt; m.department === selectedDepartment.value);
+  }
+  if (showAvailableOnly.value) {
+    result = result.filter(m =&gt; m.available);
+  }
+  return result;
+});</code></pre>
+<h3>5.2 Result count</h3>
+<p>The <code>aria-live=&quot;polite&quot;</code> result count (<code>&quot;Showing X of Y members&quot;</code>) should update automatically as the filter and toggle change. No additional code needed — it uses <code>filteredMembers</code> which is already reactive.</p>
+<hr />
+<h2>Testing requirements</h2>
+<ul>
+<li>[ ] All 8 cards display on initial load</li>
+<li>[ ] Clicking a department filter button shows only members from that department</li>
+<li>[ ] "Show available only" checkbox filters out unavailable members</li>
+<li>[ ] Both filters work together (e.g., CS department + available only)</li>
+<li>[ ] The result count updates with each filter change</li>
+<li>[ ] <code>v-if</code> empty state shows when no members match</li>
+<li>[ ] "Schedule Meeting" button is visually disabled for unavailable members</li>
+<li>[ ] <code>:key</code> is present on both <code>v-for</code> loops (departments and members)</li>
+</ul>
+<hr />
+<h2>Deliverable</h2>
+<p>Commit the <code>labs/lab11/</code> Vue project (excluding <code>node_modules/</code> and <code>dist/</code>). Push to GitHub. Deploy to Netlify or Vercel.</p>
+<p>Submit to Canvas: live URL, repo URL.</p>
+<hr />
+<h2>Process reflection (in <code>labs/lab11/notes.md</code>)</h2>
+<p>Answer in 4–6 sentences:</p>
+<ul>
+<li>When you changed <code>selectedDepartment.value</code>, what happened in the template and why?</li>
+<li>What is the difference between <code>ref()</code> and <code>computed()</code> — when would you use each?</li>
+<li>What does <code>:key</code> do in a <code>v-for</code>, and what happens if you omit it?</li>
+</ul>
+<hr />
+<h2>Rubric</h2>
+<table>
+<thead><tr><th>Criterion</th><th>Excellent (4)</th><th>Proficient (3)</th><th>Developing (2)</th><th>Incomplete (1)</th></tr></thead>
+<tbody>
+<tr><td><strong>MemberCard component</strong></td><td>All four props typed with <code>defineProps</code>; all fields rendered; disabled button; status class</td><td>Three props; most fields rendered</td><td>Two props; some rendering</td><td>Not componentized</td></tr>
+<tr><td><strong>Reactivity</strong></td><td><code>computed</code> for filtering; both filter controls update the DOM automatically</td><td>Computed used; one filter works</td><td>One filter works with direct logic</td><td>Manual DOM updates</td></tr>
+<tr><td><strong>v-for and :key</strong></td><td>Both <code>v-for</code> loops have correct <code>:key</code> values</td><td>One loop missing <code>:key</code></td><td><code>:key</code> absent</td><td>No <code>v-for</code></td></tr>
+<tr><td><strong>v-if / empty state</strong></td><td><code>v-if</code> on grid, <code>v-else</code> empty state, both work correctly</td><td><code>v-if</code> works; no empty state</td><td>Partial conditional</td><td>No conditional rendering</td></tr>
+<tr><td><strong>Accessibility</strong></td><td><code>aria-live</code> on count; <code>aria-pressed</code> on filter buttons; <code>aria-disabled</code> on card button</td><td>Two of three ARIA attributes</td><td>One</td><td>None</td></tr>
+<tr><td><strong>Reflection</strong></td><td>Specific; all three prompts addressed</td><td>Two prompts</td><td>Vague</td><td>Missing</td></tr>
+</tbody>
+</table>
 </body>
 </html>

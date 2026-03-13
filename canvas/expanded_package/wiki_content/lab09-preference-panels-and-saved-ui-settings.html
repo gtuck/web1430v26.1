@@ -6,6 +6,235 @@
 <meta name="workflow_state" content="active"/>
 </head>
 <body>
-<h1>Lab 09 – Preference Panels and Saved UI Settings</h1><h2>Purpose</h2><p>This lab gives students a constrained practice space for the week's concepts. The emphasis is on seeing, changing, and explaining what the browser does.</p><h2>Tasks</h2><ol><li>Create or update your repo branch for this lab.</li><li>Build the required interface or script in small increments.</li><li>Test keyboard access, responsiveness, and error states.</li><li>Write a brief notes section describing what worked, what broke, and how you fixed it.</li><li>Commit meaningful progress with short messages.</li></ol><h2>Deliverable</h2><p>Submit a deployed link, repository link, and a short process reflection.</p><h2>Suggested rubric</h2><ul><li>Functionality</li><li>Code organization</li><li>Accessibility and UX clarity</li><li>Reflection quality</li></ul>
+<h1>Lab 09 – Preference Panels and Saved UI Settings</h1>
+<h2>Purpose</h2>
+<p>localStorage lets you give users a continuous experience across sessions. This lab focuses entirely on the read-write-apply cycle: reading preferences at page load, applying them to the UI, saving them when the user makes a change, and surviving edge cases like missing data, corrupted JSON, and first-time visitors.</p>
+<h2>Skills practiced</h2>
+<ul>
+<li>Reading and writing <code>localStorage</code> with <code>getItem</code> / <code>setItem</code></li>
+<li>Serializing objects with <code>JSON.stringify</code> and <code>JSON.parse</code></li>
+<li>Handling <code>null</code> from <code>getItem</code> (first-visit defaults)</li>
+<li>Wrapping <code>JSON.parse</code> in <code>try/catch</code></li>
+<li>Applying preferences synchronously in <code>DOMContentLoaded</code> before rendering</li>
+<li>Distinguishing <code>localStorage</code> from <code>sessionStorage</code></li>
+</ul>
+<h2>What you're building</h2>
+<p>A <strong>Reading Preferences Panel</strong> for a fictional long-form article page. The panel allows users to choose:</p>
+<ul>
+<li><strong>Color theme</strong>: Light, Dark, or Sepia</li>
+<li><strong>Font size</strong>: Small (14px), Medium (16px), or Large (20px)</li>
+<li><strong>Line spacing</strong>: Compact (1.4), Normal (1.7), or Relaxed (2.0)</li>
+</ul>
+<p>All preferences persist in localStorage. When the page reloads, the saved preferences are applied immediately — before any rendering — so there is no visible flash of default styling.</p>
+<hr />
+<h2>Part 1: HTML structure</h2>
+<p>Create <code>labs/lab09/index.html</code>. The page has two main parts:</p>
+<p><strong>Article area</strong> (the content that preferences affect):</p>
+<pre><code class="language-html">&lt;main id=&quot;article&quot; class=&quot;theme-light font-medium spacing-normal&quot;&gt;
+  &lt;article&gt;
+    &lt;h1&gt;The Long Road to Readable Text&lt;/h1&gt;
+    &lt;p&gt;Typography on the web has a long history...&lt;/p&gt;
+    &lt;!-- At least 4 paragraphs of real or placeholder text --&gt;
+  &lt;/article&gt;
+&lt;/main&gt;</code></pre>
+<p><strong>Preferences panel</strong> (sidebar or overlay):</p>
+<pre><code class="language-html">&lt;aside id=&quot;preferences-panel&quot;&gt;
+  &lt;h2&gt;Reading Preferences&lt;/h2&gt;
+
+  &lt;fieldset&gt;
+    &lt;legend&gt;Color Theme&lt;/legend&gt;
+    &lt;label&gt;&lt;input type=&quot;radio&quot; name=&quot;theme&quot; value=&quot;light&quot;&gt; Light&lt;/label&gt;
+    &lt;label&gt;&lt;input type=&quot;radio&quot; name=&quot;theme&quot; value=&quot;dark&quot;&gt; Dark&lt;/label&gt;
+    &lt;label&gt;&lt;input type=&quot;radio&quot; name=&quot;theme&quot; value=&quot;sepia&quot;&gt; Sepia&lt;/label&gt;
+  &lt;/fieldset&gt;
+
+  &lt;fieldset&gt;
+    &lt;legend&gt;Font Size&lt;/legend&gt;
+    &lt;label&gt;&lt;input type=&quot;radio&quot; name=&quot;font-size&quot; value=&quot;small&quot;&gt; Small&lt;/label&gt;
+    &lt;label&gt;&lt;input type=&quot;radio&quot; name=&quot;font-size&quot; value=&quot;medium&quot;&gt; Medium&lt;/label&gt;
+    &lt;label&gt;&lt;input type=&quot;radio&quot; name=&quot;font-size&quot; value=&quot;large&quot;&gt; Large&lt;/label&gt;
+  &lt;/fieldset&gt;
+
+  &lt;fieldset&gt;
+    &lt;legend&gt;Line Spacing&lt;/legend&gt;
+    &lt;label&gt;&lt;input type=&quot;radio&quot; name=&quot;spacing&quot; value=&quot;compact&quot;&gt; Compact&lt;/label&gt;
+    &lt;label&gt;&lt;input type=&quot;radio&quot; name=&quot;spacing&quot; value=&quot;normal&quot;&gt; Normal&lt;/label&gt;
+    &lt;label&gt;&lt;input type=&quot;radio&quot; name=&quot;spacing&quot; value=&quot;relaxed&quot;&gt; Relaxed&lt;/label&gt;
+  &lt;/fieldset&gt;
+
+  &lt;button id=&quot;reset-btn&quot; type=&quot;button&quot;&gt;Reset to Defaults&lt;/button&gt;
+&lt;/aside&gt;</code></pre>
+<hr />
+<h2>Part 2: CSS</h2>
+<p>In <code>labs/lab09/style.css</code>, define the visual effect of each preference via classes on <code>&lt;main id=&quot;article&quot;&gt;</code>:</p>
+<pre><code class="language-css">/* Themes */
+.theme-light  { background: #ffffff; color: #1a1a1a; }
+.theme-dark   { background: #1a1a1a; color: #e8e8e8; }
+.theme-sepia  { background: #f4ecd8; color: #3b2f2f; }
+
+/* Font sizes */
+.font-small  { font-size: 14px; }
+.font-medium { font-size: 16px; }
+.font-large  { font-size: 20px; }
+
+/* Line spacing */
+.spacing-compact  { line-height: 1.4; }
+.spacing-normal   { line-height: 1.7; }
+.spacing-relaxed  { line-height: 2.0; }</code></pre>
+<p>JavaScript will apply preferences by swapping these classes — it never sets inline styles.</p>
+<hr />
+<h2>Part 3: Preferences module</h2>
+<p>In <code>labs/lab09/lab09.js</code>:</p>
+<h3>Default preferences constant</h3>
+<pre><code class="language-js">const DEFAULTS = {
+  theme: &#x27;light&#x27;,
+  fontSize: &#x27;medium&#x27;,
+  spacing: &#x27;normal&#x27;,
+};
+const STORAGE_KEY = &#x27;reading-prefs&#x27;;</code></pre>
+<h3><code>loadPreferences()</code></h3>
+<p>Reads from localStorage. Returns the stored preferences, or <code>DEFAULTS</code> if nothing is stored or parsing fails:</p>
+<pre><code class="language-js">function loadPreferences() {
+  const raw = localStorage.getItem(STORAGE_KEY);
+  if (!raw) return { ...DEFAULTS };
+  try {
+    return JSON.parse(raw);
+  } catch {
+    return { ...DEFAULTS };
+  }
+}</code></pre>
+<h3><code>savePreferences(prefs)</code></h3>
+<pre><code class="language-js">function savePreferences(prefs) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(prefs));
+}</code></pre>
+<h3><code>applyPreferences(prefs, articleEl)</code></h3>
+<p>Applies the preference object to the article element by swapping classes:</p>
+<pre><code class="language-js">function applyPreferences(prefs, articleEl) {
+  // Remove all theme, font, and spacing classes first
+  articleEl.className = articleEl.className
+    .split(&#x27; &#x27;)
+    .filter(cls =&gt; !cls.startsWith(&#x27;theme-&#x27;) &amp;&amp; !cls.startsWith(&#x27;font-&#x27;) &amp;&amp; !cls.startsWith(&#x27;spacing-&#x27;))
+    .join(&#x27; &#x27;);
+
+  articleEl.classList.add(`theme-${prefs.theme}`);
+  articleEl.classList.add(`font-${prefs.fontSize}`);
+  articleEl.classList.add(`spacing-${prefs.spacing}`);
+}</code></pre>
+<h3><code>syncRadioButtons(prefs)</code></h3>
+<p>After loading prefs, this function sets the correct radio button to checked:</p>
+<pre><code class="language-js">function syncRadioButtons(prefs) {
+  document.querySelector(`[name=&quot;theme&quot;][value=&quot;${prefs.theme}&quot;]`).checked = true;
+  document.querySelector(`[name=&quot;font-size&quot;][value=&quot;${prefs.fontSize}&quot;]`).checked = true;
+  document.querySelector(`[name=&quot;spacing&quot;][value=&quot;${prefs.spacing}&quot;]`).checked = true;
+}</code></pre>
+<hr />
+<h2>Part 4: Initialize and wire up</h2>
+<pre><code class="language-js">document.addEventListener(&#x27;DOMContentLoaded&#x27;, () =&gt; {
+  const article = document.getElementById(&#x27;article&#x27;);
+  const prefs = loadPreferences();
+
+  // Apply preferences immediately — before anything else renders
+  applyPreferences(prefs, article);
+  syncRadioButtons(prefs);
+
+  // Listen for changes to any radio button group
+  document.querySelector(&#x27;#preferences-panel&#x27;).addEventListener(&#x27;change&#x27;, (event) =&gt; {
+    const updated = loadPreferences();
+
+    if (event.target.name === &#x27;theme&#x27;) updated.theme = event.target.value;
+    if (event.target.name === &#x27;font-size&#x27;) updated.fontSize = event.target.value;
+    if (event.target.name === &#x27;spacing&#x27;) updated.spacing = event.target.value;
+
+    savePreferences(updated);
+    applyPreferences(updated, article);
+  });
+
+  // Reset button
+  document.getElementById(&#x27;reset-btn&#x27;).addEventListener(&#x27;click&#x27;, () =&gt; {
+    savePreferences({ ...DEFAULTS });
+    applyPreferences(DEFAULTS, article);
+    syncRadioButtons(DEFAULTS);
+  });
+});</code></pre>
+<hr />
+<h2>Part 5: Handling quota exceeded errors</h2>
+<p><code>localStorage</code> has a storage limit (typically 5–10 MB per origin). In most preference-panel scenarios you will never hit it, but robust code handles the possibility. Wrap <code>setItem</code> in a <code>try/catch</code> so a full storage quota does not silently break saving.</p>
+<p>Update <code>savePreferences</code> to catch <code>QuotaExceededError</code>:</p>
+<pre><code class="language-js">function savePreferences(prefs) {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(prefs));
+  } catch (err) {
+    if (err.name === &#x27;QuotaExceededError&#x27;) {
+      // Storage is full — preferences will not persist this session.
+      // Show a non-intrusive warning rather than crashing.
+      console.warn(&#x27;localStorage quota exceeded. Preferences will not be saved this session.&#x27;);
+      showStorageWarning(); // implement below
+    }
+  }
+}</code></pre>
+<p>Add <code>showStorageWarning()</code> to your JS and a matching element to your HTML:</p>
+<pre><code class="language-html">&lt;!-- In index.html, inside #preferences-panel --&gt;
+&lt;p id=&quot;storage-warning&quot; role=&quot;alert&quot; hidden&gt;
+  Preferences could not be saved (storage full). Your choices will reset on the next visit.
+&lt;/p&gt;</code></pre>
+<pre><code class="language-js">function showStorageWarning() {
+  const warning = document.getElementById(&#x27;storage-warning&#x27;);
+  if (warning) warning.hidden = false;
+}</code></pre>
+<p><strong>Why <code>role=&quot;alert&quot;</code>?</strong> Alert regions are announced immediately by screen readers — appropriate for error conditions that affect the user's experience even if they did not trigger an explicit action.</p>
+<p><strong>Testing quota exceeded:</strong> You cannot easily fill storage in a lab setting, but you can verify your code handles the path correctly by temporarily replacing <code>localStorage.setItem(...)</code> with <code>throw Object.assign(new Error(), { name: &#x27;QuotaExceededError&#x27; })</code> inside <code>savePreferences</code>, reloading, and confirming the warning appears without a JavaScript crash.</p>
+<hr />
+<h2>Part 6: DevTools verification</h2>
+<p>Before submitting, use DevTools → Application → Local Storage to verify:</p>
+<ol>
+<li>Open the page fresh (no stored preferences). Open DevTools → Application → Local Storage. The key should not exist yet.</li>
+<li>Change a preference. The key <code>reading-prefs</code> should appear with a JSON string value.</li>
+<li>Reload the page. The correct preferences should be applied immediately.</li>
+<li>Click "Reset to Defaults". The stored JSON should return to the default values.</li>
+<li>In DevTools, manually corrupt the stored value to an invalid string (e.g., <code>{bad json</code>). Reload. Your <code>try/catch</code> should recover gracefully and show defaults.</li>
+</ol>
+<hr />
+<h2>Testing requirements</h2>
+<ul>
+<li>[ ] First visit: page loads with light theme, medium font, normal spacing</li>
+<li>[ ] Change theme to dark: article updates immediately, preference saved</li>
+<li>[ ] Reload page: dark theme is applied before content is visible</li>
+<li>[ ] Reset: all preferences return to defaults, radio buttons update</li>
+<li>[ ] Corrupted localStorage value: page loads with defaults, no error thrown</li>
+<li>[ ] Quota exceeded (simulated): <code>showStorageWarning()</code> fires, no uncaught exception</li>
+<li>[ ] Keyboard: all radio buttons reachable by Tab and operable with arrow keys</li>
+</ul>
+<hr />
+<h2>Deliverable</h2>
+<p>In <code>labs/lab09/</code>:</p>
+<ul>
+<li><code>index.html</code></li>
+<li><code>lab09.js</code></li>
+<li><code>style.css</code></li>
+<li><code>notes.md</code></li>
+</ul>
+<p>Commit at least three times. Push and deploy.</p>
+<p>Submit to Canvas: live URL, repo URL, notes.md link.</p>
+<hr />
+<h2>Process reflection (in notes.md)</h2>
+<p>Answer in 4–6 sentences:</p>
+<ul>
+<li>What happened when you tried to store a preferences object directly without <code>JSON.stringify</code>?</li>
+<li>How did you test the "first visit" experience after preferences were already stored?</li>
+<li>What is the difference between <code>localStorage</code> and <code>sessionStorage</code>, and would <code>sessionStorage</code> be appropriate for reading preferences? Why or why not?</li>
+</ul>
+<hr />
+<h2>Rubric</h2>
+<table>
+<thead><tr><th>Criterion</th><th>Excellent (4)</th><th>Proficient (3)</th><th>Developing (2)</th><th>Incomplete (1)</th></tr></thead>
+<tbody>
+<tr><td><strong>localStorage read/write</strong></td><td><code>setItem</code>/<code>getItem</code> with <code>JSON.stringify</code>/<code>JSON.parse</code>; null handled; <code>try/catch</code> on both read (parse) and write (quota exceeded); storage warning shown</td><td>Read/write works; one edge case (null or quota) not handled</td><td>Write works; read partially works</td><td>Not functional</td></tr>
+<tr><td><strong>Preference application</strong></td><td>Classes swapped correctly for all three categories; no inline styles</td><td>Two categories work</td><td>One category works</td><td>Not functional</td></tr>
+<tr><td><strong>Page load behavior</strong></td><td>Preferences applied in <code>DOMContentLoaded</code> before render; no visible flash</td><td>Applied at load but with minor flash</td><td>Applied after a delay</td><td>Not applied at load</td></tr>
+<tr><td><strong>Reset</strong></td><td>Resets all three preferences in storage, DOM, and radio buttons</td><td>Resets two of three</td><td>Partially resets</td><td>Not implemented</td></tr>
+<tr><td><strong>DevTools verification</strong></td><td>All five DevTools checks completed and documented in notes</td><td>Three checks documented</td><td>One check documented</td><td>Not documented</td></tr>
+<tr><td><strong>Reflection</strong></td><td>Specific; all three prompts addressed</td><td>Two prompts</td><td>Vague</td><td>Missing</td></tr>
+</tbody>
+</table>
 </body>
 </html>

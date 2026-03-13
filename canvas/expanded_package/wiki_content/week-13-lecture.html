@@ -1,11 +1,177 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-<title>Week 13 Lecture Notes</title>
+<title>Week 13 Lecture Notes: Component Communication, Reactive Forms, and Derived State</title>
 <meta name="identifier" content="i04b8639be8d602f91760a5509585b879"/>
 <meta name="workflow_state" content="active"/>
 </head>
 <body>
-<h1>Week 13 Lecture Notes: Component Communication, Reactive Forms, and Derived State</h1><h2>Weekly focus</h2><p>Framework Forms and Data Flow</p><h2>Why this matters</h2><p>This week's material helps students move from isolated syntax toward purposeful client-side design decisions. The lecture emphasizes examples that can be inspected in the browser and rebuilt in small pieces.</p><h2>Learning targets</h2><ul><li>Explain the core concept in plain language</li><li>Build one focused example from scratch</li><li>Debug mistakes with browser tools</li><li>Connect this week's ideas to the running course projects</li></ul><h2>Lecture flow</h2><ol><li>Warm-up concept check</li><li>Demonstration of a focused example</li><li>Guided breakdown of the code</li><li>Common bug patterns</li><li>Independent practice prompt</li><li>Bridge to lab, assignment, or quiz</li></ol><h2>Instructor notes</h2><p>Use short code examples, narrate tradeoffs, and revisit accessibility in every demo. Avoid introducing abstractions before students can inspect the DOM, state, or network behavior involved.</p><h2>Exit ticket</h2><p>Ask students to explain one idea from the week using the sentence frame: <em>This matters in the browser because...</em></p>
+<h1>Week 13 Lecture Notes: Component Communication, Reactive Forms, and Derived State</h1>
+<h2>Weekly focus</h2>
+<p>Making components talk to each other: passing data down with props, sending events up with <code>defineEmits</code>, and managing form state with <code>v-model</code>.</p>
+<h2>Why this matters</h2>
+<p>A component that cannot communicate with other components is an island. Real applications are networks of components that share state and respond to each other's actions. Understanding the props-down/events-up pattern is the mental model that transfers directly to React (props + callbacks), Svelte (props + dispatched events), and every other component framework you will encounter. Getting this pattern right also keeps components testable and reusable.</p>
+<h2>Learning targets</h2>
+<ul>
+<li>Use <code>defineEmits</code> in a child component to declare and emit a named event to a parent</li>
+<li>Apply the props-down/events-up pattern to move data up the component tree</li>
+<li>Bind form inputs with <code>v-model</code> and explain how it differs from manually wiring <code>:value</code> and <code>@input</code></li>
+<li>Use <code>computed()</code> to derive state (filtered list, running total, character count) from a <code>ref</code></li>
+<li>Distinguish when to use <code>reactive()</code> vs <code>ref()</code> for managing a group of related form fields</li>
+<li>Use <code>nextTick</code> to defer DOM-dependent logic until after Vue has finished updating the DOM</li>
+</ul>
+<h2>Core concepts</h2>
+<h3>Props down, events up</h3>
+<p>This is the fundamental data-flow rule in Vue (and most component frameworks). A parent owns the data. It passes slices of that data down to children via props. When a child needs to change something, it does not mutate the prop — it emits an event and lets the parent decide what to do.</p>
+<p>Why not just mutate the prop? Because the parent owns that data. If a child mutates a prop directly, the parent's state and the child's rendered state can drift apart silently. Emitting an event keeps the parent in control and makes data flow easy to trace.</p>
+<h3>defineEmits</h3>
+<p><code>defineEmits</code> declares the events a component is allowed to emit. It returns an <code>emit</code> function:</p>
+<pre><code class="language-vue">&lt;!-- components/FilterBar.vue --&gt;
+&lt;script setup&gt;
+defineProps({
+  modelValue: String
+})
+
+const emit = defineEmits([&#x27;update:modelValue&#x27;, &#x27;clear&#x27;])
+
+function handleInput(event) {
+  emit(&#x27;update:modelValue&#x27;, event.target.value)
+}
+
+function handleClear() {
+  emit(&#x27;clear&#x27;)
+}
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;div class=&quot;filter-bar&quot;&gt;
+    &lt;input :value=&quot;modelValue&quot; @input=&quot;handleInput&quot; placeholder=&quot;Search...&quot; /&gt;
+    &lt;button @click=&quot;handleClear&quot;&gt;Clear&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/template&gt;</code></pre>
+<p>In the parent:</p>
+<pre><code class="language-vue">&lt;FilterBar v-model=&quot;searchQuery&quot; @clear=&quot;searchQuery = &#x27;&#x27;&quot; /&gt;</code></pre>
+<h3>v-model on a component</h3>
+<p>When you write <code>v-model=&quot;searchQuery&quot;</code> on a native <code>&lt;input&gt;</code>, Vue automatically binds <code>:value</code> and <code>@input</code>. When you write <code>v-model</code> on a <em>component</em>, Vue expands it to <code>:modelValue=&quot;searchQuery&quot;</code> and <code>@update:modelValue=&quot;searchQuery = $event&quot;</code>.</p>
+<p>That is why the child declares a <code>modelValue</code> prop and emits <code>update:modelValue</code>. This is a Vue convention, not magic. You can support multiple v-models on the same component by naming them: <code>v-model:title=&quot;post.title&quot;</code> expands to <code>:title</code> and <code>@update:title</code>.</p>
+<h3>computed() for derived state</h3>
+<p><code>computed()</code> is the right tool whenever a value should automatically stay in sync with other reactive state. Common examples: a filtered list, a character count, a formatted price, a form validity flag.</p>
+<pre><code class="language-vue">&lt;script setup&gt;
+import { ref, computed } from &#x27;vue&#x27;
+
+const searchQuery = ref(&#x27;&#x27;)
+const items = ref([
+  { id: 1, name: &#x27;Alpine Trail Map&#x27; },
+  { id: 2, name: &#x27;Waterproof Jacket&#x27; },
+  { id: 3, name: &#x27;Trail Runners&#x27; }
+])
+
+const filteredItems = computed(() =&gt;
+  items.value.filter(item =&gt;
+    item.name.toLowerCase().includes(searchQuery.value.toLowerCase())
+  )
+)
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;input v-model=&quot;searchQuery&quot; placeholder=&quot;Filter items...&quot; /&gt;
+  &lt;p&gt;{{ filteredItems.length }} result(s)&lt;/p&gt;
+  &lt;ul&gt;
+    &lt;li v-for=&quot;item in filteredItems&quot; :key=&quot;item.id&quot;&gt;{{ item.name }}&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/template&gt;</code></pre>
+<p>The filtered list recalculates whenever <code>searchQuery</code> or <code>items</code> changes. You do not call it — you just reference <code>filteredItems</code> in the template.</p>
+<h3>reactive() vs ref() for forms</h3>
+<p><code>ref()</code> wraps a single value. <code>reactive()</code> wraps an object and makes every property reactive without <code>.value</code> access:</p>
+<pre><code class="language-js">import { reactive } from &#x27;vue&#x27;
+
+const form = reactive({
+  name: &#x27;&#x27;,
+  email: &#x27;&#x27;,
+  role: &#x27;viewer&#x27;
+})</code></pre>
+<p>In the template: <code>v-model=&quot;form.name&quot;</code>, <code>v-model=&quot;form.email&quot;</code>. No <code>.value</code> needed on <code>reactive()</code> properties.</p>
+<p>When to use which:</p>
+<ul>
+<li><code>ref()</code> — single values, primitives, arrays you want to replace entirely</li>
+<li><code>reactive()</code> — grouped form fields or any object where you always access it as a whole</li>
+</ul>
+<p>Caution: you cannot destructure a <code>reactive()</code> object and keep reactivity. <code>const { name } = form</code> creates a plain string. Use <code>toRefs(form)</code> if you need to destructure.</p>
+<h3>Handling form submission</h3>
+<p>A common form pattern with validation:</p>
+<pre><code class="language-vue">&lt;script setup&gt;
+import { reactive, ref, computed } from &#x27;vue&#x27;
+
+const form = reactive({ name: &#x27;&#x27;, email: &#x27;&#x27; })
+const submitted = ref(false)
+
+const isValid = computed(() =&gt;
+  form.name.trim() !== &#x27;&#x27; &amp;&amp; form.email.includes(&#x27;@&#x27;)
+)
+
+function handleSubmit() {
+  if (!isValid.value) return
+  submitted.value = true
+}
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;form @submit.prevent=&quot;handleSubmit&quot;&gt;
+    &lt;label for=&quot;name&quot;&gt;Name&lt;/label&gt;
+    &lt;input id=&quot;name&quot; v-model=&quot;form.name&quot; /&gt;
+
+    &lt;label for=&quot;email&quot;&gt;Email&lt;/label&gt;
+    &lt;input id=&quot;email&quot; type=&quot;email&quot; v-model=&quot;form.email&quot; /&gt;
+
+    &lt;button type=&quot;submit&quot; :disabled=&quot;!isValid&quot;&gt;Submit&lt;/button&gt;
+  &lt;/form&gt;
+  &lt;p v-if=&quot;submitted&quot;&gt;Thank you, {{ form.name }}!&lt;/p&gt;
+&lt;/template&gt;</code></pre>
+<p><code>@submit.prevent</code> calls <code>event.preventDefault()</code> before your handler runs, so the browser does not perform a full page reload.</p>
+<h3>nextTick for focus management</h3>
+<p>After you change reactive state, Vue batches DOM updates and applies them asynchronously. If you need to interact with the DOM immediately after a state change — for example, focusing a newly revealed input — you must wait for Vue's update cycle to complete:</p>
+<pre><code class="language-js">import { ref, nextTick } from &#x27;vue&#x27;
+
+const showInput = ref(false)
+const inputRef = ref(null)
+
+async function revealAndFocus() {
+  showInput.value = true
+  await nextTick()
+  inputRef.value?.focus()
+}</code></pre>
+<p>In the template: <code>&lt;input v-if=&quot;showInput&quot; ref=&quot;inputRef&quot; /&gt;</code>. Without <code>nextTick</code>, <code>inputRef.value</code> is <code>null</code> because the DOM element has not been created yet.</p>
+<h3>Keeping components focused (single responsibility)</h3>
+<p>A component that does too much becomes hard to debug and impossible to reuse. A practical rule: if you cannot describe what a component does in one short sentence without using "and", consider splitting it.</p>
+<ul>
+<li><code>SearchBar.vue</code> — renders an input, emits the query string</li>
+<li><code>ItemList.vue</code> — receives an array of items, renders them</li>
+<li><code>ItemCard.vue</code> — receives a single item, renders it</li>
+</ul>
+<p><code>App.vue</code> (or a page-level component) owns the data array and the query string, passes them down, and wires up the events. This is the single responsibility principle applied to UI components.</p>
+<h2>Common mistakes</h2>
+<ol>
+<li><strong>Mutating a prop directly.</strong> <code>props.items.push(...)</code> inside a child component will appear to work but breaks the data-flow contract and causes Vue to emit a warning. Emit an event and let the parent modify its own state.</li>
+<li><strong>Forgetting <code>@submit.prevent</code> on a form.</strong> Without <code>prevent</code>, a form submission causes a full page reload. In a Vite dev server you will see the page flash; in production the user loses all state.</li>
+<li><strong>Destructuring <code>reactive()</code> and losing reactivity.</strong> <code>const { name } = reactive({ name: &#x27;&#x27; })</code> gives you a plain string that is no longer tracked. Use <code>v-model=&quot;form.name&quot;</code> directly, or use <code>toRefs</code>.</li>
+<li><strong>Putting a side effect inside <code>computed()</code>.</strong> Computed properties must be pure — no <code>fetch()</code>, no <code>localStorage.setItem()</code>, no <code>emit()</code> inside a computed getter. Use <code>watch()</code> or <code>watchEffect()</code> for side effects.</li>
+<li><strong>Skipping <code>nextTick</code> when programmatically focusing an element.</strong> The DOM is not updated synchronously after reactive state changes. Always await <code>nextTick()</code> before querying or manipulating a DOM element that depends on that state change.</li>
+</ol>
+<h2>Accessibility connection</h2>
+<p>Form labels are not optional. Every <code>&lt;input&gt;</code> needs an associated <code>&lt;label&gt;</code> — either wrapping the input or connected via matching <code>for</code> and <code>id</code> attributes. <code>v-model</code> handles the binding of data but does nothing for label association. When you disable a submit button with <code>:disabled=&quot;!isValid&quot;</code>, some screen readers will not announce why the button is disabled; consider adding a visible or visually-hidden explanation near the form. Focus management with <code>nextTick</code> is not just a convenience — it is essential for users navigating a multi-step form by keyboard, because they need focus to land in the right place after each step transition.</p>
+<h2>Demo walkthrough</h2>
+<ol>
+<li>Start from the card project built in Week 12.</li>
+<li>Add a <code>SearchBar.vue</code> component with a single text <code>&lt;input&gt;</code>. Wire it as a controlled component: accept <code>modelValue</code> as a prop and emit <code>update:modelValue</code> on input so the parent can use <code>v-model</code> on it.</li>
+<li>In <code>App.vue</code>, add <code>const searchQuery = ref(&#x27;&#x27;)</code> and bind <code>v-model=&quot;searchQuery&quot;</code> to <code>SearchBar</code>.</li>
+<li>Add a <code>computed()</code> that filters the cards array using <code>searchQuery</code>. Replace <code>v-for=&quot;card in cards&quot;</code> with <code>v-for=&quot;card in filteredCards&quot;</code>.</li>
+<li>Show in Vue DevTools that <code>filteredCards</code> updates live as you type.</li>
+<li>Add a "Delete" button inside <code>CardItem.vue</code>. Use <code>defineEmits([&#x27;delete&#x27;])</code> and emit the card's <code>id</code>. In the parent, handle <code>@delete</code> and splice the item from the array.</li>
+<li>Add a small form (two fields, submit button) that pushes a new card object onto <code>cards</code>. Use <code>reactive()</code> for the form fields. Show the computed list reactively includes the new item after submission and the filtered list updates immediately.</li>
+</ol>
+<h2>Practice prompt</h2>
+<p>Build a <code>CommentForm.vue</code> component with <code>reactive()</code> fields for <code>author</code> and <code>body</code>. Use a <code>computed()</code> to determine form validity (both fields non-empty, body at least 10 characters). Display a live character count below the body field derived from <code>form.body.length</code>. Emit a <code>submit</code> event to the parent with the form data when the user submits. In the parent, push each submitted comment onto an array and render the list below the form.</p>
+<h2>Bridge</h2>
+<p>Lab 12 — Small Data Dashboard has you build a filterable, sortable list with components communicating through props and events — the exact pattern from today's demo. Assignment 6 asks you to document the data flow of your Project 2 components: identify what each component owns, what it receives as props, and what events it emits. Drawing that diagram before you write the code will save significant debugging time.</p>
 </body>
 </html>

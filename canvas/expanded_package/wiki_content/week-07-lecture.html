@@ -1,11 +1,166 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-<title>Week 07 Lecture Notes</title>
+<title>Week 07 Lecture Notes: Event Listeners, Validation, and UX Feedback</title>
 <meta name="identifier" content="i65b888c4367cbb07a412dd6d41465dfa"/>
 <meta name="workflow_state" content="active"/>
 </head>
 <body>
-<h1>Week 07 Lecture Notes: Event Listeners, Validation, and UX Feedback</h1><h2>Weekly focus</h2><p>Events, Forms, and Accessible Interaction</p><h2>Why this matters</h2><p>This week's material helps students move from isolated syntax toward purposeful client-side design decisions. The lecture emphasizes examples that can be inspected in the browser and rebuilt in small pieces.</p><h2>Learning targets</h2><ul><li>Explain the core concept in plain language</li><li>Build one focused example from scratch</li><li>Debug mistakes with browser tools</li><li>Connect this week's ideas to the running course projects</li></ul><h2>Lecture flow</h2><ol><li>Warm-up concept check</li><li>Demonstration of a focused example</li><li>Guided breakdown of the code</li><li>Common bug patterns</li><li>Independent practice prompt</li><li>Bridge to lab, assignment, or quiz</li></ol><h2>Instructor notes</h2><p>Use short code examples, narrate tradeoffs, and revisit accessibility in every demo. Avoid introducing abstractions before students can inspect the DOM, state, or network behavior involved.</p><h2>Exit ticket</h2><p>Ask students to explain one idea from the week using the sentence frame: <em>This matters in the browser because...</em></p>
+<h1>Week 07 Lecture Notes: Event Listeners, Validation, and UX Feedback</h1>
+<h2>Weekly focus</h2>
+<p>Making pages respond to user actions through event listeners, and giving users clear, accessible feedback when form input is invalid.</p>
+<h2>Why this matters</h2>
+<p>Static pages with hardcoded content represent only a fraction of the web. Everything that responds to a user — a search field that filters results as you type, a form that shows an error message before submission, a button that expands a section — is powered by event listeners. Form validation done in JavaScript, paired with ARIA live regions, is the difference between a form that silently rejects input and one that clearly explains what went wrong and where. That distinction is the foundation of usable, accessible interfaces.</p>
+<h2>Learning targets</h2>
+<ul>
+<li>Attach event listeners to elements using <code>addEventListener</code> for <code>click</code>, <code>submit</code>, <code>input</code>, <code>change</code>, <code>blur</code>, and <code>keydown</code> events</li>
+<li>Prevent the browser's default behavior with <code>event.preventDefault()</code> and explain when that is necessary</li>
+<li>Read the element that triggered an event using <code>event.target</code> and its properties</li>
+<li>Implement event delegation so a single listener handles events from many child elements</li>
+<li>Write client-side form validation with both HTML constraint attributes and custom JavaScript messages</li>
+<li>Use <code>aria-invalid</code>, <code>aria-describedby</code>, and <code>aria-live</code> to communicate validation state to screen readers</li>
+</ul>
+<h2>Core concepts</h2>
+<h3>addEventListener</h3>
+<p><code>addEventListener(type, handler)</code> attaches a function to an element that runs whenever the named event fires. It does not replace existing listeners the way the old <code>onclick</code> property does.</p>
+<pre><code class="language-js">const btn = document.querySelector(&quot;#submit-btn&quot;);
+
+btn.addEventListener(&quot;click&quot;, function (event) {
+  console.log(&quot;Clicked!&quot;, event.target);
+});</code></pre>
+<p>Common event types and when to use them:</p>
+<table>
+<thead><tr><th>Event</th><th>Fires when</th></tr></thead>
+<tbody>
+<tr><td><code>click</code></td><td>User clicks or activates with Enter/Space</td></tr>
+<tr><td><code>submit</code></td><td>Form is submitted (button click or Enter in a field)</td></tr>
+<tr><td><code>input</code></td><td>Value of an input changes (every keystroke)</td></tr>
+<tr><td><code>change</code></td><td>Value changes and the element loses focus</td></tr>
+<tr><td><code>blur</code></td><td>Element loses focus (good for validate-on-leave)</td></tr>
+<tr><td><code>keydown</code></td><td>Any key is pressed; check <code>event.key</code> for which one</td></tr>
+</tbody>
+</table>
+<h3>event.preventDefault()</h3>
+<p>The browser has built-in default behaviors: clicking a submit button sends a form to a server (and reloads the page), clicking an anchor navigates to a URL. Call <code>event.preventDefault()</code> inside a <code>submit</code> listener to stop the reload so your JavaScript validation can run first.</p>
+<pre><code class="language-js">const form = document.querySelector(&quot;#signup-form&quot;);
+
+form.addEventListener(&quot;submit&quot;, (event) =&gt; {
+  event.preventDefault(); // stop the page reload
+
+  const email = document.querySelector(&quot;#email&quot;).value.trim();
+  if (!email.includes(&quot;@&quot;)) {
+    showError(&quot;email&quot;, &quot;Please enter a valid email address.&quot;);
+    return;
+  }
+
+  // Only reach here if all validation passes
+  console.log(&quot;Form is valid, ready to send:&quot;, email);
+});</code></pre>
+<h3>event.target</h3>
+<p><code>event.target</code> is the element that the event originated from. This is especially useful when one listener handles multiple elements, because <code>event.target</code> tells you exactly which one was interacted with.</p>
+<pre><code class="language-js">document.querySelector(&quot;#product-list&quot;).addEventListener(&quot;click&quot;, (event) =&gt; {
+  const btn = event.target.closest(&quot;button[data-product-id]&quot;);
+  if (!btn) return; // click was not on a product button
+
+  const id = Number(btn.dataset.productId);
+  console.log(&quot;Selected product id:&quot;, id);
+});</code></pre>
+<p><code>event.target</code> vs <code>event.currentTarget</code>: <code>event.target</code> is where the event started. <code>event.currentTarget</code> is the element the listener is attached to. When using delegation (see below), these are different elements.</p>
+<h3>Event delegation</h3>
+<p>Attaching one listener to a parent element instead of many listeners to individual children is called event delegation. It works because events bubble up the DOM tree from the target to the root. Delegation is more efficient and handles dynamically added children automatically.</p>
+<pre><code class="language-js">// Without delegation — fragile, does not work for items added later
+document.querySelectorAll(&quot;.delete-btn&quot;).forEach(btn =&gt; {
+  btn.addEventListener(&quot;click&quot;, handleDelete);
+});
+
+// With delegation — one listener, works for any .delete-btn in the list
+document.querySelector(&quot;#task-list&quot;).addEventListener(&quot;click&quot;, (event) =&gt; {
+  if (event.target.matches(&quot;.delete-btn&quot;)) {
+    const listItem = event.target.closest(&quot;li&quot;);
+    listItem.remove();
+  }
+});</code></pre>
+<p>Use <code>.matches(selector)</code> to check if <code>event.target</code> is the element you care about. Use <code>.closest(selector)</code> to walk up the tree to the nearest ancestor matching a selector.</p>
+<h3>Form validation: HTML constraints and custom messages</h3>
+<p>HTML provides built-in validation attributes: <code>required</code>, <code>type=&quot;email&quot;</code>, <code>minlength</code>, <code>maxlength</code>, <code>min</code>, <code>max</code>, and <code>pattern</code>. These run automatically on submit and work without JavaScript, so always include them as a baseline.</p>
+<p>For richer feedback — error messages that appear next to the field, not just a browser tooltip — add JavaScript validation on top. The Constraint Validation API gives you <code>input.validity</code> and <code>input.setCustomValidity()</code>.</p>
+<pre><code class="language-js">const passwordInput = document.querySelector(&quot;#password&quot;);
+
+passwordInput.addEventListener(&quot;blur&quot;, () =&gt; {
+  if (passwordInput.value.length &lt; 8) {
+    passwordInput.setCustomValidity(&quot;Password must be at least 8 characters.&quot;);
+    showError(&quot;password&quot;, &quot;Password must be at least 8 characters.&quot;);
+  } else {
+    passwordInput.setCustomValidity(&quot;&quot;); // clear the error
+    clearError(&quot;password&quot;);
+  }
+});</code></pre>
+<h3>aria-invalid, aria-describedby, and aria-live</h3>
+<p>HTML validation attributes alone do not communicate errors to screen reader users as clearly as they could. Three ARIA attributes bridge that gap.</p>
+<p><code>aria-invalid=&quot;true&quot;</code> signals to screen readers that the field currently has an invalid value. Set it in JavaScript when you show an error, remove it when the error clears.</p>
+<p><code>aria-describedby</code> links a field to an element that describes it — typically the error message container. The screen reader reads the description after the label and role.</p>
+<p><code>aria-live=&quot;polite&quot;</code> on a region tells the screen reader to announce changes to that region as they happen, without interrupting the current reading position. Use this for error message containers.</p>
+<pre><code class="language-js">function showError(fieldId, message) {
+  const field = document.querySelector(`#${fieldId}`);
+  const errorEl = document.querySelector(`#${fieldId}-error`);
+
+  field.setAttribute(&quot;aria-invalid&quot;, &quot;true&quot;);
+  errorEl.textContent = message;
+  // aria-live=&quot;polite&quot; on the error element triggers announcement
+}
+
+function clearError(fieldId) {
+  const field = document.querySelector(`#${fieldId}`);
+  const errorEl = document.querySelector(`#${fieldId}-error`);
+
+  field.removeAttribute(&quot;aria-invalid&quot;);
+  errorEl.textContent = &quot;&quot;;
+}</code></pre>
+<p>The HTML structure that makes this work:</p>
+<pre><code class="language-html">&lt;label for=&quot;email&quot;&gt;Email address&lt;/label&gt;
+&lt;input
+  type=&quot;email&quot;
+  id=&quot;email&quot;
+  required
+  aria-describedby=&quot;email-error&quot;
+/&gt;
+&lt;p id=&quot;email-error&quot; aria-live=&quot;polite&quot; class=&quot;field-error&quot;&gt;&lt;/p&gt;</code></pre>
+<h3>Focus management</h3>
+<p>After a dynamic action — especially showing an error summary or opening a modal — move keyboard focus to the relevant element so keyboard and screen reader users are not left behind. Use <code>element.focus()</code> to do this.</p>
+<pre><code class="language-js">form.addEventListener(&quot;submit&quot;, (event) =&gt; {
+  event.preventDefault();
+  const errors = validate();
+
+  if (errors.length &gt; 0) {
+    const summary = document.querySelector(&quot;#error-summary&quot;);
+    summary.textContent = `${errors.length} error(s) found. Please correct them.`;
+    summary.focus(); // move focus to the summary so it is announced
+  }
+});</code></pre>
+<p>For <code>focus()</code> to work, the element must be focusable. If it is not an interactive element (<code>&lt;button&gt;</code>, <code>&lt;input&gt;</code>, etc.), add <code>tabindex=&quot;-1&quot;</code> to it in HTML.</p>
+<h2>Common mistakes</h2>
+<ol>
+<li><strong>Forgetting <code>event.preventDefault()</code> on a form submit listener.</strong> The page reloads before your validation runs. The fix is always the first line inside a submit handler.</li>
+<li><strong>Attaching listeners inside a loop without delegation.</strong> Students often do <code>querySelectorAll(&quot;.btn&quot;).forEach(btn =&gt; btn.addEventListener(...))</code> and then add new buttons dynamically. The new buttons have no listener. Use delegation instead.</li>
+<li><strong>Checking <code>event.target</code> without a guard.</strong> <code>event.target</code> is whatever was clicked inside the parent — possibly a <code>&lt;span&gt;</code> inside the <code>&lt;button&gt;</code>, not the button itself. Use <code>event.target.closest(&quot;button&quot;)</code> to safely walk up to the intended element.</li>
+<li><strong>Setting <code>aria-invalid</code> without an associated error message.</strong> Marking a field invalid without explaining why is worse than saying nothing. Always pair <code>aria-invalid=&quot;true&quot;</code> with a visible, linked error message.</li>
+<li><strong>Running validation only on submit.</strong> If a user fills out ten fields and submits once, seeing ten errors at once is overwhelming. Add <code>blur</code> listeners to validate each field when the user leaves it so errors surface one at a time.</li>
+</ol>
+<h2>Accessibility connection</h2>
+<p>Event-driven validation is one of the highest-impact areas for accessibility in front-end development. WCAG Success Criterion 3.3.1 requires that input errors be identified and described to the user in text — <code>aria-live</code> regions and <code>aria-describedby</code> are the technical implementation of that requirement. Focus management after form submission or error display is required by 2.4.3 (Focus Order) so that keyboard users are not stranded at a submit button after errors appear. Getting these right in Week 07 means your Project 1 form will meet real accessibility standards, not just pass visual inspection.</p>
+<h2>Demo walkthrough</h2>
+<p><strong>Demo: Accessible Signup Form with Live Validation</strong></p>
+<ol>
+<li>Build an HTML form with three fields: username (minlength 3), email (type email, required), and password (minlength 8). Each field has a <code>&lt;p aria-live=&quot;polite&quot;&gt;</code> error container below it linked via <code>aria-describedby</code>.</li>
+<li>In <code>demo-07.js</code>, write <code>showError(fieldId, message)</code> and <code>clearError(fieldId)</code> helper functions that set/remove <code>aria-invalid</code> and update <code>textContent</code> of the error container.</li>
+<li>Attach <code>blur</code> listeners to each field. On blur, validate the field's value and call <code>showError</code> or <code>clearError</code> accordingly.</li>
+<li>Attach a <code>submit</code> listener to the form. Call <code>event.preventDefault()</code>. Run all three validations. If any fail, move focus to the first invalid field.</li>
+<li>If all fields pass, replace the form's <code>innerHTML</code> with a success message and focus the message container.</li>
+<li>Use a screen reader (macOS VoiceOver: Cmd+F5) to demonstrate that the live region announces errors without the student having to navigate to them manually.</li>
+</ol>
+<h2>Practice prompt</h2>
+<p>Build a contact form with Name, Email, and Message fields. Requirements: (1) validate each field on <code>blur</code> and show a specific error message next to the field using <code>aria-describedby</code> and <code>aria-live=&quot;polite&quot;</code>, (2) prevent submission if any field is invalid, (3) use event delegation on a button group (three preset subject buttons: "Question", "Feedback", "Bug Report") so only one listener handles all three, storing the selection in a <code>dataset</code> attribute, and (4) on successful submission, display a <code>&lt;div role=&quot;alert&quot;&gt;</code> confirmation message and move focus to it.</p>
+<h2>Bridge</h2>
+<p>Lab 07 is Accessible Form Validation — it is a direct application of everything in this lecture, so the <code>showError</code>/<code>clearError</code> pattern from the demo is a strong starting point. Quiz 4 will ask you to trace through event delegation code and predict which element <code>event.target</code> refers to in different click scenarios. Project 1 Build begins this week: if your project includes any form or interactive UI, the patterns here — <code>addEventListener</code>, <code>event.preventDefault</code>, and live ARIA regions — are the core tools you will reach for throughout the build.</p>
 </body>
 </html>

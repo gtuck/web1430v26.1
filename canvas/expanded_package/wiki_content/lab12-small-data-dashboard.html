@@ -6,6 +6,254 @@
 <meta name="workflow_state" content="active"/>
 </head>
 <body>
-<h1>Lab 12 – Small Data Dashboard</h1><h2>Purpose</h2><p>This lab gives students a constrained practice space for the week's concepts. The emphasis is on seeing, changing, and explaining what the browser does.</p><h2>Tasks</h2><ol><li>Create or update your repo branch for this lab.</li><li>Build the required interface or script in small increments.</li><li>Test keyboard access, responsiveness, and error states.</li><li>Write a brief notes section describing what worked, what broke, and how you fixed it.</li><li>Commit meaningful progress with short messages.</li></ol><h2>Deliverable</h2><p>Submit a deployed link, repository link, and a short process reflection.</p><h2>Suggested rubric</h2><ul><li>Functionality</li><li>Code organization</li><li>Accessibility and UX clarity</li><li>Reflection quality</li></ul>
+<h1>Lab 12 – Small Data Dashboard</h1>
+<h2>Purpose</h2>
+<p>Reactive forms and derived state are where Vue's reactivity system becomes most visible. This lab builds a data dashboard where user input drives filtered, sorted, and summarized views of a dataset — with no manual DOM manipulation. All updates flow automatically from reactive data changes.</p>
+<h2>Skills practiced</h2>
+<ul>
+<li>Two-way binding with <code>v-model</code></li>
+<li>Derived data with <code>computed()</code></li>
+<li>Component communication with <code>defineProps</code> and <code>defineEmits</code></li>
+<li>Conditional class binding with <code>:class</code></li>
+<li>Rendering summary statistics from computed data</li>
+<li>Passing filter state from parent to child via props</li>
+</ul>
+<h2>What you're building</h2>
+<p>A <strong>Student Grade Dashboard</strong> for a fictional course roster. The dashboard displays:</p>
+<ul>
+<li>A table of students with their name, score, and letter grade</li>
+<li>A search input that filters the table by student name</li>
+<li>A score range filter (min/max)</li>
+<li>A pass/fail toggle (show all / passing only / failing only)</li>
+<li>A summary panel showing count, average, high score, and low score — all derived from the <em>filtered</em> dataset</li>
+</ul>
+<p>All filtering and aggregation uses <code>computed()</code>. The child <code>SummaryPanel</code> component receives computed data as props.</p>
+<hr />
+<h2>Part 1: Scaffold the project</h2>
+<p>In <code>labs/</code>:</p>
+<pre><code class="language-bash">npm create vite@latest lab12 -- --template vue
+cd lab12
+npm install</code></pre>
+<p>Clear the default boilerplate. Create:</p>
+<ul>
+<li><code>src/components/SummaryPanel.vue</code></li>
+<li><code>src/components/GradeTable.vue</code></li>
+</ul>
+<p>Add <code>node_modules/</code> and <code>dist/</code> to <code>.gitignore</code>.</p>
+<hr />
+<h2>Part 2: Student data</h2>
+<p>In <code>src/App.vue</code> <code>&lt;script setup&gt;</code>:</p>
+<pre><code class="language-js">import { ref, computed } from &#x27;vue&#x27;;
+import SummaryPanel from &#x27;./components/SummaryPanel.vue&#x27;;
+import GradeTable from &#x27;./components/GradeTable.vue&#x27;;
+
+const students = ref([
+  { id: 1,  name: &#x27;Alex Nguyen&#x27;,      score: 94 },
+  { id: 2,  name: &#x27;Brianna Lee&#x27;,      score: 72 },
+  { id: 3,  name: &#x27;Carlos Herrera&#x27;,   score: 58 },
+  { id: 4,  name: &#x27;Diana Okafor&#x27;,     score: 88 },
+  { id: 5,  name: &#x27;Ethan Park&#x27;,       score: 45 },
+  { id: 6,  name: &#x27;Fatima Al-Rashid&#x27;, score: 91 },
+  { id: 7,  name: &#x27;Grace Kim&#x27;,        score: 63 },
+  { id: 8,  name: &#x27;Hiro Yamamoto&#x27;,    score: 79 },
+  { id: 9,  name: &#x27;Isabelle Martin&#x27;,  score: 82 },
+  { id: 10, name: &#x27;Jordan Smith&#x27;,     score: 55 },
+  { id: 11, name: &#x27;Kira Osei&#x27;,        score: 97 },
+  { id: 12, name: &#x27;Leo Santos&#x27;,       score: 68 },
+]);</code></pre>
+<hr />
+<h2>Part 3: Filter controls (reactive refs)</h2>
+<pre><code class="language-js">const searchQuery = ref(&#x27;&#x27;);
+const minScore = ref(0);
+const maxScore = ref(100);
+const passFilter = ref(&#x27;all&#x27;);   // &#x27;all&#x27; | &#x27;passing&#x27; | &#x27;failing&#x27;</code></pre>
+<hr />
+<h2>Part 4: Computed values</h2>
+<h3>Letter grade helper</h3>
+<pre><code class="language-js">function getGrade(score) {
+  if (score &gt;= 90) return &#x27;A&#x27;;
+  if (score &gt;= 80) return &#x27;B&#x27;;
+  if (score &gt;= 70) return &#x27;C&#x27;;
+  if (score &gt;= 60) return &#x27;D&#x27;;
+  return &#x27;F&#x27;;
+}</code></pre>
+<h3>Filtered students</h3>
+<pre><code class="language-js">const filteredStudents = computed(() =&gt; {
+  return students.value
+    .filter(s =&gt; s.name.toLowerCase().includes(searchQuery.value.toLowerCase()))
+    .filter(s =&gt; s.score &gt;= minScore.value &amp;&amp; s.score &lt;= maxScore.value)
+    .filter(s =&gt; {
+      if (passFilter.value === &#x27;passing&#x27;) return s.score &gt;= 60;
+      if (passFilter.value === &#x27;failing&#x27;) return s.score &lt; 60;
+      return true;
+    })
+    .map(s =&gt; ({ ...s, grade: getGrade(s.score) }));
+});</code></pre>
+<h3>Summary statistics (derived from filtered data)</h3>
+<pre><code class="language-js">const summary = computed(() =&gt; {
+  const count = filteredStudents.value.length;
+  if (count === 0) return { count: 0, average: &#x27;N/A&#x27;, high: &#x27;N/A&#x27;, low: &#x27;N/A&#x27;, passing: 0 };
+  const scores = filteredStudents.value.map(s =&gt; s.score);
+  return {
+    count,
+    average: (scores.reduce((a, b) =&gt; a + b, 0) / count).toFixed(1),
+    high: Math.max(...scores),
+    low: Math.min(...scores),
+    passing: filteredStudents.value.filter(s =&gt; s.score &gt;= 60).length,
+  };
+});</code></pre>
+<hr />
+<h2>Part 5: App.vue template</h2>
+<pre><code class="language-vue">&lt;template&gt;
+  &lt;div class=&quot;dashboard&quot;&gt;
+    &lt;h1&gt;Grade Dashboard&lt;/h1&gt;
+
+    &lt;section class=&quot;filters&quot; aria-label=&quot;Filter controls&quot;&gt;
+      &lt;div class=&quot;filter-group&quot;&gt;
+        &lt;label for=&quot;search&quot;&gt;Search by name&lt;/label&gt;
+        &lt;input id=&quot;search&quot; type=&quot;search&quot; v-model=&quot;searchQuery&quot; placeholder=&quot;Student name…&quot;&gt;
+      &lt;/div&gt;
+
+      &lt;div class=&quot;filter-group&quot;&gt;
+        &lt;label for=&quot;min-score&quot;&gt;Min score&lt;/label&gt;
+        &lt;input id=&quot;min-score&quot; type=&quot;number&quot; v-model.number=&quot;minScore&quot; min=&quot;0&quot; max=&quot;100&quot;&gt;
+      &lt;/div&gt;
+
+      &lt;div class=&quot;filter-group&quot;&gt;
+        &lt;label for=&quot;max-score&quot;&gt;Max score&lt;/label&gt;
+        &lt;input id=&quot;max-score&quot; type=&quot;number&quot; v-model.number=&quot;maxScore&quot; min=&quot;0&quot; max=&quot;100&quot;&gt;
+      &lt;/div&gt;
+
+      &lt;div class=&quot;filter-group&quot;&gt;
+        &lt;label for=&quot;pass-filter&quot;&gt;Show&lt;/label&gt;
+        &lt;select id=&quot;pass-filter&quot; v-model=&quot;passFilter&quot;&gt;
+          &lt;option value=&quot;all&quot;&gt;All students&lt;/option&gt;
+          &lt;option value=&quot;passing&quot;&gt;Passing only (≥60)&lt;/option&gt;
+          &lt;option value=&quot;failing&quot;&gt;Failing only (&amp;lt;60)&lt;/option&gt;
+        &lt;/select&gt;
+      &lt;/div&gt;
+    &lt;/section&gt;
+
+    &lt;SummaryPanel :summary=&quot;summary&quot; /&gt;
+    &lt;GradeTable :students=&quot;filteredStudents&quot; /&gt;
+  &lt;/div&gt;
+&lt;/template&gt;</code></pre>
+<hr />
+<h2>Part 6: SummaryPanel component</h2>
+<p><code>src/components/SummaryPanel.vue</code> — receives summary data as a prop and displays it:</p>
+<pre><code class="language-vue">&lt;script setup&gt;
+defineProps({
+  summary: {
+    type: Object,
+    required: true,
+  },
+});
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;section class=&quot;summary-panel&quot; aria-label=&quot;Summary statistics&quot; aria-live=&quot;polite&quot;&gt;
+    &lt;div class=&quot;summary-stat&quot;&gt;
+      &lt;span class=&quot;stat-label&quot;&gt;Students shown&lt;/span&gt;
+      &lt;span class=&quot;stat-value&quot;&gt;{{ summary.count }}&lt;/span&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;summary-stat&quot;&gt;
+      &lt;span class=&quot;stat-label&quot;&gt;Average score&lt;/span&gt;
+      &lt;span class=&quot;stat-value&quot;&gt;{{ summary.average }}&lt;/span&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;summary-stat&quot;&gt;
+      &lt;span class=&quot;stat-label&quot;&gt;High score&lt;/span&gt;
+      &lt;span class=&quot;stat-value&quot;&gt;{{ summary.high }}&lt;/span&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;summary-stat&quot;&gt;
+      &lt;span class=&quot;stat-label&quot;&gt;Low score&lt;/span&gt;
+      &lt;span class=&quot;stat-value&quot;&gt;{{ summary.low }}&lt;/span&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;summary-stat&quot;&gt;
+      &lt;span class=&quot;stat-label&quot;&gt;Passing&lt;/span&gt;
+      &lt;span class=&quot;stat-value&quot;&gt;{{ summary.passing }}&lt;/span&gt;
+    &lt;/div&gt;
+  &lt;/section&gt;
+&lt;/template&gt;</code></pre>
+<hr />
+<h2>Part 7: GradeTable component</h2>
+<p><code>src/components/GradeTable.vue</code> — renders the filtered student list as a table:</p>
+<pre><code class="language-vue">&lt;script setup&gt;
+defineProps({
+  students: {
+    type: Array,
+    required: true,
+  },
+});
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;div class=&quot;table-wrapper&quot;&gt;
+    &lt;p v-if=&quot;students.length === 0&quot; class=&quot;empty-msg&quot;&gt;No students match the current filters.&lt;/p&gt;
+
+    &lt;table v-else aria-label=&quot;Student grades&quot;&gt;
+      &lt;thead&gt;
+        &lt;tr&gt;
+          &lt;th scope=&quot;col&quot;&gt;Name&lt;/th&gt;
+          &lt;th scope=&quot;col&quot;&gt;Score&lt;/th&gt;
+          &lt;th scope=&quot;col&quot;&gt;Grade&lt;/th&gt;
+          &lt;th scope=&quot;col&quot;&gt;Status&lt;/th&gt;
+        &lt;/tr&gt;
+      &lt;/thead&gt;
+      &lt;tbody&gt;
+        &lt;tr
+          v-for=&quot;student in students&quot;
+          :key=&quot;student.id&quot;
+          :class=&quot;student.score &lt; 60 ? &#x27;row--failing&#x27; : &#x27;row--passing&#x27;&quot;
+        &gt;
+          &lt;td&gt;{{ student.name }}&lt;/td&gt;
+          &lt;td&gt;{{ student.score }}&lt;/td&gt;
+          &lt;td&gt;{{ student.grade }}&lt;/td&gt;
+          &lt;td&gt;{{ student.score &gt;= 60 ? &#x27;Passing&#x27; : &#x27;Failing&#x27; }}&lt;/td&gt;
+        &lt;/tr&gt;
+      &lt;/tbody&gt;
+    &lt;/table&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;style scoped&gt;
+.row--failing { background-color: #fef2f2; }
+.row--passing { background-color: #f0fdf4; }
+&lt;/style&gt;</code></pre>
+<hr />
+<h2>Testing requirements</h2>
+<ul>
+<li>[ ] Typing in the search box immediately filters the table and updates the summary</li>
+<li>[ ] Changing min/max score narrows the shown rows</li>
+<li>[ ] Selecting "Passing only" hides failing students; "Failing only" hides passing students</li>
+<li>[ ] All four filters can be active simultaneously and work together</li>
+<li>[ ] Summary stats reflect the <em>filtered</em> data, not the full dataset</li>
+<li>[ ] Empty state message shows when no students match</li>
+<li>[ ] <code>aria-live=&quot;polite&quot;</code> is on the summary panel</li>
+</ul>
+<hr />
+<h2>Deliverable</h2>
+<p>Commit <code>labs/lab12/</code> (excluding <code>node_modules/</code> and <code>dist/</code>). Push and deploy.</p>
+<p>Submit to Canvas: live URL, repo URL.</p>
+<hr />
+<h2>Process reflection (in <code>labs/lab12/notes.md</code>)</h2>
+<p>Answer in 4–6 sentences:</p>
+<ul>
+<li>What is <code>v-model.number</code> and why did you need it for the score inputs?</li>
+<li>How does the summary panel stay synchronized with the filtered data without any additional event listeners?</li>
+<li>What happens to the summary if all students are filtered out — how did you handle that edge case?</li>
+</ul>
+<hr />
+<h2>Rubric</h2>
+<table>
+<thead><tr><th>Criterion</th><th>Excellent (4)</th><th>Proficient (3)</th><th>Developing (2)</th><th>Incomplete (1)</th></tr></thead>
+<tbody>
+<tr><td><strong>Computed filtering</strong></td><td>All four filters work via <code>computed</code>; no manual DOM updates; all filters combine correctly</td><td>Three filters in computed</td><td>Two filters; one manual DOM update</td><td>No computed filtering</td></tr>
+<tr><td><strong>Summary panel</strong></td><td>All five stats correct; derived from filtered data; updates with each filter change</td><td>Four stats correct; one not filtered</td><td>Stats present but use full dataset</td><td>No summary</td></tr>
+<tr><td><strong>Component structure</strong></td><td>Two child components with correct <code>defineProps</code>; data flows parent → child</td><td>Two components; prop type missing</td><td>One component extracted</td><td>Everything in App.vue</td></tr>
+<tr><td><strong>Accessibility</strong></td><td><code>aria-live</code> on summary; table uses <code>scope</code>; empty state present</td><td>Two of three</td><td>One</td><td>None</td></tr>
+<tr><td><strong>Edge cases</strong></td><td>Empty filter result shows message; summary shows "N/A" when count is 0</td><td>Empty state only</td><td>No edge case handling</td><td></td></tr>
+<tr><td><strong>Reflection</strong></td><td>Specific; all three prompts addressed</td><td>Two prompts</td><td>Vague</td><td>Missing</td></tr>
+</tbody>
+</table>
 </body>
 </html>

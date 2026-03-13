@@ -6,6 +6,147 @@
 <meta name="workflow_state" content="active"/>
 </head>
 <body>
-<h1>Lab 04 – Form Logic and Decision Trees</h1><h2>Purpose</h2><p>This lab gives students a constrained practice space for the week's concepts. The emphasis is on seeing, changing, and explaining what the browser does.</p><h2>Tasks</h2><ol><li>Create or update your repo branch for this lab.</li><li>Build the required interface or script in small increments.</li><li>Test keyboard access, responsiveness, and error states.</li><li>Write a brief notes section describing what worked, what broke, and how you fixed it.</li><li>Commit meaningful progress with short messages.</li></ol><h2>Deliverable</h2><p>Submit a deployed link, repository link, and a short process reflection.</p><h2>Suggested rubric</h2><ul><li>Functionality</li><li>Code organization</li><li>Accessibility and UX clarity</li><li>Reflection quality</li></ul>
+<h1>Lab 04 – Form Logic and Decision Trees</h1>
+<h2>Purpose</h2>
+<p>Conditionals, loops, and functions are most useful when they are connected to real user input. This lab combines form reading with control flow: you will read values from HTML inputs and use functions to compute and display results based on what the user entered.</p>
+<h2>Skills practiced</h2>
+<ul>
+<li>Reading values from HTML form inputs with <code>.value</code></li>
+<li>Writing named functions with parameters and return values</li>
+<li>Using <code>if/else if/else</code> conditionals</li>
+<li>Using guard clauses (early returns) for invalid input</li>
+<li>Iterating with a loop</li>
+<li>Keeping validation logic separate from rendering logic</li>
+</ul>
+<h2>What you're building</h2>
+<p>A <strong>Trail Recommender</strong> — a small web tool that takes a hiker's experience level, preferred distance, and available time, then recommends one of several trail options from a hardcoded list. A second panel shows a simple loop: a table of hiking distances converted from miles to kilometers.</p>
+<hr />
+<h2>Part 1: HTML structure</h2>
+<p>Create <code>labs/lab04/index.html</code>.</p>
+<p>Build a page with two sections:</p>
+<p><strong>Section 1 – Trail Recommender</strong></p>
+<p>A form with:</p>
+<ul>
+<li>A <code>&lt;select&gt;</code> for experience level: <code>beginner</code>, <code>intermediate</code>, <code>advanced</code></li>
+<li>A number input for preferred distance in miles (1–20)</li>
+<li>A number input for available time in hours (1–8)</li>
+<li>A <code>&lt;button type=&quot;button&quot;&gt;</code> labeled "Find My Trail" (not a submit button)</li>
+<li>A <code>&lt;div id=&quot;recommendation&quot;&gt;</code> where the result will be displayed</li>
+</ul>
+<p><strong>Section 2 – Distance Converter Table</strong></p>
+<ul>
+<li>A number input for "miles per entry" (default: 5)</li>
+<li>A number input for "number of rows" (default: 10, max: 20)</li>
+<li>A <code>&lt;button type=&quot;button&quot;&gt;</code> labeled "Generate Table"</li>
+<li>A <code>&lt;div id=&quot;table-output&quot;&gt;</code> where the table will be rendered</li>
+</ul>
+<p>No form submission needed — both sections use buttons that trigger JavaScript functions.</p>
+<hr />
+<h2>Part 2: Trail data</h2>
+<p>In <code>labs/lab04/lab04.js</code>, define the following data. Do not modify it — write functions that work with it as-is.</p>
+<pre><code class="language-js">const trails = [
+  { name: &#x27;Lakeside Loop&#x27;, distance: 2.5, hours: 1.5, level: &#x27;beginner&#x27; },
+  { name: &#x27;Ridgeline Path&#x27;, distance: 5, hours: 3, level: &#x27;beginner&#x27; },
+  { name: &#x27;Canyon Crossing&#x27;, distance: 8, hours: 4.5, level: &#x27;intermediate&#x27; },
+  { name: &#x27;Summit Approach&#x27;, distance: 12, hours: 6, level: &#x27;intermediate&#x27; },
+  { name: &#x27;Granite Peak&#x27;, distance: 16, hours: 7, level: &#x27;advanced&#x27; },
+  { name: &#x27;Wilderness Circuit&#x27;, distance: 20, hours: 8, level: &#x27;advanced&#x27; },
+];</code></pre>
+<hr />
+<h2>Part 3: Trail recommender logic</h2>
+<p>Write the following functions. Keep each function focused on one task.</p>
+<h3><code>findTrail(level, maxDistance, maxHours)</code></h3>
+<p>Accepts three arguments (strings and numbers from the form). Returns the first trail in <code>trails</code> that:</p>
+<ul>
+<li>Matches the <code>level</code> exactly</li>
+<li>Has <code>distance</code> ≤ <code>maxDistance</code></li>
+<li>Has <code>hours</code> ≤ <code>maxHours</code></li>
+</ul>
+<p>Returns <code>null</code> if no trail matches.</p>
+<h3><code>validateInputs(level, maxDistance, maxHours)</code></h3>
+<p>Returns an error message string if any input is invalid:</p>
+<ul>
+<li><code>level</code> must be <code>&#x27;beginner&#x27;</code>, <code>&#x27;intermediate&#x27;</code>, or <code>&#x27;advanced&#x27;</code></li>
+<li><code>maxDistance</code> must be a number between 1 and 20</li>
+<li><code>maxHours</code> must be a number between 1 and 8</li>
+</ul>
+<p>Returns <code>null</code> if all inputs are valid.</p>
+<h3><code>renderRecommendation(trail)</code></h3>
+<p>Accepts a trail object (or <code>null</code>). Updates <code>#recommendation</code>:</p>
+<ul>
+<li>If <code>trail</code> is <code>null</code>: displays "No trail matches your criteria. Try adjusting your distance or time."</li>
+<li>If a trail is found: displays the trail name, distance, estimated time, and difficulty level</li>
+</ul>
+<p>Use <code>createElement</code> and <code>textContent</code>. Do not use <code>innerHTML</code>.</p>
+<h3>Button click handler</h3>
+<p>Wire the "Find My Trail" button to:</p>
+<ol>
+<li>Read the three form values</li>
+<li>Call <code>validateInputs</code> — if invalid, display the error message in <code>#recommendation</code> and stop</li>
+<li>Call <code>findTrail</code> with the validated values</li>
+<li>Call <code>renderRecommendation</code> with the result</li>
+</ol>
+<hr />
+<h2>Part 4: Distance converter table</h2>
+<h3><code>milesToKm(miles)</code></h3>
+<p>Returns the kilometers equivalent (miles × 1.60934), rounded to two decimal places.</p>
+<h3><code>renderTable(increment, rows)</code></h3>
+<p>Generates a conversion table. Each row shows a distance in miles and its km equivalent, starting at <code>increment</code> and increasing by <code>increment</code> each row.</p>
+<p>Guard clauses required:</p>
+<ul>
+<li>If <code>rows</code> is less than 1 or greater than 20, display an error message and return early</li>
+<li>If <code>increment</code> is less than 0.1, display an error message and return early</li>
+</ul>
+<p>Build the table using <code>createElement</code> (not <code>innerHTML</code>). Render it into <code>#table-output</code>.</p>
+<p>Example output for increment=5, rows=4:</p>
+<table>
+<thead><tr><th>Miles</th><th>Kilometers</th></tr></thead>
+<tbody>
+<tr><td>5</td><td>8.05</td></tr>
+<tr><td>10</td><td>16.09</td></tr>
+<tr><td>15</td><td>24.14</td></tr>
+<tr><td>20</td><td>32.19</td></tr>
+</tbody>
+</table>
+<hr />
+<h2>Testing requirements</h2>
+<p>Before submitting, test the following scenarios manually and confirm the correct output:</p>
+<ul>
+<li>Experience: beginner, distance: 10, time: 5 → should find "Ridgeline Path" or similar</li>
+<li>Experience: advanced, distance: 5, time: 2 → should display "No trail matches"</li>
+<li>Distance left blank → should display a validation error</li>
+<li>Table: increment 5, rows 10 → should render 10 rows correctly</li>
+<li>Table: rows 25 → should display an error message</li>
+</ul>
+<hr />
+<h2>Deliverable</h2>
+<p>In <code>labs/lab04/</code>:</p>
+<ul>
+<li><code>index.html</code></li>
+<li><code>lab04.js</code></li>
+<li><code>notes.md</code></li>
+</ul>
+<p>Commit at least three times (after HTML, after Part 3, after Part 4). Push and deploy.</p>
+<p>Submit to Canvas: live URL, repo URL, notes.md link.</p>
+<hr />
+<h2>Process reflection (in notes.md)</h2>
+<p>Answer in 4–6 sentences:</p>
+<ul>
+<li>Where did you use a guard clause, and what would have happened without it?</li>
+<li>What happened when you tested with missing or out-of-range inputs?</li>
+<li>What would need to change if you wanted to add a fourth trail difficulty level?</li>
+</ul>
+<hr />
+<h2>Rubric</h2>
+<table>
+<thead><tr><th>Criterion</th><th>Excellent (4)</th><th>Proficient (3)</th><th>Developing (2)</th><th>Incomplete (1)</th></tr></thead>
+<tbody>
+<tr><td><strong>Trail recommender</strong></td><td>Correctly filters by all three criteria; handles no-match case; validation catches all invalid inputs</td><td>Filters by two criteria; some validation</td><td>Basic filtering, no validation</td><td>Not functional</td></tr>
+<tr><td><strong>Distance table</strong></td><td>Table renders correctly for valid inputs; guard clauses catch both invalid conditions</td><td>Table renders; one guard clause missing</td><td>Table renders but no validation</td><td>Not functional</td></tr>
+<tr><td><strong>Function separation</strong></td><td>Logic, rendering, and validation in separate named functions; no anonymous handlers</td><td>Some separation</td><td>All logic in one handler</td><td>No named functions</td></tr>
+<tr><td><strong>DOM safety</strong></td><td><code>createElement</code> and <code>textContent</code> used throughout; no <code>innerHTML</code></td><td>Mostly safe; one <code>innerHTML</code> for static content</td><td><code>innerHTML</code> used for dynamic content</td><td>Significant <code>innerHTML</code> misuse</td></tr>
+<tr><td><strong>Reflection</strong></td><td>Specific; addresses all three prompts</td><td>Addresses two prompts</td><td>Vague</td><td>Missing</td></tr>
+</tbody>
+</table>
 </body>
 </html>

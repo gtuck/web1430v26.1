@@ -6,6 +6,110 @@
 <meta name="workflow_state" content="active"/>
 </head>
 <body>
-<h1>Lab 01 – Inspecting the Web</h1><h2>Purpose</h2><p>This lab gives students a constrained practice space for the week's concepts. The emphasis is on seeing, changing, and explaining what the browser does.</p><h2>Tasks</h2><ol><li>Create or update your repo branch for this lab.</li><li>Build the required interface or script in small increments.</li><li>Test keyboard access, responsiveness, and error states.</li><li>Write a brief notes section describing what worked, what broke, and how you fixed it.</li><li>Commit meaningful progress with short messages.</li></ol><h2>Deliverable</h2><p>Submit a deployed link, repository link, and a short process reflection.</p><h2>Suggested rubric</h2><ul><li>Functionality</li><li>Code organization</li><li>Accessibility and UX clarity</li><li>Reflection quality</li></ul>
+<h1>Lab 01 – Inspecting the Web</h1>
+<h2>Purpose</h2>
+<p>The browser is a tool you can look inside. This lab builds the habit of using DevTools to understand what a page is actually made of — not just what it looks like — and to connect what you see in the panels to the concepts from Chapter 1.</p>
+<h2>Skills practiced</h2>
+<ul>
+<li>Opening and navigating Chrome/Firefox DevTools</li>
+<li>Reading the DOM tree in the Elements panel</li>
+<li>Identifying semantic and non-semantic HTML elements</li>
+<li>Reading error and log output in the Console panel</li>
+<li>Observing HTTP requests in the Network panel</li>
+<li>Running simple JavaScript expressions in the Console</li>
+</ul>
+<h2>What you're building</h2>
+<p>A written inspection report and a small annotated screenshot set documenting what you find inside two live websites. You will also write and run three JavaScript expressions in the Console and record the results.</p>
+<hr />
+<h2>Part 1: Elements panel</h2>
+<p>Choose <strong>two</strong> real websites you use regularly (news site, university site, streaming service, etc.). For each site:</p>
+<h3>1.1 Open DevTools</h3>
+<p>Press F12 (Windows/Linux) or Cmd+Option+I (Mac). Click the <strong>Elements</strong> tab.</p>
+<h3>1.2 Find five elements</h3>
+<p>Expand the DOM tree and locate five HTML elements on the page. For each element record:</p>
+<ul>
+<li>The tag name</li>
+<li>Whether it is <strong>semantic</strong> (describes meaning: <code>&lt;nav&gt;</code>, <code>&lt;main&gt;</code>, <code>&lt;article&gt;</code>, <code>&lt;header&gt;</code>, <code>&lt;footer&gt;</code>, <code>&lt;section&gt;</code>, <code>&lt;button&gt;</code>, <code>&lt;h1&gt;–&lt;h6&gt;</code>) or <strong>non-semantic</strong> (<code>&lt;div&gt;</code>, <code>&lt;span&gt;</code>)</li>
+<li>What content or purpose it contains</li>
+</ul>
+<p>Write your findings in your <code>notes.md</code> file (see deliverable section).</p>
+<h3>1.3 Edit text live</h3>
+<p>Double-click on a text node in the Elements panel and change it. Take a screenshot showing your edit. Note: this only changes your local view — the server is not affected.</p>
+<h3>1.4 Identify the page structure</h3>
+<p>Answer in your notes:</p>
+<ul>
+<li>Is there a <code>&lt;main&gt;</code> element? An <code>&lt;h1&gt;</code>? A <code>&lt;nav&gt;</code>?</li>
+<li>Are images using <code>alt</code> attributes? Right-click an image element and look for the <code>alt</code> attribute in the panel.</li>
+</ul>
+<hr />
+<h2>Part 2: Console panel</h2>
+<p>Click the <strong>Console</strong> tab. For each site, type the following expressions, press Enter, and record what they return:</p>
+<ol>
+<li><code>document.title</code></li>
+<li><code>document.querySelectorAll(&#x27;a&#x27;).length</code></li>
+<li><code>document.querySelectorAll(&#x27;img[alt=&quot;&quot;]&#x27;).length</code> — (images with empty alt text; any number above 0 is a potential accessibility issue)</li>
+</ol>
+<p>Take a screenshot of your Console session showing the three results.</p>
+<p>In your notes, explain what each expression means and what the result tells you about the page.</p>
+<hr />
+<h2>Part 3: Network panel</h2>
+<p>Click the <strong>Network</strong> tab. Reload the page (the Network tab must be open before reload to capture traffic).</p>
+<p>Locate the <strong>first request</strong> at the top of the list (this is the HTML document request). Click it and examine the <strong>Headers</strong> tab in the detail panel. Record:</p>
+<ul>
+<li>The request URL</li>
+<li>The HTTP method (GET, POST, etc.)</li>
+<li>The status code (200, 301, 404, etc.)</li>
+<li>The Content-Type of the response</li>
+</ul>
+<p>Look at the overall waterfall. Roughly how many requests does the page make to load fully? How large is the total page weight (shown at the bottom of the Network panel)?</p>
+<hr />
+<h2>Part 4: Your own page</h2>
+<p>Open the <code>labs/lab00/index.html</code> file you built last week in Live Server.</p>
+<ol>
+<li>Open DevTools → Elements panel. Is your HTML structure what you expect?</li>
+<li>Open the Console. Type <code>document.querySelector(&#x27;h1&#x27;).textContent</code>. What does it return?</li>
+<li>Try to intentionally produce a <code>TypeError</code> by typing <code>document.querySelector(&#x27;p&#x27;).foo.bar</code>. Read the error message. What information does it give you?</li>
+</ol>
+<p>Take a screenshot of the error in the Console and record the error message text in your notes.</p>
+<hr />
+<h2>Deliverable</h2>
+<p>Create <code>labs/lab01/notes.md</code> in your repository with the following sections:</p>
+<pre><code># Lab 01 – Inspection Notes
+
+## Site 1: [URL]
+### Elements found (5)
+| Tag | Semantic? | Purpose |
+|-----|-----------|---------|
+...
+
+### Console results
+...
+
+### Network: first request
+...
+
+## Site 2: [URL]
+(same structure)
+
+## My page (lab00/index.html)
+...
+
+## Reflection
+What surprised you? What does DevTools tell you that you couldn&#x27;t learn by just looking at the page?</code></pre>
+<p>Include your screenshots in a <code>labs/lab01/screenshots/</code> folder and reference them in the notes file.</p>
+<p>Commit everything with a meaningful message and push to GitHub.</p>
+<p>Submit to Canvas: your GitHub repository URL and a direct link to <code>labs/lab01/notes.md</code>.</p>
+<hr />
+<h2>Rubric</h2>
+<table>
+<thead><tr><th>Criterion</th><th>Excellent (4)</th><th>Proficient (3)</th><th>Developing (2)</th><th>Incomplete (1)</th></tr></thead>
+<tbody>
+<tr><td><strong>Elements analysis</strong></td><td>Five elements per site with accurate semantic classification and purpose notes</td><td>Four elements, mostly accurate</td><td>Two or three elements, classification inconsistent</td><td>One element or missing</td></tr>
+<tr><td><strong>Console expressions</strong></td><td>All three expressions run on both sites, results recorded and explained</td><td>Three expressions run, results recorded but not explained</td><td>One or two expressions recorded</td><td>No Console work</td></tr>
+<tr><td><strong>Network observation</strong></td><td>First request details fully recorded for both sites; page weight noted</td><td>One site's request recorded with some details</td><td>Partial network data</td><td>No network work</td></tr>
+<tr><td><strong>Own page inspection</strong></td><td>Error produced, message quoted and explained; textContent result correct</td><td>Error shown in screenshot, no explanation</td><td>Page opened in DevTools but no analysis</td><td>Not attempted</td></tr>
+<tr><td><strong>Reflection</strong></td><td>Specific and honest; connects observation to chapter concepts</td><td>Addresses prompts</td><td>Vague or generic</td><td>Missing</td></tr>
+</tbody>
+</table>
 </body>
 </html>

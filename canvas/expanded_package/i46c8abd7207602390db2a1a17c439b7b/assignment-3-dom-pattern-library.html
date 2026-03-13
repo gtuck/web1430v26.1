@@ -4,6 +4,112 @@
 <title>Assignment: Assignment 3 – DOM Pattern Library</title>
 </head>
 <body>
-<h1>Assignment 3 – DOM Pattern Library</h1><p>Build three reusable UI patterns with JavaScript-driven behavior and document them as a small in-browser pattern library.</p><p>See the repository markdown file for the complete brief.</p>
+<h1>Assignment 3 – DOM Pattern Library</h1>
+<p><strong>Due:</strong> End of Week 6<br />
+<strong>Weight:</strong> One of six assignments (20% combined)<br />
+<strong>Skills:</strong> DOM selection, class toggling, event delegation, createElement, accessible interactive patterns</p>
+<hr />
+<h2>Overview</h2>
+<p>You will build a small <strong>in-browser pattern library</strong> — a single page that demonstrates three reusable UI patterns, each implemented correctly in vanilla JavaScript with accessible markup. The page serves as both a working demo and a reference document: a developer (or your future self) should be able to open it, see each pattern in action, and understand how it was built.</p>
+<hr />
+<h2>Scenario</h2>
+<p>Imagine you are a front-end developer joining a small team. Before starting a new project, you are asked to build a living reference of three interaction patterns the team will use across the site. Each pattern should be isolated (no pattern depends on another), documented inline, and keyboard-accessible.</p>
+<hr />
+<h2>Patterns to implement</h2>
+<p>You must implement all three of the following patterns. Each pattern must be built independently (no shared state between them).</p>
+<h3>Pattern 1: Accordion / FAQ</h3>
+<p>An accordion with at least <strong>four</strong> question-answer pairs. Rules:</p>
+<ul>
+<li>Only one answer can be open at a time (opening a new one closes the previous)</li>
+<li>Each trigger is a <code>&lt;button&gt;</code> inside an <code>&lt;h3&gt;</code> (or <code>&lt;h2&gt;</code>) — not a bare <code>&lt;div&gt;</code></li>
+<li><code>aria-expanded=&quot;true&quot;/&quot;false&quot;</code> on the trigger button reflects open/closed state</li>
+<li><code>aria-controls</code> on the button points to the answer panel's <code>id</code></li>
+<li>The answer panel has <code>id</code> matching the <code>aria-controls</code> value</li>
+</ul>
+<h3>Pattern 2: Tabbed interface</h3>
+<p>A tab component with at least <strong>three</strong> tabs. Rules:</p>
+<ul>
+<li>Tabs use correct ARIA roles: <code>role=&quot;tablist&quot;</code> on the container, <code>role=&quot;tab&quot;</code> on each button, <code>role=&quot;tabpanel&quot;</code> on each panel</li>
+<li><code>aria-selected=&quot;true&quot;</code> on the active tab, <code>aria-selected=&quot;false&quot;</code> on inactive tabs</li>
+<li>Each tab has <code>aria-controls</code> pointing to its panel's <code>id</code>; each panel has <code>aria-labelledby</code> pointing to its tab's <code>id</code></li>
+<li>Arrow key navigation: Left/Right arrow keys move focus between tabs (keyboard users should not have to Tab through every tab to reach the content)</li>
+<li>The active tab is visually distinct from inactive tabs</li>
+</ul>
+<h3>Pattern 3: Live filter</h3>
+<p>A list of at least <strong>eight</strong> items (cards, names, products — your choice) with a text input that filters visible items as the user types. Rules:</p>
+<ul>
+<li>Filtering updates the DOM without a full re-render (use CSS class <code>hidden</code> + <code>classList.toggle</code>)</li>
+<li>A count element below the input reads "Showing X of Y items" and updates on every keystroke</li>
+<li>The count element has <code>aria-live=&quot;polite&quot;</code></li>
+<li>Empty state: if no items match, display a "No results" message</li>
+<li>Input is labelled with a <code>&lt;label&gt;</code> (not just a placeholder)</li>
+</ul>
+<hr />
+<h2>Page structure</h2>
+<p>The library page itself should have:</p>
+<ul>
+<li>A clear <code>&lt;h1&gt;</code> title</li>
+<li>A <code>&lt;nav&gt;</code> with anchor links to each of the three pattern sections</li>
+<li>Each pattern in its own <code>&lt;section&gt;</code> with an <code>&lt;h2&gt;</code> heading</li>
+<li>A brief (1–2 sentence) description of each pattern above its demo</li>
+</ul>
+<hr />
+<h2>JavaScript requirements</h2>
+<ul>
+<li>All three patterns in a single <code>patterns.js</code> file (or split into three files)</li>
+<li>Each pattern implemented as a named initialization function: <code>initAccordion()</code>, <code>initTabs()</code>, <code>initFilter()</code></li>
+<li>All three called at the bottom of the file (or in <code>DOMContentLoaded</code>)</li>
+<li>No <code>innerHTML</code> for dynamic content — use <code>classList</code> for show/hide, <code>textContent</code> for count updates</li>
+<li>Event delegation where appropriate (accordion and filter)</li>
+<li>No <code>onclick</code> HTML attributes</li>
+</ul>
+<hr />
+<h2>Constraints</h2>
+<ul>
+<li>No JavaScript UI libraries (no jQuery, no Alpine.js)</li>
+<li>No CSS frameworks</li>
+<li>All three patterns must work with keyboard only (Tab, Enter, Space, arrow keys as appropriate)</li>
+<li>Validate HTML; fix all errors</li>
+</ul>
+<hr />
+<h2>Above baseline (stretch)</h2>
+<p>Work in this section is reflected in the Excellent (4) column of the rubric.</p>
+<ul>
+<li>The accordion supports keyboard navigation: Down/Up arrow keys move focus between triggers</li>
+<li>The filter input debounces keystrokes (waits 150ms after the last keystroke before filtering, using <code>setTimeout</code>)</li>
+<li>Each pattern section includes a collapsed <code>&lt;details&gt;</code> element showing the relevant HTML snippet for that pattern</li>
+</ul>
+<hr />
+<h2>Deliverable</h2>
+<p>In your course repository, create <code>assignments/assignment-3/</code>:</p>
+<ul>
+<li><code>index.html</code></li>
+<li><code>patterns.js</code></li>
+<li><code>style.css</code></li>
+<li><code>rationale.md</code></li>
+</ul>
+<p>Deploy and submit live URL, repo URL, and rationale link to Canvas.</p>
+<hr />
+<h2>Rationale (in rationale.md)</h2>
+<p>Write 4–6 sentences addressing:</p>
+<ul>
+<li>What was the most technically challenging of the three patterns and why?</li>
+<li>How did you implement keyboard accessibility for the tab component — what did you have to learn that wasn't obvious?</li>
+<li>Where did you use event delegation and why was it the right choice there?</li>
+<li>What would you refactor if you were extending this into a real project component library?</li>
+</ul>
+<hr />
+<h2>Rubric</h2>
+<table>
+<thead><tr><th>Criterion</th><th>Excellent (4)</th><th>Proficient (3)</th><th>Developing (2)</th><th>Incomplete (1)</th></tr></thead>
+<tbody>
+<tr><td><strong>Accordion</strong></td><td>One-open-at-a-time behavior; <code>aria-expanded</code> and <code>aria-controls</code> correct; trigger is <code>&lt;button&gt;</code> in heading</td><td>Functional; one ARIA attribute missing or incorrect</td><td>Functional; no ARIA</td><td>Non-functional</td></tr>
+<tr><td><strong>Tabs</strong></td><td>Correct ARIA roles; <code>aria-selected</code> updates; arrow key navigation works; panels show/hide</td><td>Correct roles and selection; no arrow key nav</td><td>Functional tabs; no ARIA</td><td>Non-functional</td></tr>
+<tr><td><strong>Live filter</strong></td><td>Filters on input; count updates; empty state shown; <code>aria-live</code> present; proper label</td><td>Filters and counts; missing empty state or <code>aria-live</code></td><td>Filters; no count or accessibility</td><td>Non-functional</td></tr>
+<tr><td><strong>Code structure</strong></td><td>Named init functions; no <code>innerHTML</code> for dynamic content; event delegation where appropriate</td><td>Named functions; one <code>innerHTML</code> for static content</td><td>Partial structure; mixed concerns</td><td>All logic inline or anonymous</td></tr>
+<tr><td><strong>Keyboard accessibility</strong></td><td>All three patterns keyboard-operable; visible focus styles present</td><td>Two patterns keyboard-operable</td><td>One pattern keyboard-operable</td><td>No keyboard support</td></tr>
+<tr><td><strong>Rationale</strong></td><td>Specific, honest, addresses all four prompts</td><td>Addresses three prompts</td><td>Vague or two prompts</td><td>Missing</td></tr>
+</tbody>
+</table>
 </body>
 </html>

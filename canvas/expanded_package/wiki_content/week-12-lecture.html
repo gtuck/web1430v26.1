@@ -1,11 +1,169 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-<title>Week 12 Lecture Notes</title>
+<title>Week 12 Lecture Notes: Props, State, Templates, and Simple Components</title>
 <meta name="identifier" content="i46d25ab29bc4ac97e03033ce7aa51daa"/>
 <meta name="workflow_state" content="active"/>
 </head>
 <body>
-<h1>Week 12 Lecture Notes: Props, State, Templates, and Simple Components</h1><h2>Weekly focus</h2><p>Component Thinking with Vue</p><h2>Why this matters</h2><p>This week's material helps students move from isolated syntax toward purposeful client-side design decisions. The lecture emphasizes examples that can be inspected in the browser and rebuilt in small pieces.</p><h2>Learning targets</h2><ul><li>Explain the core concept in plain language</li><li>Build one focused example from scratch</li><li>Debug mistakes with browser tools</li><li>Connect this week's ideas to the running course projects</li></ul><h2>Lecture flow</h2><ol><li>Warm-up concept check</li><li>Demonstration of a focused example</li><li>Guided breakdown of the code</li><li>Common bug patterns</li><li>Independent practice prompt</li><li>Bridge to lab, assignment, or quiz</li></ol><h2>Instructor notes</h2><p>Use short code examples, narrate tradeoffs, and revisit accessibility in every demo. Avoid introducing abstractions before students can inspect the DOM, state, or network behavior involved.</p><h2>Exit ticket</h2><p>Ask students to explain one idea from the week using the sentence frame: <em>This matters in the browser because...</em></p>
+<h1>Week 12 Lecture Notes: Props, State, Templates, and Simple Components</h1>
+<h2>Weekly focus</h2>
+<p>What a Vue 3 component is and how to build one using the Composition API with <code>&lt;script setup&gt;</code>.</p>
+<h2>Why this matters</h2>
+<p>Every major front-end codebase you will encounter — whether it is Vue, React, or Svelte — is organized around the component model. Learning Vue's Composition API teaches you the underlying pattern (encapsulate state, expose a template, scope styles) so that moving to any other framework later requires learning syntax, not new ideas. Starting with Vite means you are already using the same toolchain professional teams use.</p>
+<h2>Learning targets</h2>
+<ul>
+<li>Describe what a single-file component (SFC) is and identify its three sections: <code>&lt;template&gt;</code>, <code>&lt;script setup&gt;</code>, and <code>&lt;style scoped&gt;</code></li>
+<li>Create a reactive variable with <code>ref()</code> and bind it to the template using <code>{{ }}</code> and <code>:</code></li>
+<li>Use <code>v-if</code>, <code>v-for</code>, and <code>@click</code> in a template to conditionally render and respond to user interaction</li>
+<li>Define props with <code>defineProps</code> and pass data from a parent component to a child</li>
+<li>Explain how a Vite + Vue project is wired together: <code>main.js</code>, <code>App.vue</code>, and the <code>components/</code> folder</li>
+</ul>
+<h2>Core concepts</h2>
+<h3>What is a component?</h3>
+<p>A component bundles three things that used to live in separate files: markup (template), behavior (script), and appearance (style). In Vue, these three sections live together in one <code>.vue</code> file. The browser never sees the <code>.vue</code> file directly — Vite compiles it into JavaScript before anything is served.</p>
+<pre><code>src/
+  main.js          ← mounts the root Vue app onto #app in index.html
+  App.vue          ← root component; imports and arranges other components
+  components/
+    CardItem.vue   ← a reusable child component
+    CardList.vue   ← a component that uses CardItem in a loop</code></pre>
+<p><code>main.js</code> is the entry point. It does one job:</p>
+<pre><code class="language-js">import { createApp } from &#x27;vue&#x27;
+import App from &#x27;./App.vue&#x27;
+
+createApp(App).mount(&#x27;#app&#x27;)</code></pre>
+<h3>Single-file component anatomy</h3>
+<p>A minimal <code>.vue</code> file has this shape:</p>
+<pre><code class="language-vue">&lt;script setup&gt;
+import { ref } from &#x27;vue&#x27;
+
+const count = ref(0)
+
+function increment() {
+  count.value++
+}
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;button @click=&quot;increment&quot;&gt;Clicked {{ count }} times&lt;/button&gt;
+&lt;/template&gt;
+
+&lt;style scoped&gt;
+button {
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+}
+&lt;/style&gt;</code></pre>
+<p>Key details:</p>
+<ul>
+<li><code>ref(0)</code> creates a reactive wrapper around the primitive <code>0</code>. Inside the script you read and write it as <code>count.value</code>. Inside the template Vue unwraps it automatically, so you write <code>{{ count }}</code>, not <code>{{ count.value }}</code>.</li>
+<li><code>&lt;style scoped&gt;</code> means the CSS only applies to elements in this component. It does not leak to parent or sibling components.</li>
+<li><code>@click</code> is shorthand for <code>v-on:click</code>.</li>
+</ul>
+<h3>ref() and reactivity</h3>
+<p><code>ref()</code> is the primary tool for reactive state in <code>&lt;script setup&gt;</code>. When <code>count.value</code> changes, Vue re-renders only the parts of the template that depend on it. You do not call any update function; the reactivity system handles it.</p>
+<p>Use <code>ref()</code> for single values: strings, numbers, booleans, and arrays. The <code>.value</code> wrapper is the signal to Vue's reactivity system that this variable should be tracked.</p>
+<pre><code class="language-js">const title = ref(&#x27;My App&#x27;)
+const isVisible = ref(true)
+const items = ref([&#x27;Apples&#x27;, &#x27;Bananas&#x27;, &#x27;Cherries&#x27;])</code></pre>
+<h3>computed()</h3>
+<p><code>computed()</code> creates a value that is derived from other reactive state. It recalculates automatically when its dependencies change and caches the result between recalculations.</p>
+<pre><code class="language-js">import { ref, computed } from &#x27;vue&#x27;
+
+const items = ref([&#x27;Apples&#x27;, &#x27;Bananas&#x27;, &#x27;Cherries&#x27;])
+const count = computed(() =&gt; items.value.length)</code></pre>
+<p>In the template: <code>{{ count }}</code> — no <code>.value</code> needed, same as <code>ref</code>.</p>
+<h3>Template directives</h3>
+<p>Vue directives are special attributes that begin with <code>v-</code>. The most common ones:</p>
+<table>
+<thead><tr><th>Directive</th><th>Purpose</th><th>Shorthand</th></tr></thead>
+<tbody>
+<tr><td><code>v-bind:href</code></td><td>Bind an attribute to a JS expression</td><td><code>:href</code></td></tr>
+<tr><td><code>v-on:click</code></td><td>Attach an event listener</td><td><code>@click</code></td></tr>
+<tr><td><code>v-if</code></td><td>Conditionally render an element</td><td>—</td></tr>
+<tr><td><code>v-for</code></td><td>Render a list</td><td>—</td></tr>
+<tr><td><code>v-model</code></td><td>Two-way bind a form input</td><td>—</td></tr>
+</tbody>
+</table>
+<p>A <code>v-for</code> loop always needs a <code>:key</code> attribute. The key must be unique and stable — use an id, not the loop index, when the list can change:</p>
+<pre><code class="language-vue">&lt;ul&gt;
+  &lt;li v-for=&quot;item in items&quot; :key=&quot;item.id&quot;&gt;
+    {{ item.name }}
+  &lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+<h3>defineProps: passing data into a child component</h3>
+<p>Props are how a parent passes data down to a child. In the child component, declare what props it accepts:</p>
+<pre><code class="language-vue">&lt;!-- components/CardItem.vue --&gt;
+&lt;script setup&gt;
+defineProps({
+  title: String,
+  description: String,
+  imageUrl: String
+})
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;article class=&quot;card&quot;&gt;
+    &lt;img :src=&quot;imageUrl&quot; :alt=&quot;title&quot; /&gt;
+    &lt;h2&gt;{{ title }}&lt;/h2&gt;
+    &lt;p&gt;{{ description }}&lt;/p&gt;
+  &lt;/article&gt;
+&lt;/template&gt;</code></pre>
+<p>In the parent, pass values as attributes:</p>
+<pre><code class="language-vue">&lt;CardItem
+  title=&quot;Alpine Hike&quot;
+  description=&quot;A 6-mile trail with 2,000 ft elevation gain.&quot;
+  imageUrl=&quot;/images/hike.jpg&quot;
+/&gt;</code></pre>
+<p>Use <code>:title=&quot;someVariable&quot;</code> (with the colon) when the value comes from a reactive variable rather than a plain string literal.</p>
+<h3>A minimal v-for + component example</h3>
+<p>This pattern appears in nearly every project: a parent holds the data, a child renders one item, a <code>v-for</code> in the parent wires them together.</p>
+<pre><code class="language-vue">&lt;!-- App.vue --&gt;
+&lt;script setup&gt;
+import { ref } from &#x27;vue&#x27;
+import CardItem from &#x27;./components/CardItem.vue&#x27;
+
+const cards = ref([
+  { id: 1, title: &#x27;Card One&#x27;, description: &#x27;First card text.&#x27; },
+  { id: 2, title: &#x27;Card Two&#x27;, description: &#x27;Second card text.&#x27; },
+  { id: 3, title: &#x27;Card Three&#x27;, description: &#x27;Third card text.&#x27; }
+])
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;main&gt;
+    &lt;CardItem
+      v-for=&quot;card in cards&quot;
+      :key=&quot;card.id&quot;
+      :title=&quot;card.title&quot;
+      :description=&quot;card.description&quot;
+    /&gt;
+  &lt;/main&gt;
+&lt;/template&gt;</code></pre>
+<h2>Common mistakes</h2>
+<ol>
+<li><strong>Writing <code>count</code> instead of <code>count.value</code> in the script.</strong> <code>ref()</code> returns an object. Inside <code>&lt;script setup&gt;</code> you must use <code>.value</code> to read or write the wrapped value. The template is the only place where Vue auto-unwraps it.</li>
+<li><strong>Omitting <code>:key</code> on <code>v-for</code>.</strong> Vue will render the list, but it will produce a console warning and can cause subtle bugs when the list is reordered or filtered. Always provide a <code>:key</code>.</li>
+<li><strong>Using <code>:title=&quot;&#x27;Card One&#x27;&quot;</code> when they mean <code>title=&quot;Card One&quot;</code>.</strong> The colon means "evaluate this as JavaScript." <code>:title=&quot;&#x27;Card One&#x27;&quot;</code> works (it evaluates the string literal), but <code>title=&quot;Card One&quot;</code> is simpler and conventional for plain string props.</li>
+<li><strong>Editing <code>dist/</code> files.</strong> Vite outputs a <code>dist/</code> folder when you run <code>npm run build</code>. Those files are generated and will be overwritten. All edits belong in <code>src/</code>.</li>
+<li><strong>Importing a component but forgetting to use it.</strong> In <code>&lt;script setup&gt;</code>, imported components are automatically available in the template — you do not need to register them. But the import line still must be present.</li>
+</ol>
+<h2>Accessibility connection</h2>
+<p>The <code>&lt;style scoped&gt;</code> feature does not affect the semantic structure of your HTML. A card component that uses a <code>&lt;div&gt;</code> for its container is still a <code>&lt;div&gt;</code> after scoping. Choose semantic elements — <code>&lt;article&gt;</code>, <code>&lt;section&gt;</code>, <code>&lt;h2&gt;</code> — inside each component, because the compiled output is what assistive technology reads. When using <code>v-for</code> to render images, the <code>:alt</code> binding must be dynamic so each image gets a meaningful, unique description rather than a repeated empty or placeholder value.</p>
+<h2>Demo walkthrough</h2>
+<ol>
+<li>Scaffold a new project: <code>npm create vite@latest ui-cards -- --template vue</code>, then <code>cd ui-cards &amp;&amp; npm install &amp;&amp; npm run dev</code>.</li>
+<li>Open <code>src/App.vue</code>. Delete the default content in <code>&lt;script setup&gt;</code> and <code>&lt;template&gt;</code>.</li>
+<li>Create <code>src/components/CardItem.vue</code> with <code>defineProps</code> for <code>title</code> and <code>description</code>. Add a template that renders them inside an <code>&lt;article&gt;</code>.</li>
+<li>Back in <code>App.vue</code>, import <code>CardItem</code> and declare a <code>ref([])</code> array with three objects.</li>
+<li>Add <code>v-for</code> with <code>:key</code> in the template, passing each object's properties as props.</li>
+<li>Open the browser. Show Vue DevTools: click a component in the tree and inspect its props in the right panel.</li>
+<li>Add a <code>ref(true)</code> called <code>showCards</code> and a button that toggles it. Wrap the list in <code>v-if=&quot;showCards&quot;</code>. Show it disappear and reappear.</li>
+</ol>
+<h2>Practice prompt</h2>
+<p>Create a <code>TagBadge.vue</code> component that accepts a <code>label</code> prop (String) and a <code>color</code> prop (String, default <code>&#x27;blue&#x27;</code>). In <code>App.vue</code>, declare an array of five tag objects and render them with <code>v-for</code>. Add a button that appends a new tag to the array and confirm that Vue re-renders the list without a page reload.</p>
+<h2>Bridge</h2>
+<p>Lab 11 — Vue UI Card System asks you to build a card display driven by a data array, which is exactly the <code>v-for</code> + component pattern from today. Quiz 7 covers <code>ref()</code>, <code>computed()</code>, <code>v-for</code>, and <code>defineProps</code>. Project 2 Build begins this week; the card system you build in the lab is a direct starting point for the project's component layer.</p>
 </body>
 </html>

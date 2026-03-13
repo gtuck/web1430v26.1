@@ -1,11 +1,140 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-<title>Week 05 Lecture Notes</title>
+<title>Week 05 Lecture Notes: Collections, Objects, Methods, and JSON Thinking</title>
 <meta name="identifier" content="ia40e2832c29fc174717185dd9a3b24a7"/>
 <meta name="workflow_state" content="active"/>
 </head>
 <body>
-<h1>Week 05 Lecture Notes: Collections, Objects, Methods, and JSON Thinking</h1><h2>Weekly focus</h2><p>Arrays, Objects, and Data Modeling</p><h2>Why this matters</h2><p>This week's material helps students move from isolated syntax toward purposeful client-side design decisions. The lecture emphasizes examples that can be inspected in the browser and rebuilt in small pieces.</p><h2>Learning targets</h2><ul><li>Explain the core concept in plain language</li><li>Build one focused example from scratch</li><li>Debug mistakes with browser tools</li><li>Connect this week's ideas to the running course projects</li></ul><h2>Lecture flow</h2><ol><li>Warm-up concept check</li><li>Demonstration of a focused example</li><li>Guided breakdown of the code</li><li>Common bug patterns</li><li>Independent practice prompt</li><li>Bridge to lab, assignment, or quiz</li></ol><h2>Instructor notes</h2><p>Use short code examples, narrate tradeoffs, and revisit accessibility in every demo. Avoid introducing abstractions before students can inspect the DOM, state, or network behavior involved.</p><h2>Exit ticket</h2><p>Ask students to explain one idea from the week using the sentence frame: <em>This matters in the browser because...</em></p>
+<h1>Week 05 Lecture Notes: Collections, Objects, Methods, and JSON Thinking</h1>
+<h2>Weekly focus</h2>
+<p>Modeling information as arrays and objects before writing any DOM or display code.</p>
+<h2>Why this matters</h2>
+<p>Real web applications are data-driven: a product catalog, a to-do list, a user profile — all of it starts as structured data before any HTML is created. Learning to think about data shape first prevents the most common beginner mistake: writing display code and data code tangled together. When you separate the two, you can change what the page looks like without touching the underlying data, and vice versa.</p>
+<h2>Learning targets</h2>
+<ul>
+<li>Create arrays and objects using literal syntax and access their values correctly</li>
+<li>Use <code>.map()</code>, <code>.filter()</code>, <code>.find()</code>, and <code>.forEach()</code> to transform or search array data without writing manual loops</li>
+<li>Read and write object properties using dot notation and bracket notation</li>
+<li>Destructure values from objects and arrays into named variables</li>
+<li>Serialize data to a JSON string with <code>JSON.stringify</code> and parse it back with <code>JSON.parse</code></li>
+<li>Describe the "data first" approach: sketch the data shape before writing DOM code</li>
+</ul>
+<h2>Core concepts</h2>
+<h3>Arrays: literals, index access, and length</h3>
+<p>An array is an ordered list. Items are accessed by zero-based index. The <code>.length</code> property always equals the index of the last item plus one.</p>
+<pre><code class="language-js">const colors = [&quot;red&quot;, &quot;green&quot;, &quot;blue&quot;];
+
+console.log(colors[0]);      // &quot;red&quot;
+console.log(colors[2]);      // &quot;blue&quot;
+console.log(colors.length);  // 3
+console.log(colors[10]);     // undefined — no error, just undefined</code></pre>
+<h3>Array methods: map, filter, find, forEach</h3>
+<p>These four methods are the workhorses of data transformation in modern JavaScript. They all accept a callback function that runs once per item.</p>
+<p><code>.map()</code> returns a new array of the same length, with each item transformed:</p>
+<pre><code class="language-js">const prices = [10, 20, 30];
+const withTax = prices.map(p =&gt; p * 1.07);
+console.log(withTax); // [10.7, 21.4, 32.1]</code></pre>
+<p><code>.filter()</code> returns a new array containing only the items that pass a test:</p>
+<pre><code class="language-js">const products = [
+  { name: &quot;Shirt&quot;, inStock: true },
+  { name: &quot;Hat&quot;, inStock: false },
+  { name: &quot;Shoes&quot;, inStock: true },
+];
+const available = products.filter(p =&gt; p.inStock);
+// available has 2 items: Shirt and Shoes</code></pre>
+<p><code>.find()</code> returns the first matching item (or <code>undefined</code> if none match):</p>
+<pre><code class="language-js">const found = products.find(p =&gt; p.name === &quot;Hat&quot;);
+console.log(found); // { name: &quot;Hat&quot;, inStock: false }</code></pre>
+<p><code>.forEach()</code> runs a function for each item but does not return a new array — use it for side effects like logging or updating the DOM:</p>
+<pre><code class="language-js">products.forEach(p =&gt; {
+  console.log(`${p.name}: ${p.inStock ? &quot;available&quot; : &quot;out of stock&quot;}`);
+});</code></pre>
+<h3>Object literals, dot notation, and bracket notation</h3>
+<p>An object stores key-value pairs. Use dot notation for known, fixed keys. Use bracket notation when the key is dynamic (stored in a variable or contains special characters).</p>
+<pre><code class="language-js">const product = {
+  name: &quot;Trail Running Shoes&quot;,
+  price: 89.99,
+  inStock: true,
+};
+
+console.log(product.name);           // &quot;Trail Running Shoes&quot;
+console.log(product[&quot;price&quot;]);       // 89.99
+
+const key = &quot;inStock&quot;;
+console.log(product[key]);           // true — bracket notation with a variable</code></pre>
+<p>You can add, update, or delete properties on any object (unless it is frozen):</p>
+<pre><code class="language-js">product.rating = 4.5;        // add
+product.price = 79.99;       // update
+delete product.inStock;      // remove</code></pre>
+<h3>Destructuring</h3>
+<p>Destructuring unpacks values from an object or array into named variables in a single statement — cleaner than writing three separate assignments.</p>
+<pre><code class="language-js">const { name, price } = product;
+console.log(name);  // &quot;Trail Running Shoes&quot;
+console.log(price); // 79.99
+
+// Array destructuring
+const [first, second] = colors;
+console.log(first);  // &quot;red&quot;
+console.log(second); // &quot;green&quot;
+
+// Rename on destructure
+const { name: productName } = product;
+console.log(productName); // &quot;Trail Running Shoes&quot;</code></pre>
+<p>Destructuring is especially useful inside callback functions: <code>products.map(({ name, price }) =&gt; ...)</code> is more readable than <code>products.map(p =&gt; p.name ...)</code>.</p>
+<h3>JSON.stringify and JSON.parse</h3>
+<p>JSON (JavaScript Object Notation) is the standard format for sending and storing structured data. <code>JSON.stringify</code> converts a JavaScript value to a JSON string. <code>JSON.parse</code> converts a JSON string back to a JavaScript value.</p>
+<pre><code class="language-js">const cart = [
+  { name: &quot;Shirt&quot;, qty: 2 },
+  { name: &quot;Hat&quot;, qty: 1 },
+];
+
+const json = JSON.stringify(cart);
+console.log(json);
+// &#x27;[{&quot;name&quot;:&quot;Shirt&quot;,&quot;qty&quot;:2},{&quot;name&quot;:&quot;Hat&quot;,&quot;qty&quot;:1}]&#x27;
+console.log(typeof json); // &quot;string&quot;
+
+const restored = JSON.parse(json);
+console.log(restored[0].name); // &quot;Shirt&quot;</code></pre>
+<p><code>JSON.stringify</code> does not preserve functions, <code>undefined</code> values, or <code>Symbol</code> keys — they are silently dropped. This is important when debugging missing data.</p>
+<h3>Thinking about data shape first</h3>
+<p>Before writing any HTML or DOM code, sketch your data as a JavaScript array of objects. Ask:</p>
+<ul>
+<li>What is the minimum set of properties each item needs?</li>
+<li>Which properties will be displayed? Which are used only for filtering or logic?</li>
+<li>Is there a unique identifier (an <code>id</code>) so you can find and update a specific item?</li>
+</ul>
+<pre><code class="language-js">// Data sketch for a product explorer
+const products = [
+  { id: 1, name: &quot;Trail Shoes&quot;, category: &quot;footwear&quot;, price: 89.99, inStock: true },
+  { id: 2, name: &quot;Running Hat&quot;, category: &quot;accessories&quot;, price: 19.99, inStock: false },
+  { id: 3, name: &quot;Wool Socks&quot;, category: &quot;accessories&quot;, price: 12.99, inStock: true },
+];</code></pre>
+<p>Once you have the data shape, the display code becomes mechanical: loop over the array, create a card per item, plug in the properties.</p>
+<h2>Common mistakes</h2>
+<ol>
+<li><strong>Mutating the original array with <code>.map()</code>.</strong> <code>.map()</code> returns a new array — it does not change the original. Assign the result: <code>const doubled = prices.map(p =&gt; p * 2)</code>, not <code>prices.map(...)</code> with the return value thrown away.</li>
+<li><strong>Confusing <code>.find()</code> and <code>.filter()</code>.</strong> <code>.find()</code> returns one item (or <code>undefined</code>). <code>.filter()</code> always returns an array (possibly empty). If you try to call <code>.map()</code> on the result of <code>.find()</code>, you will get an error.</li>
+<li><strong>Accessing a property on <code>undefined</code>.</strong> If <code>.find()</code> returns <code>undefined</code> and you then write <code>.name</code> on the result, you get a TypeError. Always check if the result exists before accessing its properties.</li>
+<li><strong>Using dot notation with a dynamic key.</strong> <code>obj.key</code> always looks for a property literally named <code>&quot;key&quot;</code>. If you have a variable called <code>key</code>, you must use <code>obj[key]</code>.</li>
+<li><strong>Editing the JSON string directly instead of the object.</strong> JSON is a serialization format for transport or storage — not a working data structure. Parse it back to an object before modifying it.</li>
+</ol>
+<h2>Accessibility connection</h2>
+<p>Structuring data as arrays of objects — rather than scraping values directly out of the DOM — keeps your accessible markup clean and authoritative. When you build the DOM from a data array, every element is created deliberately: you can ensure that <code>alt</code> text, <code>aria-label</code> values, and semantic roles are set from the data rather than inferred or forgotten. It also makes it straightforward to regenerate or update the page without inadvertently stripping ARIA attributes that were added by hand.</p>
+<h2>Demo walkthrough</h2>
+<p><strong>Demo: Product Data Explorer (Data Layer)</strong></p>
+<ol>
+<li>Create <code>demo-05.js</code> with a <code>products</code> array of six objects, each having <code>id</code>, <code>name</code>, <code>category</code>, <code>price</code>, and <code>inStock</code> properties.</li>
+<li>Use <code>.filter()</code> to create an <code>inStockProducts</code> array and log its length.</li>
+<li>Use <code>.map()</code> to create a <code>priceLabels</code> array of formatted strings: <code>&quot;Trail Shoes — $89.99&quot;</code>.</li>
+<li>Use <code>.find()</code> to locate the product with <code>id === 3</code> and log its name.</li>
+<li>Destructure <code>name</code> and <code>price</code> from the found product and log both.</li>
+<li>Use <code>JSON.stringify(products, null, 2)</code> and paste the output into a <code>&lt;pre&gt;</code> tag to show how the data looks as JSON — the same format a real API would return.</li>
+<li>Ask students: "If we needed to add a <code>rating</code> property, where in this code would we change it? Would we need to touch the display code?" (Answer: no — that is the benefit of data-first design.)</li>
+</ol>
+<h2>Practice prompt</h2>
+<p>Create a <code>students</code> array with at least five objects. Each object should have <code>name</code>, <code>grade</code> (a number 0–100), and <code>enrolled</code> (boolean) properties. Then write three things: (1) use <code>.filter()</code> to get only enrolled students, (2) use <code>.map()</code> to produce an array of strings in the format <code>&quot;Alice: B&quot;</code> using a helper function that converts the grade number to a letter, and (3) use <code>.find()</code> to locate a student by name. Log all three results to the console.</p>
+<h2>Bridge</h2>
+<p>The data structures you build this week are exactly what Lab 05's Product Data Explorer will render to the page. For Quiz 3, you should be able to trace through a chain like <code>products.filter(...).map(...)</code> and predict its output. Your Project 1 Proposal should include a rough data sketch — an array of objects showing what properties your project's main data will have. That sketch will save you significant time when you start building in Week 06.</p>
 </body>
 </html>

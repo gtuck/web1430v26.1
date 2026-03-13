@@ -1,11 +1,107 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-<title>Week 14 Lecture Notes</title>
+<title>Week 14 Lecture Notes: Quality Checks, Accessibility Audits, and Shipping to the Web</title>
 <meta name="identifier" content="i9d77745e94c56881eb3400e823937134"/>
 <meta name="workflow_state" content="active"/>
 </head>
 <body>
-<h1>Week 14 Lecture Notes: Quality Checks, Accessibility Audits, and Shipping to the Web</h1><h2>Weekly focus</h2><p>Testing, Performance, and Deployment</p><h2>Why this matters</h2><p>This week's material helps students move from isolated syntax toward purposeful client-side design decisions. The lecture emphasizes examples that can be inspected in the browser and rebuilt in small pieces.</p><h2>Learning targets</h2><ul><li>Explain the core concept in plain language</li><li>Build one focused example from scratch</li><li>Debug mistakes with browser tools</li><li>Connect this week's ideas to the running course projects</li></ul><h2>Lecture flow</h2><ol><li>Warm-up concept check</li><li>Demonstration of a focused example</li><li>Guided breakdown of the code</li><li>Common bug patterns</li><li>Independent practice prompt</li><li>Bridge to lab, assignment, or quiz</li></ol><h2>Instructor notes</h2><p>Use short code examples, narrate tradeoffs, and revisit accessibility in every demo. Avoid introducing abstractions before students can inspect the DOM, state, or network behavior involved.</p><h2>Exit ticket</h2><p>Ask students to explain one idea from the week using the sentence frame: <em>This matters in the browser because...</em></p>
+<h1>Week 14 Lecture Notes: Quality Checks, Accessibility Audits, and Shipping to the Web</h1>
+<h2>Weekly focus</h2>
+<p>Running a Lighthouse audit, fixing the most common accessibility failures, and deploying a Vite project to GitHub Pages or Netlify.</p>
+<h2>Why this matters</h2>
+<p>Shipping is not the last step — auditing before shipping is. A project with a Lighthouse accessibility score of 62 communicates to a reviewer that accessibility was not a priority. Knowing how to run a Lighthouse audit, interpret each category, and fix the most common failures in under an hour is a concrete, employable skill. Deployment is the step that turns a local project into something you can link on a resume.</p>
+<h2>Learning targets</h2>
+<ul>
+<li>Run a Lighthouse audit in Chrome DevTools and explain what each of the four score categories measures</li>
+<li>Identify and fix the five most common accessibility failures flagged by Lighthouse</li>
+<li>Manually verify keyboard navigation and check a page with a screen reader</li>
+<li>Build a Vite project with <code>npm run build</code> and understand what the <code>dist/</code> folder contains</li>
+<li>Deploy a project to GitHub Pages using the <code>gh-pages</code> branch approach or the <code>/docs</code> folder approach</li>
+<li>Deploy a project to Netlify using drag-and-drop or the Netlify CLI</li>
+</ul>
+<h2>Core concepts</h2>
+<h3>What Lighthouse measures</h3>
+<p>Lighthouse is a built-in Chrome DevTools audit tool. Open it under the DevTools Lighthouse tab, select Desktop or Mobile, and click Analyze. It produces scores from 0–100 in four categories:</p>
+<p><strong>Performance</strong> — measures how fast the page loads and becomes interactive. Key metrics include Largest Contentful Paint (LCP, when the main content is visible), Total Blocking Time (TBT, how long the main thread is blocked by JavaScript), and Cumulative Layout Shift (CLS, whether elements jump around while loading). A Vite-built Vue app typically scores 90+ on performance by default because Vite tree-shakes unused code and minifies aggressively.</p>
+<p><strong>Accessibility</strong> — runs automated checks against WCAG guidelines. It checks for missing alt text, low color contrast, missing form labels, missing landmark regions, and more. This score is bounded: automated tools catch roughly 30–40% of real accessibility issues. A score of 100 does not mean the page is fully accessible.</p>
+<p><strong>Best Practices</strong> — checks for HTTPS, no deprecated APIs, correct image aspect ratios, and absence of browser console errors.</p>
+<p><strong>SEO</strong> — checks for a meta description, crawlable links, mobile viewport meta tag, and legible font sizes.</p>
+<p>Run Lighthouse in an incognito window to avoid browser extensions skewing the results. Also run it on the production build (<code>dist/</code>), not the Vite dev server, for accurate performance numbers.</p>
+<h3>Five common accessibility failures and how to fix them</h3>
+<p><strong>1. Images missing alt text.</strong> Every <code>&lt;img&gt;</code> must have an <code>alt</code> attribute. For informative images, write a meaningful description. For decorative images, use <code>alt=&quot;&quot;</code> (empty string, not omitted). In Vue, bind it dynamically:</p>
+<pre><code class="language-vue">&lt;img :src=&quot;product.imageUrl&quot; :alt=&quot;product.name&quot; /&gt;</code></pre>
+<p>Lighthouse flags both missing <code>alt</code> attributes and <code>alt=&quot;image&quot;</code> placeholder text as failures.</p>
+<p><strong>2. Low color contrast.</strong> Text must have a contrast ratio of at least 4.5:1 against its background for normal text (3:1 for large text, 18px+ bold or 24px+ regular). Lighthouse reports the failing ratio. Fix it by darkening the text color or lightening/darkening the background until the ratio passes. The WebAIM Contrast Checker at webaim.org/resources/contrastchecker/ lets you find a compliant value quickly.</p>
+<p><strong>3. Form inputs without labels.</strong> Every <code>&lt;input&gt;</code>, <code>&lt;select&gt;</code>, and <code>&lt;textarea&gt;</code> needs a programmatic label. Use a <code>&lt;label for=&quot;id&quot;&gt;</code> paired with an <code>id</code> on the input, or wrap the input inside the label element. <code>placeholder</code> text is not a substitute — it disappears when the user types and is not reliably announced by screen readers.</p>
+<pre><code class="language-html">&lt;label for=&quot;search&quot;&gt;Search products&lt;/label&gt;
+&lt;input id=&quot;search&quot; type=&quot;text&quot; v-model=&quot;query&quot; /&gt;</code></pre>
+<p><strong>4. Missing landmark regions.</strong> Screen reader users navigate by jumping between landmark regions: <code>&lt;header&gt;</code>, <code>&lt;nav&gt;</code>, <code>&lt;main&gt;</code>, <code>&lt;footer&gt;</code>, <code>&lt;aside&gt;</code>. If your page uses only <code>&lt;div&gt;</code> containers, there are no landmarks to jump to. Wrap your primary content in <code>&lt;main&gt;</code>. Put your site navigation in <code>&lt;nav&gt;</code>. This is a structural fix in <code>App.vue</code> and takes less than two minutes.</p>
+<p><strong>5. Interactive elements not reachable by keyboard.</strong> A button created with a <code>&lt;div&gt;</code> and a click handler is not focusable by default and has no keyboard activation. Use semantic HTML: <code>&lt;button&gt;</code>, <code>&lt;a href&gt;</code>, <code>&lt;input&gt;</code>. If you must use a custom element, add <code>tabindex=&quot;0&quot;</code> and a <code>keydown</code> handler for Enter and Space. Test by pressing Tab to navigate your entire page without a mouse — every action must be reachable.</p>
+<h3>Manual accessibility testing</h3>
+<p>Lighthouse is a starting point. Two manual checks you must do before calling a project complete:</p>
+<p><strong>Keyboard navigation:</strong> Press Tab to move forward through interactive elements, Shift+Tab to move backward. Every link, button, and input must be reachable and visually focused. Test that modal dialogs (if present) trap focus inside them and return focus to the trigger when closed.</p>
+<p><strong>Screen reader:</strong> On macOS, enable VoiceOver with Command+F5. On Windows, use NVDA (free download) or Narrator. Navigate to your page and listen. Does the page make sense when you cannot see it? Are images described? Do form errors get announced? You do not need to be a screen reader expert — even ten minutes of listening reveals major gaps.</p>
+<h3>Building for production</h3>
+<p>The Vite dev server is not what you deploy. Run:</p>
+<pre><code class="language-bash">npm run build</code></pre>
+<p>This produces a <code>dist/</code> folder containing:</p>
+<ul>
+<li><code>index.html</code> — the entry HTML with injected <code>&lt;script&gt;</code> and <code>&lt;link&gt;</code> tags</li>
+<li><code>assets/</code> — hashed filenames for cache-busting (e.g., <code>index-BxYzK1a3.js</code>)</li>
+</ul>
+<p>The <code>dist/</code> folder is self-contained. You can open <code>dist/index.html</code> directly in a browser (with some caveats around file:// paths) or serve it from any static file host.</p>
+<h3>Deploying to GitHub Pages</h3>
+<p>GitHub Pages serves static files from a repository. Two approaches:</p>
+<p><strong>Option 1 — <code>/docs</code> folder.</strong> In <code>vite.config.js</code>, set <code>build.outDir: &#x27;docs&#x27;</code>. Run <code>npm run build</code>. Commit the <code>docs/</code> folder. In the repository's Settings &gt; Pages, set the source to the <code>main</code> branch, <code>/docs</code> folder.</p>
+<p><strong>Option 2 — <code>gh-pages</code> branch.</strong> Install the <code>gh-pages</code> package and add a deploy script:</p>
+<pre><code class="language-bash">npm install --save-dev gh-pages</code></pre>
+<p>In <code>package.json</code>:</p>
+<pre><code class="language-json">&quot;scripts&quot;: {
+  &quot;deploy&quot;: &quot;npm run build &amp;&amp; gh-pages -d dist&quot;
+}</code></pre>
+<pre><code class="language-bash">npm run deploy</code></pre>
+<p>This pushes the contents of <code>dist/</code> to a <code>gh-pages</code> branch. In Settings &gt; Pages, set the source to the <code>gh-pages</code> branch. The site is live at <code>https://&lt;username&gt;.github.io/&lt;repo-name&gt;/</code>.</p>
+<p>Important: if your Vite project is not at the root of a domain (e.g., it lives at <code>/repo-name/</code>), you must set <code>base</code> in <code>vite.config.js</code>:</p>
+<pre><code class="language-js">export default {
+  base: &#x27;/repo-name/&#x27;
+}</code></pre>
+<p>Without this, asset paths like <code>/assets/index.js</code> will 404.</p>
+<h3>Deploying to Netlify</h3>
+<p><strong>Drag-and-drop:</strong> Run <code>npm run build</code>, then drag the <code>dist/</code> folder onto the drop zone at app.netlify.com/drop. Netlify gives you a random URL immediately. You can rename it in site settings.</p>
+<p><strong>Netlify CLI:</strong></p>
+<pre><code class="language-bash">npm install -g netlify-cli
+netlify deploy --dir=dist --prod</code></pre>
+<p>Netlify automatically handles single-page app routing if you add a <code>_redirects</code> file to <code>dist/</code>:</p>
+<pre><code>/*  /index.html  200</code></pre>
+<p>For Vue Router apps, this prevents 404 errors when users navigate directly to a URL like <code>/about</code>.</p>
+<h3>Custom domains</h3>
+<p>Both GitHub Pages and Netlify support custom domains. In GitHub Pages, add a <code>CNAME</code> file to the root of your deployment with your domain name. In Netlify, go to Domain settings and follow the DNS configuration steps. Free TLS certificates are provided automatically by both platforms.</p>
+<h3>What goes in .gitignore</h3>
+<p>Never commit <code>node_modules/</code> or <code>dist/</code>. Both are generated and can be reproduced from <code>package.json</code> and source files. A standard Vite project's <code>.gitignore</code> includes both. If you are using the <code>/docs</code> folder for GitHub Pages deployment, you must commit <code>docs/</code> — that is the intentional exception.</p>
+<h2>Common mistakes</h2>
+<ol>
+<li><strong>Auditing the Vite dev server instead of the production build.</strong> The dev server includes unminified source files, hot-reload scripts, and no optimization. Always audit <code>npm run build</code> output served over a local static server or after deploying.</li>
+<li><strong>Forgetting <code>base</code> in <code>vite.config.js</code> for GitHub Pages subdirectory deploys.</strong> The app loads but all assets 404. Add <code>base: &#x27;/repo-name/&#x27;</code> to match your repository name.</li>
+<li><strong>Using <code>placeholder</code> as a label substitute.</strong> Placeholder text disappears on input, has insufficient contrast in most browsers by default, and is not reliably announced by screen readers. It is supplementary hint text, not a label.</li>
+<li><strong>Treating a Lighthouse score of 100 as a guarantee of accessibility.</strong> Automated tools check for detectable structural errors. They cannot tell whether alt text is meaningful, whether focus order makes logical sense, or whether a custom widget is usable with a screen reader. Manual testing is required.</li>
+<li><strong>Committing <code>node_modules/</code> to the repository.</strong> This is a common mistake on first deployments. It bloats the repository, slows clones, and can cause version conflicts. Verify <code>.gitignore</code> includes <code>node_modules/</code> before the first <code>git add</code>.</li>
+</ol>
+<h2>Accessibility connection</h2>
+<p>Lighthouse accessibility scores measure automated rule compliance, not lived experience. The goal of this week's audit is not a number — it is building the habit of checking your work against the needs of real users. Keyboard-only navigation is used by people with motor disabilities, power users, and people with broken pointing devices. Screen readers are used by people who are blind or have low vision. Both groups are part of your audience on any public web project, and building with them in mind from the start is far less work than retrofitting accessibility at the end.</p>
+<h2>Demo walkthrough</h2>
+<ol>
+<li>Open the completed Project 2 build (or the Week 12/13 card project) in Chrome.</li>
+<li>Open DevTools &gt; Lighthouse. Run an audit (Desktop mode, all categories).</li>
+<li>Walk through each score. Click into the Accessibility section and expand the failing items.</li>
+<li>Fix one failure live: find an image missing alt text in the source, add a meaningful <code>:alt</code> binding, rebuild, re-audit to show the score change.</li>
+<li>Fix a second failure: find a form input missing a label, add <code>&lt;label for=&quot;...&quot;&gt;</code> and a matching <code>id</code>, re-audit.</li>
+<li>Run <code>npm run build</code>. Show the <code>dist/</code> folder in the file system. Serve it locally: <code>npx serve dist</code>.</li>
+<li>Add <code>gh-pages</code> to the project, add a <code>deploy</code> script, set <code>base</code> in <code>vite.config.js</code>, and run <code>npm run deploy</code>. Open the live URL.</li>
+</ol>
+<h2>Practice prompt</h2>
+<p>Run a Lighthouse audit on your Project 2. Document every Accessibility failure in a short list. Fix at least three failures. Re-run Lighthouse and screenshot the before and after scores. Then deploy the fixed build to GitHub Pages or Netlify and submit the live URL alongside your fix list.</p>
+<h2>Bridge</h2>
+<p>Lab 13 — Lighthouse, Accessibility, and Deployment walks you through this exact sequence: audit, fix, deploy. Quiz 8 covers Lighthouse categories, common accessibility failures, and the GitHub Pages deployment steps. Project 2 final submission requires a live deployed URL — the deploy workflow from today is how you produce that URL.</p>
 </body>
 </html>

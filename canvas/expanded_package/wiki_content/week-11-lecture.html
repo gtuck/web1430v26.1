@@ -1,11 +1,144 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-<title>Week 11 Lecture Notes</title>
+<title>Week 11 Lecture Notes: File Organization, ES Modules, and Build Tooling</title>
 <meta name="identifier" content="i34cdefca0ae742258b1dcc4d3022217a"/>
 <meta name="workflow_state" content="active"/>
 </head>
 <body>
-<h1>Week 11 Lecture Notes: File Organization, ES Modules, and Build Tooling</h1><h2>Weekly focus</h2><p>Tooling and Modular JavaScript</p><h2>Why this matters</h2><p>This week's material helps students move from isolated syntax toward purposeful client-side design decisions. The lecture emphasizes examples that can be inspected in the browser and rebuilt in small pieces.</p><h2>Learning targets</h2><ul><li>Explain the core concept in plain language</li><li>Build one focused example from scratch</li><li>Debug mistakes with browser tools</li><li>Connect this week's ideas to the running course projects</li></ul><h2>Lecture flow</h2><ol><li>Warm-up concept check</li><li>Demonstration of a focused example</li><li>Guided breakdown of the code</li><li>Common bug patterns</li><li>Independent practice prompt</li><li>Bridge to lab, assignment, or quiz</li></ol><h2>Instructor notes</h2><p>Use short code examples, narrate tradeoffs, and revisit accessibility in every demo. Avoid introducing abstractions before students can inspect the DOM, state, or network behavior involved.</p><h2>Exit ticket</h2><p>Ask students to explain one idea from the week using the sentence frame: <em>This matters in the browser because...</em></p>
+<h1>Week 11 Lecture Notes: File Organization, ES Modules, and Build Tooling</h1>
+<h2>Weekly focus</h2>
+<p>Split a single-file JavaScript project into modules with clear responsibilities, and use Vite to run a development server and produce an optimized build.</p>
+<h2>Why this matters</h2>
+<p>A single JavaScript file works fine for small projects, but it does not scale — global variables from one section collide with variables from another, it becomes impossible to know what depends on what, and loading one large file is slower than loading only what a page needs. ES Modules give you a standard, browser-native way to split code into focused files with explicit imports and exports. Build tools like Vite remove the friction from that workflow and add capabilities (hot reload, bundling, minification) that are standard in professional development environments.</p>
+<h2>Learning targets</h2>
+<ul>
+<li>Explain what global scope pollution is and why it is a problem in large projects</li>
+<li>Write named exports and default exports in a module file</li>
+<li>Import named and default exports into another file using correct syntax</li>
+<li>Explain what Vite provides and how it differs from opening an HTML file directly</li>
+<li>Initialize a Vite project from the command line and identify the role of <code>package.json</code> and <code>node_modules</code></li>
+<li>Explain why <code>node_modules</code> belongs in <code>.gitignore</code></li>
+</ul>
+<h2>Core concepts</h2>
+<h3>The problem: global scope pollution</h3>
+<p>When all JavaScript lives in one file (or in multiple files loaded with <code>&lt;script&gt;</code> tags in HTML), every <code>var</code>, <code>function</code>, and <code>const</code> at the top level becomes a global variable on <code>window</code>. In a small project, that is manageable. In a larger one:</p>
+<ul>
+<li>Two files both define <code>function formatDate()</code> — one silently overwrites the other</li>
+<li>A utility function named <code>state</code> collides with a different file's <code>state</code> variable</li>
+<li>You cannot tell which parts of the code depend on which other parts</li>
+<li>Loading order matters, and getting it wrong causes <code>ReferenceError</code> at runtime</li>
+</ul>
+<p>Modules solve this by giving each file its own scope. Nothing is global unless you explicitly export it and explicitly import it.</p>
+<h3>ES module syntax: named exports</h3>
+<p>Named exports let a file expose multiple specific values. Any <code>const</code>, <code>function</code>, or <code>class</code> can be exported.</p>
+<pre><code class="language-js">// utils/format.js
+export function formatDate(dateString) {
+  return new Date(dateString).toLocaleDateString(&quot;en-US&quot;, {
+    year: &quot;numeric&quot;,
+    month: &quot;long&quot;,
+    day: &quot;numeric&quot;,
+  });
+}
+
+export function formatCurrency(cents) {
+  return `$${(cents / 100).toFixed(2)}`;
+}</code></pre>
+<pre><code class="language-js">// main.js
+import { formatDate, formatCurrency } from &quot;./utils/format.js&quot;;
+
+console.log(formatDate(&quot;2025-03-15&quot;));   // &quot;March 15, 2025&quot;
+console.log(formatCurrency(1999));        // &quot;$19.99&quot;</code></pre>
+<p>The <code>{ }</code> braces in the import match the exported names exactly. Importing a name that was not exported causes a <code>SyntaxError</code>.</p>
+<h3>ES module syntax: default exports</h3>
+<p>A default export represents the primary thing a file provides. A file can have only one default export.</p>
+<pre><code class="language-js">// components/card.js
+export default function renderCard(item) {
+  const article = document.createElement(&quot;article&quot;);
+  article.className = &quot;card&quot;;
+  article.innerHTML = `
+    &lt;h2&gt;${item.title}&lt;/h2&gt;
+    &lt;p&gt;${item.description}&lt;/p&gt;
+  `;
+  return article;
+}</code></pre>
+<pre><code class="language-js">// main.js
+import renderCard from &quot;./components/card.js&quot;;
+
+const card = renderCard({ title: &quot;Hello&quot;, description: &quot;World&quot; });
+document.getElementById(&quot;grid&quot;).append(card);</code></pre>
+<p>The import does not use <code>{ }</code> for default exports, and you can name it anything you want at the import site — though using the same name is clearest.</p>
+<h3>Mixing named and default exports</h3>
+<p>A file can have both, and you can import both in one statement:</p>
+<pre><code class="language-js">import renderCard, { cardStyles, CARD_LIMIT } from &quot;./components/card.js&quot;;</code></pre>
+<h3>Module scope</h3>
+<p>Inside a module, <code>const</code>, <code>let</code>, and <code>function</code> declarations are scoped to that file. They do not appear on <code>window</code>. Two modules can each define a <code>const state = {}</code> without interfering.</p>
+<p>You also cannot use <code>import</code> or <code>export</code> in a regular <code>&lt;script&gt;</code> tag. You must use <code>&lt;script type=&quot;module&quot;&gt;</code>:</p>
+<pre><code class="language-html">&lt;script type=&quot;module&quot; src=&quot;./main.js&quot;&gt;&lt;/script&gt;</code></pre>
+<p>Without <code>type=&quot;module&quot;</code>, the browser treats the file as a classic script and <code>import</code> statements cause a <code>SyntaxError</code>.</p>
+<h3>What Vite does</h3>
+<p>Opening an HTML file directly (<code>file://</code>) works for simple pages, but modules and many browser APIs require a real HTTP server. Vite provides:</p>
+<ul>
+<li><strong>Dev server</strong> — serves your project over <code>http://localhost:5173</code> so modules, fetch, and other APIs work correctly</li>
+<li><strong>Hot Module Replacement (HMR)</strong> — when you save a file, only that module is swapped in the browser without a full reload; your app state is preserved</li>
+<li><strong>Build step</strong> — <code>npm run build</code> produces a <code>dist/</code> folder with bundled, minified files ready for deployment</li>
+<li><strong>Zero configuration for vanilla JS</strong> — no webpack config file needed; it works out of the box</li>
+</ul>
+<p>Vite is not required to use ES modules, but it makes the developer experience significantly smoother.</p>
+<h3>Scaffolding a Vite project</h3>
+<pre><code class="language-bash">npm create vite@latest my-project -- --template vanilla
+cd my-project
+npm install
+npm run dev</code></pre>
+<p>What this creates:</p>
+<pre><code>my-project/
+  index.html         # entry point — loads main.js as a module
+  main.js            # your JavaScript entry point
+  style.css
+  package.json       # project metadata and script definitions
+  node_modules/      # installed packages — never commit this
+  .gitignore         # already excludes node_modules</code></pre>
+<p>The <code>package.json</code> file records your project name, version, and the <code>scripts</code> block that defines <code>npm run dev</code> and <code>npm run build</code>.</p>
+<h3>npm and package.json</h3>
+<p><code>npm</code> (Node Package Manager) manages third-party libraries. When you run <code>npm install</code>, npm reads <code>package.json</code> and downloads every listed dependency into <code>node_modules/</code>.</p>
+<p>Key concepts:</p>
+<ul>
+<li><code>npm install &lt;package&gt;</code> — downloads a package and adds it to <code>package.json</code></li>
+<li><code>node_modules/</code> — can contain thousands of files; do not commit it</li>
+<li><code>package-lock.json</code> — records exact versions installed; do commit this</li>
+</ul>
+<h3>Why node_modules goes in .gitignore</h3>
+<p><code>node_modules/</code> can be hundreds of megabytes and is entirely reproducible from <code>package.json</code> by running <code>npm install</code>. Committing it makes your repository enormous and creates constant merge conflicts. Any developer who clones your repository runs <code>npm install</code> and gets an identical copy of all dependencies. Vite's <code>.gitignore</code> template already excludes it.</p>
+<h2>Common mistakes</h2>
+<ol>
+<li><strong>Using <code>import</code> in a <code>&lt;script&gt;</code> without <code>type=&quot;module&quot;</code>.</strong> The browser will throw <code>SyntaxError: Cannot use import statement outside a module</code>. Always add <code>type=&quot;module&quot;</code> to any script tag that uses <code>import</code>.</li>
+<li><strong>Importing with <code>{ }</code> braces for a default export (or without them for a named export).</strong> Default exports: no braces. Named exports: braces with the exact exported name. Mixing these up is the most common module syntax error.</li>
+<li><strong>Omitting the <code>.js</code> extension in import paths when not using a bundler.</strong> When importing directly in the browser, the path must include the <code>.js</code> extension: <code>&quot;./utils/format.js&quot;</code>, not <code>&quot;./utils/format&quot;</code>. Vite relaxes this, but it is good practice to be explicit.</li>
+<li><strong>Committing <code>node_modules/</code>.</strong> If you see <code>node_modules/</code> appearing in <code>git status</code>, check that <code>.gitignore</code> includes it. Run <code>git rm -r --cached node_modules</code> to remove it from tracking without deleting the files.</li>
+<li><strong>Confusing the Vite dev server port with a deployed site.</strong> <code>localhost:5173</code> only works on your machine while <code>npm run dev</code> is running. To share or deploy the project, run <code>npm run build</code> and use the <code>dist/</code> folder.</li>
+</ol>
+<h2>Accessibility connection</h2>
+<p>Module organization does not directly change what users experience, but it has real indirect accessibility benefits. When rendering logic is isolated in a dedicated module (like <code>card.js</code>), you can ensure that every rendered component includes proper semantic markup, ARIA attributes, and keyboard-accessible controls in one place — rather than replicating (and potentially forgetting) that work across many scattered locations. Build tooling also enables automated accessibility auditing as part of the build pipeline in more advanced setups.</p>
+<h2>Demo walkthrough</h2>
+<ol>
+<li>Start with a single <code>main.js</code> that has validation helpers, rendering functions, and event handlers all in one place — approximately 80 lines.</li>
+<li>Identify three groups: formatting utilities, DOM rendering functions, and app logic.</li>
+<li>Create <code>utils/format.js</code> and move the formatting functions there with <code>export</code>.</li>
+<li>Create <code>components/card.js</code> and move the render function there as a default export.</li>
+<li>Update <code>main.js</code> to import from both files.</li>
+<li>Show the browser — same output, cleaner code.</li>
+<li>Run <code>npm run build</code>, open <code>dist/</code>, point out the single bundled and minified <code>assets/index-[hash].js</code>.</li>
+<li>Show the Network tab comparing the dev server (multiple small module requests) to the build (one request).</li>
+</ol>
+<h2>Practice prompt</h2>
+<p>Take the JavaScript from your Assignment 4 solution (the API viewer) and split it into at least three files:</p>
+<ul>
+<li><code>api.js</code> — exports the fetch function (and nothing else)</li>
+<li><code>render.js</code> — exports functions that build and insert DOM nodes</li>
+<li><code>main.js</code> — imports from both and handles event listeners and app startup</li>
+</ul>
+<p>Set up a Vite project, move your files in, run <code>npm run dev</code>, and verify everything still works. Then run <code>npm run build</code> and inspect the <code>dist/</code> folder.</p>
+<h2>Bridge</h2>
+<p>Lab 10 has you do exactly this conversion on a provided single-file project — the practice prompt above is the same skill. Assignment 5 asks you to deliver your work as a Vite project with a proper module structure, so the <code>dist/</code> folder must build without errors before you submit. Starting in Week 12, you will build new features directly into modular projects rather than retrofitting them.</p>
 </body>
 </html>

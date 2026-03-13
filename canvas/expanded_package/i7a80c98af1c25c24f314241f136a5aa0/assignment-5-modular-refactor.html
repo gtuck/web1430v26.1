@@ -4,6 +4,166 @@
 <title>Assignment: Assignment 5 – Modular Refactor</title>
 </head>
 <body>
-<h1>Assignment 5 – Modular Refactor</h1><p>Refactor a monolithic script into ES modules, separating data, rendering, interaction, and configuration.</p><p>See the repository markdown file for the complete brief.</p>
+<h1>Assignment 5 – Modular Refactor</h1>
+<p><strong>Due:</strong> End of Week 11<br />
+<strong>Weight:</strong> One of six assignments (20% combined)<br />
+<strong>Skills:</strong> ES modules, named exports/imports, Vite dev server and build, file organization by responsibility, dependency direction</p>
+<hr />
+<h2>Overview</h2>
+<p>You will take a working single-file JavaScript application — either your Assignment 4 submission or the provided starter script — and refactor it into a proper <strong>Vite-based module project</strong> with clearly separated files, explicit imports and exports, and a deployable production build.</p>
+<p>The goal is not to add features. The goal is to demonstrate that you understand how to organize code so that each file has a single, clear responsibility and every dependency is explicit.</p>
+<hr />
+<h2>Starting point</h2>
+<p>Choose one:</p>
+<p><strong>Option A:</strong> Use your Assignment 4 (<code>app.js</code>) as the source. It must be functional before you refactor it.</p>
+<p><strong>Option B:</strong> Use the provided starter script below. Copy it into a new file and use it as your source.</p>
+<pre><code class="language-js">// starter.js — a single-file book search app
+// Refactor this into a Vite module project
+
+const API_BASE = &#x27;https://openlibrary.org/search.json&#x27;;
+const resultsEl = document.getElementById(&#x27;results&#x27;);
+const form = document.getElementById(&#x27;search-form&#x27;);
+const input = document.getElementById(&#x27;search-input&#x27;);
+
+form.addEventListener(&#x27;submit&#x27;, async (e) =&gt; {
+  e.preventDefault();
+  const q = input.value.trim();
+  if (!q) { resultsEl.textContent = &#x27;Enter a search term.&#x27;; return; }
+  resultsEl.textContent = &#x27;Loading…&#x27;;
+  try {
+    const res = await fetch(`${API_BASE}?title=${encodeURIComponent(q)}&amp;limit=10`);
+    if (!res.ok) throw new Error(res.status);
+    const data = await res.json();
+    resultsEl.innerHTML = &#x27;&#x27;;
+    if (!data.docs.length) { resultsEl.textContent = &#x27;No results.&#x27;; return; }
+    data.docs.forEach(doc =&gt; {
+      const el = document.createElement(&#x27;article&#x27;);
+      el.textContent = `${doc.title} — ${doc.author_name?.[0] ?? &#x27;Unknown&#x27;} (${doc.first_publish_year ?? &#x27;?&#x27;})`;
+      resultsEl.append(el);
+    });
+  } catch (err) {
+    resultsEl.textContent = &#x27;Error: &#x27; + err.message;
+    console.error(err);
+  }
+});</code></pre>
+<hr />
+<h2>Required output structure</h2>
+<p>Your refactored project must follow this file layout exactly:</p>
+<pre><code>assignments/assignment-5/
+  index.html
+  package.json
+  vite.config.js (optional — only if needed)
+  .gitignore          ← must include node_modules/ and dist/
+  src/
+    main.js           ← entry point: imports and initializes everything
+    api.js            ← fetch functions only
+    normalize.js      ← data transformation functions
+    render.js         ← DOM rendering functions
+    events.js         ← event listener setup
+    utils.js          ← pure helper functions (formatting, validation)</code></pre>
+<p>Files that have no content for your specific app may be omitted, but at minimum you must have <code>main.js</code>, <code>api.js</code>, <code>render.js</code>, and <code>events.js</code> with appropriate content.</p>
+<p>You must also include:</p>
+<ul>
+<li><strong><code>constants.js</code></strong> — Exports every magic string in the project: API base URL, localStorage keys, CSS class names used in JavaScript, and any limit values. No string literals for these values should appear anywhere else in the codebase.</li>
+<li><strong><code>ARCHITECTURE.md</code></strong> — A short document (5–15 lines) inside <code>assignments/assignment-5/</code> that diagrams which files import from which. A plain-text diagram is fine:</li>
+</ul>
+<pre><code>main.js → events.js → api.js → constants.js
+                    → normalize.js
+                    → render.js → constants.js</code></pre>
+<p>Include one sentence explaining why the dependency direction you chose prevents circular imports.</p>
+<hr />
+<h2>Module requirements</h2>
+<h3><code>api.js</code></h3>
+<ul>
+<li>Named export: <code>fetchBooks(query)</code> (or equivalent for your API)</li>
+<li>Checks <code>response.ok</code>; throws a descriptive error if false</li>
+<li>No DOM access — no <code>document.getElementById</code>, no <code>querySelector</code></li>
+</ul>
+<h3><code>normalize.js</code></h3>
+<ul>
+<li>Named export: <code>normalizeBooks(docs)</code> (or equivalent)</li>
+<li>Pure function: input in, output out, no side effects</li>
+<li>Provides defaults for all fields that may be absent</li>
+</ul>
+<h3><code>render.js</code></h3>
+<ul>
+<li>Named exports: <code>showLoading()</code>, <code>showError(msg)</code>, <code>showEmpty()</code>, <code>renderResults(items)</code></li>
+<li>Each function receives data as an argument — no direct API calls</li>
+<li>DOM element references selected <strong>inside</strong> this file (not passed in from outside)</li>
+</ul>
+<h3><code>events.js</code></h3>
+<ul>
+<li>Named export: <code>initSearch()</code> (or equivalent)</li>
+<li>Attaches event listeners</li>
+<li>Calls functions from <code>api.js</code>, <code>normalize.js</code>, and <code>render.js</code> — no business logic of its own</li>
+</ul>
+<h3><code>main.js</code></h3>
+<ul>
+<li>Imports <code>initSearch</code> from <code>events.js</code> and calls it</li>
+<li>Entry point only — no logic besides initialization</li>
+</ul>
+<hr />
+<h2>Vite workflow requirements</h2>
+<ul>
+<li>Scaffold with <code>npm create vite@latest</code> (Vanilla JavaScript template)</li>
+<li>App runs correctly with <code>npm run dev</code></li>
+<li><code>npm run build</code> completes without errors</li>
+<li><code>dist/</code> folder is <strong>not</strong> committed (verify with <code>.gitignore</code>)</li>
+<li><code>node_modules/</code> is <strong>not</strong> committed</li>
+</ul>
+<hr />
+<h2>Verification checklist</h2>
+<p>Before submitting, confirm:</p>
+<ul>
+<li>[ ] Running <code>npm install &amp;&amp; npm run dev</code> from <code>assignments/assignment-5/</code> opens the app in the browser</li>
+<li>[ ] <code>npm run build</code> produces a <code>dist/</code> folder</li>
+<li>[ ] <code>dist/</code> and <code>node_modules/</code> are absent from your git commit</li>
+<li>[ ] Each <code>src/</code> file has a one-sentence comment at the top stating its responsibility</li>
+<li>[ ] No file imports from a file it should not depend on (e.g., <code>render.js</code> does not import from <code>events.js</code>)</li>
+<li>[ ] <code>constants.js</code> exists and all magic strings are imported from it — no raw string literals for URLs, keys, or class names elsewhere</li>
+<li>[ ] <code>ARCHITECTURE.md</code> exists and accurately reflects the actual import graph of your project</li>
+</ul>
+<hr />
+<h2>Constraints</h2>
+<ul>
+<li>No TypeScript</li>
+<li>No Vue or other frameworks</li>
+<li>The refactored app must be functionally equivalent to the original — same behavior, reorganized code</li>
+</ul>
+<hr />
+<h2>Above baseline (stretch)</h2>
+<p>Work in this section is reflected in the Excellent (4) column of the rubric.</p>
+<ul>
+<li>Add a <code>constants.js</code> file that exports <code>API_BASE_URL</code> and any other magic strings, and import them wherever needed</li>
+<li>Use <code>import.meta.env</code> to demonstrate environment-aware configuration (e.g., a different limit in development vs production)</li>
+<li>Write a brief <code>ARCHITECTURE.md</code> inside <code>assignments/assignment-5/</code> that diagrams which files import from which (a simple text diagram is fine)</li>
+</ul>
+<hr />
+<h2>Deliverable</h2>
+<p>In your course repository: <code>assignments/assignment-5/</code> containing the full Vite project source (without <code>node_modules/</code> or <code>dist/</code>).</p>
+<p>Deploy the <code>dist/</code> output to Netlify or GitHub Pages (Netlify drag-and-drop for the <code>dist/</code> folder works well).</p>
+<p>Submit to Canvas: live URL, repo URL (link to <code>assignments/assignment-5/</code>), and rationale link.</p>
+<hr />
+<h2>Rationale (in rationale.md)</h2>
+<p>Write 4–6 sentences addressing:</p>
+<ul>
+<li>What was the single hardest dependency to untangle when splitting the monolithic file?</li>
+<li>How did you decide which functions belonged in <code>api.js</code> vs <code>render.js</code> vs <code>utils.js</code>?</li>
+<li>What did the <code>dist/</code> folder contain that your <code>src/</code> folder does not, and what does that tell you about what Vite did?</li>
+<li>What would you organize differently if this project were going to grow to ten files?</li>
+</ul>
+<hr />
+<h2>Rubric</h2>
+<table>
+<thead><tr><th>Criterion</th><th>Excellent (4)</th><th>Proficient (3)</th><th>Developing (2)</th><th>Incomplete (1)</th></tr></thead>
+<tbody>
+<tr><td><strong>Module structure</strong></td><td>All required files present (<code>main</code>, <code>api</code>, <code>normalize</code>, <code>render</code>, <code>events</code>, <code>constants</code>); one-sentence responsibility comment at top of each</td><td>Four of six files with correct responsibilities</td><td>Two or three files; responsibilities mixed</td><td>Single file; no modules</td></tr>
+<tr><td><strong>Export / import correctness</strong></td><td>All exports named; all imports explicit with correct relative paths; no accidental globals</td><td>Minor import issue (missing <code>.js</code> extension, incorrect path)</td><td>Imports partially working</td><td>Module syntax errors prevent running</td></tr>
+<tr><td><strong>Dependency direction</strong></td><td><code>api.js</code> and <code>normalize.js</code> have no DOM access; <code>render.js</code> does not call fetch; <code>main.js</code> only initializes</td><td>One minor violation</td><td>Two violations</td><td>No separation of concerns</td></tr>
+<tr><td><strong>Vite workflow</strong></td><td><code>npm run dev</code> works; <code>npm run build</code> succeeds; <code>node_modules/</code> and <code>dist/</code> in <code>.gitignore</code></td><td>Dev works; build works; one gitignore omission</td><td>Dev works; build not attempted</td><td><code>npm run dev</code> fails</td></tr>
+<tr><td><strong>Functional equivalence</strong></td><td>Refactored app behaves identically to original; no features lost</td><td>One feature regressed</td><td>Significant functionality missing</td><td>App non-functional</td></tr>
+<tr><td><strong>Rationale</strong></td><td>Specific, honest, addresses all four prompts</td><td>Addresses three prompts</td><td>Vague or two prompts</td><td>Missing</td></tr>
+</tbody>
+</table>
 </body>
 </html>

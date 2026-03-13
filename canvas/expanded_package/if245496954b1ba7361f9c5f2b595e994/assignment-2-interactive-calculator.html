@@ -4,6 +4,112 @@
 <title>Assignment: Assignment 2 – Interactive Calculator</title>
 </head>
 <body>
-<h1>Assignment 2 – Interactive Calculator</h1><p>Create a small, task-focused JavaScript tool that relies on conditionals, functions, and defensive input handling.</p><p>See the repository markdown file for the complete brief.</p>
+<h1>Assignment 2 – Interactive Calculator</h1>
+<p><strong>Due:</strong> End of Week 4<br />
+<strong>Weight:</strong> One of six assignments (20% combined)<br />
+<strong>Skills:</strong> JavaScript variables, conditionals, functions, form input, DOM output, defensive input handling</p>
+<hr />
+<h2>Overview</h2>
+<p>You will build a focused, single-purpose browser calculator that solves a real (if small) problem. This is not a four-function arithmetic calculator — it is a <strong>domain-specific tool</strong> that does one kind of calculation well, with clear inputs, validated data, and readable output.</p>
+<hr />
+<h2>Scenario</h2>
+<p>Choose <strong>one</strong> of the following calculator types, or propose your own with instructor approval:</p>
+<ul>
+<li><strong>Tip and bill splitter</strong> — takes a meal total, tip percentage, and number of people; outputs each person's share</li>
+<li><strong>Unit converter</strong> — converts between two or more related units (temperature, distance, weight, cooking measurements)</li>
+<li><strong>GPA estimator</strong> — takes up to five courses with credits and letter grades; outputs estimated semester GPA</li>
+<li><strong>Loan payment estimator</strong> — takes principal, interest rate, and loan term; outputs estimated monthly payment</li>
+<li><strong>BMI or calorie estimator</strong> — takes relevant health measurements; outputs a calculated result with context</li>
+</ul>
+<p>All calculators must follow the same technical requirements regardless of topic.</p>
+<hr />
+<h2>What to build</h2>
+<h3>HTML requirements</h3>
+<ul>
+<li>A <code>&lt;form&gt;</code> with appropriately typed inputs (<code>&lt;input type=&quot;number&quot;&gt;</code>, <code>&lt;select&gt;</code>, etc.)</li>
+<li>Labels connected to every input with <code>for</code> / <code>id</code> pairs</li>
+<li>A trigger button (<code>&lt;button type=&quot;button&quot;&gt;</code>, not a submit button)</li>
+<li>A results area (<code>&lt;div&gt;</code> or <code>&lt;section&gt;</code>) where output is rendered</li>
+<li>An error display area linked to invalid inputs via <code>aria-describedby</code></li>
+</ul>
+<h3>JavaScript requirements</h3>
+<p>All JavaScript in a separate <code>.js</code> file linked with <code>&lt;script defer&gt;</code>.</p>
+<p><strong>Required functions — each must be named and in its own <code>const</code> or <code>function</code> declaration:</strong></p>
+<ol>
+<li>A <strong>pure calculation function</strong> that accepts inputs as arguments and returns the computed result — no DOM access inside this function</li>
+<li>A <strong>validation function</strong> that checks inputs and returns either <code>null</code> (valid) or an error message string</li>
+<li>A <strong>render function</strong> that accepts the result and updates the DOM — no calculation logic inside this function</li>
+<li>A <strong>click handler</strong> that orchestrates: read inputs → validate → calculate → render (or show error)</li>
+</ol>
+<p>No anonymous functions for named responsibilities. No logic inside event handlers beyond orchestration.</p>
+<h3>Output requirements</h3>
+<ul>
+<li>Display the result in a human-readable format (not raw numbers — format prices as <code>$12.50</code>, temperatures as <code>72°F</code>, etc.)</li>
+<li>Show at least two calculated values (e.g., total and per-person share; converted value and original value for reference)</li>
+<li>Clear previous results before rendering new ones</li>
+</ul>
+<h3>Accessibility requirements</h3>
+<ul>
+<li>Error messages use <code>aria-describedby</code> to associate with their input</li>
+<li>Set <code>aria-invalid=&quot;true&quot;</code> on inputs that fail validation; remove it when corrected</li>
+<li>Results area uses <code>aria-live=&quot;polite&quot;</code> so screen readers announce new output</li>
+</ul>
+<hr />
+<h2>Validation requirements</h2>
+<p>Your validation function must catch and report all of the following:</p>
+<ul>
+<li>Empty or non-numeric inputs where a number is required</li>
+<li>Values outside a valid range (e.g., tip percentage above 100%, negative distances)</li>
+<li>Division-by-zero conditions (e.g., 0 people splitting a bill)</li>
+</ul>
+<p>Each error message must name the specific field and the problem: "Number of people must be at least 1" not "Invalid input."</p>
+<hr />
+<h2>Constraints</h2>
+<ul>
+<li>No CSS frameworks</li>
+<li>No external calculation libraries</li>
+<li>Calculation logic must be in your own functions, not delegated to <code>eval()</code></li>
+<li>Validate your HTML; fix all errors</li>
+</ul>
+<hr />
+<h2>Above baseline (stretch)</h2>
+<p>Work in this section is reflected in the Excellent (4) column of the rubric.</p>
+<ul>
+<li>Store the last calculation result in <code>sessionStorage</code> and restore it on page reload</li>
+<li>Add a "calculation history" list showing the last three results</li>
+<li>Support keyboard submission (pressing Enter in any input field triggers the calculation)</li>
+</ul>
+<hr />
+<h2>Deliverable</h2>
+<p>In your course repository, create <code>assignments/assignment-2/</code>:</p>
+<ul>
+<li><code>index.html</code></li>
+<li><code>calculator.js</code></li>
+<li><code>style.css</code></li>
+<li><code>rationale.md</code></li>
+</ul>
+<p>Deploy and submit live URL, repo URL, and rationale link to Canvas.</p>
+<hr />
+<h2>Rationale (in rationale.md)</h2>
+<p>Write 4–6 sentences addressing:</p>
+<ul>
+<li>What calculator did you build and who is it for?</li>
+<li>How did you separate calculation logic from rendering logic, and why does that separation matter?</li>
+<li>What edge cases did your validation catch, and did you discover any you hadn't anticipated?</li>
+<li>What would you add if you extended this tool?</li>
+</ul>
+<hr />
+<h2>Rubric</h2>
+<table>
+<thead><tr><th>Criterion</th><th>Excellent (4)</th><th>Proficient (3)</th><th>Developing (2)</th><th>Incomplete (1)</th></tr></thead>
+<tbody>
+<tr><td><strong>Calculation correctness</strong></td><td>Correct results for all valid inputs including edge cases; output formatted meaningfully</td><td>Correct for typical inputs; one edge case fails or formatting missing</td><td>Calculation works for basic case; multiple edge cases fail</td><td>Calculation incorrect or non-functional</td></tr>
+<tr><td><strong>Function separation</strong></td><td>Pure calculation function, validation function, and render function each in separate named declarations; handler only orchestrates</td><td>Two of three separated; minor mixing</td><td>Logic partially separated</td><td>All logic in one handler or anonymous function</td></tr>
+<tr><td><strong>Validation</strong></td><td>All required error conditions caught; specific, field-named messages; <code>aria-invalid</code> and <code>aria-describedby</code> used</td><td>Most conditions caught; messages vague or not linked to fields</td><td>Some validation; no ARIA</td><td>No validation</td></tr>
+<tr><td><strong>Accessible output</strong></td><td><code>aria-live</code> on results; <code>aria-describedby</code> on error spans; <code>aria-invalid</code> set/removed correctly</td><td>Two of three ARIA requirements met</td><td>One requirement met</td><td>No accessible output</td></tr>
+<tr><td><strong>Code quality</strong></td><td>Named functions, <code>const</code> throughout, no <code>var</code>, descriptive variable names, no <code>eval()</code></td><td>Named functions; minor style issues</td><td>Some named functions; <code>var</code> used</td><td>Anonymous functions throughout; unclear names</td></tr>
+<tr><td><strong>Rationale</strong></td><td>Specific, honest, addresses all four prompts</td><td>Addresses three prompts</td><td>Vague or two prompts</td><td>Missing</td></tr>
+</tbody>
+</table>
 </body>
 </html>

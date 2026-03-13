@@ -4,6 +4,153 @@
 <title>Assignment: Assignment 6 – Reactive Form Workflow</title>
 </head>
 <body>
-<h1>Assignment 6 – Reactive Form Workflow</h1><p>Create a small reactive form workflow in Vue that provides validation, previews output, and clearly communicates state changes.</p><p>See the repository markdown file for the complete brief.</p>
+<h1>Assignment 6 – Reactive Form Workflow</h1>
+<p><strong>Due:</strong> End of Week 13<br />
+<strong>Weight:</strong> One of six assignments (20% combined)<br />
+<strong>Skills:</strong> Vue 3 Composition API, <code>ref</code>, <code>computed</code>, <code>v-model</code>, <code>v-if</code>, component decomposition, reactive form validation, accessible state communication</p>
+<hr />
+<h2>Overview</h2>
+<p>You will build a <strong>multi-step form workflow</strong> in Vue 3 that guides a user through a sequence of inputs, validates each step, previews the submitted data before final confirmation, and provides clear, accessible feedback throughout. No page navigation — all steps happen within a single Vue application.</p>
+<p>This is the most complex individual assignment in the course. It requires you to coordinate reactive state across components, manage which step is visible, validate before advancing, and ensure that assistive technology users receive the same information as sighted users.</p>
+<hr />
+<h2>Scenario</h2>
+<p>Choose <strong>one</strong> of the following multi-step form contexts, or propose your own with instructor approval:</p>
+<ul>
+<li><strong>Event registration</strong> — attendee info → session selection → dietary/accessibility preferences → review and confirm</li>
+<li><strong>Campus club application</strong> — personal info → skills/interests → availability → review and confirm</li>
+<li><strong>Volunteer sign-up</strong> — contact info → opportunity selection → scheduling preferences → review and confirm</li>
+<li><strong>Course feedback survey</strong> — course rating → instructor feedback → suggestions → review and submit</li>
+</ul>
+<p>All workflows must have exactly <strong>three input steps plus one review step</strong> (four steps total).</p>
+<hr />
+<h2>What to build</h2>
+<h3>Application structure</h3>
+<pre><code>assignments/assignment-6/
+  src/
+    App.vue             ← manages step state and overall layout
+    components/
+      StepIndicator.vue ← shows current step (e.g., &quot;Step 2 of 4&quot;)
+      Step1.vue         ← first input step
+      Step2.vue         ← second input step
+      Step3.vue         ← third input step
+      ReviewStep.vue    ← displays all collected data for confirmation
+      SuccessView.vue   ← shown after final submission</code></pre>
+<h3>App.vue responsibilities</h3>
+<ul>
+<li>Owns the <code>currentStep</code> ref (1–4, or a named state: <code>&#x27;step1&#x27; | &#x27;step2&#x27; | &#x27;step3&#x27; | &#x27;review&#x27; | &#x27;success&#x27;</code>)</li>
+<li>Owns the collected form data object (updated as each step emits its data)</li>
+<li>Conditionally renders the correct step component with <code>v-if</code> / <code>v-else-if</code></li>
+<li>Passes collected data to <code>ReviewStep</code> as props</li>
+</ul>
+<h3>Each input step (Step1, Step2, Step3)</h3>
+<ul>
+<li>Has its own local form state managed with <code>v-model</code> bound to <code>ref()</code> values</li>
+<li>Validates its own fields before emitting</li>
+<li>Emits a <code>&#x27;next&#x27;</code> event with its data when the user advances (do not mutate props)</li>
+<li>Emits a <code>&#x27;back&#x27;</code> event when the user goes back (no data needed)</li>
+<li>Shows inline validation errors for required fields</li>
+</ul>
+<h3>ReviewStep</h3>
+<ul>
+<li>Receives all collected data as props</li>
+<li>Displays each field and its value in a readable summary (use a definition list <code>&lt;dl&gt;</code> or a structured table)</li>
+<li>Has a "Submit" button that emits a <code>&#x27;submit&#x27;</code> event to the parent</li>
+</ul>
+<h3>SuccessView</h3>
+<ul>
+<li>Displayed after final submission</li>
+<li>Thanks the user and summarizes what was submitted (at minimum their name or primary identifier)</li>
+<li>Includes a "Start over" button that resets <code>currentStep</code> to 1 and clears form data</li>
+</ul>
+<h3>StepIndicator</h3>
+<ul>
+<li>Receives <code>currentStep</code> and <code>totalSteps</code> as props</li>
+<li>Renders a visible step indicator ("Step 2 of 4" or a progress bar)</li>
+<li>Has <code>aria-label=&quot;Form progress&quot;</code> and communicates current step to screen readers</li>
+</ul>
+<hr />
+<h2>Validation requirements</h2>
+<p>Each step must validate before allowing the user to advance. Required validations:</p>
+<p><strong>Step 1</strong> (contact/personal information):</p>
+<ul>
+<li>Name field: non-empty</li>
+<li>Email field: contains <code>@</code> and <code>.</code></li>
+<li>At minimum one other required field of your choosing</li>
+</ul>
+<p><strong>Step 2</strong> (selection step):</p>
+<ul>
+<li>At least one item must be selected (radio, checkbox group, or dropdown)</li>
+</ul>
+<p><strong>Step 3</strong> (preference/scheduling step):</p>
+<ul>
+<li>At minimum one required field validated</li>
+</ul>
+<p>For each invalid field:</p>
+<ul>
+<li>Show an inline error message using <code>textContent</code> (or a <code>&lt;span&gt;</code> with the message bound via <code>{{ }}</code></li>
+<li>Set <code>aria-invalid=&quot;true&quot;</code> on the input (<code>:aria-invalid=&quot;fieldError ? &#x27;true&#x27; : &#x27;false&#x27;&quot;</code>)</li>
+<li>Link the error to its input with <code>aria-describedby</code></li>
+</ul>
+<hr />
+<h2>Reactive requirements</h2>
+<ul>
+<li><code>v-model</code> used for all form inputs (no manual <code>@input</code> handlers reading <code>.value</code>)</li>
+<li>A <code>computed</code> property in at least one step that derives a value from the step's form data (e.g., a character count, a formatted preview, a validation summary)</li>
+<li>The review step renders data from props reactively — if the parent's data changes, the review updates automatically</li>
+</ul>
+<hr />
+<h2>Accessibility requirements</h2>
+<ul>
+<li>Step indicator communicates current step to screen readers (not just visually)</li>
+<li>When advancing to a new step, focus moves to the new step's heading (use Vue's <code>nextTick</code> with <code>el.focus()</code>)</li>
+<li>All form inputs have connected <code>&lt;label&gt;</code> elements</li>
+<li>Error messages are linked to their inputs via <code>aria-describedby</code></li>
+<li>The "Submit" button on the review step has a clear label (not just "Submit" — e.g., "Confirm registration")</li>
+<li><code>aria-live=&quot;polite&quot;</code> on a region that announces step changes</li>
+</ul>
+<hr />
+<h2>Constraints</h2>
+<ul>
+<li>Vue 3 with <code>&lt;script setup&gt;</code> syntax (Composition API)</li>
+<li>No Options API</li>
+<li>No Vuex or Pinia (manage all state in App.vue with <code>ref</code>)</li>
+<li>No UI component libraries (Vuetify, PrimeVue, etc.)</li>
+<li><code>node_modules/</code> and <code>dist/</code> in <code>.gitignore</code></li>
+</ul>
+<hr />
+<h2>Above baseline (stretch)</h2>
+<p>Work in this section is reflected in the Excellent (4) column of the rubric.</p>
+<ul>
+<li>Persist partially-completed form data to <code>localStorage</code> so a user who closes the tab mid-flow can resume where they left off</li>
+<li>Add a <code>computed</code> property in <code>App.vue</code> that tracks overall form completion percentage and display it in <code>StepIndicator</code></li>
+<li>Animate step transitions using Vue's <code>&lt;Transition&gt;</code> component</li>
+</ul>
+<hr />
+<h2>Deliverable</h2>
+<p>In your course repository: <code>assignments/assignment-6/</code> containing the full Vite + Vue project source (without <code>node_modules/</code> or <code>dist/</code>).</p>
+<p>Deploy to Netlify or Vercel.</p>
+<p>Submit to Canvas: live URL, repo URL, and rationale link.</p>
+<hr />
+<h2>Rationale (in rationale.md)</h2>
+<p>Write 4–6 sentences addressing:</p>
+<ul>
+<li>How did you decide where to own the form data — in each step component or in App.vue — and why?</li>
+<li>Where did you use <code>computed()</code> and what would have been more work without it?</li>
+<li>How did you handle focus management between steps, and why does it matter for keyboard users?</li>
+<li>What is one thing about Vue's reactivity system that surprised you while building this?</li>
+</ul>
+<hr />
+<h2>Rubric</h2>
+<table>
+<thead><tr><th>Criterion</th><th>Excellent (4)</th><th>Proficient (3)</th><th>Developing (2)</th><th>Incomplete (1)</th></tr></thead>
+<tbody>
+<tr><td><strong>Component decomposition</strong></td><td>All five component types present with correct responsibilities; data flows down via props, events flow up via emits</td><td>Four components; one minor responsibility leak</td><td>Three components; some prop mutation</td><td>Single-component app</td></tr>
+<tr><td><strong>Reactive form state</strong></td><td><code>v-model</code> on all inputs; <code>computed</code> used for derived value; review reflects parent data via props</td><td><code>v-model</code> used; no <code>computed</code></td><td>Mixed <code>v-model</code> and manual handlers</td><td>Manual DOM reads</td></tr>
+<tr><td><strong>Validation</strong></td><td>All three steps validate before advancing; error messages inline and linked via <code>aria-describedby</code>; <code>aria-invalid</code> set correctly</td><td>Two steps validate; error messages present</td><td>One step validates</td><td>No validation</td></tr>
+<tr><td><strong>Step flow</strong></td><td>Advancing, going back, and submitting work correctly; review shows complete data; success view resets app</td><td>Advancing and submitting work; back navigation missing</td><td>Forward flow works; review incomplete</td><td>Flow non-functional</td></tr>
+<tr><td><strong>Accessibility</strong></td><td>Focus managed on step change; <code>aria-live</code> on step region; all labels connected; step indicator readable by screen reader</td><td>Three of four criteria</td><td>Two criteria</td><td>One or none</td></tr>
+<tr><td><strong>Rationale</strong></td><td>Specific, honest, addresses all four prompts</td><td>Addresses three prompts</td><td>Vague or two prompts</td><td>Missing</td></tr>
+</tbody>
+</table>
 </body>
 </html>

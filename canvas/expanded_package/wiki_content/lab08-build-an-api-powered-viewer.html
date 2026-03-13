@@ -6,6 +6,185 @@
 <meta name="workflow_state" content="active"/>
 </head>
 <body>
-<h1>Lab 08 – Build an API-Powered Viewer</h1><h2>Purpose</h2><p>This lab gives students a constrained practice space for the week's concepts. The emphasis is on seeing, changing, and explaining what the browser does.</p><h2>Tasks</h2><ol><li>Create or update your repo branch for this lab.</li><li>Build the required interface or script in small increments.</li><li>Test keyboard access, responsiveness, and error states.</li><li>Write a brief notes section describing what worked, what broke, and how you fixed it.</li><li>Commit meaningful progress with short messages.</li></ol><h2>Deliverable</h2><p>Submit a deployed link, repository link, and a short process reflection.</p><h2>Suggested rubric</h2><ul><li>Functionality</li><li>Code organization</li><li>Accessibility and UX clarity</li><li>Reflection quality</li></ul>
+<h1>Lab 08 – Build an API-Powered Viewer</h1>
+<h2>Purpose</h2>
+<p>Client-side applications rarely work with hardcoded data. This lab connects your JavaScript to a real public API, handles the asynchronous lifecycle of a network request, and manages the three states every async interface must communicate: loading, success, and error.</p>
+<h2>Skills practiced</h2>
+<ul>
+<li>Writing <code>async</code> functions and using <code>await</code></li>
+<li>Checking <code>response.ok</code> before parsing JSON</li>
+<li>Wrapping fetch in <code>try/catch</code> with a <code>finally</code> block</li>
+<li>Displaying loading, success, and error states in the UI</li>
+<li>Using <code>aria-live</code> for accessible async updates</li>
+<li>Building a search or filter interface on top of remote data</li>
+</ul>
+<h2>What you're building</h2>
+<p>An <strong>Open Library Book Search</strong> — a browser tool that lets users search for books by title using the Open Library Search API. Results display as cards showing the book title, author, and publication year. A loading message appears during the request, an error message appears if the request fails, and an empty state message appears when no results are found.</p>
+<p><strong>API endpoint:</strong> <code>https://openlibrary.org/search.json?title=[query]&amp;limit=12</code></p>
+<p>No API key required. The API is free and publicly accessible from the browser.</p>
+<hr />
+<h2>Part 1: HTML structure</h2>
+<p>Create <code>labs/lab08/index.html</code>:</p>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+  &lt;title&gt;Book Search&lt;/title&gt;
+  &lt;link rel=&quot;stylesheet&quot; href=&quot;style.css&quot;&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;main&gt;
+    &lt;h1&gt;Open Library Book Search&lt;/h1&gt;
+
+    &lt;form id=&quot;search-form&quot;&gt;
+      &lt;label for=&quot;search-input&quot;&gt;Search by title&lt;/label&gt;
+      &lt;input type=&quot;search&quot; id=&quot;search-input&quot; placeholder=&quot;e.g. Dune&quot; autocomplete=&quot;off&quot;&gt;
+      &lt;button type=&quot;submit&quot;&gt;Search&lt;/button&gt;
+    &lt;/form&gt;
+
+    &lt;div id=&quot;results-region&quot; aria-live=&quot;polite&quot; aria-label=&quot;Search results&quot;&gt;
+      &lt;!-- Status messages and results are injected here --&gt;
+    &lt;/div&gt;
+  &lt;/main&gt;
+  &lt;script src=&quot;lab08.js&quot; defer&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<p>Key: the <code>aria-live=&quot;polite&quot;</code> attribute on <code>#results-region</code> means screen readers will announce its content when it changes.</p>
+<hr />
+<h2>Part 2: API and data functions</h2>
+<p>In <code>labs/lab08/lab08.js</code>:</p>
+<h3><code>fetchBooks(query)</code></h3>
+<p>An <code>async</code> function that:</p>
+<ol>
+<li>Fetches <code>https://openlibrary.org/search.json?title=${encodeURIComponent(query)}&amp;limit=12</code></li>
+<li>Checks <code>response.ok</code> — if <code>false</code>, throws <code>new Error(\</code>Request failed: ${response.status}\<code>)</code></li>
+<li>Parses and returns the JSON</li>
+</ol>
+<p>The response shape is:</p>
+<pre><code class="language-json">{
+  &quot;numFound&quot;: 123,
+  &quot;docs&quot;: [
+    {
+      &quot;title&quot;: &quot;Dune&quot;,
+      &quot;author_name&quot;: [&quot;Frank Herbert&quot;],
+      &quot;first_publish_year&quot;: 1965
+    }
+  ]
+}</code></pre>
+<h3><code>normalizeBooks(docs)</code></h3>
+<p>Accepts the <code>docs</code> array from the API response. Returns a new array of plain objects with clean, guaranteed properties:</p>
+<pre><code class="language-js">function normalizeBooks(docs) {
+  return docs.map(doc =&gt; ({
+    title: doc.title || &#x27;Unknown Title&#x27;,
+    author: doc.author_name ? doc.author_name[0] : &#x27;Unknown Author&#x27;,
+    year: doc.first_publish_year || &#x27;Unknown Year&#x27;,
+  }));
+}</code></pre>
+<p>This normalizer protects your rendering code from missing or inconsistent API fields.</p>
+<hr />
+<h2>Part 3: UI state functions</h2>
+<p>Write four functions that control what is displayed in <code>#results-region</code>. All must update the region's content using <code>createElement</code> and <code>textContent</code>.</p>
+<pre><code class="language-js">function showLoading() { /* ... */ }
+function showError(message) { /* ... */ }
+function showEmpty() { /* ... */ }
+function renderBooks(books) { /* ... */ }</code></pre>
+<h3><code>showLoading()</code></h3>
+<p>Clears the results region and appends a <code>&lt;p&gt;</code> with class <code>status-loading</code> reading "Searching for books…"</p>
+<h3><code>showError(message)</code></h3>
+<p>Clears the results region and appends a <code>&lt;p&gt;</code> with class <code>status-error</code> containing the provided message.</p>
+<h3><code>showEmpty()</code></h3>
+<p>Clears the results region and appends a <code>&lt;p&gt;</code> with class <code>status-empty</code> reading "No books found. Try a different search."</p>
+<h3><code>renderBooks(books)</code></h3>
+<p>Clears the results region. For each book in the array, creates a <code>&lt;article&gt;</code> with class <code>book-card</code> containing:</p>
+<ul>
+<li>Title in an <code>&lt;h2&gt;</code></li>
+<li>Author in a <code>&lt;p&gt;</code> with class <code>book-author</code></li>
+<li>Publication year in a <code>&lt;p&gt;</code> with class <code>book-year</code></li>
+</ul>
+<p>Appends all cards to the results region.</p>
+<hr />
+<h2>Part 4: Search handler</h2>
+<pre><code class="language-js">const form = document.getElementById(&#x27;search-form&#x27;);
+const input = document.getElementById(&#x27;search-input&#x27;);
+const resultsRegion = document.getElementById(&#x27;results-region&#x27;);
+
+form.addEventListener(&#x27;submit&#x27;, async (event) =&gt; {
+  event.preventDefault();
+  const query = input.value.trim();
+
+  if (!query) {
+    showError(&#x27;Please enter a search term.&#x27;);
+    return;
+  }
+
+  showLoading();
+
+  try {
+    const data = await fetchBooks(query);
+    const books = normalizeBooks(data.docs);
+
+    if (books.length === 0) {
+      showEmpty();
+    } else {
+      renderBooks(books);
+    }
+  } catch (error) {
+    showError(&#x27;Unable to load results. Please check your connection and try again.&#x27;);
+    console.error(error);
+  }
+});</code></pre>
+<hr />
+<h2>Part 5: CSS</h2>
+<p>In <code>labs/lab08/style.css</code>:</p>
+<ul>
+<li>Book cards display in a responsive grid (one column mobile, two or three columns desktop)</li>
+<li><code>.status-loading</code>, <code>.status-error</code>, and <code>.status-empty</code> are visually distinct from each other and from card content</li>
+<li>The search form is accessible at all viewport sizes</li>
+<li>Cards have a consistent height/structure even when author or year is missing</li>
+</ul>
+<hr />
+<h2>Testing requirements</h2>
+<p>Test each scenario manually before submitting:</p>
+<ul>
+<li>[ ] Search "Dune" → 12 cards appear with titles, authors, and years</li>
+<li>[ ] Search with an empty field → error message appears</li>
+<li>[ ] Search "asdkjhaskdjhaskdjh" (no results) → empty state message appears</li>
+<li>[ ] Disconnect Wi-Fi, search anything → network error message appears (not a blank screen)</li>
+<li>[ ] Watch the Network tab in DevTools while a search runs — confirm the request fires and the response shape</li>
+<li>[ ] Confirm <code>#results-region</code> has <code>aria-live=&quot;polite&quot;</code> in the Elements panel</li>
+</ul>
+<hr />
+<h2>Deliverable</h2>
+<p>In <code>labs/lab08/</code>:</p>
+<ul>
+<li><code>index.html</code></li>
+<li><code>lab08.js</code></li>
+<li><code>style.css</code></li>
+<li><code>notes.md</code></li>
+</ul>
+<p>Commit at least three times (after HTML, after fetch functions, after full wiring). Push and deploy.</p>
+<p>Submit to Canvas: live URL, repo URL, notes.md link.</p>
+<hr />
+<h2>Process reflection (in notes.md)</h2>
+<p>Answer in 4–6 sentences:</p>
+<ul>
+<li>What does <code>response.ok</code> tell you that the <code>catch</code> block does not?</li>
+<li>What happened when you removed an <code>await</code> — which one caused the most confusing error?</li>
+<li>How did you make the loading and error states accessible to a screen reader, not just visually?</li>
+</ul>
+<hr />
+<h2>Rubric</h2>
+<table>
+<thead><tr><th>Criterion</th><th>Excellent (4)</th><th>Proficient (3)</th><th>Developing (2)</th><th>Incomplete (1)</th></tr></thead>
+<tbody>
+<tr><td><strong>Fetch and error handling</strong></td><td><code>response.ok</code> checked; <code>try/catch/finally</code> used; all three states (loading, success, error) handled</td><td>Two states handled; response.ok checked</td><td>One state handled</td><td>No error handling</td></tr>
+<tr><td><strong>Data normalization</strong></td><td><code>normalizeBooks</code> protects against missing fields; all three properties normalized</td><td>Two properties normalized</td><td>No normalization</td><td></td></tr>
+<tr><td><strong>Rendering</strong></td><td>Cards render all three fields; empty state shown; <code>createElement</code> used; no <code>innerHTML</code></td><td>Cards render; one issue</td><td>Partial render</td><td>Not functional</td></tr>
+<tr><td><strong>Accessible async</strong></td><td><code>aria-live</code> on results region; loading and error messages text-based and readable</td><td><code>aria-live</code> present</td><td>Partially accessible</td><td>No accessible state management</td></tr>
+<tr><td><strong>CSS</strong></td><td>Responsive grid; three status states visually distinct</td><td>Responsive; two states distinct</td><td>Single column; minimal distinction</td><td>No meaningful CSS</td></tr>
+<tr><td><strong>Reflection</strong></td><td>Specific; all three prompts addressed</td><td>Two prompts</td><td>Vague</td><td>Missing</td></tr>
+</tbody>
+</table>
 </body>
 </html>

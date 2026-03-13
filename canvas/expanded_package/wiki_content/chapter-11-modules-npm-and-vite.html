@@ -7,36 +7,123 @@
 </head>
 <body>
 <h1>Chapter 11: Modules, NPM, and Vite</h1>
-<p>The chapter gives students a beginner-friendly entry into tooling, modularity, and modern project organization.</p>
+<p>Modern front-end development is not a single HTML file with a script tag at the bottom. It is an organized collection of files with defined interfaces, managed dependencies, and a build process that prepares code for deployment. This chapter makes that infrastructure approachable.</p>
 <h2>What this chapter is really about</h2>
-<p>The chapter gives students a beginner-friendly entry into tooling, modularity, and modern project organization. Rather than treating the browser like a magic box, this chapter asks students to name the moving parts, decide where responsibility belongs, and make design decisions visible in code.</p>
+<p>This chapter gives you a working understanding of ES modules (how to split JavaScript across files with explicit imports and exports), NPM (how to install and manage third-party packages), and Vite (a development server and build tool that makes working with modules fast and simple). By the end, you will scaffold a Vite project, split code into modules, and produce a deployable build output.</p>
 <h2>Key ideas</h2>
-<p>The web is layered. Content comes first, presentation follows, behavior enhances, and data flows across boundaries. Good client-side code respects those layers instead of blurring them into one large script.</p>
+<p><strong>ES module syntax</strong> — each file is its own module with a private scope. Anything not exported is invisible to other files.</p>
+<p>Named exports (a file can have many):</p>
+<pre><code class="language-js">// utils.js
+export function formatPrice(amount) {
+  return `$${amount.toFixed(2)}`;
+}
+
+export const TAX_RATE = 0.08;</code></pre>
+<p>Named imports:</p>
+<pre><code class="language-js">// main.js
+import { formatPrice, TAX_RATE } from &#x27;./utils.js&#x27;;</code></pre>
+<p>Default exports (a file can have one):</p>
+<pre><code class="language-js">// ProductCard.js
+export default function renderProductCard(product) {
+  // ...
+}</code></pre>
+<p>Default imports:</p>
+<pre><code class="language-js">import renderProductCard from &#x27;./ProductCard.js&#x27;;</code></pre>
+<p><strong>Import paths</strong>:</p>
+<ul>
+<li><code>&#x27;./utils.js&#x27;</code> — relative path, same directory</li>
+<li><code>&#x27;../data/products.js&#x27;</code> — relative path, parent directory</li>
+<li><code>&#x27;vue&#x27;</code> — an installed npm package (no <code>./</code>)</li>
+</ul>
+<p><strong>NPM</strong> (Node Package Manager) manages third-party packages. Key files and commands:</p>
+<pre><code class="language-bash">npm init vite@latest my-project   # scaffold a new Vite project
+cd my-project
+npm install                        # install all dependencies listed in package.json
+npm run dev                        # start the Vite development server
+npm run build                      # produce optimized output in the dist/ folder</code></pre>
+<p><strong><code>package.json</code></strong> describes the project and its dependencies:</p>
+<pre><code class="language-json">{
+  &quot;name&quot;: &quot;my-project&quot;,
+  &quot;scripts&quot;: {
+    &quot;dev&quot;: &quot;vite&quot;,
+    &quot;build&quot;: &quot;vite build&quot;
+  },
+  &quot;dependencies&quot;: {
+    &quot;vue&quot;: &quot;^3.4.0&quot;
+  },
+  &quot;devDependencies&quot;: {
+    &quot;vite&quot;: &quot;^5.0.0&quot;
+  }
+}</code></pre>
+<p><code>dependencies</code> — needed in production. <code>devDependencies</code> — only needed during development (build tools, linters).</p>
+<p><strong><code>.gitignore</code></strong> — always add these entries to avoid committing generated or large directories:</p>
+<pre><code>node_modules/
+dist/</code></pre>
+<p><strong>Vite</strong>'s dev server serves files from <code>src/</code>, watches for changes, and reloads the browser automatically. The <code>npm run build</code> command bundles and minifies everything into <code>dist/</code> for deployment.</p>
+<p><strong>Why modules matter</strong>: without modules, all JavaScript runs in a single global scope. Variables from one file can accidentally overwrite variables in another. With modules, each file has its own scope. Dependencies are explicit and traceable.</p>
 <h2>Mental model</h2>
-<p>Each page is a conversation between structure, style, state, and time. Structure gives the page meaning. Style gives it shape. State tracks what the user has done and what the application knows. Time matters because users click, type, navigate, and wait.</p>
+<p>A module is a file with a defined interface: it declares what it shares (exports) and what it depends on (imports). This replaces the old pattern of loading 10 <code>&lt;script&gt;</code> tags in a specific order and hoping global variables don't collide.</p>
+<p>Think of modules as LEGO bricks: each piece has a specific shape (its exports) and specific connection points (its imports). You compose the application by snapping pieces together, and each piece can be developed and tested independently.</p>
+<p>The bundler (Vite) takes all your modules, resolves the imports, and produces a small number of optimized files that browsers can load efficiently. Your source code stays modular and readable; the deployed output is optimized for performance.</p>
 <h2>Working habits</h2>
-<p>Students are encouraged to experiment in small loops: change one thing, observe the result, document the reason, and commit progress in Git. The goal is not simply to make a page work; the goal is to understand why it works.</p>
+<ul>
+<li><code>npm install</code> every time you clone a project or pull changes that modify <code>package.json</code>. Never commit <code>node_modules/</code>.</li>
+<li>Run <code>npm run dev</code> at the start of every session. Work against the live dev server, not by opening <code>index.html</code> directly in the browser (modules require a server to resolve relative imports).</li>
+<li>Add <code>node_modules/</code> and <code>dist/</code> to <code>.gitignore</code> before your first commit.</li>
+<li>Prefer named exports over default exports when a file exports more than one thing — named exports are easier to search for and rename.</li>
+<li>One file, one responsibility. If a file's purpose is hard to describe in one sentence, split it.</li>
+</ul>
 <h2>Common mistakes</h2>
-<p>Many beginners overreach too early. They add libraries before they understand the browser, hide logic in anonymous handlers, or skip naming conventions that would make the code readable later. This chapter pushes against that pattern.</p>
+<ul>
+<li><strong>Committing <code>node_modules/</code></strong>: it can contain tens of thousands of files and hundreds of megabytes. Always <code>.gitignore</code> it. Teammates install their own copy with <code>npm install</code>.</li>
+<li><strong>Circular imports</strong> (A imports B, B imports A): causes initialization order problems and confusing errors. Restructure so dependencies flow one direction.</li>
+<li><strong>Exporting DOM references</strong>: <code>export const button = document.querySelector(&#x27;#btn&#x27;)</code> fails because the DOM doesn't exist when modules are initialized. Export functions, not DOM elements.</li>
+<li><strong>Opening <code>index.html</code> directly in the browser</strong> (with a <code>file://</code> URL): module imports don't work without a server. Always use <code>npm run dev</code>.</li>
+<li><strong>Confusing <code>dependencies</code> and <code>devDependencies</code></strong>: tools you only need to build the project (Vite, linters) go in <code>devDependencies</code>. Libraries your app uses at runtime (Vue, date-fns) go in <code>dependencies</code>.</li>
+</ul>
 <h2>Accessibility and UX note</h2>
-<p>Every technical choice has an experience consequence. Heading structure affects screen-reader navigation. Button labeling affects confidence. Error messaging affects recovery. A client-side developer is always shaping user experience, even when writing simple scripts.</p>
+<p>Build tooling doesn't change what users experience directly — but it does change what you can ship. A Vite build produces:</p>
+<ul>
+<li>Minified JavaScript (smaller files, faster load)</li>
+<li>Tree-shaken output (only the code you actually use is included)</li>
+<li>Hashed file names (allows browsers to cache files indefinitely and update automatically when files change)</li>
+</ul>
+<p>For users on slow connections or low-powered devices, these optimizations meaningfully improve experience. The discipline of writing modular code also makes it easier to do performance work later — you can split large modules into smaller chunks that load on demand.</p>
 <h2>Practice prompt</h2>
-<p>Open one of your existing pages or a provided course starter. Identify one part of the interface that depends on modules, npm, and vite and explain what the browser needs in order to make that feature understandable and usable.</p>
+<ol>
+<li>Scaffold a new Vite project: <code>npm create vite@latest</code> (choose Vanilla JavaScript, not a framework).</li>
+<li>Add <code>node_modules/</code> and <code>dist/</code> to <code>.gitignore</code>.</li>
+<li>Move your <code>formatPrice</code> function (or another utility from a previous chapter) into a file called <code>src/utils.js</code> and export it as a named export.</li>
+<li>Import it in <code>src/main.js</code> and use it to format a price and log the result.</li>
+<li>Move your book data array (from Chapter 5) into <code>src/data.js</code> and export it.</li>
+<li>Import it in <code>main.js</code>, filter it, and render the results to the DOM.</li>
+<li>Run <code>npm run dev</code> and verify it works. Run <code>npm run build</code> and inspect the <code>dist/</code> folder. What is different about the files there?</li>
+</ol>
 <h2>Reflection</h2>
-<p>What did you assume the browser was doing automatically that actually depends on deliberate authoring? Where can you make your intent more visible in HTML, CSS, or JavaScript?</p>
+<p>What changed about your workflow when you started using a dev server instead of opening a file directly? What does the <code>dist/</code> folder contain that <code>src/</code> does not? What happened when you forgot to run <code>npm install</code> before <code>npm run dev</code>?</p>
 <h2>Vocabulary</h2>
 <ul>
-<li>semantics</li>
-<li>enhancement</li>
-<li>state</li>
-<li>rendering</li>
-<li>debugging</li>
+<li><strong>module</strong> — a JavaScript file with a private scope and explicit exports and imports</li>
+<li><strong>export</strong> — making a value or function available to other modules</li>
+<li><strong>import</strong> — bringing a value or function from another module into the current file</li>
+<li><strong>named export</strong> — an export with a specific name that importers must use</li>
+<li><strong>default export</strong> — an unnamed export; each file can have at most one</li>
+<li><strong>package.json</strong> — a file that describes the project and lists its dependencies</li>
+<li><strong>npm</strong> — Node Package Manager; the tool for installing and managing packages</li>
+<li><strong>node_modules</strong> — the directory where npm installs packages (never committed to git)</li>
+<li><strong>bundler</strong> — a tool that takes modular source files and combines them into optimized output</li>
+<li><strong>Vite</strong> — a fast development server and bundler for modern JavaScript projects</li>
+<li><strong>dev server</strong> — a local server that serves your files during development with hot reloading</li>
+<li><strong>build</strong> — the process of producing optimized, deployable output from source files</li>
 </ul>
 <h2>Mini checklist</h2>
 <ul>
-<li>I can explain the purpose of the layer I am working in.</li>
-<li>I can name the data or state I need.</li>
-<li>I can describe how a user will experience the result.</li>
+<li>I can create a JavaScript module with named exports and import them in another file.</li>
+<li>I can scaffold a Vite project and understand the purpose of each generated file.</li>
+<li>I can run <code>npm run dev</code> to start the development server and <code>npm run build</code> to produce output.</li>
+<li>I can add <code>node_modules/</code> and <code>dist/</code> to <code>.gitignore</code> before committing.</li>
+<li>I can explain the difference between <code>dependencies</code> and <code>devDependencies</code>.</li>
+<li>I can explain why modules prevent naming collisions that occur with global script loading.</li>
 </ul>
 </body>
 </html>

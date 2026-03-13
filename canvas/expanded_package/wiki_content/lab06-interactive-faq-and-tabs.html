@@ -6,6 +6,185 @@
 <meta name="workflow_state" content="active"/>
 </head>
 <body>
-<h1>Lab 06 – Interactive FAQ and Tabs</h1><h2>Purpose</h2><p>This lab gives students a constrained practice space for the week's concepts. The emphasis is on seeing, changing, and explaining what the browser does.</p><h2>Tasks</h2><ol><li>Create or update your repo branch for this lab.</li><li>Build the required interface or script in small increments.</li><li>Test keyboard access, responsiveness, and error states.</li><li>Write a brief notes section describing what worked, what broke, and how you fixed it.</li><li>Commit meaningful progress with short messages.</li></ol><h2>Deliverable</h2><p>Submit a deployed link, repository link, and a short process reflection.</p><h2>Suggested rubric</h2><ul><li>Functionality</li><li>Code organization</li><li>Accessibility and UX clarity</li><li>Reflection quality</li></ul>
+<h1>Lab 06 – Interactive FAQ and Tabs</h1>
+<h2>Purpose</h2>
+<p>DOM manipulation is most visible when it controls what users can see. This lab focuses on two of the most common interface patterns — accordions and tabs — and asks you to implement them correctly using class toggling, event delegation, and accessible markup.</p>
+<h2>Skills practiced</h2>
+<ul>
+<li>Selecting elements with <code>querySelector</code> and <code>querySelectorAll</code></li>
+<li>Toggling CSS classes with <code>classList.toggle</code>, <code>.add</code>, <code>.remove</code></li>
+<li>Using event delegation on a parent element</li>
+<li>Reading <code>event.target</code> and traversing the DOM with <code>.closest()</code></li>
+<li>Adding <code>aria-expanded</code> and <code>aria-controls</code> for accessible disclosure patterns</li>
+<li>Creating tab panels with correct ARIA roles</li>
+</ul>
+<h2>What you're building</h2>
+<p>A <strong>Campus Services</strong> help page with two sections:</p>
+<ol>
+<li>An <strong>accordion FAQ</strong> — clicking a question reveals the answer; clicking again collapses it; only one answer is open at a time</li>
+<li>A <strong>tabbed panel</strong> — three tabs that switch between content panels; only the active panel is visible</li>
+</ol>
+<hr />
+<h2>Part 1: Accordion FAQ</h2>
+<h3>HTML</h3>
+<p>Create <code>labs/lab06/index.html</code>. The FAQ section should follow this structure:</p>
+<pre><code class="language-html">&lt;section class=&quot;faq&quot;&gt;
+  &lt;h2&gt;Frequently Asked Questions&lt;/h2&gt;
+
+  &lt;div class=&quot;faq-item&quot;&gt;
+    &lt;button class=&quot;faq-question&quot; aria-expanded=&quot;false&quot; aria-controls=&quot;faq-answer-1&quot;&gt;
+      How do I register for classes?
+    &lt;/button&gt;
+    &lt;div class=&quot;faq-answer&quot; id=&quot;faq-answer-1&quot; hidden&gt;
+      &lt;p&gt;Log in to the student portal and navigate to Registration...&lt;/p&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;div class=&quot;faq-item&quot;&gt;
+    &lt;button class=&quot;faq-question&quot; aria-expanded=&quot;false&quot; aria-controls=&quot;faq-answer-2&quot;&gt;
+      Where is the financial aid office?
+    &lt;/button&gt;
+    &lt;div class=&quot;faq-answer&quot; id=&quot;faq-answer-2&quot; hidden&gt;
+      &lt;p&gt;The financial aid office is located in the Shepherd Union...&lt;/p&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- Add at least 4 more FAQ items total (6 minimum) --&gt;
+&lt;/section&gt;</code></pre>
+<p>Key attributes:</p>
+<ul>
+<li><code>aria-expanded=&quot;false&quot;</code> on the button — updated by JavaScript when opened</li>
+<li><code>aria-controls</code> points to the <code>id</code> of the answer panel</li>
+<li><code>hidden</code> attribute on answer panels — CSS will reveal them when the <code>hidden</code> attribute is removed</li>
+</ul>
+<h3>CSS</h3>
+<pre><code class="language-css">.faq-answer[hidden] {
+  display: none;
+}
+
+.faq-question[aria-expanded=&quot;true&quot;] {
+  /* style the open state — e.g., different background, arrow rotation */
+}</code></pre>
+<h3>JavaScript</h3>
+<p>Write a function <code>initFaq(faqContainer)</code> that:</p>
+<ol>
+<li>Adds a single <code>click</code> listener to <code>faqContainer</code> (event delegation)</li>
+<li>When a click is detected, checks if <code>event.target.matches(&#x27;.faq-question&#x27;)</code></li>
+<li>Finds all other open questions and closes them (removes the <code>hidden</code> attribute trick: toggle <code>hidden</code> on the answer div, set <code>aria-expanded</code> to the correct string)</li>
+<li>Toggles the clicked question open or closed</li>
+</ol>
+<p>Specifically, for the clicked button:</p>
+<ul>
+<li>Toggle <code>aria-expanded</code> between <code>&quot;true&quot;</code> and <code>&quot;false&quot;</code> (as strings — ARIA attributes are always strings)</li>
+<li>Toggle the <code>hidden</code> attribute on the associated answer panel (use <code>answerEl.hidden = !answerEl.hidden</code> or <code>toggleAttribute(&#x27;hidden&#x27;)</code>)</li>
+</ul>
+<p>For all <em>other</em> questions: set <code>aria-expanded=&quot;false&quot;</code> and <code>hidden = true</code> (only one answer open at a time).</p>
+<hr />
+<h2>Part 2: Tabbed panel</h2>
+<h3>HTML</h3>
+<pre><code class="language-html">&lt;section class=&quot;tabs-section&quot;&gt;
+  &lt;h2&gt;Campus Resources&lt;/h2&gt;
+
+  &lt;div class=&quot;tab-list&quot; role=&quot;tablist&quot;&gt;
+    &lt;button role=&quot;tab&quot; aria-selected=&quot;true&quot; aria-controls=&quot;panel-library&quot; id=&quot;tab-library&quot;&gt;
+      Library
+    &lt;/button&gt;
+    &lt;button role=&quot;tab&quot; aria-selected=&quot;false&quot; aria-controls=&quot;panel-gym&quot; id=&quot;tab-gym&quot;&gt;
+      Recreation Center
+    &lt;/button&gt;
+    &lt;button role=&quot;tab&quot; aria-selected=&quot;false&quot; aria-controls=&quot;panel-dining&quot; id=&quot;tab-dining&quot;&gt;
+      Dining
+    &lt;/button&gt;
+  &lt;/div&gt;
+
+  &lt;div role=&quot;tabpanel&quot; id=&quot;panel-library&quot; aria-labelledby=&quot;tab-library&quot;&gt;
+    &lt;h3&gt;Library Hours&lt;/h3&gt;
+    &lt;p&gt;Monday–Friday: 7am–10pm...&lt;/p&gt;
+  &lt;/div&gt;
+
+  &lt;div role=&quot;tabpanel&quot; id=&quot;panel-gym&quot; aria-labelledby=&quot;tab-gym&quot; hidden&gt;
+    &lt;h3&gt;Recreation Center&lt;/h3&gt;
+    &lt;p&gt;Open daily 6am–11pm...&lt;/p&gt;
+  &lt;/div&gt;
+
+  &lt;div role=&quot;tabpanel&quot; id=&quot;panel-dining&quot; aria-labelledby=&quot;tab-dining&quot; hidden&gt;
+    &lt;h3&gt;Dining Locations&lt;/h3&gt;
+    &lt;p&gt;Three dining halls on campus...&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/section&gt;</code></pre>
+<h3>JavaScript</h3>
+<p>Write a function <code>initTabs(tabListContainer)</code> that:</p>
+<ol>
+<li>Adds a <code>click</code> listener to <code>tabListContainer</code></li>
+<li>When a <code>[role=&quot;tab&quot;]</code> button is clicked:</li>
+</ol>
+<ul>
+<li>Sets <code>aria-selected=&quot;false&quot;</code> on all tab buttons</li>
+<li>Hides all tab panels (set <code>hidden = true</code>)</li>
+<li>Sets <code>aria-selected=&quot;true&quot;</code> on the clicked tab</li>
+<li>Shows the panel whose <code>id</code> matches <code>event.target.getAttribute(&#x27;aria-controls&#x27;)</code> (remove <code>hidden</code>)</li>
+</ul>
+<h3>CSS</h3>
+<pre><code class="language-css">[role=&quot;tabpanel&quot;][hidden] {
+  display: none;
+}
+
+[role=&quot;tab&quot;][aria-selected=&quot;true&quot;] {
+  /* active tab styling */
+}</code></pre>
+<hr />
+<h2>Part 3: Call both initializers</h2>
+<p>At the bottom of your script (or in a <code>DOMContentLoaded</code> handler):</p>
+<pre><code class="language-js">initFaq(document.querySelector(&#x27;.faq&#x27;));
+initTabs(document.querySelector(&#x27;.tab-list&#x27;));</code></pre>
+<hr />
+<h2>Testing requirements</h2>
+<p>Test each behavior manually:</p>
+<p><strong>Accordion:</strong></p>
+<ul>
+<li>[ ] Clicking a question opens its answer</li>
+<li>[ ] Clicking the same question again closes it</li>
+<li>[ ] Opening a second question automatically closes the first</li>
+<li>[ ] <code>aria-expanded</code> reflects the correct state in the Elements panel</li>
+<li>[ ] All buttons are keyboard-reachable and activatable with Enter/Space</li>
+</ul>
+<p><strong>Tabs:</strong></p>
+<ul>
+<li>[ ] Clicking each tab shows that panel and hides the others</li>
+<li>[ ] <code>aria-selected</code> updates correctly in the Elements panel</li>
+<li>[ ] All tabs are keyboard-reachable</li>
+</ul>
+<hr />
+<h2>Deliverable</h2>
+<p>In <code>labs/lab06/</code>:</p>
+<ul>
+<li><code>index.html</code></li>
+<li><code>lab06.js</code></li>
+<li><code>style.css</code></li>
+<li><code>notes.md</code></li>
+</ul>
+<p>Commit at least twice (after each component). Push and deploy.</p>
+<p>Submit to Canvas: live URL, repo URL, notes.md link.</p>
+<hr />
+<h2>Process reflection (in notes.md)</h2>
+<p>Answer in 4–6 sentences:</p>
+<ul>
+<li>Why is event delegation better than adding a click listener to each individual button?</li>
+<li>What does <code>aria-expanded</code> communicate, and to whom?</li>
+<li>What would break if you used <code>display: none</code> in JavaScript directly instead of toggling the <code>hidden</code> attribute and controlling visibility through CSS?</li>
+</ul>
+<hr />
+<h2>Rubric</h2>
+<table>
+<thead><tr><th>Criterion</th><th>Excellent (4)</th><th>Proficient (3)</th><th>Developing (2)</th><th>Incomplete (1)</th></tr></thead>
+<tbody>
+<tr><td><strong>Accordion behavior</strong></td><td>Open/close works; only one panel open at a time; <code>aria-expanded</code> accurate</td><td>Open/close works; multiple panels can open simultaneously</td><td>Open works; close doesn't</td><td>Not functional</td></tr>
+<tr><td><strong>Tab behavior</strong></td><td>Tabs switch panels correctly; all three panels reachable; <code>aria-selected</code> accurate</td><td>Tabs switch; ARIA not updated</td><td>Partially working</td><td>Not functional</td></tr>
+<tr><td><strong>ARIA attributes</strong></td><td><code>aria-expanded</code>, <code>aria-controls</code>, <code>aria-selected</code>, <code>role=&quot;tab&quot;</code>, <code>role=&quot;tabpanel&quot;</code> all present and accurate</td><td>Most ARIA present</td><td>Some ARIA present</td><td>No ARIA</td></tr>
+<tr><td><strong>Event delegation</strong></td><td>One listener per component on a parent; <code>event.target.matches()</code> or <code>.closest()</code> used</td><td>Two listeners per component</td><td>Individual listeners on each button</td><td>No event delegation</td></tr>
+<tr><td><strong>Keyboard accessibility</strong></td><td>All interactive elements reachable by Tab and activatable by Enter/Space</td><td>Most reachable</td><td>Partially reachable</td><td>Not tested</td></tr>
+<tr><td><strong>Reflection</strong></td><td>Specific; addresses all three prompts</td><td>Two prompts addressed</td><td>Vague</td><td>Missing</td></tr>
+</tbody>
+</table>
 </body>
 </html>

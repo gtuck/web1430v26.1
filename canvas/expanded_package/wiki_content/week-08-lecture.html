@@ -1,11 +1,133 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-<title>Week 08 Lecture Notes</title>
+<title>Week 08 Lecture Notes: Refactoring, Reuse, and Midterm Review</title>
 <meta name="identifier" content="id3439b006dba40baef84c327e8a7bbc0"/>
 <meta name="workflow_state" content="active"/>
 </head>
 <body>
-<h1>Week 08 Lecture Notes: Refactoring, Reuse, and Midterm Review</h1><h2>Weekly focus</h2><p>Midterm Integration Week</p><h2>Why this matters</h2><p>This week's material helps students move from isolated syntax toward purposeful client-side design decisions. The lecture emphasizes examples that can be inspected in the browser and rebuilt in small pieces.</p><h2>Learning targets</h2><ul><li>Explain the core concept in plain language</li><li>Build one focused example from scratch</li><li>Debug mistakes with browser tools</li><li>Connect this week's ideas to the running course projects</li></ul><h2>Lecture flow</h2><ol><li>Warm-up concept check</li><li>Demonstration of a focused example</li><li>Guided breakdown of the code</li><li>Common bug patterns</li><li>Independent practice prompt</li><li>Bridge to lab, assignment, or quiz</li></ol><h2>Instructor notes</h2><p>Use short code examples, narrate tradeoffs, and revisit accessibility in every demo. Avoid introducing abstractions before students can inspect the DOM, state, or network behavior involved.</p><h2>Exit ticket</h2><p>Ask students to explain one idea from the week using the sentence frame: <em>This matters in the browser because...</em></p>
+<h1>Week 08 Lecture Notes: Refactoring, Reuse, and Midterm Review</h1>
+<h2>Weekly focus</h2>
+<p>Consolidate Weeks 01–07 by improving existing code quality through refactoring, then prepare for the Midterm Exam and finalize Project 1.</p>
+<h2>Why this matters</h2>
+<p>Every professional codebase is maintained and improved over time — rarely rewritten from scratch. Refactoring teaches you to read code critically, spot duplication, and make structural improvements without breaking what already works. The habits you build this week (extracting functions, naming things well, removing copy-paste) are what separate code that is easy to maintain from code that becomes a liability.</p>
+<h2>Learning targets</h2>
+<ul>
+<li>Define refactoring and explain why it does not change observable behavior</li>
+<li>Extract repeated logic into a named function and call it from multiple places</li>
+<li>Choose function names that describe what the function does, not how it does it</li>
+<li>Identify at least three categories of code that benefit most from refactoring</li>
+<li>Recall the major topics from Weeks 01–07 and explain how they connect</li>
+<li>Describe the Midterm Exam format and apply a preparation strategy</li>
+</ul>
+<h2>Core concepts</h2>
+<h3>What refactoring means</h3>
+<p>Refactoring is the process of restructuring existing code without changing what it does from the user's perspective. The browser output stays identical. The tests (if any) still pass. What changes is the internal structure: it becomes easier to read, easier to change, and less prone to bugs introduced by duplication.</p>
+<p>A useful test: if you can describe a refactor entirely in terms of code structure ("I extracted this block into a function") rather than behavior ("now it does X differently"), it is a refactor. If behavior changes, that is a bug fix or a feature — valuable, but not the same thing.</p>
+<h3>The most common refactoring: extracting a function</h3>
+<p>The single most useful refactoring move is pulling a block of code out into a named function. This applies whenever you see the same logic in two or more places, or when a single block of code is doing too many things at once.</p>
+<p><strong>Before — duplicated validation logic inline:</strong></p>
+<pre><code class="language-js">// Validate form A
+const nameA = document.getElementById(&quot;name-a&quot;).value.trim();
+if (nameA === &quot;&quot;) {
+  document.getElementById(&quot;error-a&quot;).textContent = &quot;Name is required.&quot;;
+  return;
+}
+
+// Validate form B (same logic, copied)
+const nameB = document.getElementById(&quot;name-b&quot;).value.trim();
+if (nameB === &quot;&quot;) {
+  document.getElementById(&quot;error-b&quot;).textContent = &quot;Name is required.&quot;;
+  return;
+}</code></pre>
+<p><strong>After — one function, called twice:</strong></p>
+<pre><code class="language-js">function requireField(inputId, errorId) {
+  const value = document.getElementById(inputId).value.trim();
+  if (value === &quot;&quot;) {
+    document.getElementById(errorId).textContent = &quot;Name is required.&quot;;
+    return false;
+  }
+  return true;
+}
+
+if (!requireField(&quot;name-a&quot;, &quot;error-a&quot;)) return;
+if (!requireField(&quot;name-b&quot;, &quot;error-b&quot;)) return;</code></pre>
+<p>The behavior is identical. But now the rule "what makes a field invalid" lives in one place. If you need to change it — say, add a minimum length — you change one function instead of hunting for every copy.</p>
+<h3>Naming functions well</h3>
+<p>A function name should answer: "what does this do?" not "how does it do it?"</p>
+<table>
+<thead><tr><th>Weak name</th><th>Stronger name</th></tr></thead>
+<tbody>
+<tr><td><code>doStuff()</code></td><td><code>resetForm()</code></td></tr>
+<tr><td><code>handleIt()</code></td><td><code>displaySearchResults()</code></td></tr>
+<tr><td><code>loop()</code></td><td><code>renderCardList(cards)</code></td></tr>
+<tr><td><code>check()</code></td><td><code>isValidEmail(value)</code></td></tr>
+</tbody>
+</table>
+<p>Predicates (functions that return true/false) should start with <code>is</code>, <code>has</code>, or <code>can</code>. Functions that perform an action should use a verb: <code>render</code>, <code>display</code>, <code>fetch</code>, <code>save</code>, <code>clear</code>, <code>validate</code>.</p>
+<h3>Removing duplication beyond functions</h3>
+<p>Duplication appears in more than just logic. Watch for:</p>
+<ul>
+<li><strong>Repeated DOM queries</strong>: if you call <code>document.getElementById(&quot;status&quot;)</code> five times in one function, query it once at the top and store the reference.</li>
+<li><strong>Magic values</strong>: if <code>&quot;#ff6600&quot;</code> appears in four places, assign it to a <code>const BRAND_COLOR</code> at the top of the file.</li>
+<li><strong>Parallel <code>if/else</code> chains</strong>: if you find yourself writing the same branching structure twice for two similar things, consider whether a loop or a data-driven approach would work.</li>
+</ul>
+<h3>Midterm Exam format and scope</h3>
+<p>The Midterm covers Weeks 01–07. Expect:</p>
+<ul>
+<li>Multiple choice and short answer on HTML semantics, CSS layout, and JS fundamentals</li>
+<li>Reading and tracing code to determine output</li>
+<li>Identifying bugs in short code samples</li>
+<li>Writing small functions (10–20 lines) given a clear specification</li>
+</ul>
+<p><strong>High-priority topics to review:</strong></p>
+<ul>
+<li>Semantic HTML elements and when to use them</li>
+<li>CSS box model, flexbox, and responsive units</li>
+<li><code>const</code> vs <code>let</code>; primitive vs reference types</li>
+<li>Array methods: <code>forEach</code>, <code>map</code>, <code>filter</code>, <code>find</code></li>
+<li>Object dot notation and bracket notation</li>
+<li><code>querySelector</code>, <code>addEventListener</code>, <code>textContent</code>, <code>innerHTML</code></li>
+<li>Form <code>submit</code> event, <code>preventDefault()</code>, and field validation patterns</li>
+</ul>
+<h3>Project 1 polish checklist</h3>
+<p>Before submitting, verify:</p>
+<ol>
+<li>All form inputs have associated <code>&lt;label&gt;</code> elements (not just placeholder text)</li>
+<li>Error messages are in the DOM (not just <code>alert()</code>), associated with their field</li>
+<li>No <code>console.log</code> statements left in production code</li>
+<li>Variable and function names are descriptive</li>
+<li>Repeated blocks have been extracted into functions</li>
+<li>The page is usable without a mouse (tab through all interactive elements)</li>
+</ol>
+<h2>Common mistakes</h2>
+<ol>
+<li><strong>Thinking refactoring means adding features.</strong> Refactoring is strictly structural. If your refactor also changes what the code does, you have mixed two things together. Keep them separate.</li>
+<li><strong>Over-extracting too early.</strong> Extracting a one-line expression into a named function adds overhead without benefit. Extract when the logic is complex enough to deserve a name, or when it appears in more than one place.</li>
+<li><strong>Renaming without updating every call site.</strong> When you rename a function, search the entire file (and any linked files) for the old name. Missing one call causes a <code>ReferenceError</code> that only appears at runtime.</li>
+<li><strong>Confusing refactoring with cleaning up style.</strong> Adding comments, reformatting indentation, and deleting dead code are worthwhile, but they are not refactoring. Refactoring changes the structure of the logic itself.</li>
+<li><strong>Not testing after each small change.</strong> Refactor in tiny increments and reload the browser after each one. Trying to do five refactors at once makes it impossible to tell which one introduced a bug.</li>
+</ol>
+<h2>Accessibility connection</h2>
+<p>Refactoring is an ideal time to fix accessibility issues you rushed past earlier. When you extract a function that renders a card or a list item, you can ensure the markup it generates includes proper roles, labels, and keyboard-accessible controls once — rather than patching each copy individually. Consistent structure also makes it easier for screen reader users, since repeated components behave predictably.</p>
+<h2>Demo walkthrough</h2>
+<ol>
+<li>Open a working Project 1 submission (or a prepared example) with obvious duplication — three nearly identical event listener callbacks.</li>
+<li>Identify what is shared: all three read a value, validate it, and display a result.</li>
+<li>Extract the validation into <code>validateField(value)</code> returning <code>{ valid: boolean, message: string }</code>.</li>
+<li>Extract the display into <code>showResult(containerId, message, isError)</code>.</li>
+<li>Rewrite each callback to call those two functions.</li>
+<li>Reload the browser and verify behavior is unchanged.</li>
+<li>Point out: the three callbacks are now each 3–4 lines instead of 12–15 lines, and a change to validation logic only needs to happen in one place.</li>
+</ol>
+<h2>Practice prompt</h2>
+<p>Take any JavaScript file from your Project 1 and apply two refactors:</p>
+<ol>
+<li>Extract at least one repeated block into a named function.</li>
+<li>Replace at least one magic string or number with a named <code>const</code>.</li>
+</ol>
+<p>After each change, reload the page and confirm everything still works. Write a two-sentence comment at the top of the file describing what you changed and why.</p>
+<h2>Bridge</h2>
+<p>The Midterm Exam opens at the start of Week 08 and covers all material through Week 07 — review the high-priority topic list above and use your own past assignments as study material. Project 1 is also due this week; use the polish checklist to run a final quality pass before submitting. Starting in Week 09, the course shifts to new territory — asynchronous JavaScript — so a clean mental slate after the midterm will help.</p>
 </body>
 </html>

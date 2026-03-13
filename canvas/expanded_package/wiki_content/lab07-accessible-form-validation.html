@@ -6,6 +6,244 @@
 <meta name="workflow_state" content="active"/>
 </head>
 <body>
-<h1>Lab 07 – Accessible Form Validation</h1><h2>Purpose</h2><p>This lab gives students a constrained practice space for the week's concepts. The emphasis is on seeing, changing, and explaining what the browser does.</p><h2>Tasks</h2><ol><li>Create or update your repo branch for this lab.</li><li>Build the required interface or script in small increments.</li><li>Test keyboard access, responsiveness, and error states.</li><li>Write a brief notes section describing what worked, what broke, and how you fixed it.</li><li>Commit meaningful progress with short messages.</li></ol><h2>Deliverable</h2><p>Submit a deployed link, repository link, and a short process reflection.</p><h2>Suggested rubric</h2><ul><li>Functionality</li><li>Code organization</li><li>Accessibility and UX clarity</li><li>Reflection quality</li></ul>
+<h1>Lab 07 – Accessible Form Validation</h1>
+<h2>Purpose</h2>
+<p>Form validation is only useful if it communicates to every user — not just those who can see a red border change. This lab builds a complete event registration form with client-side validation that is perceivable, associated with its fields, and timed correctly.</p>
+<h2>Skills practiced</h2>
+<ul>
+<li>Using <code>addEventListener</code> for form <code>submit</code> and input <code>blur</code> events</li>
+<li>Calling <code>event.preventDefault()</code> to stop default form navigation</li>
+<li>Writing validation functions that return error strings or <code>null</code></li>
+<li>Displaying error messages linked to inputs with <code>aria-describedby</code></li>
+<li>Setting and removing <code>aria-invalid</code> on form inputs</li>
+<li>Managing focus after a successful or failed submission</li>
+</ul>
+<h2>What you're building</h2>
+<p>An <strong>Event Registration Form</strong> for a fictional campus workshop. The form collects name, email, phone, student ID, event selection, and a dietary restriction field. All validation runs in the browser. On valid submission, the form is replaced with a confirmation message that receives focus.</p>
+<hr />
+<h2>Part 1: HTML structure</h2>
+<p>Create <code>labs/lab07/index.html</code>. Build the form with the following fields. Every input must have:</p>
+<ul>
+<li>A <code>&lt;label&gt;</code> connected with matching <code>for</code>/<code>id</code> attributes</li>
+<li>An associated <code>&lt;span&gt;</code> with a unique <code>id</code> for the error message (<code>id=&quot;[field]-error&quot;</code>)</li>
+<li><code>aria-describedby=&quot;[field]-error&quot;</code> on the input pointing to that span</li>
+<li>An empty error span by default (content is injected by JavaScript)</li>
+</ul>
+<pre><code class="language-html">&lt;form id=&quot;registration-form&quot; novalidate&gt;
+  &lt;h1&gt;Workshop Registration&lt;/h1&gt;
+
+  &lt;div class=&quot;field-group&quot;&gt;
+    &lt;label for=&quot;full-name&quot;&gt;Full Name &lt;span aria-hidden=&quot;true&quot;&gt;*&lt;/span&gt;&lt;/label&gt;
+    &lt;input type=&quot;text&quot; id=&quot;full-name&quot; name=&quot;full-name&quot;
+           aria-describedby=&quot;full-name-error&quot; autocomplete=&quot;name&quot;&gt;
+    &lt;span id=&quot;full-name-error&quot; class=&quot;error-msg&quot; aria-live=&quot;polite&quot;&gt;&lt;/span&gt;
+  &lt;/div&gt;
+
+  &lt;div class=&quot;field-group&quot;&gt;
+    &lt;label for=&quot;email&quot;&gt;Email Address &lt;span aria-hidden=&quot;true&quot;&gt;*&lt;/span&gt;&lt;/label&gt;
+    &lt;input type=&quot;email&quot; id=&quot;email&quot; name=&quot;email&quot;
+           aria-describedby=&quot;email-error&quot; autocomplete=&quot;email&quot;&gt;
+    &lt;span id=&quot;email-error&quot; class=&quot;error-msg&quot; aria-live=&quot;polite&quot;&gt;&lt;/span&gt;
+  &lt;/div&gt;
+
+  &lt;div class=&quot;field-group&quot;&gt;
+    &lt;label for=&quot;phone&quot;&gt;Phone Number&lt;/label&gt;
+    &lt;input type=&quot;tel&quot; id=&quot;phone&quot; name=&quot;phone&quot;
+           aria-describedby=&quot;phone-error&quot; autocomplete=&quot;tel&quot;&gt;
+    &lt;span id=&quot;phone-error&quot; class=&quot;error-msg&quot; aria-live=&quot;polite&quot;&gt;&lt;/span&gt;
+  &lt;/div&gt;
+
+  &lt;div class=&quot;field-group&quot;&gt;
+    &lt;label for=&quot;student-id&quot;&gt;Student ID &lt;span aria-hidden=&quot;true&quot;&gt;*&lt;/span&gt;&lt;/label&gt;
+    &lt;input type=&quot;text&quot; id=&quot;student-id&quot; name=&quot;student-id&quot;
+           aria-describedby=&quot;student-id-error&quot;&gt;
+    &lt;span id=&quot;student-id-error&quot; class=&quot;error-msg&quot; aria-live=&quot;polite&quot;&gt;&lt;/span&gt;
+  &lt;/div&gt;
+
+  &lt;div class=&quot;field-group&quot;&gt;
+    &lt;label for=&quot;event-select&quot;&gt;Select Workshop &lt;span aria-hidden=&quot;true&quot;&gt;*&lt;/span&gt;&lt;/label&gt;
+    &lt;select id=&quot;event-select&quot; name=&quot;event-select&quot;
+            aria-describedby=&quot;event-select-error&quot;&gt;
+      &lt;option value=&quot;&quot;&gt;-- Choose a workshop --&lt;/option&gt;
+      &lt;option value=&quot;web-basics&quot;&gt;Web Basics&lt;/option&gt;
+      &lt;option value=&quot;intro-python&quot;&gt;Intro to Python&lt;/option&gt;
+      &lt;option value=&quot;ux-design&quot;&gt;UX Design Fundamentals&lt;/option&gt;
+    &lt;/select&gt;
+    &lt;span id=&quot;event-select-error&quot; class=&quot;error-msg&quot; aria-live=&quot;polite&quot;&gt;&lt;/span&gt;
+  &lt;/div&gt;
+
+  &lt;div class=&quot;field-group&quot;&gt;
+    &lt;label for=&quot;dietary&quot;&gt;Dietary Restrictions (optional)&lt;/label&gt;
+    &lt;textarea id=&quot;dietary&quot; name=&quot;dietary&quot; rows=&quot;3&quot;
+              aria-describedby=&quot;dietary-error&quot;&gt;&lt;/textarea&gt;
+    &lt;span id=&quot;dietary-error&quot; class=&quot;error-msg&quot; aria-live=&quot;polite&quot;&gt;&lt;/span&gt;
+  &lt;/div&gt;
+
+  &lt;button type=&quot;submit&quot;&gt;Register&lt;/button&gt;
+&lt;/form&gt;
+
+&lt;div id=&quot;confirmation&quot; hidden tabindex=&quot;-1&quot;&gt;
+  &lt;h2&gt;You&#x27;re registered!&lt;/h2&gt;
+  &lt;p id=&quot;confirmation-details&quot;&gt;&lt;/p&gt;
+  &lt;a href=&quot;index.html&quot;&gt;Register another person&lt;/a&gt;
+&lt;/div&gt;</code></pre>
+<p>The <code>novalidate</code> attribute disables the browser's built-in validation so yours runs instead.</p>
+<hr />
+<h2>Part 2: Validation functions</h2>
+<p>In <code>labs/lab07/lab07.js</code>, write these pure validation functions that return an error string if invalid or <code>null</code> if valid:</p>
+<pre><code class="language-js">function validateName(value) {
+  if (!value.trim()) return &#x27;Full name is required.&#x27;;
+  if (value.trim().length &lt; 2) return &#x27;Name must be at least 2 characters.&#x27;;
+  return null;
+}
+
+function validateEmail(value) {
+  if (!value.trim()) return &#x27;Email address is required.&#x27;;
+  if (!value.includes(&#x27;@&#x27;) || !value.includes(&#x27;.&#x27;)) return &#x27;Please enter a valid email address.&#x27;;
+  return null;
+}
+
+function validatePhone(value) {
+  // Optional field — only validate format if a value is entered
+  if (!value.trim()) return null;
+  const digitsOnly = value.replace(/\D/g, &#x27;&#x27;);
+  if (digitsOnly.length &lt; 10) return &#x27;Phone number must have at least 10 digits.&#x27;;
+  return null;
+}
+
+function validateStudentId(value) {
+  if (!value.trim()) return &#x27;Student ID is required.&#x27;;
+  if (!/^\d{7,9}$/.test(value.trim())) return &#x27;Student ID must be 7–9 digits.&#x27;;
+  return null;
+}
+
+function validateEvent(value) {
+  if (!value) return &#x27;Please select a workshop.&#x27;;
+  return null;
+}</code></pre>
+<hr />
+<h2>Part 3: Error display functions</h2>
+<pre><code class="language-js">function showError(inputEl, message) {
+  const errorEl = document.getElementById(`${inputEl.id}-error`);
+  errorEl.textContent = message;
+  inputEl.setAttribute(&#x27;aria-invalid&#x27;, &#x27;true&#x27;);
+  inputEl.classList.add(&#x27;input-error&#x27;);
+}
+
+function clearError(inputEl) {
+  const errorEl = document.getElementById(`${inputEl.id}-error`);
+  errorEl.textContent = &#x27;&#x27;;
+  inputEl.removeAttribute(&#x27;aria-invalid&#x27;);
+  inputEl.classList.remove(&#x27;input-error&#x27;);
+}</code></pre>
+<hr />
+<h2>Part 4: Validation timing</h2>
+<h3>On <code>blur</code> (early feedback)</h3>
+<p>For the Name and Email fields, add a <code>blur</code> listener that validates when the user leaves the field. Only show an error if the field was touched and is invalid — do not show errors on fields the user has not interacted with yet.</p>
+<pre><code class="language-js">const nameInput = document.getElementById(&#x27;full-name&#x27;);
+nameInput.addEventListener(&#x27;blur&#x27;, () =&gt; {
+  const error = validateName(nameInput.value);
+  if (error) showError(nameInput, error);
+  else clearError(nameInput);
+});</code></pre>
+<p>Add a similar blur listener for the email field.</p>
+<h3>On <code>submit</code></h3>
+<p>The form's <code>submit</code> handler should:</p>
+<ol>
+<li>Call <code>event.preventDefault()</code></li>
+<li>Validate all required fields</li>
+<li>Show errors for all invalid fields</li>
+<li>If any field is invalid, move focus to the first invalid field</li>
+<li>If all fields are valid, hide the form, populate <code>#confirmation-details</code> with a summary, show <code>#confirmation</code>, and move focus to <code>#confirmation</code></li>
+</ol>
+<pre><code class="language-js">const form = document.getElementById(&#x27;registration-form&#x27;);
+form.addEventListener(&#x27;submit&#x27;, (event) =&gt; {
+  event.preventDefault();
+
+  const fields = [
+    { el: nameInput, validate: validateName },
+    { el: emailInput, validate: validateEmail },
+    { el: phoneInput, validate: validatePhone },
+    { el: studentIdInput, validate: validateStudentId },
+    { el: eventSelect, validate: validateEvent },
+  ];
+
+  let firstError = null;
+
+  fields.forEach(({ el, validate }) =&gt; {
+    const error = validate(el.value);
+    if (error) {
+      showError(el, error);
+      if (!firstError) firstError = el;
+    } else {
+      clearError(el);
+    }
+  });
+
+  if (firstError) {
+    firstError.focus();
+    return;
+  }
+
+  // All valid — show confirmation
+  const confirmation = document.getElementById(&#x27;confirmation&#x27;);
+  const details = document.getElementById(&#x27;confirmation-details&#x27;);
+  details.textContent = `${nameInput.value.trim()} has been registered for ${eventSelect.options[eventSelect.selectedIndex].text}.`;
+  form.hidden = true;
+  confirmation.hidden = false;
+  confirmation.focus();
+});</code></pre>
+<hr />
+<h2>CSS requirements</h2>
+<p>In <code>labs/lab07/style.css</code>:</p>
+<ul>
+<li><code>.error-msg</code> should be visually distinct (red text, small font) — but also non-empty spans should have an icon or prefix so color is not the only indicator</li>
+<li><code>.input-error</code> should show a visible border change on the input</li>
+<li><code>:focus-visible</code> should show a clear focus ring on all interactive elements</li>
+<li>The form should be readable on mobile (single column) and centered on desktop</li>
+</ul>
+<hr />
+<h2>Testing requirements</h2>
+<p>Test each of the following manually:</p>
+<ul>
+<li>[ ] Submit with all fields empty → errors appear on all required fields</li>
+<li>[ ] Focus moves to first invalid field on failed submit</li>
+<li>[ ] Fix all errors and resubmit → confirmation appears and receives focus</li>
+<li>[ ] Tab through the entire form using keyboard only — all fields reachable</li>
+<li>[ ] Check that error spans are announced by enabling a screen reader (VoiceOver on Mac, NVDA on Windows)</li>
+<li>[ ] Phone field: leave blank → no error; enter "555" → error appears</li>
+</ul>
+<hr />
+<h2>Deliverable</h2>
+<p>In <code>labs/lab07/</code>:</p>
+<ul>
+<li><code>index.html</code></li>
+<li><code>lab07.js</code></li>
+<li><code>style.css</code></li>
+<li><code>notes.md</code></li>
+</ul>
+<p>Commit at least three times. Push and deploy.</p>
+<p>Submit to Canvas: live URL, repo URL, notes.md link.</p>
+<hr />
+<h2>Process reflection (in notes.md)</h2>
+<p>Answer in 4–6 sentences:</p>
+<ul>
+<li>What is the difference between <code>input</code> and <code>blur</code> events, and why is <code>blur</code> more appropriate for validation timing?</li>
+<li>How does <code>aria-describedby</code> connect an error message to an input, and why does this matter?</li>
+<li>What happened to focus when a form error appeared? What did you need to do to return focus correctly?</li>
+</ul>
+<hr />
+<h2>Rubric</h2>
+<table>
+<thead><tr><th>Criterion</th><th>Excellent (4)</th><th>Proficient (3)</th><th>Developing (2)</th><th>Incomplete (1)</th></tr></thead>
+<tbody>
+<tr><td><strong>Validation logic</strong></td><td>All five validators correct including edge cases (optional phone, student ID format)</td><td>Four validators correct</td><td>Two or three correct</td><td>One or zero</td></tr>
+<tr><td><strong>Error display</strong></td><td>Errors shown with correct text; <code>aria-invalid</code> set; cleared when fixed</td><td>Errors shown; ARIA not updated</td><td>Errors shown but not cleared</td><td>No error display</td></tr>
+<tr><td><strong>Validation timing</strong></td><td>Blur validation on name/email; full validation on submit; first invalid field focused</td><td>Submit validation only</td><td>Partial submit validation</td><td>No event handling</td></tr>
+<tr><td><strong>Confirmation flow</strong></td><td>Form hidden; confirmation shown with correct summary; focus moved to confirmation</td><td>Confirmation shown; no focus management</td><td>Some success handling</td><td>No confirmation</td></tr>
+<tr><td><strong>Accessibility</strong></td><td><code>aria-describedby</code>, <code>aria-live</code>, <code>aria-invalid</code>; keyboard navigable; color not only error indicator</td><td>Most ARIA present; keyboard works</td><td>Some ARIA</td><td>No ARIA</td></tr>
+<tr><td><strong>Reflection</strong></td><td>Specific; all three prompts addressed</td><td>Two prompts</td><td>Vague</td><td>Missing</td></tr>
+</tbody>
+</table>
 </body>
 </html>

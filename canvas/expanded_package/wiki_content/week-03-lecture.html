@@ -1,11 +1,183 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-<title>Week 03 Lecture Notes</title>
+<title>Week 03 Lecture Notes: Variables, Types, Operators, and Debugging</title>
 <meta name="identifier" content="ie38d08210f3766a73132693767a29ae7"/>
 <meta name="workflow_state" content="active"/>
 </head>
 <body>
-<h1>Week 03 Lecture Notes: Variables, Types, Operators, and Debugging</h1><h2>Weekly focus</h2><p>JavaScript Fundamentals</p><h2>Why this matters</h2><p>This week's material helps students move from isolated syntax toward purposeful client-side design decisions. The lecture emphasizes examples that can be inspected in the browser and rebuilt in small pieces.</p><h2>Learning targets</h2><ul><li>Explain the core concept in plain language</li><li>Build one focused example from scratch</li><li>Debug mistakes with browser tools</li><li>Connect this week's ideas to the running course projects</li></ul><h2>Lecture flow</h2><ol><li>Warm-up concept check</li><li>Demonstration of a focused example</li><li>Guided breakdown of the code</li><li>Common bug patterns</li><li>Independent practice prompt</li><li>Bridge to lab, assignment, or quiz</li></ol><h2>Instructor notes</h2><p>Use short code examples, narrate tradeoffs, and revisit accessibility in every demo. Avoid introducing abstractions before students can inspect the DOM, state, or network behavior involved.</p><h2>Exit ticket</h2><p>Ask students to explain one idea from the week using the sentence frame: <em>This matters in the browser because...</em></p>
+<h1>Week 03 Lecture Notes: Variables, Types, Operators, and Debugging</h1>
+<h2>Weekly focus</h2>
+<p>Building a reliable mental model of JavaScript values and how to inspect them when things go wrong.</p>
+<h2>Why this matters</h2>
+<p>JavaScript's type system behaves differently from most languages beginners have encountered. Silent type coercion — where <code>&quot;5&quot; + 3</code> produces <code>&quot;53&quot;</code> instead of an error — is the source of bugs that are genuinely hard to find without a clear mental model of what types are and how operators work on them. Learning to read error messages and use <code>console.log</code> strategically this week will save you hours of confusion in every subsequent week of the course.</p>
+<h2>Learning targets</h2>
+<ul>
+<li>Declare variables with <code>const</code> and <code>let</code> and explain why <code>var</code> is avoided in modern JavaScript</li>
+<li>Identify and distinguish the six primitive types: <code>string</code>, <code>number</code>, <code>boolean</code>, <code>null</code>, <code>undefined</code>, <code>symbol</code> (and <code>bigint</code>)</li>
+<li>Use <code>typeof</code> to inspect a value's type and predict its output for edge cases like <code>null</code> and functions</li>
+<li>Write template literals and explain when they are preferable to string concatenation</li>
+<li>Apply <code>===</code> (strict equality) instead of <code>==</code> (loose equality) and describe one case where <code>==</code> produces a surprising result</li>
+<li>Follow a console-debugging workflow: reproduce, isolate, inspect with <code>console.log</code>, form a hypothesis, test</li>
+</ul>
+<h2>Core concepts</h2>
+<h3><code>const</code> vs <code>let</code> — never <code>var</code></h3>
+<p>JavaScript has three variable declaration keywords. Two are used in modern code:</p>
+<pre><code class="language-javascript">const siteName = &#x27;Weber State&#x27;;   // cannot be reassigned
+let visitCount = 0;               // can be reassigned
+visitCount = visitCount + 1;      // fine
+
+siteName = &#x27;Utah State&#x27;;          // TypeError: Assignment to constant variable.</code></pre>
+<p><strong>Rule:</strong> Default to <code>const</code>. Only use <code>let</code> when you know the value will change (a counter, a flag, a value that gets updated in a loop). Never use <code>var</code> — it has function scope and hoisting behavior that makes code harder to reason about.</p>
+<p><code>const</code> does not mean <em>immutable</em>. An object or array declared with <code>const</code> can still have its contents changed; <code>const</code> only prevents reassigning the variable itself to a different value.</p>
+<h3>The primitive types</h3>
+<p>JavaScript has seven primitive types. You will use these five constantly:</p>
+<table>
+<thead><tr><th>Type</th><th>Example values</th><th><code>typeof</code> returns</th></tr></thead>
+<tbody>
+<tr><td><code>string</code></td><td><code>&#x27;hello&#x27;</code>, <code>&quot;world&quot;</code>, `<code> </code>template<code> </code>`</td><td><code>&quot;string&quot;</code></td></tr>
+<tr><td><code>number</code></td><td><code>42</code>, <code>3.14</code>, <code>NaN</code>, <code>Infinity</code></td><td><code>&quot;number&quot;</code></td></tr>
+<tr><td><code>boolean</code></td><td><code>true</code>, <code>false</code></td><td><code>&quot;boolean&quot;</code></td></tr>
+<tr><td><code>null</code></td><td><code>null</code></td><td><code>&quot;object&quot;</code> <em>(historic bug)</em></td></tr>
+<tr><td><code>undefined</code></td><td><code>undefined</code></td><td><code>&quot;undefined&quot;</code></td></tr>
+</tbody>
+</table>
+<pre><code class="language-javascript">typeof &#x27;hello&#x27;      // &quot;string&quot;
+typeof 42           // &quot;number&quot;
+typeof true         // &quot;boolean&quot;
+typeof null         // &quot;object&quot;  ← this is a known JavaScript bug, not your mistake
+typeof undefined    // &quot;undefined&quot;
+typeof someUndeclaredVariable  // &quot;undefined&quot; (does not throw)</code></pre>
+<p>The <code>null</code> / <code>typeof</code> result is a 25-year-old bug in the language. It cannot be fixed without breaking the web. To reliably check for <code>null</code>, use <code>=== null</code>.</p>
+<h3>Type coercion gotchas</h3>
+<p>JavaScript automatically converts types in certain operations. This is called <em>implicit type coercion</em>, and it produces results that look like bugs:</p>
+<pre><code class="language-javascript">// The + operator with a string converts the number to a string
+&#x27;5&#x27; + 3           // &quot;53&quot;   (concatenation, not addition)
+&#x27;5&#x27; - 3           // 2      (subtraction has no string meaning, so JS converts)
+
+// Falsy values: these all evaluate to false in a boolean context
+0, &#x27;&#x27;, null, undefined, NaN, false
+
+// Truthy surprises
+Boolean(&#x27;0&#x27;)      // true  — non-empty string, even if it is &quot;0&quot;
+Boolean([])       // true  — empty array is truthy
+Boolean(0)        // false
+
+// == performs type coercion before comparing
+0 == false        // true
+&#x27;&#x27; == false       // true
+null == undefined // true
+null == 0         // false  — inconsistent!</code></pre>
+<p>This is why <code>===</code> exists: it compares value <em>and</em> type without any conversion. Use it by default.</p>
+<h3><code>===</code> vs <code>==</code> in practice</h3>
+<pre><code class="language-javascript">// Loose equality — coerces types, produces surprises
+console.log(1 == &#x27;1&#x27;);   // true
+console.log(0 == &#x27;&#x27;);    // true
+console.log(null == undefined);  // true
+
+// Strict equality — no coercion
+console.log(1 === &#x27;1&#x27;);  // false
+console.log(0 === &#x27;&#x27;);   // false
+console.log(null === undefined); // false</code></pre>
+<p>The practical rule: <strong>always use <code>===</code> and <code>!==</code></strong>. If you find yourself reaching for <code>==</code>, ask what type coercion you are relying on — there is almost always a cleaner way to express the intent.</p>
+<h3>Template literals</h3>
+<p>Template literals use backtick characters and <code>${}</code> to embed expressions directly in strings:</p>
+<pre><code class="language-javascript">const firstName = &#x27;Jordan&#x27;;
+const score = 94;
+
+// Old style (concatenation)
+const msg1 = &#x27;Hello, &#x27; + firstName + &#x27;! Your score is &#x27; + score + &#x27;.&#x27;;
+
+// Template literal — easier to read and write
+const msg2 = `Hello, ${firstName}! Your score is ${score}.`;
+
+// Multi-line strings (no \n needed)
+const html = `
+  &lt;article&gt;
+    &lt;h2&gt;${firstName}&#x27;s Profile&lt;/h2&gt;
+    &lt;p&gt;Score: ${score}&lt;/p&gt;
+  &lt;/article&gt;
+`;</code></pre>
+<p>The expression inside <code>${}</code> can be any valid JavaScript: a variable, a function call, a ternary, arithmetic — anything that produces a value.</p>
+<h3><code>NaN</code> — the "not a number" value</h3>
+<p><code>NaN</code> is technically of type <code>number</code> but represents an invalid numeric operation:</p>
+<pre><code class="language-javascript">parseInt(&#x27;hello&#x27;)     // NaN
+10 / &#x27;hello&#x27;          // NaN
+NaN === NaN           // false  ← NaN is not equal to itself
+Number.isNaN(NaN)     // true   ← use this to check for NaN</code></pre>
+<p><code>NaN</code> propagates: any arithmetic involving <code>NaN</code> produces <code>NaN</code>. If you see unexpected <code>NaN</code> values cascading through your code, find the original bad conversion.</p>
+<h3>Console debugging workflow</h3>
+<p>When your code does not do what you expect, work through these steps:</p>
+<ol>
+<li><strong>Reproduce</strong> — confirm you can make the bug happen consistently.</li>
+<li><strong>Identify the last line that worked</strong> — use <code>console.log</code> to print values at key points:</li>
+</ol>
+<pre><code class="language-javascript">   function calculateTotal(price, quantity) {
+     console.log(&#x27;price:&#x27;, price, typeof price);
+     console.log(&#x27;quantity:&#x27;, quantity, typeof quantity);
+     const total = price * quantity;
+     console.log(&#x27;total:&#x27;, total);
+     return total;
+   }</code></pre>
+<ol>
+<li><strong>Read the error message</strong> — the Console tab shows the error text, the file name, and the line number. Click the line number to jump to the source.</li>
+<li><strong>Form a hypothesis</strong> — "I think <code>price</code> is a string, not a number, because the input value came from a form field."</li>
+<li><strong>Test the hypothesis</strong> — add a <code>typeof</code> check or log the raw value before processing.</li>
+<li><strong>Fix, then remove debug logs</strong> — do not leave <code>console.log</code> calls in production code.</li>
+</ol>
+<p>Common error types you will see this week:</p>
+<ul>
+<li><code>ReferenceError: x is not defined</code> — you used a variable before declaring it, or misspelled it</li>
+<li><code>TypeError: Cannot read properties of undefined</code> — you tried to access a property on <code>undefined</code> (e.g., called a method before a DOM element existed)</li>
+<li><code>SyntaxError: Unexpected token</code> — a typo in your code structure (missing bracket, mismatched quotes)</li>
+</ul>
+<h2>Common mistakes</h2>
+<ol>
+<li><strong>Using <code>var</code> because old tutorials do.</strong> Most JavaScript tutorials on the internet predate 2015 and use <code>var</code>. When you encounter it, mentally substitute <code>let</code>. Do not write new <code>var</code> declarations.</li>
+<li><strong>Treating <code>null</code> and <code>undefined</code> as the same thing.</strong> <code>null</code> is an intentional "no value" set by a programmer. <code>undefined</code> means a variable was declared but never assigned, or a property does not exist. They behave similarly in many contexts but come from different causes — distinguish them when debugging.</li>
+<li><strong>Using <code>==</code> to compare form input values to numbers.</strong> Form input <code>.value</code> is always a string. <code>inputEl.value == 5</code> might return <code>true</code> due to coercion, masking a type problem. Use <code>Number(inputEl.value) === 5</code> or <code>parseInt(inputEl.value, 10) === 5</code> to be explicit.</li>
+<li><strong>Forgetting that <code>const</code> objects are still mutable.</strong> <code>const user = { name: &#x27;Alex&#x27; }</code> — you cannot reassign <code>user</code>, but <code>user.name = &#x27;Sam&#x27;</code> works fine. Students sometimes expect <code>const</code> to freeze the object.</li>
+<li><strong>Ignoring <code>typeof</code> output when debugging.</strong> When a value behaves unexpectedly, the first question is always "what type is this?" Log <code>typeof</code> alongside the value to confirm your assumption.</li>
+</ol>
+<h2>Accessibility connection</h2>
+<p>JavaScript that runs in the browser can add, remove, or modify DOM content dynamically. When your scripts change content without updating the accessibility tree — for example, toggling a section visible without updating an associated <code>aria-expanded</code> attribute — screen reader users may not know the change occurred. This week's debugging skills apply directly: use the Console to verify that JavaScript is executing and that the DOM changes you intend are actually happening before worrying about accessibility attributes. Correct behavior is a prerequisite for accessible behavior.</p>
+<h2>Demo walkthrough</h2>
+<p><strong>Goal:</strong> Demonstrate type coercion causing a real bug, then fix it using strict equality and explicit type conversion.</p>
+<ol>
+<li>Open the browser Console (<code>F12</code>, Console tab).</li>
+<li>Type <code>&#x27;10&#x27; + 5</code> and press Enter. Show the result <code>&quot;105&quot;</code>. Ask: "What did you expect?" Then show <code>10 + 5</code> returns <code>15</code>.</li>
+<li>Declare a variable simulating a form input value: <code>const rawInput = &#x27;10&#x27;;</code></li>
+<li>Show that <code>rawInput == 10</code> is <code>true</code> but <code>rawInput === 10</code> is <code>false</code>.</li>
+<li>Create a simple function in the Console:</li>
+</ol>
+<pre><code class="language-javascript">   function doubleIt(value) {
+     return value * 2;
+   }
+   doubleIt(&#x27;5&#x27;);   // returns 10 — but for the wrong reason
+   doubleIt(&#x27;abc&#x27;); // returns NaN</code></pre>
+<ol>
+<li>Add a <code>console.log(typeof value)</code> inside the function body. Re-run. Show the type being logged.</li>
+<li>Add an explicit conversion and show the corrected version:</li>
+</ol>
+<pre><code class="language-javascript">   function doubleIt(value) {
+     const n = Number(value);
+     if (Number.isNaN(n)) { return &#x27;Invalid input&#x27;; }
+     return n * 2;
+   }</code></pre>
+<ol>
+<li>Show a <code>ReferenceError</code> deliberately: type <code>console.log(undeclaredVar)</code>. Point to the file/line indicator in the Console and explain how to read it.</li>
+</ol>
+<h2>Practice prompt</h2>
+<p>Open the browser Console and work through these exercises, logging each result and writing down whether it matches your prediction before you run it:</p>
+<ol>
+<li><code>typeof null</code> — predict, then check</li>
+<li><code>&#x27;3&#x27; * &#x27;4&#x27;</code> — predict the type and value</li>
+<li><code>null == undefined</code> vs <code>null === undefined</code></li>
+<li>`<code> </code>${2 + 2} is ${2 + 2 === 4 ? 'correct' : 'wrong'}<code> </code>`</li>
+<li>Declare <code>const colors = [&#x27;red&#x27;, &#x27;green&#x27;]</code> then run <code>colors.push(&#x27;blue&#x27;)</code> — does <code>const</code> prevent this?</li>
+</ol>
+<p>Document your predictions and the actual results. Note which ones surprised you and why.</p>
+<h2>Bridge</h2>
+<p>Lab 03 – Console Exercises and Small Programs consists of small JavaScript problems solved entirely in the browser Console and in a <code>.js</code> file — the same environment used in today's demo. Quiz 2 will include questions on <code>typeof</code> output, the result of specific coercion expressions, and when to use <code>const</code> vs <code>let</code>; review the type table and the <code>==</code> vs <code>===</code> examples before taking it. The Chapter 3 reading goes deeper on expressions and operator precedence, which will fill in the gaps between what was covered here and what you encounter in the lab.</p>
 </body>
 </html>

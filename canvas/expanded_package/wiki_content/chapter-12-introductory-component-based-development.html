@@ -7,36 +7,155 @@
 </head>
 <body>
 <h1>Chapter 12: Introductory Component-Based Development</h1>
-<p>The chapter introduces Vue as a gentle framework that helps students organize views, state, and interaction without abandoning the browser fundamentals learned earlier.</p>
+<p>Vue makes a specific promise: when your data changes, the interface updates automatically. You no longer manually query elements and set their text — you declare what the template should look like based on data, and Vue handles the rest.</p>
 <h2>What this chapter is really about</h2>
-<p>The chapter introduces Vue as a gentle framework that helps students organize views, state, and interaction without abandoning the browser fundamentals learned earlier. Rather than treating the browser like a magic box, this chapter asks students to name the moving parts, decide where responsibility belongs, and make design decisions visible in code.</p>
+<p>This chapter introduces Vue 3 as a gentle framework that brings component structure, reactive data, and declarative templates to the skills you have already built. The goal is not to learn "all of Vue" — it is to understand what a component is, how reactivity works, how data flows between components, and how this connects to the vanilla JavaScript patterns you already know.</p>
 <h2>Key ideas</h2>
-<p>The web is layered. Content comes first, presentation follows, behavior enhances, and data flows across boundaries. Good client-side code respects those layers instead of blurring them into one large script.</p>
+<p><strong>Single File Components (SFCs)</strong> are <code>.vue</code> files with three sections:</p>
+<pre><code class="language-vue">&lt;template&gt;
+  &lt;!-- HTML with Vue directives --&gt;
+  &lt;h1&gt;{{ title }}&lt;/h1&gt;
+  &lt;button @click=&quot;increment&quot;&gt;Count: {{ count }}&lt;/button&gt;
+&lt;/template&gt;
+
+&lt;script setup&gt;
+import { ref } from &#x27;vue&#x27;;
+
+const title = &#x27;My Counter&#x27;;
+const count = ref(0);
+
+function increment() {
+  count.value++;
+}
+&lt;/script&gt;
+
+&lt;style scoped&gt;
+h1 { color: var(--color-brand); }
+&lt;/style&gt;</code></pre>
+<p>The <code>&lt;script setup&gt;</code> syntax is the modern Composition API approach. Variables and functions declared here are automatically available in the template.</p>
+<p><strong><code>ref()</code></strong> creates a reactive value. When you change <code>.value</code> in the script, Vue updates everywhere that value is used in the template:</p>
+<pre><code class="language-js">const count = ref(0);
+count.value++;   // template re-renders automatically</code></pre>
+<p><strong><code>computed()</code></strong> creates a derived value that updates automatically when its dependencies change:</p>
+<pre><code class="language-js">import { ref, computed } from &#x27;vue&#x27;;
+
+const price = ref(49.99);
+const taxRate = ref(0.08);
+const total = computed(() =&gt; price.value * (1 + taxRate.value));
+// total.value updates whenever price or taxRate changes</code></pre>
+<p><strong>Template directives</strong>:</p>
+<table>
+<thead><tr><th>Directive</th><th>Purpose</th><th>Example</th></tr></thead>
+<tbody>
+<tr><td><code>{{ }}</code></td><td>Render a value as text</td><td><code>{{ product.name }}</code></td></tr>
+<tr><td><code>v-bind:</code> or <code>:</code></td><td>Bind an attribute to a value</td><td><code>:class=&quot;activeClass&quot;</code></td></tr>
+<tr><td><code>v-on:</code> or <code>@</code></td><td>Attach an event listener</td><td><code>@click=&quot;handleClick&quot;</code></td></tr>
+<tr><td><code>v-if</code> / <code>v-else</code></td><td>Conditionally render an element</td><td><code>v-if=&quot;isLoggedIn&quot;</code></td></tr>
+<tr><td><code>v-for</code></td><td>Render a list</td><td><code>v-for=&quot;item in items&quot;</code></td></tr>
+<tr><td><code>v-model</code></td><td>Two-way bind an input to data</td><td><code>v-model=&quot;searchQuery&quot;</code></td></tr>
+</tbody>
+</table>
+<p><strong><code>v-for</code></strong> renders a list of elements from an array. Always include <code>:key</code> — it helps Vue track which items changed:</p>
+<pre><code class="language-vue">&lt;ul&gt;
+  &lt;li v-for=&quot;product in products&quot; :key=&quot;product.id&quot;&gt;
+    {{ product.name }} — {{ product.price }}
+  &lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+<p><strong>Props</strong> pass data from a parent component to a child:</p>
+<pre><code class="language-vue">&lt;!-- ProductCard.vue --&gt;
+&lt;script setup&gt;
+defineProps({
+  name: String,
+  price: Number,
+  inStock: Boolean,
+});
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;article class=&quot;product-card&quot;&gt;
+    &lt;h2&gt;{{ name }}&lt;/h2&gt;
+    &lt;p&gt;{{ price }}&lt;/p&gt;
+    &lt;button :disabled=&quot;!inStock&quot;&gt;Buy&lt;/button&gt;
+  &lt;/article&gt;
+&lt;/template&gt;</code></pre>
+<pre><code class="language-vue">&lt;!-- App.vue — using the component --&gt;
+&lt;ProductCard name=&quot;Keyboard&quot; :price=&quot;49.99&quot; :inStock=&quot;true&quot; /&gt;</code></pre>
+<p><strong>Emits</strong> let a child communicate back to its parent:</p>
+<pre><code class="language-vue">&lt;!-- SearchBar.vue --&gt;
+&lt;script setup&gt;
+const emit = defineEmits([&#x27;search&#x27;]);
+
+function handleSubmit(event) {
+  emit(&#x27;search&#x27;, event.target.querySelector(&#x27;input&#x27;).value);
+}
+&lt;/script&gt;</code></pre>
+<pre><code class="language-vue">&lt;!-- App.vue --&gt;
+&lt;SearchBar @search=&quot;handleSearch&quot; /&gt;</code></pre>
 <h2>Mental model</h2>
-<p>Each page is a conversation between structure, style, state, and time. Structure gives the page meaning. Style gives it shape. State tracks what the user has done and what the application knows. Time matters because users click, type, navigate, and wait.</p>
+<p>In vanilla JavaScript, you imperatively update the DOM: "find this element, set its text to this value." In Vue, you declare what the template should look like based on data, and Vue handles the DOM updates. Change the data; the view follows automatically.</p>
+<p>A <strong>component</strong> is a self-contained piece of UI: its own template, its own data, its own behavior. You compose complex interfaces from simple components the same way you compose functions from smaller functions.</p>
+<p>Data flows <strong>down</strong> (parent to child via props) and events flow <strong>up</strong> (child to parent via emits). This one-way flow makes it easier to trace where data comes from and where changes originate.</p>
 <h2>Working habits</h2>
-<p>Students are encouraged to experiment in small loops: change one thing, observe the result, document the reason, and commit progress in Git. The goal is not simply to make a page work; the goal is to understand why it works.</p>
+<ul>
+<li>Keep components focused — one component, one responsibility. If a component's template is longer than 30 lines, consider splitting it.</li>
+<li>Use <code>ref()</code> for primitive values (strings, numbers, booleans). Use <code>reactive()</code> for objects when you want to avoid <code>.value</code> everywhere.</li>
+<li>Do not mutate props. Props flow down from the parent; a child should not change them directly. Emit an event to the parent and let the parent update its own state.</li>
+<li>Use <code>computed()</code> for derived values instead of manually recalculating them in event handlers.</li>
+<li>Remember <code>.value</code> — inside <code>&lt;script setup&gt;</code>, reading or writing a <code>ref</code> requires <code>.value</code>. In the <code>&lt;template&gt;</code>, Vue unwraps it automatically.</li>
+</ul>
 <h2>Common mistakes</h2>
-<p>Many beginners overreach too early. They add libraries before they understand the browser, hide logic in anonymous handlers, or skip naming conventions that would make the code readable later. This chapter pushes against that pattern.</p>
+<ul>
+<li><strong>Mutating props directly</strong>: <code>props.count++</code> modifies the parent's data from the child. This breaks one-way data flow and causes bugs that are hard to trace. Emit an event instead.</li>
+<li><strong>Forgetting <code>.value</code> in the script</strong>: <code>count++</code> instead of <code>count.value++</code> silently does nothing because you are incrementing the <code>ref</code> wrapper object, not the value inside it.</li>
+<li><strong>Putting too much logic in the template</strong>: <code>v-if=&quot;user &amp;&amp; user.role === &#x27;admin&#x27; &amp;&amp; permissions.includes(&#x27;edit&#x27;)&quot;</code> is hard to read. Move complex conditions to <code>computed()</code> properties.</li>
+<li><strong>Missing <code>:key</code> in <code>v-for</code></strong>: Vue can't efficiently track which items changed, causing rendering bugs when items are added or removed.</li>
+<li><strong>Treating Vue like vanilla JS</strong>: trying to <code>querySelector</code> inside a component to read or modify the DOM defeats the purpose. Bind to reactive data; let Vue manage the DOM.</li>
+</ul>
 <h2>Accessibility and UX note</h2>
-<p>Every technical choice has an experience consequence. Heading structure affects screen-reader navigation. Button labeling affects confidence. Error messaging affects recovery. A client-side developer is always shaping user experience, even when writing simple scripts.</p>
+<p>Vue doesn't change your accessibility obligations — semantic HTML, keyboard interaction, and ARIA still matter inside components. Vue gives you powerful tools to manage them dynamically:</p>
+<pre><code class="language-vue">&lt;!-- Dynamically set aria-expanded based on reactive data --&gt;
+&lt;button :aria-expanded=&quot;isOpen&quot; @click=&quot;isOpen = !isOpen&quot;&gt;
+  Toggle Menu
+&lt;/button&gt;</code></pre>
+<p>Reactive data makes it straightforward to keep ARIA attributes synchronized with visible state — use this intentionally. Ensure that dynamically rendered content (via <code>v-if</code> or <code>v-for</code>) is keyboard-reachable and announced appropriately by assistive technologies.</p>
 <h2>Practice prompt</h2>
-<p>Open one of your existing pages or a provided course starter. Identify one part of the interface that depends on introductory component-based development and explain what the browser needs in order to make that feature understandable and usable.</p>
+<p>Build a small product browser in Vue:</p>
+<ol>
+<li>In <code>App.vue</code>, declare a reactive array of at least five product objects (each with <code>id</code>, <code>name</code>, <code>price</code>, <code>category</code>, <code>inStock</code>).</li>
+<li>Create a <code>ProductCard.vue</code> component that accepts these as props and renders a card with the product name, formatted price, category badge, and a "Buy" button that is disabled when <code>inStock</code> is false.</li>
+<li>In <code>App.vue</code>, use <code>v-for</code> to render a <code>ProductCard</code> for each product. Include <code>:key</code>.</li>
+<li>Add a text input bound with <code>v-model</code> to a <code>searchQuery</code> ref. Add a <code>computed</code> property called <code>filteredProducts</code> that returns only products whose name includes <code>searchQuery</code> (case-insensitive). Render <code>filteredProducts</code> in the <code>v-for</code>.</li>
+<li>Verify the filter updates as you type without any manual DOM manipulation.</li>
+</ol>
 <h2>Reflection</h2>
-<p>What did you assume the browser was doing automatically that actually depends on deliberate authoring? Where can you make your intent more visible in HTML, CSS, or JavaScript?</p>
+<p>When you changed a <code>ref</code> value in <code>&lt;script setup&gt;</code>, what happened in the template and why? What was the difference between <code>ref()</code> and <code>computed()</code>? When you tried to mutate a prop directly, what happened? Where did <code>v-model</code> replace code you would have written manually with <code>addEventListener</code> and <code>.value</code>?</p>
 <h2>Vocabulary</h2>
 <ul>
-<li>semantics</li>
-<li>enhancement</li>
-<li>state</li>
-<li>rendering</li>
-<li>debugging</li>
+<li><strong>component</strong> — a self-contained piece of UI with its own template, data, and behavior</li>
+<li><strong>Single File Component (SFC)</strong> — a <code>.vue</code> file with <code>&lt;template&gt;</code>, <code>&lt;script setup&gt;</code>, and <code>&lt;style&gt;</code> sections</li>
+<li><strong>Composition API</strong> — Vue 3's approach to component logic using <code>ref</code>, <code>computed</code>, and <code>reactive</code></li>
+<li><strong>ref</strong> — a reactive wrapper for a primitive value; access and mutate with <code>.value</code> in the script</li>
+<li><strong>computed</strong> — a reactive derived value that updates automatically when its dependencies change</li>
+<li><strong>reactive</strong> — a reactive proxy for an object; properties can be accessed and mutated directly</li>
+<li><strong>v-bind (<code>:</code>)</strong> — directive that binds an HTML attribute to a reactive value</li>
+<li><strong>v-on (<code>@</code>)</strong> — directive that attaches an event listener</li>
+<li><strong>v-if / v-else</strong> — directives for conditional rendering</li>
+<li><strong>v-for</strong> — directive for rendering a list of elements from an array</li>
+<li><strong>v-model</strong> — directive for two-way data binding between an input and a reactive value</li>
+<li><strong>props</strong> — data passed from a parent component to a child component</li>
+<li><strong>emit</strong> — a mechanism for a child component to communicate events back to its parent</li>
+<li><strong>reactivity</strong> — the system by which Vue tracks data dependencies and automatically updates the DOM when data changes</li>
 </ul>
 <h2>Mini checklist</h2>
 <ul>
-<li>I can explain the purpose of the layer I am working in.</li>
-<li>I can name the data or state I need.</li>
-<li>I can describe how a user will experience the result.</li>
+<li>I can create a Vue SFC with <code>&lt;template&gt;</code>, <code>&lt;script setup&gt;</code>, and <code>&lt;style scoped&gt;</code> sections.</li>
+<li>I can declare reactive data with <code>ref()</code> and update it with <code>.value</code> in the script.</li>
+<li>I can use <code>v-for</code> with a <code>:key</code> binding to render a list from a reactive array.</li>
+<li>I can use <code>v-if</code> to conditionally render an element based on reactive data.</li>
+<li>I can create a child component with <code>defineProps</code> and use it in a parent component.</li>
+<li>I can use <code>computed()</code> to derive a filtered or transformed value from reactive data.</li>
+<li>I can use <code>v-model</code> to bind an input to a reactive value without writing a manual event listener.</li>
+<li>I can explain why props should not be mutated directly and what to do instead.</li>
 </ul>
 </body>
 </html>

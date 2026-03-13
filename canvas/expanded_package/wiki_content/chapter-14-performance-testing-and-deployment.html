@@ -1,0 +1,202 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>Chapter 14: Performance, Testing, and Deployment</title>
+<meta name="identifier" content="ia5288747a0f319ed27f8da1054917984"/>
+<meta name="workflow_state" content="active"/>
+</head>
+<body>
+<h1>Chapter 14: Performance, Testing, and Deployment</h1>
+<p>Getting code to work on your laptop is only half the job. This chapter covers how to verify that your application is actually ready for real users — and how to put it in front of them.</p>
+<h2>What this chapter is really about</h2>
+<p>Everything in the course has been building toward a moment: you push a button, your application is live on the internet, and a real person uses it. That moment requires three things to go right. First, the application must be fast enough that users do not leave before the page loads. Second, it must work correctly — keyboard navigation, screen readers, every interaction path — not just in your best-case scenario. Third, the deployed version must actually match what you built.</p>
+<p>This chapter treats Lighthouse as your scorecard, manual testing as your quality gate, and Netlify or Vercel as your publishing platform. These are not exotic tools for specialists. They are the practical minimum for shipping something you can stand behind.</p>
+<h2>Key ideas</h2>
+<p><strong>The Lighthouse audit</strong> is built into Chrome DevTools (DevTools → Lighthouse tab, or use the Lighthouse panel in Edge). Run it on any page — local dev server, preview deploy, or live URL — and it returns scores in five categories:</p>
+<table>
+<thead><tr><th>Category</th><th>What it measures</th></tr></thead>
+<tbody>
+<tr><td><strong>Performance</strong></td><td>How fast the page loads and becomes interactive</td></tr>
+<tr><td><strong>Accessibility</strong></td><td>Automated checks against WCAG guidelines</td></tr>
+<tr><td><strong>Best Practices</strong></td><td>Security, modern APIs, and common code quality signals</td></tr>
+<tr><td><strong>SEO</strong></td><td>Whether search engines can crawl and understand the page</td></tr>
+<tr><td><strong>PWA</strong></td><td>Progressive Web App compliance (offline support, installability)</td></tr>
+</tbody>
+</table>
+<p>For this course, Performance and Accessibility are the categories you act on most. Best Practices catches things like using deprecated APIs or loading scripts over HTTP instead of HTTPS. SEO and PWA are informational at this stage.</p>
+<p><strong>Lighthouse performance metrics</strong> — the Performance score is computed from several sub-metrics. The four you will see most:</p>
+<table>
+<thead><tr><th>Metric</th><th>What it measures</th><th>Target</th></tr></thead>
+<tbody>
+<tr><td><strong>FCP</strong> (First Contentful Paint)</td><td>When the browser first renders any text or image</td><td>Under 1.8 s</td></tr>
+<tr><td><strong>LCP</strong> (Largest Contentful Paint)</td><td>When the largest visible element finishes rendering</td><td>Under 2.5 s</td></tr>
+<tr><td><strong>TBT</strong> (Total Blocking Time)</td><td>How long the main thread is blocked, delaying interactivity</td><td>Under 200 ms</td></tr>
+<tr><td><strong>CLS</strong> (Cumulative Layout Shift)</td><td>How much visible content shifts unexpectedly during load</td><td>Under 0.1</td></tr>
+</tbody>
+</table>
+<p>A high CLS score usually means images without explicit dimensions (the page jumps when images load) or content injected above existing content. A high TBT score usually means large or long-running JavaScript.</p>
+<p><strong>How to read a Lighthouse report</strong>: the scores (0–100) are useful as a compass, not a grade. A Performance score of 55 does not mean you failed; it means something specific is slow and the report will tell you what. Every flagged item shows a description, an estimated savings, and a link to documentation. Work the list top-to-bottom — the items with the largest estimated savings first.</p>
+<p><strong>Tree-shaking</strong> removes code that you import but never actually call. Vite does this automatically when you run <code>npm run build</code>. The mechanism works because ES module imports are static — the bundler can analyze exactly which exports are used and drop the rest.</p>
+<pre><code class="language-js">// utils.js — exports three functions
+export function formatPrice(n) { /* ... */ }
+export function formatDate(d) { /* ... */ }
+export function slugify(s) { /* ... */ }
+
+// main.js — only uses one
+import { formatPrice } from &#x27;./utils.js&#x27;;</code></pre>
+<p>When you build, <code>formatDate</code> and <code>slugify</code> are not included in the output because nothing imports them. If you had used <code>import * as utils from &#x27;./utils.js&#x27;</code>, tree-shaking would be defeated — Vite cannot know which properties of <code>utils</code> you will read at runtime.</p>
+<p><strong>Code splitting</strong> breaks your bundle into separate files that load on demand instead of all at once. Vite handles this automatically for dynamic imports:</p>
+<pre><code class="language-js">// Static import — always bundled into the main chunk
+import { renderProductList } from &#x27;./render.js&#x27;;
+
+// Dynamic import — loaded only when this code runs
+async function loadAdminPanel() {
+  const { AdminPanel } = await import(&#x27;./admin.js&#x27;);
+  AdminPanel.init();
+}</code></pre>
+<p>Dynamic imports are useful for large features that only a subset of users ever access — an admin panel, a data export tool, a complex chart library. Do not over-apply them; splitting too aggressively creates more network round-trips than it saves.</p>
+<p><strong>Verifying tree-shaking and code splitting</strong>: after running <code>npm run build</code>, inspect the <code>dist/</code> folder:</p>
+<pre><code>dist/
+  index.html
+  assets/
+    index-BsX2k3lm.js       ← main bundle (hashed filename for cache-busting)
+    index-DqW8pLzY.css
+    admin-Tn9cRmKj.js        ← split chunk, only loaded when needed</code></pre>
+<p>The hashed filenames are intentional — browsers cache files by URL, and the hash changes whenever the file contents change. This means users automatically get the updated file without you having to manage cache headers.</p>
+<p><strong>Image optimization</strong> — images are typically the heaviest assets on a page. Three practices make the biggest difference:</p>
+<p>Use modern formats. WebP and AVIF are significantly smaller than JPEG and PNG at equivalent quality. Most image editors and free tools (Squoosh, ImageMagick) convert to these formats. AVIF is slightly smaller than WebP but has slightly less browser support; WebP is safe for all modern browsers.</p>
+<pre><code class="language-html">&lt;!-- Single WebP image --&gt;
+&lt;img src=&quot;hero.webp&quot; alt=&quot;A person working at a desk&quot; width=&quot;800&quot; height=&quot;450&quot;&gt;
+
+&lt;!-- srcset: serve the right size for the device --&gt;
+&lt;img
+  src=&quot;hero-800.webp&quot;
+  srcset=&quot;hero-400.webp 400w, hero-800.webp 800w, hero-1200.webp 1200w&quot;
+  sizes=&quot;(max-width: 600px) 400px, (max-width: 1000px) 800px, 1200px&quot;
+  alt=&quot;A person working at a desk&quot;
+  width=&quot;800&quot;
+  height=&quot;450&quot;
+&gt;</code></pre>
+<p>Always include explicit <code>width</code> and <code>height</code> attributes. Without them, the browser does not know how much space to reserve before the image loads, causing layout shifts that raise your CLS score.</p>
+<p>Use <code>loading=&quot;lazy&quot;</code> on images that are below the fold — below the visible viewport on initial load. The browser will not download them until the user scrolls near them, reducing the data needed to render the initial view.</p>
+<pre><code class="language-html">&lt;!-- Hero image: load immediately (above the fold) --&gt;
+&lt;img src=&quot;hero.webp&quot; alt=&quot;...&quot; width=&quot;1200&quot; height=&quot;600&quot;&gt;
+
+&lt;!-- Product images further down the page: lazy-load --&gt;
+&lt;img src=&quot;product-1.webp&quot; alt=&quot;...&quot; width=&quot;400&quot; height=&quot;400&quot; loading=&quot;lazy&quot;&gt;</code></pre>
+<p>Do not put <code>loading=&quot;lazy&quot;</code> on images that appear above the fold. The browser would delay loading the most important image, which is the opposite of what you want.</p>
+<p><strong>The <code>npm run build</code> → <code>npm run preview</code> workflow</strong> — always run both commands before deploying:</p>
+<pre><code class="language-bash">npm run build     # produces the dist/ folder
+npm run preview   # serves dist/ locally on a different port</code></pre>
+<p><code>npm run dev</code> serves your source files from <code>src/</code> with Vite's development transforms. <code>npm run preview</code> serves the actual compiled output from <code>dist/</code>. These are not always identical. Issues that only appear in the built version — broken import paths, missing environment variables, tree-shaking that removes something you needed — will surface in preview and not in dev. Make the preview your final check.</p>
+<p><strong>Deployment to Netlify or Vercel</strong> follows the same three-step pattern on both platforms:</p>
+<ol>
+<li><strong>Connect your repository.</strong> Sign in with your GitHub account and select your repo. The platform watches for new commits and redeploys automatically.</li>
+<li><strong>Set the build command.</strong> For a Vite project, this is <code>npm run build</code>. The platform runs this command in their environment after cloning your repo.</li>
+<li><strong>Set the publish directory.</strong> For Vite, this is <code>dist</code>. This tells the platform which folder contains the files to serve.</li>
+</ol>
+<p>On Netlify, these settings live in Site Configuration → Build &amp; Deploy → Build settings. On Vercel they are auto-detected from your <code>package.json</code> in most cases, but you can override them in the project settings.</p>
+<p><strong>Environment variables for API keys</strong> — never commit secret keys to git. Both platforms have a UI for setting environment variables that are injected at build time:</p>
+<p>In Vite, environment variables that start with <code>VITE_</code> are exposed to your client-side code:</p>
+<pre><code class="language-js">// In your source code — references the env variable
+const apiKey = import.meta.env.VITE_WEATHER_API_KEY;</code></pre>
+<p>In the Netlify or Vercel UI, add a variable named <code>VITE_WEATHER_API_KEY</code> with the actual key value. It is available during <code>npm run build</code> but never stored in your source code.</p>
+<p>A <code>.env.local</code> file (always in <code>.gitignore</code>) holds the variable for local development:</p>
+<pre><code># .env.local — never commit this file
+VITE_WEATHER_API_KEY=your_actual_key_here</code></pre>
+<pre><code># .gitignore — add this line if it is not already there
+.env.local</code></pre>
+<p><strong>Preview deploys</strong> — both Netlify and Vercel create a unique URL for every pull request or branch push. This lets you share a live, shareable link for review before merging to main. The pattern is: create a branch, push it, share the preview URL, review and approve, merge. The main branch URL then updates automatically.</p>
+<p><strong>The 3-check method</strong> — before submitting any lab, assignment, or project, run these three checks in order:</p>
+<ol>
+<li><strong>Keyboard-only walkthrough</strong>: unplug (or ignore) your mouse and navigate the entire application using only Tab, Shift+Tab, Enter, Space, and arrow keys. Every interactive element must be reachable and operable. If you get stuck, something is wrong.</li>
+<li><strong>Network throttle test</strong>: in DevTools → Network tab, set the throttle to "Fast 3G" (or "Slow 3G" for a harder test). Reload the page. Does the layout shift? Does anything look broken or incomplete before all assets load? This simulates a user on a mobile connection.</li>
+<li><strong>Lighthouse run</strong>: run Lighthouse on the deployed or previewed version (not the dev server). Aim for Performance ≥ 90, Accessibility ≥ 90. Read every flagged item, fix the ones you can, and be able to explain the ones you leave.</li>
+</ol>
+<p>Run checks 1 and 2 during development. Run check 3 on the built version. Do not run Lighthouse on the dev server — the dev server is intentionally unoptimized and will produce misleadingly low Performance scores.</p>
+<p><strong>A complete pre-submission checklist</strong>:</p>
+<pre><code>Before submitting:
+[ ] npm run build completes without errors or warnings
+[ ] npm run preview shows the app working correctly
+[ ] Keyboard-only walkthrough: all interactions reachable and operable
+[ ] DevTools Network throttle (Fast 3G): no broken layout or unreadable state
+[ ] Lighthouse on preview or deployed URL: Performance ≥ 90, Accessibility ≥ 90
+[ ] No API keys or secrets in source code (use import.meta.env.VITE_*)
+[ ] .env.local is in .gitignore
+[ ] dist/ is in .gitignore</code></pre>
+<h2>Mental model</h2>
+<p>Think of the journey from source code to a user's screen as a pipeline with three stages: build, verify, deploy.</p>
+<p>The <strong>build</strong> stage (Vite) takes your human-readable source files — modular, named, commented — and produces a compact, optimized package. Tree-shaking strips unused code. Minification shortens identifiers and removes whitespace. Code splitting creates separate chunks for separate routes or features. The output is not meant to be read; it is meant to be loaded fast.</p>
+<p>The <strong>verify</strong> stage (manual testing + Lighthouse) answers the question: does the built output actually work, and does it work for everyone? The dev server is your workshop; <code>npm run preview</code> is your dress rehearsal. You would not skip the dress rehearsal before a performance, and you should not skip <code>npm run preview</code> before deploying.</p>
+<p>The <strong>deploy</strong> stage (Netlify/Vercel) moves the built output from your machine to a server with a public URL, a CDN, and HTTPS. The platform handles infrastructure; you handle the code.</p>
+<p>A project that is shipped, accessible, and fast is more valuable than a project that is only finished on your machine.</p>
+<h2>Working habits</h2>
+<ul>
+<li>Run <code>npm run build &amp;&amp; npm run preview</code> as a pair, not separately. If build fails, fix it before deploying.</li>
+<li>Run Lighthouse on the preview URL, not the dev server. Dev server scores are not meaningful for Performance.</li>
+<li>Address Lighthouse Accessibility findings before Performance ones — accessibility failures affect real users immediately; performance scores are a continuous improvement target.</li>
+<li>Set all API keys as environment variables before you write code that uses them. Committing a key by accident is a security incident that requires rotating the key, not just deleting the commit.</li>
+<li>Convert images to WebP before adding them to the project, not as an afterthought. Set <code>width</code> and <code>height</code> attributes at the same time you write the <code>&lt;img&gt;</code> tag.</li>
+<li>Keep <code>dist/</code> and <code>.env.local</code> in <code>.gitignore</code> from your first commit. Adding them later is harder than adding them first.</li>
+<li>After a successful Netlify or Vercel deployment, run the keyboard walkthrough and Lighthouse audit on the live URL, not just the preview. The production CDN occasionally introduces subtle differences.</li>
+</ul>
+<h2>Common mistakes</h2>
+<ul>
+<li><strong>Running Lighthouse on the dev server</strong>: the dev server produces bundles with development tooling included, no minification, and no tree-shaking. Lighthouse scores on the dev server are not representative. Always audit the built version.</li>
+<li><strong>Forgetting <code>npm run preview</code> before deploying</strong>: the app works on dev but breaks in production because an import path assumed source-file resolution, a feature was dev-only, or an environment variable was missing. Preview catches this.</li>
+<li><strong>Committing <code>.env.local</code></strong>: if you commit a secret key, rotating the key is mandatory even after you delete it from the repo — the key exists in git history. Use a pre-commit hook or simply check <code>git status</code> before every commit.</li>
+<li><strong><code>loading=&quot;lazy&quot;</code> on the hero image</strong>: the browser delays loading the most prominent image on the page, causing a visible blank area during load and a poor LCP score. Only lazy-load images that are genuinely below the fold.</li>
+<li><strong>No <code>width</code> and <code>height</code> on images</strong>: every image without explicit dimensions is a potential layout shift. Lighthouse flags these; more importantly, they make the page feel unstable while loading.</li>
+<li><strong>Using <code>import *</code></strong>: wildcard imports defeat tree-shaking. Import only the named exports you use.</li>
+<li><strong>One giant chunk</strong>: if you import every module in <code>main.js</code> at the top level, everything lands in one bundle. Use dynamic imports for large features that are not needed immediately.</li>
+<li><strong>Ignoring the keyboard walkthrough</strong>: many keyboard failures are invisible to mouse users. Tab through the entire app at least once before every submission.</li>
+</ul>
+<h2>Practice prompt</h2>
+<ol>
+<li>Open a Vite project from a previous lab or assignment (or create a fresh one from a prior project's code).</li>
+<li>Run <code>npm run build</code>. Open the <code>dist/assets/</code> folder and note the filenames and file sizes. Then run <code>npm run preview</code> and verify the application works.</li>
+<li>Run a Lighthouse audit on the preview URL (the <code>localhost:4173</code> address). Record your scores for Performance, Accessibility, and Best Practices.</li>
+<li>Find one Lighthouse Performance finding and one Accessibility finding. Read the description for each. Implement the recommended fix for each finding and re-run Lighthouse. Did your scores improve?</li>
+<li>Add one image to the project (any image). Set explicit <code>width</code> and <code>height</code> attributes. Convert it to WebP if it is not already in that format. Add <code>loading=&quot;lazy&quot;</code> if it appears below the fold. Re-run Lighthouse and note the CLS score.</li>
+<li>If you have an API key used in one of your projects, move it to <code>.env.local</code> using a <code>VITE_</code> prefix and reference it with <code>import.meta.env.VITE_YOUR_KEY_NAME</code>. Verify the application still works, then add <code>.env.local</code> to <code>.gitignore</code>.</li>
+<li>Create a free Netlify or Vercel account, connect your repository, set the build command to <code>npm run build</code> and publish directory to <code>dist</code>, and deploy. Share the live URL and run a final Lighthouse audit on it.</li>
+</ol>
+<h2>Reflection</h2>
+<p>What was different about the application when you ran <code>npm run preview</code> compared to <code>npm run dev</code>? Which Lighthouse findings surprised you — were there accessibility issues you would not have found by looking at the page visually? When you did the keyboard-only walkthrough, what did you discover about the interaction model that you had not noticed before?</p>
+<h2>Vocabulary</h2>
+<ul>
+<li><strong>Lighthouse</strong> — a Chrome DevTools auditing tool that scores a page on Performance, Accessibility, Best Practices, SEO, and PWA criteria</li>
+<li><strong>FCP (First Contentful Paint)</strong> — the time when the browser first renders any text or image to the screen</li>
+<li><strong>LCP (Largest Contentful Paint)</strong> — the time when the largest visible element in the viewport finishes rendering; the primary user-perceived load speed metric</li>
+<li><strong>TBT (Total Blocking Time)</strong> — the total time during page load when the main thread is blocked and cannot respond to user input</li>
+<li><strong>CLS (Cumulative Layout Shift)</strong> — a measure of how much visible content moves unexpectedly during load; caused by images without dimensions or late-loading content</li>
+<li><strong>tree-shaking</strong> — the process of removing exported code that is never imported or called anywhere in the application</li>
+<li><strong>code splitting</strong> — dividing a JavaScript bundle into separate chunks that load on demand rather than all at once</li>
+<li><strong>dynamic import</strong> — a syntax (<code>await import(&#x27;./module.js&#x27;)</code>) that loads a module at runtime instead of at bundle time, enabling code splitting</li>
+<li><strong>WebP</strong> — a modern image format that is significantly smaller than JPEG or PNG at comparable quality, supported by all modern browsers</li>
+<li><strong>AVIF</strong> — a newer image format with even better compression than WebP, with slightly less browser support</li>
+<li><strong>srcset</strong> — an HTML attribute that specifies multiple image sources at different resolutions, letting the browser pick the most appropriate one for the device</li>
+<li><strong>loading="lazy"</strong> — an HTML attribute that defers image loading until the image is near the viewport</li>
+<li><strong><code>npm run preview</code></strong> — a Vite command that serves the compiled <code>dist/</code> folder locally, simulating the deployed version</li>
+<li><strong>environment variable</strong> — a value set outside the source code (in the platform UI or a <code>.env.local</code> file) and injected at build time; used to keep secrets out of git</li>
+<li><strong><code>import.meta.env</code></strong> — Vite's mechanism for accessing environment variables in client-side code; only variables prefixed with <code>VITE_</code> are exposed</li>
+<li><strong>preview deploy</strong> — a unique, shareable URL generated automatically for every pull request or branch push on Netlify or Vercel</li>
+<li><strong>CDN (Content Delivery Network)</strong> — a network of servers distributed geographically that serves static assets from the location closest to the user</li>
+<li><strong>cache-busting</strong> — the practice of including a content hash in asset filenames so browsers automatically fetch new versions when files change</li>
+</ul>
+<h2>Mini checklist</h2>
+<ul>
+<li>I can run a Lighthouse audit on a built application and identify the highest-impact Performance and Accessibility findings.</li>
+<li>I can explain what FCP, LCP, TBT, and CLS measure and what causes each metric to be poor.</li>
+<li>I can explain what tree-shaking does and why using <code>import *</code> defeats it.</li>
+<li>I can use a dynamic import to split a large feature into a separate chunk.</li>
+<li>I can inspect the <code>dist/</code> folder after <code>npm run build</code> and identify the bundled output files.</li>
+<li>I can run <code>npm run preview</code> and explain why it is more representative than <code>npm run dev</code> for pre-deployment testing.</li>
+<li>I can add explicit <code>width</code>, <code>height</code>, and <code>loading=&quot;lazy&quot;</code> attributes to images appropriately.</li>
+<li>I can convert or specify images in WebP format and use <code>srcset</code> for responsive images.</li>
+<li>I can move an API key to <code>.env.local</code> and reference it with <code>import.meta.env.VITE_*</code>.</li>
+<li>I can deploy a Vite project to Netlify or Vercel by connecting a repo, setting the build command, and setting the publish directory.</li>
+<li>I can perform the 3-check method (keyboard walkthrough, network throttle, Lighthouse audit) before submitting a project.</li>
+</ul>
+</body>
+</html>

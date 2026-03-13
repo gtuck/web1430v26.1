@@ -7,36 +7,87 @@
 </head>
 <body>
 <h1>Chapter 3: JavaScript Syntax, Values, and Expressions</h1>
-<p>The chapter teaches the everyday grammar of JavaScript with a focus on clarity, debugging, and mental models rather than memorization.</p>
+<p>JavaScript is the language of browser behavior. Before you can make pages interactive, you need a clear mental model of how JavaScript represents information, evaluates expressions, and communicates results.</p>
 <h2>What this chapter is really about</h2>
-<p>The chapter teaches the everyday grammar of JavaScript with a focus on clarity, debugging, and mental models rather than memorization. Rather than treating the browser like a magic box, this chapter asks students to name the moving parts, decide where responsibility belongs, and make design decisions visible in code.</p>
+<p>This chapter covers the everyday grammar of JavaScript: how to declare variables, what types of values exist, how operators work, and how to use the console to see what your code is doing at any moment. The emphasis is on building correct mental models rather than memorizing syntax — a developer who understands why <code>0 == false</code> is <code>true</code> will never be surprised by it.</p>
 <h2>Key ideas</h2>
-<p>The web is layered. Content comes first, presentation follows, behavior enhances, and data flows across boundaries. Good client-side code respects those layers instead of blurring them into one large script.</p>
+<p><strong>Variables and constants</strong> store values. Prefer <code>const</code> for values that will not be reassigned. Use <code>let</code> when reassignment is necessary. Never use <code>var</code> — it has function scope and hoisting behavior that produces confusing bugs.</p>
+<pre><code class="language-js">const siteName = &#x27;Campus Events&#x27;;   // will not change
+let currentPage = 1;                // will be incremented later</code></pre>
+<p><strong>Primitive types</strong> are the basic kinds of values JavaScript can hold:</p>
+<ul>
+<li><code>string</code> — text, written with single quotes, double quotes, or backticks: <code>&#x27;hello&#x27;</code>, <code>&quot;world&quot;</code>, `<code> </code>template<code> </code>`</li>
+<li><code>number</code> — integers and decimals: <code>42</code>, <code>3.14</code>, <code>-7</code></li>
+<li><code>boolean</code> — <code>true</code> or <code>false</code></li>
+<li><code>undefined</code> — a variable that has been declared but not assigned a value</li>
+<li><code>null</code> — an intentional absence of a value (you set this on purpose)</li>
+</ul>
+<p>Use <code>typeof</code> to check what type a value is: <code>typeof &#x27;hello&#x27;</code> returns <code>&#x27;string&#x27;</code>, <code>typeof 42</code> returns <code>&#x27;number&#x27;</code>.</p>
+<p><strong>Template literals</strong> (backtick strings) allow you to embed expressions directly into strings:</p>
+<pre><code class="language-js">const name = &#x27;Jordan&#x27;;
+const greeting = `Hello, ${name}! You have ${3 + 2} messages.`;
+// &quot;Hello, Jordan! You have 5 messages.&quot;</code></pre>
+<p><strong>Comparison operators</strong>: Always use <code>===</code> (strict equality) and <code>!==</code> (strict inequality). The <code>==</code> operator performs type coercion — it converts values to the same type before comparing, which produces results like <code>0 == false</code> being <code>true</code> and <code>&#x27;&#x27; == false</code> being <code>true</code>. Strict equality never coerces.</p>
+<p><strong>Useful string methods</strong>:</p>
+<ul>
+<li><code>.length</code> — number of characters</li>
+<li><code>.toUpperCase()</code> / <code>.toLowerCase()</code> — case conversion</li>
+<li><code>.trim()</code> — removes leading and trailing whitespace</li>
+<li><code>.includes(substring)</code> — returns <code>true</code> if the string contains the substring</li>
+<li><code>.replace(old, new)</code> — returns a new string with replacements</li>
+</ul>
 <h2>Mental model</h2>
-<p>Each page is a conversation between structure, style, state, and time. Structure gives the page meaning. Style gives it shape. State tracks what the user has done and what the application knows. Time matters because users click, type, navigate, and wait.</p>
+<p>JavaScript evaluates <em>expressions</em> to produce <em>values</em>. An expression is any piece of code that produces a value: <code>2 + 2</code>, <code>&#x27;hello&#x27;.toUpperCase()</code>, <code>name === &#x27;Jordan&#x27;</code>, and <code>typeof undefined</code> are all expressions. A <em>statement</em> is a complete instruction: a variable declaration, a function call, a conditional.</p>
+<p>The type of a value determines what you can do with it. You can call <code>.toUpperCase()</code> on a string but not on a number. You can multiply numbers but not strings (well — you can, but the result is <code>NaN</code>, which means "Not a Number" and is almost never what you want).</p>
 <h2>Working habits</h2>
-<p>Students are encouraged to experiment in small loops: change one thing, observe the result, document the reason, and commit progress in Git. The goal is not simply to make a page work; the goal is to understand why it works.</p>
+<ul>
+<li>Default to <code>const</code>. Only switch to <code>let</code> when you know you will reassign the variable. This eliminates an entire category of bugs where values change unexpectedly.</li>
+<li>Use <code>===</code> for all comparisons. Add a linter rule to forbid <code>==</code> if you can.</li>
+<li>Log early and often. <code>console.log(variableName)</code> is not a crutch — it is a professional tool. Log values at each step when debugging to find exactly where the value becomes wrong.</li>
+<li>Name variables for what they contain: <code>userName</code> not <code>x</code>, <code>productPrice</code> not <code>p</code>, <code>isLoggedIn</code> not <code>flag</code>.</li>
+</ul>
 <h2>Common mistakes</h2>
-<p>Many beginners overreach too early. They add libraries before they understand the browser, hide logic in anonymous handlers, or skip naming conventions that would make the code readable later. This chapter pushes against that pattern.</p>
+<ul>
+<li>Using <code>var</code>. It is function-scoped and hoisted to the top of its function, making behavior hard to predict. Use <code>const</code> and <code>let</code>.</li>
+<li>Comparing with <code>==</code>. The type coercion rules are complex and counterintuitive. Always use <code>===</code>.</li>
+<li>Not accounting for <code>undefined</code>. If a variable is declared but not assigned, or if a function doesn't return a value, the result is <code>undefined</code>. Operating on <code>undefined</code> (e.g., calling <code>.length</code> on it) throws an error.</li>
+<li>Confusing <code>null</code> and <code>undefined</code>. <code>null</code> is a value you assign intentionally. <code>undefined</code> means something was never set. Both are falsy, but <code>null === undefined</code> is <code>false</code>.</li>
+<li>String-number confusion: <code>&#x27;5&#x27; + 3</code> produces <code>&#x27;53&#x27;</code> (string concatenation), not <code>8</code>. Use <code>Number(&#x27;5&#x27;)</code> or <code>parseInt(&#x27;5&#x27;, 10)</code> to convert first.</li>
+</ul>
 <h2>Accessibility and UX note</h2>
-<p>Every technical choice has an experience consequence. Heading structure affects screen-reader navigation. Button labeling affects confidence. Error messaging affects recovery. A client-side developer is always shaping user experience, even when writing simple scripts.</p>
+<p>JavaScript that produces visible text output — error messages, labels, counts, status updates — must be written with real users in mind. Avoid outputting raw data values like <code>undefined</code> or <code>[object Object]</code> to the page. Format values meaningfully. A message like "3 results found" is useful; a message like <code>data.length</code> rendered directly to the DOM is not.</p>
 <h2>Practice prompt</h2>
-<p>Open one of your existing pages or a provided course starter. Identify one part of the interface that depends on javascript syntax, values, and expressions and explain what the browser needs in order to make that feature understandable and usable.</p>
+<p>Open the browser console (F12 → Console tab). Complete the following without writing any HTML:</p>
+<ol>
+<li>Declare three <code>const</code> variables: one string (a name of your choice), one number (a year), one boolean.</li>
+<li>Use <code>typeof</code> on each variable and log the results.</li>
+<li>Write a template literal that combines all three into a readable sentence and log it.</li>
+<li>Try <code>&#x27;5&#x27; == 5</code> and <code>&#x27;5&#x27; === 5</code> in the console. Note the results. Then try <code>null == undefined</code> and <code>null === undefined</code>. Explain in a comment what you observe.</li>
+<li>Call <code>.toUpperCase()</code> on your name string and <code>.toString()</code> on your number. Log both results.</li>
+</ol>
 <h2>Reflection</h2>
-<p>What did you assume the browser was doing automatically that actually depends on deliberate authoring? Where can you make your intent more visible in HTML, CSS, or JavaScript?</p>
+<p>When did type coercion surprise you during the practice prompt? What is the practical difference between <code>null</code> and <code>undefined</code>, and when would you assign <code>null</code> on purpose? Why does defaulting to <code>const</code> reduce bugs?</p>
 <h2>Vocabulary</h2>
 <ul>
-<li>semantics</li>
-<li>enhancement</li>
-<li>state</li>
-<li>rendering</li>
-<li>debugging</li>
+<li><strong>variable</strong> — a named container for a value, declared with <code>let</code> or <code>const</code></li>
+<li><strong>constant</strong> — a variable declared with <code>const</code> that cannot be reassigned</li>
+<li><strong>type</strong> — the category of a value (string, number, boolean, undefined, null, object)</li>
+<li><strong>expression</strong> — any code that evaluates to a value</li>
+<li><strong>operator</strong> — a symbol that performs an operation on values (<code>+</code>, <code>-</code>, <code>===</code>, <code>!==</code>, etc.)</li>
+<li><strong>type coercion</strong> — automatic conversion of a value from one type to another (why <code>==</code> is dangerous)</li>
+<li><strong>template literal</strong> — a string written with backticks that can embed expressions with <code>${}</code></li>
+<li><strong>undefined</strong> — the value of a variable that has been declared but not assigned</li>
+<li><strong>null</strong> — an intentional absence of a value, assigned explicitly</li>
+<li><strong>NaN</strong> — "Not a Number"; the result of invalid numeric operations like <code>&#x27;hello&#x27; * 2</code></li>
 </ul>
 <h2>Mini checklist</h2>
 <ul>
-<li>I can explain the purpose of the layer I am working in.</li>
-<li>I can name the data or state I need.</li>
-<li>I can describe how a user will experience the result.</li>
+<li>I can declare variables with <code>const</code> and <code>let</code> and explain when to use each.</li>
+<li>I can name the five primitive types and give an example of each.</li>
+<li>I can write a template literal that embeds at least one expression.</li>
+<li>I can explain why <code>===</code> should always be preferred over <code>==</code>.</li>
+<li>I can use <code>typeof</code> and <code>console.log</code> to inspect values while debugging.</li>
+<li>I can convert a string to a number and explain when that is necessary.</li>
 </ul>
 </body>
 </html>

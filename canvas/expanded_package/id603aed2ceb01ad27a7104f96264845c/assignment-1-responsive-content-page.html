@@ -4,6 +4,100 @@
 <title>Assignment: Assignment 1 – Responsive Content Page</title>
 </head>
 <body>
-<h1>Assignment 1 – Responsive Content Page</h1><p>Build a content-rich, mobile-first page using semantic HTML and modern CSS. Students submit a deployed link and a short design rationale.</p><p>See the repository markdown file for the complete brief.</p>
+<h1>Assignment 1 – Responsive Content Page</h1>
+<p><strong>Due:</strong> End of Week 2<br />
+<strong>Weight:</strong> One of six assignments (20% combined)<br />
+<strong>Skills:</strong> Semantic HTML, mobile-first CSS, CSS layout, accessibility fundamentals</p>
+<hr />
+<h2>Overview</h2>
+<p>You will build a multi-section content page for a fictional organization of your choice — a campus club, a local nonprofit, a small business, or a community event. The page must be meaningful, well-structured, and fully responsive without any JavaScript.</p>
+<p>This assignment is intentionally HTML and CSS only. JavaScript is introduced in Week 3. Any submitted JavaScript will be ignored in grading.</p>
+<hr />
+<h2>Scenario</h2>
+<p>You have been asked to build the public-facing landing page for your chosen organization. The page needs to work on any screen size (a visitor might view it on a phone, tablet, or desktop monitor) and must be readable and navigable without a mouse.</p>
+<hr />
+<h2>What to build</h2>
+<p>A single HTML page with all of the following:</p>
+<h3>Required sections</h3>
+<ul>
+<li>A <code>&lt;header&gt;</code> with the organization name and a <code>&lt;nav&gt;</code> containing at least three anchor links</li>
+<li>A <code>&lt;main&gt;</code> with at least <strong>three</strong> <code>&lt;section&gt;</code> or <code>&lt;article&gt;</code> elements, each with a heading</li>
+<li>A <code>&lt;footer&gt;</code> with contact information or copyright notice</li>
+</ul>
+<h3>Required HTML elements</h3>
+<ul>
+<li>At least one <code>&lt;figure&gt;</code> with <code>&lt;figcaption&gt;</code> (image or illustration with a caption)</li>
+<li>At least one <code>&lt;ul&gt;</code> or <code>&lt;ol&gt;</code> used for genuinely list-like content</li>
+<li>At least one <code>&lt;form&gt;</code> with two or more fields (e.g., a contact or newsletter sign-up form) — the form does not need to submit anywhere, but labels must be properly connected to inputs</li>
+</ul>
+<h3>Required CSS</h3>
+<ul>
+<li>All colors, spacing, and font sizes defined as <strong>CSS custom properties</strong> in <code>:root</code></li>
+<li><strong>Mobile-first</strong> layout: base styles work at 375px; at least one <code>min-width</code> media query adds layout for wider viewports</li>
+<li>At least one use of <strong>Flexbox or CSS Grid</strong> for layout</li>
+<li>No <code>!important</code>; no inline <code>style</code> attributes</li>
+</ul>
+<h3>Accessibility requirements</h3>
+<ul>
+<li><code>lang</code> attribute on <code>&lt;html&gt;</code></li>
+<li>Every <code>&lt;img&gt;</code> has a descriptive <code>alt</code> attribute (or <code>alt=&quot;&quot;</code> if decorative)</li>
+<li>Color contrast: all text must pass WCAG AA (4.5:1 for normal text, 3:1 for large text)</li>
+<li>Form labels connected to inputs with matching <code>for</code> / <code>id</code> pairs</li>
+<li>Heading hierarchy is logical (<code>&lt;h1&gt;</code> once, headings do not skip levels)</li>
+</ul>
+<hr />
+<h2>Constraints</h2>
+<ul>
+<li>No JavaScript of any kind</li>
+<li>No CSS frameworks (Bootstrap, Tailwind, etc.) — write your own CSS</li>
+<li>No <code>&lt;table&gt;</code> for layout purposes</li>
+<li>Validate your HTML at <strong>validator.w3.org</strong> and fix all errors before submitting</li>
+</ul>
+<hr />
+<h2>Above baseline (stretch)</h2>
+<p>To demonstrate work beyond minimum requirements, consider:</p>
+<ul>
+<li>A skip-navigation link (<code>&lt;a href=&quot;#main-content&quot;&gt;Skip to main content&lt;/a&gt;</code>) before the header</li>
+<li>A <code>:focus-visible</code> style that makes keyboard focus clearly visible</li>
+<li>A CSS-only dark/light mode using <code>@media (prefers-color-scheme: dark)</code></li>
+<li>Print styles via <code>@media print</code></li>
+</ul>
+<p>These are not required for full marks, but the rubric's Excellent column reflects this level of care.</p>
+<hr />
+<h2>Deliverable</h2>
+<p>In your course GitHub repository, create <code>assignments/assignment-1/</code>:</p>
+<ul>
+<li><code>index.html</code></li>
+<li><code>style.css</code> (or organized into multiple CSS files imported from <code>style.css</code>)</li>
+<li><code>rationale.md</code></li>
+</ul>
+<p>Deploy to GitHub Pages, Netlify, or Vercel.</p>
+<p><strong>Submit to Canvas:</strong></p>
+<ul>
+<li>Live URL</li>
+<li>GitHub repository URL (direct link to <code>assignments/assignment-1/</code>)</li>
+<li>Link to <code>rationale.md</code></li>
+</ul>
+<hr />
+<h2>Rationale (in rationale.md)</h2>
+<p>Write 4–6 sentences addressing:</p>
+<ul>
+<li>Who is the intended audience for this page?</li>
+<li>What element-choice decisions did you make and why (e.g., why <code>&lt;article&gt;</code> instead of <code>&lt;section&gt;</code> somewhere)?</li>
+<li>What was the most challenging CSS decision and how did you resolve it?</li>
+<li>What would you improve if you had more time?</li>
+</ul>
+<hr />
+<h2>Rubric</h2>
+<table>
+<thead><tr><th>Criterion</th><th>Excellent (4)</th><th>Proficient (3)</th><th>Developing (2)</th><th>Incomplete (1)</th></tr></thead>
+<tbody>
+<tr><td><strong>Semantic HTML</strong></td><td>All required elements present; element choices reflect meaning, not appearance; no presentational markup</td><td>Most required elements present; minor misuse (e.g., one <code>&lt;div&gt;</code> where semantic element would work)</td><td>Some required elements present; several semantic errors</td><td>Missing major elements; heavy <code>&lt;div&gt;</code> use throughout</td></tr>
+<tr><td><strong>Mobile-first CSS</strong></td><td>Base styles correct at 375px; <code>min-width</code> query adds meaningful layout; custom properties used for all design values</td><td>Responsive at most sizes; custom properties used; minor mobile issue</td><td>Some responsiveness; few custom properties; starts desktop-first</td><td>Not responsive; no custom properties</td></tr>
+<tr><td><strong>Layout technique</strong></td><td>Flexbox or Grid used correctly for at least one layout; layout does not break at intermediate sizes</td><td>Flexbox or Grid used; minor layout issue at some size</td><td>Layout technique attempted but inconsistent</td><td>No Flexbox or Grid</td></tr>
+<tr><td><strong>Accessibility</strong></td><td><code>lang</code>, <code>alt</code>, contrast, label/id pairs, heading hierarchy all correct; HTML validates with no errors</td><td>Three of five criteria met; validator shows minor warnings</td><td>Two criteria met; some validation errors</td><td>One criterion met; significant accessibility issues</td></tr>
+<tr><td><strong>Rationale</strong></td><td>Specific, honest, addresses all four prompts; demonstrates design thinking</td><td>Addresses three prompts; some specificity</td><td>Addresses two prompts; vague</td><td>Missing or one sentence</td></tr>
+</tbody>
+</table>
 </body>
 </html>

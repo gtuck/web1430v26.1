@@ -7,36 +7,88 @@
 </head>
 <body>
 <h1>Chapter 2: HTML, CSS, and Progressive Enhancement</h1>
-<p>The chapter revisits semantic structure, responsive layout, and layered enhancement so students understand why client-side scripting should strengthen content rather than replace it.</p>
+<p>Semantic HTML and mobile-first CSS are not prerequisites you get through — they are the foundation every interactive interface is built on. This chapter gives you the habits that keep that foundation solid.</p>
 <h2>What this chapter is really about</h2>
-<p>The chapter revisits semantic structure, responsive layout, and layered enhancement so students understand why client-side scripting should strengthen content rather than replace it. Rather than treating the browser like a magic box, this chapter asks students to name the moving parts, decide where responsibility belongs, and make design decisions visible in code.</p>
+<p>Before adding any JavaScript, you need a page that is meaningful, readable, and usable on its own. This chapter focuses on writing HTML that communicates structure and meaning, writing CSS that works at any screen size starting from the smallest, and understanding the principle of progressive enhancement — the idea that your page should work at every layer, even if higher layers are unavailable.</p>
 <h2>Key ideas</h2>
-<p>The web is layered. Content comes first, presentation follows, behavior enhances, and data flows across boundaries. Good client-side code respects those layers instead of blurring them into one large script.</p>
+<p><strong>Semantic HTML</strong> means choosing elements for what they mean, not how they look by default. A <code>&lt;nav&gt;</code> element tells the browser (and assistive technologies) that this is navigation. A <code>&lt;main&gt;</code> element marks the primary content. An <code>&lt;article&gt;</code> wraps content that is self-contained and could stand alone. Using the right element costs nothing and provides free accessibility, better SEO, and clearer code.</p>
+<p>Key semantic elements and their purpose:</p>
+<ul>
+<li><code>&lt;header&gt;</code> — introductory content for a page or section</li>
+<li><code>&lt;nav&gt;</code> — a block of navigation links</li>
+<li><code>&lt;main&gt;</code> — the dominant content of the page (one per page)</li>
+<li><code>&lt;section&gt;</code> — a thematic grouping with a heading</li>
+<li><code>&lt;article&gt;</code> — self-contained content (post, card, product listing)</li>
+<li><code>&lt;aside&gt;</code> — content tangentially related to the main content</li>
+<li><code>&lt;footer&gt;</code> — closing content for a page or section</li>
+</ul>
+<p><strong>The CSS cascade</strong> determines which rule wins when multiple rules target the same element. It works in this order: origin (browser defaults → author styles → user preferences), then specificity (inline &gt; ID &gt; class &gt; element), then source order (later rules override earlier ones). Understanding specificity prevents the frustration of writing CSS that "doesn't work" — it is always working; it is just being overridden.</p>
+<p><strong>Mobile-first responsive design</strong> means writing CSS for the smallest viewport first and adding complexity as the screen gets wider using <code>min-width</code> media queries. This produces leaner stylesheets, forces you to prioritize content, and aligns with the reality that most web traffic is on mobile devices.</p>
+<pre><code class="language-css">/* Mobile styles first — no media query needed */
+.card {
+  padding: 1rem;
+}
+
+/* Then expand for larger screens */
+@media (min-width: 768px) {
+  .card {
+    padding: 2rem;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+  }
+}</code></pre>
+<p><strong>Progressive enhancement</strong> means building in three layers: (1) HTML content that works in any browser with no CSS; (2) CSS that improves presentation; (3) JavaScript that adds behavior. Each layer enhances the previous one — it never replaces it. A user whose JavaScript fails still gets a readable page.</p>
 <h2>Mental model</h2>
-<p>Each page is a conversation between structure, style, state, and time. Structure gives the page meaning. Style gives it shape. State tracks what the user has done and what the application knows. Time matters because users click, type, navigate, and wait.</p>
+<p>Build your page as three separate concerns you add one at a time. First, write just the HTML. Open it in a browser with no CSS. Does the content make sense? Is it in a logical order? Can you navigate it with just a keyboard? If yes, you have a solid foundation. Now add CSS. Does it look right at 375px first? Now add JavaScript. Does the page still work if the JS file is missing?</p>
 <h2>Working habits</h2>
-<p>Students are encouraged to experiment in small loops: change one thing, observe the result, document the reason, and commit progress in Git. The goal is not simply to make a page work; the goal is to understand why it works.</p>
+<ul>
+<li>Validate your HTML at validator.w3.org before every submission. Fix every error.</li>
+<li>Test CSS at 375px viewport width before testing at 1440px. Start narrow.</li>
+<li>Check color contrast with a contrast ratio tool. Text on background must be at least 4.5:1 for normal text, 3:1 for large text.</li>
+<li>Use <code>&lt;button&gt;</code> for actions and <code>&lt;a&gt;</code> for navigation — never swap them.</li>
+<li>Connect form labels to their inputs with matching <code>for</code> and <code>id</code> attributes.</li>
+</ul>
 <h2>Common mistakes</h2>
-<p>Many beginners overreach too early. They add libraries before they understand the browser, hide logic in anonymous handlers, or skip naming conventions that would make the code readable later. This chapter pushes against that pattern.</p>
+<ul>
+<li>Using <code>&lt;div&gt;</code> and <code>&lt;span&gt;</code> for everything. If a more specific semantic element exists, use it.</li>
+<li>Writing desktop-first CSS and overriding with <code>max-width</code> queries. This produces bloated, contradictory styles. Start mobile-first.</li>
+<li>Using <code>!important</code> to solve specificity problems instead of fixing specificity.</li>
+<li>Relying on JavaScript to show and hide content that should be structured differently in HTML.</li>
+<li>Placing <code>&lt;div&gt;</code> inside <code>&lt;p&gt;</code> or other elements that don't accept block children (causes browser correction that breaks your layout).</li>
+<li>Not testing at narrow viewport sizes. Layouts that "look fine" on a desktop monitor often break at 375px.</li>
+</ul>
 <h2>Accessibility and UX note</h2>
-<p>Every technical choice has an experience consequence. Heading structure affects screen-reader navigation. Button labeling affects confidence. Error messaging affects recovery. A client-side developer is always shaping user experience, even when writing simple scripts.</p>
+<p>Semantic HTML is free accessibility. A <code>&lt;button&gt;</code> is focusable, activatable with Enter and Space, and announced as a button by screen readers — for no extra effort. A <code>&lt;div&gt;</code> with a click handler is none of those things without significant extra work. Form <code>&lt;label&gt;</code> elements connected to their inputs mean that clicking the label focuses the input — a usability benefit for everyone, not just screen reader users.</p>
+<p>Headings (<code>&lt;h1&gt;</code> through <code>&lt;h6&gt;</code>) define the document outline. Screen reader users often navigate by jumping between headings. An <code>&lt;h1&gt;</code> should appear once, early in <code>&lt;main&gt;</code>. Heading levels should reflect content hierarchy, not font size preferences — use CSS for visual size.</p>
 <h2>Practice prompt</h2>
-<p>Open one of your existing pages or a provided course starter. Identify one part of the interface that depends on html, css, and progressive enhancement and explain what the browser needs in order to make that feature understandable and usable.</p>
+<p>Build or refactor a simple page (a profile page, a product listing, or an article) with the following requirements:</p>
+<ol>
+<li>Include <code>&lt;header&gt;</code>, <code>&lt;nav&gt;</code>, <code>&lt;main&gt;</code>, at least one <code>&lt;section&gt;</code> or <code>&lt;article&gt;</code>, and <code>&lt;footer&gt;</code>. Use no <code>&lt;div&gt;</code> where a semantic element would work.</li>
+<li>Connect at least one form label to its input.</li>
+<li>Write mobile-first CSS. Your base styles should look correct at 375px. Add at least one <code>min-width</code> media query for a wider layout.</li>
+<li>Validate your HTML at validator.w3.org and fix all errors.</li>
+</ol>
+<p>Write a short note explaining one decision you made about element choice and one decision you made about layout.</p>
 <h2>Reflection</h2>
-<p>What did you assume the browser was doing automatically that actually depends on deliberate authoring? Where can you make your intent more visible in HTML, CSS, or JavaScript?</p>
+<p>What changed about your HTML when you tried to avoid <code>&lt;div&gt;</code> elements? What happened to your CSS when you started from a narrow viewport instead of a wide one? Where in your CSS did you notice specificity causing unexpected results?</p>
 <h2>Vocabulary</h2>
 <ul>
-<li>semantics</li>
-<li>enhancement</li>
-<li>state</li>
-<li>rendering</li>
-<li>debugging</li>
+<li><strong>semantic element</strong> — an HTML element that describes the meaning of its content</li>
+<li><strong>cascade</strong> — the set of rules that determines which CSS declaration wins when multiple rules apply</li>
+<li><strong>specificity</strong> — a weight assigned to a CSS selector that determines its priority over other selectors</li>
+<li><strong>inheritance</strong> — CSS properties that flow from parent to child elements automatically</li>
+<li><strong>mobile-first</strong> — a design and CSS strategy that starts with the smallest viewport and adds layout for larger screens</li>
+<li><strong>viewport</strong> — the visible area of the browser window</li>
+<li><strong>media query</strong> — a CSS rule that applies styles conditionally based on screen size or device capability</li>
+<li><strong>progressive enhancement</strong> — building in layers so that each layer adds to, rather than replaces, the previous one</li>
 </ul>
 <h2>Mini checklist</h2>
 <ul>
-<li>I can explain the purpose of the layer I am working in.</li>
-<li>I can name the data or state I need.</li>
-<li>I can describe how a user will experience the result.</li>
+<li>I can name at least six semantic HTML elements and explain what each one communicates.</li>
+<li>I can explain how the CSS cascade resolves conflicts between two rules targeting the same element.</li>
+<li>I can write a mobile-first stylesheet with at least one <code>min-width</code> media query.</li>
+<li>I can connect a form label to its input and explain why this matters.</li>
+<li>I can validate my HTML and interpret the errors the validator returns.</li>
 </ul>
 </body>
 </html>

@@ -6,6 +6,227 @@
 <meta name="workflow_state" content="active"/>
 </head>
 <body>
-<h1>Lab 10 – Convert a Script Bundle into Modules</h1><h2>Purpose</h2><p>This lab gives students a constrained practice space for the week's concepts. The emphasis is on seeing, changing, and explaining what the browser does.</p><h2>Tasks</h2><ol><li>Create or update your repo branch for this lab.</li><li>Build the required interface or script in small increments.</li><li>Test keyboard access, responsiveness, and error states.</li><li>Write a brief notes section describing what worked, what broke, and how you fixed it.</li><li>Commit meaningful progress with short messages.</li></ol><h2>Deliverable</h2><p>Submit a deployed link, repository link, and a short process reflection.</p><h2>Suggested rubric</h2><ul><li>Functionality</li><li>Code organization</li><li>Accessibility and UX clarity</li><li>Reflection quality</li></ul>
+<h1>Lab 10 – Convert a Script Bundle into Modules</h1>
+<h2>Purpose</h2>
+<p>Modules are not just a syntax change — they are a different way of thinking about how code is organized and how files relate to each other. This lab starts with a provided single-file script and asks you to decompose it into a proper Vite module project with clear file responsibilities and explicit imports and exports.</p>
+<h2>Skills practiced</h2>
+<ul>
+<li>Scaffolding a Vite project with <code>npm create vite@latest</code></li>
+<li>Using named <code>export</code> and <code>import</code> syntax</li>
+<li>Splitting code by responsibility (data, utilities, rendering, events)</li>
+<li>Understanding module scope (no accidental globals)</li>
+<li>Running the Vite dev server and build</li>
+<li>Ignoring <code>node_modules/</code> and <code>dist/</code> in git</li>
+</ul>
+<h2>What you're starting with</h2>
+<p>The file below represents a common beginner pattern: all the code in one place, no organization, global variables shared across functions. Your job is to refactor it into a modular Vite project — without changing what the app does.</p>
+<p><strong>Provided <code>bundle.js</code> (read-only reference — do not submit this file):</strong></p>
+<pre><code class="language-js">// All code in one file — globals everywhere
+
+const products = [
+  { id: 1, name: &#x27;Notebook&#x27;, price: 4.99, category: &#x27;Stationery&#x27; },
+  { id: 2, name: &#x27;USB Hub&#x27;, price: 29.99, category: &#x27;Electronics&#x27; },
+  { id: 3, name: &#x27;Hoodie&#x27;, price: 39.99, category: &#x27;Apparel&#x27; },
+  { id: 4, name: &#x27;Keyboard&#x27;, price: 89.99, category: &#x27;Electronics&#x27; },
+  { id: 5, name: &#x27;Sticky Notes&#x27;, price: 3.49, category: &#x27;Stationery&#x27; },
+];
+
+let activeCategory = &#x27;All&#x27;;
+
+function formatPrice(amount) {
+  return &#x27;$&#x27; + amount.toFixed(2);
+}
+
+function getCategories() {
+  const cats = products.map(p =&gt; p.category);
+  return [&#x27;All&#x27;, ...new Set(cats)];
+}
+
+function filterProducts(category) {
+  if (category === &#x27;All&#x27;) return products;
+  return products.filter(p =&gt; p.category === category);
+}
+
+function renderCard(product) {
+  const article = document.createElement(&#x27;article&#x27;);
+  const h2 = document.createElement(&#x27;h2&#x27;);
+  h2.textContent = product.name;
+  const price = document.createElement(&#x27;p&#x27;);
+  price.textContent = formatPrice(product.price);
+  const cat = document.createElement(&#x27;p&#x27;);
+  cat.textContent = product.category;
+  article.append(h2, price, cat);
+  return article;
+}
+
+function renderAll() {
+  const grid = document.getElementById(&#x27;product-grid&#x27;);
+  grid.innerHTML = &#x27;&#x27;;
+  const filtered = filterProducts(activeCategory);
+  filtered.forEach(p =&gt; grid.append(renderCard(p)));
+}
+
+function buildFilter() {
+  const bar = document.getElementById(&#x27;filter-bar&#x27;);
+  getCategories().forEach(cat =&gt; {
+    const btn = document.createElement(&#x27;button&#x27;);
+    btn.textContent = cat;
+    btn.addEventListener(&#x27;click&#x27;, () =&gt; {
+      activeCategory = cat;
+      renderAll();
+    });
+    bar.append(btn);
+  });
+}
+
+document.addEventListener(&#x27;DOMContentLoaded&#x27;, () =&gt; {
+  buildFilter();
+  renderAll();
+});</code></pre>
+<hr />
+<h2>Part 1: Scaffold the Vite project</h2>
+<p>In your terminal, navigate to <code>labs/</code> inside your course repo and run:</p>
+<pre><code class="language-bash">npm create vite@latest lab10 -- --template vanilla
+cd lab10
+npm install</code></pre>
+<p>Open the project in VS Code. Delete the boilerplate content from <code>src/main.js</code> and <code>src/style.css</code>. You will replace them.</p>
+<p>Add a <code>.gitignore</code> file in <code>lab10/</code> (if not already present) with:</p>
+<pre><code>node_modules/
+dist/</code></pre>
+<p>Verify the dev server works: <code>npm run dev</code>. You should see a blank page with no errors.</p>
+<hr />
+<h2>Part 2: Plan your module structure</h2>
+<p>Before writing any code, plan the file layout. Create this structure inside <code>lab10/src/</code>:</p>
+<pre><code>src/
+  data.js       — the products array (exported)
+  utils.js      — formatPrice, getCategories, filterProducts (exported)
+  render.js     — renderCard, renderAll (imports from utils and data)
+  events.js     — buildFilter, DOMContentLoaded handler (imports from render and utils)
+  main.js       — entry point: imports from events.js and initializes the app
+  style.css     — styles (linked in index.html)</code></pre>
+<p>Write a one-sentence comment at the top of each file before adding any code.</p>
+<hr />
+<h2>Part 3: Move code into modules</h2>
+<h3><code>src/data.js</code></h3>
+<pre><code class="language-js">// Provides the static product dataset for the application.
+
+export const products = [
+  { id: 1, name: &#x27;Notebook&#x27;, price: 4.99, category: &#x27;Stationery&#x27; },
+  { id: 2, name: &#x27;USB Hub&#x27;, price: 29.99, category: &#x27;Electronics&#x27; },
+  { id: 3, name: &#x27;Hoodie&#x27;, price: 39.99, category: &#x27;Apparel&#x27; },
+  { id: 4, name: &#x27;Keyboard&#x27;, price: 89.99, category: &#x27;Electronics&#x27; },
+  { id: 5, name: &#x27;Sticky Notes&#x27;, price: 3.49, category: &#x27;Stationery&#x27; },
+];</code></pre>
+<h3><code>src/utils.js</code></h3>
+<p>Move <code>formatPrice</code>, <code>getCategories</code>, and <code>filterProducts</code> here. Each must be a named export. <code>getCategories</code> and <code>filterProducts</code> accept <code>productList</code> as a parameter — remove the reference to the global <code>products</code> variable.</p>
+<pre><code class="language-js">// Pure utility functions for formatting and filtering product data.
+
+export function formatPrice(amount) { ... }
+export function getCategories(productList) { ... }
+export function filterProducts(productList, category) { ... }</code></pre>
+<h3><code>src/render.js</code></h3>
+<p>Move <code>renderCard</code> and <code>renderAll</code> here. Import <code>formatPrice</code> from <code>utils.js</code>. Accept <code>productList</code> and <code>container</code> as parameters instead of querying the DOM inside the function.</p>
+<pre><code class="language-js">// Renders product cards and the product grid.
+import { formatPrice } from &#x27;./utils.js&#x27;;
+
+export function renderCard(product) { ... }
+
+export function renderGrid(productList, container) {
+  container.innerHTML = &#x27;&#x27;;
+  productList.forEach(p =&gt; container.append(renderCard(p)));
+}</code></pre>
+<h3><code>src/events.js</code></h3>
+<p>Move <code>buildFilter</code> here. Import what it needs. Accept the products array, active category state, and DOM containers as parameters — don't reach for globals.</p>
+<pre><code class="language-js">// Sets up filter button event listeners.
+import { getCategories, filterProducts } from &#x27;./utils.js&#x27;;
+import { renderGrid } from &#x27;./render.js&#x27;;
+
+export function buildFilter(products, filterContainer, gridContainer) {
+  getCategories(products).forEach(cat =&gt; {
+    const btn = document.createElement(&#x27;button&#x27;);
+    btn.textContent = cat;
+    btn.addEventListener(&#x27;click&#x27;, () =&gt; {
+      const filtered = filterProducts(products, cat);
+      renderGrid(filtered, gridContainer);
+    });
+    filterContainer.append(btn);
+  });
+}</code></pre>
+<h3><code>src/main.js</code></h3>
+<p>The entry point wires everything together:</p>
+<pre><code class="language-js">// Entry point: initializes the product explorer on DOMContentLoaded.
+import { products } from &#x27;./data.js&#x27;;
+import { renderGrid } from &#x27;./render.js&#x27;;
+import { buildFilter } from &#x27;./events.js&#x27;;
+import &#x27;./style.css&#x27;;
+
+document.addEventListener(&#x27;DOMContentLoaded&#x27;, () =&gt; {
+  const filterBar = document.getElementById(&#x27;filter-bar&#x27;);
+  const productGrid = document.getElementById(&#x27;product-grid&#x27;);
+
+  buildFilter(products, filterBar, productGrid);
+  renderGrid(products, productGrid);
+});</code></pre>
+<hr />
+<h2>Part 4: Update <code>index.html</code></h2>
+<p>Vite's <code>index.html</code> should reference <code>src/main.js</code> as a module:</p>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+  &lt;title&gt;Lab 10 – Product Explorer&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;main&gt;
+    &lt;h1&gt;Campus Store&lt;/h1&gt;
+    &lt;div id=&quot;filter-bar&quot;&gt;&lt;/div&gt;
+    &lt;div id=&quot;product-grid&quot;&gt;&lt;/div&gt;
+  &lt;/main&gt;
+  &lt;script type=&quot;module&quot; src=&quot;/src/main.js&quot;&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<hr />
+<h2>Part 5: Run, build, and verify</h2>
+<ol>
+<li><code>npm run dev</code> — the app should function identically to the original bundle</li>
+<li>Test the filter buttons: each category should filter correctly</li>
+<li><code>npm run build</code> — should complete without errors</li>
+<li>Inspect the <code>dist/</code> folder: note that the JavaScript has been bundled and minified</li>
+</ol>
+<hr />
+<h2>Testing requirements</h2>
+<ul>
+<li>[ ] App works identically to the original bundle (filter buttons, all products displayed)</li>
+<li>[ ] No global variables — all data flows through function parameters or imports</li>
+<li>[ ] Each file has a one-sentence comment at the top</li>
+<li>[ ] <code>node_modules/</code> and <code>dist/</code> are in <code>.gitignore</code></li>
+<li>[ ] <code>npm run build</code> completes without errors</li>
+<li>[ ] The <code>dist/</code> folder is not committed to git</li>
+</ul>
+<hr />
+<h2>Deliverable</h2>
+<p>Commit the <code>labs/lab10/</code> Vite project (excluding <code>node_modules/</code> and <code>dist/</code>). Push to GitHub.</p>
+<p>Submit to Canvas: GitHub repo URL with a direct link to <code>labs/lab10/src/</code>, and either a Netlify/Vercel deployed URL (deploy the <code>dist/</code> output) or a screenshot of the running dev server.</p>
+<hr />
+<h2>Process reflection (in <code>labs/lab10/notes.md</code>)</h2>
+<p>Answer in 4–6 sentences:</p>
+<ul>
+<li>What global variables did the original bundle rely on, and how did you eliminate them?</li>
+<li>What happened when you forgot <code>export</code> on a function you were trying to import?</li>
+<li>What does the <code>dist/</code> folder contain that <code>src/</code> does not, and who is it for?</li>
+</ul>
+<hr />
+<h2>Rubric</h2>
+<table>
+<thead><tr><th>Criterion</th><th>Excellent (4)</th><th>Proficient (3)</th><th>Developing (2)</th><th>Incomplete (1)</th></tr></thead>
+<tbody>
+<tr><td><strong>Module structure</strong></td><td>All five files present with correct responsibilities; one-sentence comments in each</td><td>Four files; mostly correct</td><td>Three files; some responsibilities mixed</td><td>Single file</td></tr>
+<tr><td><strong>Import/export</strong></td><td>Named exports on all public functions; no global variables; imports use correct relative paths</td><td>Exports present; one global remains</td><td>Partial imports/exports</td><td>No module syntax</td></tr>
+<tr><td><strong>Functionality</strong></td><td>App works identically to the bundle; filter works for all categories</td><td>App works; one filter issue</td><td>App partially works</td><td>App broken</td></tr>
+<tr><td><strong>Build</strong></td><td><code>npm run build</code> completes; <code>dist/</code> excluded from git</td><td>Build completes; dist committed</td><td>Build attempted</td><td>Not built</td></tr>
+<tr><td><strong>Reflection</strong></td><td>Specific; all three prompts addressed</td><td>Two prompts</td><td>Vague</td><td>Missing</td></tr>
+</tbody>
+</table>
 </body>
 </html>

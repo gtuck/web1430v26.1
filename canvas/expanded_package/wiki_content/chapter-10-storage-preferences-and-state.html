@@ -7,36 +7,129 @@
 </head>
 <body>
 <h1>Chapter 10: Storage, Preferences, and State</h1>
-<p>The chapter explores what state is, when to persist it, and how to keep client-side behavior predictable.</p>
+<p>Not all state belongs on a server. User preferences, UI choices, and session context can live in the browser — surviving page reloads, informing the interface, and making the experience feel continuous rather than reset every visit.</p>
 <h2>What this chapter is really about</h2>
-<p>The chapter explores what state is, when to persist it, and how to keep client-side behavior predictable. Rather than treating the browser like a magic box, this chapter asks students to name the moving parts, decide where responsibility belongs, and make design decisions visible in code.</p>
+<p>This chapter distinguishes between ephemeral state (JavaScript variables that disappear on reload) and persisted state (values stored in <code>localStorage</code> or <code>sessionStorage</code> that survive). You will learn when to use each storage mechanism, how to serialize and deserialize complex data, how to read stored preferences at page load, and what never to store in the browser.</p>
 <h2>Key ideas</h2>
-<p>The web is layered. Content comes first, presentation follows, behavior enhances, and data flows across boundaries. Good client-side code respects those layers instead of blurring them into one large script.</p>
+<p><strong><code>localStorage</code></strong> stores key-value pairs that persist indefinitely — across page reloads, browser restarts, and even reboots — until explicitly cleared.</p>
+<p><strong><code>sessionStorage</code></strong> stores key-value pairs that survive page reloads within the same tab but are cleared when the tab is closed.</p>
+<p>Both APIs share the same interface:</p>
+<pre><code class="language-js">// Write
+localStorage.setItem(&#x27;theme&#x27;, &#x27;dark&#x27;);
+
+// Read (returns null if the key doesn&#x27;t exist)
+const theme = localStorage.getItem(&#x27;theme&#x27;);
+
+// Delete one key
+localStorage.removeItem(&#x27;theme&#x27;);
+
+// Delete everything in this origin&#x27;s storage
+localStorage.clear();</code></pre>
+<p><strong>Both storage APIs only store strings.</strong> To store objects or arrays, serialize with <code>JSON.stringify</code> when writing and parse with <code>JSON.parse</code> when reading:</p>
+<pre><code class="language-js">// Storing an object
+const preferences = { theme: &#x27;dark&#x27;, fontSize: &#x27;large&#x27; };
+localStorage.setItem(&#x27;preferences&#x27;, JSON.stringify(preferences));
+
+// Reading it back
+const raw = localStorage.getItem(&#x27;preferences&#x27;);
+const prefs = raw ? JSON.parse(raw) : null;</code></pre>
+<p><strong>Always handle the case where storage is empty</strong> (<code>getItem</code> returns <code>null</code> on first visit):</p>
+<pre><code class="language-js">function loadPreferences() {
+  const raw = localStorage.getItem(&#x27;preferences&#x27;);
+  if (!raw) return { theme: &#x27;light&#x27;, fontSize: &#x27;medium&#x27; };  // defaults
+  try {
+    return JSON.parse(raw);
+  } catch {
+    return { theme: &#x27;light&#x27;, fontSize: &#x27;medium&#x27; };           // corrupted data fallback
+  }
+}</code></pre>
+<p><strong>Apply stored preferences at page load</strong>, before rendering the UI. This prevents a flash of incorrect styling:</p>
+<pre><code class="language-js">document.addEventListener(&#x27;DOMContentLoaded&#x27;, () =&gt; {
+  const prefs = loadPreferences();
+  applyTheme(prefs.theme);
+  applyFontSize(prefs.fontSize);
+  renderPreferencesPanel(prefs);
+});</code></pre>
+<p><strong>When to use which storage</strong>:</p>
+<table>
+<thead><tr><th>Use case</th><th>localStorage</th><th>sessionStorage</th></tr></thead>
+<tbody>
+<tr><td>User theme preference</td><td>✓</td><td></td></tr>
+<tr><td>Font size setting</td><td>✓</td><td></td></tr>
+<tr><td>Shopping cart (current session only)</td><td></td><td>✓</td></tr>
+<tr><td>Last search query (session)</td><td></td><td>✓</td></tr>
+<tr><td>Draft form content (persist across reloads)</td><td>✓</td><td></td></tr>
+<tr><td>User authentication token</td><td>✗ Never</td><td>✗ Never</td></tr>
+</tbody>
+</table>
+<p><strong>State</strong> is any information your application needs to remember in order to behave correctly. Some state is <strong>ephemeral</strong> (lives only in JavaScript variables — a counter, an open/closed flag, a temporary filter). Some state is <strong>persisted</strong> (should survive a reload — a user preference, a saved draft). Knowing which is which is a design decision, not a technical one.</p>
 <h2>Mental model</h2>
-<p>Each page is a conversation between structure, style, state, and time. Structure gives the page meaning. Style gives it shape. State tracks what the user has done and what the application knows. Time matters because users click, type, navigate, and wait.</p>
+<p>Think of state in three tiers:</p>
+<ol>
+<li><strong>In-memory</strong> — JavaScript variables. Fast, but gone on reload. Good for UI flags, current selections, temporary calculations.</li>
+<li><strong>Session</strong> — <code>sessionStorage</code>. Survives page reloads within the same tab. Good for multi-step flows, session-specific context.</li>
+<li><strong>Persistent</strong> — <code>localStorage</code>. Survives everything until explicitly cleared. Good for user preferences, saved settings, offline drafts.</li>
+</ol>
+<p>Start with in-memory state. Promote to sessionStorage or localStorage only when you have a concrete reason to persist it.</p>
 <h2>Working habits</h2>
-<p>Students are encouraged to experiment in small loops: change one thing, observe the result, document the reason, and commit progress in Git. The goal is not simply to make a page work; the goal is to understand why it works.</p>
+<ul>
+<li>Wrap <code>JSON.parse</code> in <code>try/catch</code>. Stored data can be corrupted by browser extensions, old versions of your code, or manual edits in DevTools.</li>
+<li>Provide default values when <code>getItem</code> returns <code>null</code>. Every preference needs a sensible default for first-time visitors.</li>
+<li>Apply stored preferences synchronously in <code>DOMContentLoaded</code> before your first render to avoid a flash of unstyled or incorrectly-configured UI.</li>
+<li>Inspect storage in DevTools: Application → Local Storage / Session Storage.</li>
+<li>Clear storage in DevTools when testing first-visit behavior: Application → Clear Site Data.</li>
+</ul>
 <h2>Common mistakes</h2>
-<p>Many beginners overreach too early. They add libraries before they understand the browser, hide logic in anonymous handlers, or skip naming conventions that would make the code readable later. This chapter pushes against that pattern.</p>
+<ul>
+<li><strong>Storing objects without <code>JSON.stringify</code></strong>: <code>localStorage.setItem(&#x27;user&#x27;, { name: &#x27;Jordan&#x27; })</code> stores the string <code>&quot;[object Object]&quot;</code>. Always stringify.</li>
+<li><strong>Not handling <code>null</code> from <code>getItem</code></strong>: <code>JSON.parse(null)</code> returns <code>null</code> without throwing, but calling <code>.theme</code> on <code>null</code> throws a TypeError. Check for <code>null</code> first.</li>
+<li><strong>Storing sensitive data</strong>: localStorage is accessible to any JavaScript running on the page — including third-party scripts and browser extensions. Never store passwords, authentication tokens, or personal information.</li>
+<li><strong>Hitting the 5MB storage limit</strong>: storing large amounts of data (images encoded as strings, full API responses) will throw a <code>QuotaExceededError</code>. Store references (IDs) rather than full records.</li>
+<li><strong>Not clearing stale state</strong>: if your data model changes between versions of your app, old stored data can break the new version. Consider versioning your stored keys or clearing old data on initialization.</li>
+</ul>
 <h2>Accessibility and UX note</h2>
-<p>Every technical choice has an experience consequence. Heading structure affects screen-reader navigation. Button labeling affects confidence. Error messaging affects recovery. A client-side developer is always shaping user experience, even when writing simple scripts.</p>
+<p>Remembered preferences are a meaningful accessibility feature. Dark mode reduces eye strain for users with photosensitivity. Larger font size benefits users with low vision. Reduced motion settings prevent vestibular discomfort. These are not cosmetic features — they are functional for real users.</p>
+<p>Apply stored preferences before the page renders to avoid a flash of default styling. This is especially important for dark mode: a white flash before switching to dark mode is jarring and potentially painful for photosensitive users.</p>
+<p>Communicate preference changes clearly. When a user toggles dark mode, they should receive visual confirmation that the change was saved — not just a visual change that might feel accidental.</p>
 <h2>Practice prompt</h2>
-<p>Open one of your existing pages or a provided course starter. Identify one part of the interface that depends on storage, preferences, and state and explain what the browser needs in order to make that feature understandable and usable.</p>
+<p>Build a preferences panel with:</p>
+<ul>
+<li>A dark/light mode toggle (updates <code>&lt;body&gt;</code> class and saves to localStorage)</li>
+<li>A font size selector: Small / Medium / Large (updates a <code>data-font-size</code> attribute on <code>&lt;body&gt;</code>)</li>
+</ul>
+<p>Requirements:</p>
+<ol>
+<li>On page load, read preferences from localStorage and apply them before showing the UI.</li>
+<li>Provide sensible defaults for first-time visitors.</li>
+<li>Wrap <code>JSON.parse</code> in <code>try/catch</code>.</li>
+<li>When preferences change, save the updated object to localStorage immediately.</li>
+<li>Confirm the preferences survive a page reload and a browser restart.</li>
+</ol>
+<p>Test the "first visit" experience by clearing localStorage in DevTools and reloading.</p>
 <h2>Reflection</h2>
-<p>What did you assume the browser was doing automatically that actually depends on deliberate authoring? Where can you make your intent more visible in HTML, CSS, or JavaScript?</p>
+<p>What happened when you stored an object without <code>JSON.stringify</code>? What did you see in DevTools → Application → Local Storage? What was the difference between closing and reopening the tab when using <code>localStorage</code> vs <code>sessionStorage</code>? How did you handle the case where no preferences were stored yet?</p>
 <h2>Vocabulary</h2>
 <ul>
-<li>semantics</li>
-<li>enhancement</li>
-<li>state</li>
-<li>rendering</li>
-<li>debugging</li>
+<li><strong>localStorage</strong> — browser storage that persists indefinitely across sessions (until cleared)</li>
+<li><strong>sessionStorage</strong> — browser storage that persists for the duration of the tab session</li>
+<li><strong>state</strong> — information an application needs to remember to behave correctly</li>
+<li><strong>persistence</strong> — storing data so it survives a page reload or browser restart</li>
+<li><strong>serialization</strong> — converting a JavaScript value (object, array) into a string for storage</li>
+<li><strong>JSON.stringify</strong> — converts a JavaScript value to a JSON string</li>
+<li><strong>JSON.parse</strong> — converts a JSON string back to a JavaScript value</li>
+<li><strong>getItem / setItem</strong> — methods for reading and writing values in web storage</li>
+<li><strong>ephemeral</strong> — lasting only as long as the current JavaScript session (lost on reload)</li>
+<li><strong>session</strong> — the period from opening a tab to closing it</li>
 </ul>
 <h2>Mini checklist</h2>
 <ul>
-<li>I can explain the purpose of the layer I am working in.</li>
-<li>I can name the data or state I need.</li>
-<li>I can describe how a user will experience the result.</li>
+<li>I can store a string and an object in <code>localStorage</code> and retrieve them correctly.</li>
+<li>I can use <code>JSON.stringify</code> and <code>JSON.parse</code> when storing objects.</li>
+<li>I can handle the case where <code>getItem</code> returns <code>null</code> (first visit) with a default value.</li>
+<li>I can wrap <code>JSON.parse</code> in <code>try/catch</code> to handle corrupted data.</li>
+<li>I can explain the difference between <code>localStorage</code> and <code>sessionStorage</code>.</li>
+<li>I can read and apply stored preferences in <code>DOMContentLoaded</code> to avoid a flash of incorrect styling.</li>
+<li>I can inspect and clear storage using the DevTools Application panel.</li>
 </ul>
 </body>
 </html>

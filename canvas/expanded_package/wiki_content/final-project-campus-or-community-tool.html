@@ -6,6 +6,175 @@
 <meta name="workflow_state" content="active"/>
 </head>
 <body>
-<h1>Final Project – Campus or Community Tool</h1><h2>Summary</h2><p>Plan, build, and present a polished client-side experience for a realistic audience such as a student club, campus office, volunteer group, or local business.</p><h2>What to build</h2><ul><li>A working client-side experience</li><li>Clean project structure</li><li>Meaningful commit history</li><li>Deployment link</li><li>Short rationale describing audience, decisions, and known limitations</li></ul><h2>Requirements</h2><ul><li>Semantic HTML</li><li>Responsive behavior</li><li>Accessible interaction patterns</li><li>Readable JavaScript with named functions or modules</li><li>Testing notes and final review checklist</li></ul><h2>Submission</h2><p>Submit the live URL, repo URL, and a concise reflection.</p><h2>Rubric highlights</h2><ul><li>Technical completion</li><li>UX clarity</li><li>Maintainability</li><li>Accessibility</li><li>Reflection and communication</li></ul><h2>Milestones</h2><ul><li>Pitch</li><li>Wireframe + Data Plan</li><li>Beta Review</li><li>Final Submission</li><li>Reflection</li></ul>
+<h1>Final Project – Campus or Community Tool</h1>
+<p><strong>Due:</strong> End of Week 15 (five milestones across Weeks 13–15)<br />
+<strong>Weight:</strong> Largest single component of Projects (30% of course grade)<br />
+<strong>Skills:</strong> Full-stack front-end — semantic HTML, responsive CSS, vanilla JS or Vue, Fetch API, localStorage, ES modules, Vite, accessibility, deployment, presentation</p>
+<hr />
+<h2>Overview</h2>
+<p>The final project is your capstone: a complete, deployed, portfolio-ready client-side web application built for a realistic audience. It synthesizes every skill from the course — design, structure, behavior, data, state, and accessibility — in a single coherent product.</p>
+<p>The tool must solve a real (if small) problem for a defined audience. "Campus or community" is a prompt, not a constraint: your audience can be students, staff, club members, volunteers, local residents, or any group you can describe concretely. The requirement is that the tool is useful and the audience is real, not hypothetical.</p>
+<hr />
+<h2>Scope</h2>
+<p>Your project must include <strong>all</strong> of the following capability areas:</p>
+<table>
+<thead><tr><th>Area</th><th>Minimum requirement</th></tr></thead>
+<tbody>
+<tr><td><strong>Structure</strong></td><td>Semantic, validated HTML; logical heading hierarchy; skip navigation link</td></tr>
+<tr><td><strong>Presentation</strong></td><td>Mobile-first responsive layout; CSS custom properties for all design values; consistent visual language</td></tr>
+<tr><td><strong>Behavior</strong></td><td>At least three distinct user interactions (not just page load and one click)</td></tr>
+<tr><td><strong>Remote data</strong></td><td>At least one fetch from a public API or a local JSON file; full async error handling</td></tr>
+<tr><td><strong>Persistence</strong></td><td>At least one <code>localStorage</code> feature (saved preference, saved list, or draft)</td></tr>
+<tr><td><strong>Code organization</strong></td><td>ES modules via Vite; at minimum four files with clear single responsibilities</td></tr>
+<tr><td><strong>Accessibility</strong></td><td>WCAG AA contrast; keyboard-operable; semantic roles; <code>aria-live</code> for dynamic content</td></tr>
+<tr><td><strong>Deployment</strong></td><td>Live URL; production build via <code>npm run build</code></td></tr>
+</tbody>
+</table>
+<p>You may choose to use Vue for your front-end layer. If you use Vue, the requirement for ES module organization is satisfied by the Vue SFC structure, and you should demonstrate at least two components with props/emits communication.</p>
+<hr />
+<h2>Milestone 1 — Pitch</h2>
+<p><strong>Due:</strong> End of Week 13 (Monday)</p>
+<p>Submit <code>projects/final-project/pitch.md</code> containing:</p>
+<ol>
+<li><strong>One-sentence description:</strong> What does it do and for whom?</li>
+<li><strong>Problem statement (2–3 sentences):</strong> What specific problem does this solve? Why does this audience need it?</li>
+<li><strong>Feature list:</strong> 3–5 bullet points describing what a user can do</li>
+<li><strong>API or data source:</strong> What data powers the app? Paste an example endpoint or a sample of the JSON</li>
+<li><strong>Tech stack decisions:</strong> Vanilla JS or Vue? Which API? Any other libraries?</li>
+</ol>
+<p>Pitch feedback will be returned within 48 hours. If scope is too large or too small, you will be asked to adjust before proceeding.</p>
+<hr />
+<h2>Milestone 2 — Wireframe and Data Plan</h2>
+<p><strong>Due:</strong> End of Week 13 (Sunday)</p>
+<p>Submit in <code>projects/final-project/</code>:</p>
+<ul>
+<li><code>wireframes/</code> — at minimum three sketches: initial/empty state, loaded state, and a detail or interaction state. Hand-drawn photos are acceptable.</li>
+<li><code>data-plan.md</code> — describing:</li>
+<li>The shape of one normalized data object (all properties, types, sources)</li>
+<li>What is stored in <code>localStorage</code> (key name, value shape, when it is written/read)</li>
+<li>Which UI states exist (loading, empty, error, success, detail, etc.)</li>
+</ul>
+<hr />
+<h2>Milestone 3 — Beta Review</h2>
+<p><strong>Due:</strong> End of Week 14</p>
+<p>A substantially complete deployed version. At this stage:</p>
+<ul>
+<li>All major features present and functional (may have rough edges)</li>
+<li>Fetch, localStorage, and at least two interactions working</li>
+<li>Mobile layout functional</li>
+<li>Loading and error states implemented</li>
+</ul>
+<p>Submit live URL and a brief self-assessment:</p>
+<ul>
+<li>What is working well?</li>
+<li>What is not yet done or not working correctly?</li>
+<li>What help do you need before final submission?</li>
+</ul>
+<hr />
+<h2>Milestone 4 — Final Submission</h2>
+<p><strong>Due:</strong> End of Week 15 (Sunday)</p>
+<p>Submit to Canvas:</p>
+<ul>
+<li>Live URL (deployed production build)</li>
+<li>GitHub repository URL (link to <code>projects/final-project/</code>)</li>
+<li><code>rationale.md</code> link</li>
+</ul>
+<p>The submitted live URL must load within 5 seconds on a standard connection. The deployed version is what is graded — not the source code alone.</p>
+<hr />
+<h2>Milestone 5 — Course Reflection</h2>
+<p><strong>Due:</strong> End of Week 15 (same deadline as final submission)</p>
+<p>Submit <code>projects/final-project/reflection.md</code> using the <a href="course-reflection-prompt.html">Course Reflection Prompt</a>. The prompt contains all five questions and the rubric. Write 6–10 sentences total, with specific, honest answers — not generalizations.</p>
+<p>This reflection is graded separately from the project itself (see rubric below).</p>
+<hr />
+<h2>Technical requirements</h2>
+<h3>JavaScript / Vue</h3>
+<ul>
+<li>All JavaScript in ES modules loaded via Vite</li>
+<li>Minimum four module files with clear single-responsibility comments</li>
+<li>No <code>innerHTML</code> with user-supplied or API-sourced data</li>
+<li>No <code>var</code>; no anonymous functions for named responsibilities</li>
+</ul>
+<h3>CSS</h3>
+<ul>
+<li>All design values (colors, spacing, type sizes) as custom properties in <code>:root</code></li>
+<li>Mobile-first: base styles work at 375px without a media query</li>
+<li>At least one responsive layout shift with <code>min-width</code> media query</li>
+<li>No CSS frameworks</li>
+</ul>
+<h3>Accessibility</h3>
+<ul>
+<li><code>lang</code> attribute on <code>&lt;html&gt;</code></li>
+<li>Skip navigation link before <code>&lt;header&gt;</code></li>
+<li>All images have meaningful <code>alt</code> text (or <code>alt=&quot;&quot;</code> if decorative)</li>
+<li>All interactive elements keyboard-operable with visible focus style</li>
+<li><code>aria-live=&quot;polite&quot;</code> on any region that updates dynamically</li>
+<li>Color contrast: WCAG AA for all text</li>
+<li>HTML validates with no errors at validator.w3.org</li>
+<li>Manual screen reader test completed and documented (see <a href="screen-reader-testing-guide.html">Screen Reader Testing Guide</a>)</li>
+</ul>
+<h3>Deployment</h3>
+<ul>
+<li>Deployed via Netlify, Vercel, or GitHub Pages</li>
+<li><code>npm run build</code> produces the <code>dist/</code> output that is deployed</li>
+<li><code>node_modules/</code> and <code>dist/</code> absent from the repository</li>
+</ul>
+<hr />
+<h2>Commit history requirements</h2>
+<p>Your repository must show a meaningful commit history:</p>
+<ul>
+<li>At least 10 commits across the project</li>
+<li>Commit messages describe what changed (not "update" or "fix stuff")</li>
+<li>Commits distributed across the build period (not all on the last day)</li>
+</ul>
+<p>Committing all work in one or two commits suggests the project was not developed iteratively and will affect the Maintainability criterion.</p>
+<hr />
+<h2>Constraints</h2>
+<ul>
+<li>No full-stack server (Node, PHP, etc.) — client-side only</li>
+<li>No paid APIs or APIs that require payment info for a free tier</li>
+<li>If using Vue: Vue 3 with <code>&lt;script setup&gt;</code> only (no Options API)</li>
+<li>No UI component libraries (Bootstrap, Vuetify, etc.)</li>
+<li>Original work — cite any code you did not write, including AI-assisted sections</li>
+</ul>
+<hr />
+<h2>Above baseline (stretch)</h2>
+<ul>
+<li>A Lighthouse score of 90+ in all four categories (Performance, Accessibility, Best Practices, SEO) — document your score with a screenshot</li>
+<li>Offline support: a service worker or <code>sessionStorage</code> fallback that lets the app function with cached data when the network is unavailable</li>
+<li>A shareable URL: the current view state (search query, filter selection, selected item) reflected in the URL hash so users can bookmark or share a specific state</li>
+</ul>
+<hr />
+<h2>Rationale (rationale.md)</h2>
+<p>Write 6–8 sentences addressing:</p>
+<ul>
+<li>Who is this tool for and what specific problem does it solve for them?</li>
+<li>Describe one technical decision you made that improved the user experience</li>
+<li>How is your code organized, and what would a new developer need to understand to contribute?</li>
+<li>What Lighthouse scores did you achieve, and what did you do to reach them?</li>
+</ul>
+<hr />
+<h2>Rubric</h2>
+<h3>Project (graded at Milestone 4)</h3>
+<table>
+<thead><tr><th>Criterion</th><th>Excellent (4)</th><th>Proficient (3)</th><th>Developing (2)</th><th>Incomplete (1)</th></tr></thead>
+<tbody>
+<tr><td><strong>Functionality</strong></td><td>All stated features work correctly; three distinct interactions functional; no broken states</td><td>Most features work; one interaction has minor issues</td><td>Core feature works; secondary features incomplete or broken</td><td>Non-functional or only partially loads</td></tr>
+<tr><td><strong>Remote data</strong></td><td>Fetch with <code>response.ok</code> check; <code>try/catch/finally</code>; loading, success, error, and empty states all handled distinctly</td><td>Three of four states handled; <code>response.ok</code> checked</td><td>Two states handled</td><td>No fetch or no error handling</td></tr>
+<tr><td><strong>Persistence</strong></td><td><code>localStorage</code> feature correctly reads on load, writes on change, and handles first-visit null case; <code>JSON.stringify/parse</code> used for objects</td><td>Feature works; first-visit case not handled</td><td>Feature present but broken on reload</td><td>No localStorage</td></tr>
+<tr><td><strong>Code organization</strong></td><td>Four module files with responsibility comments; no circular dependencies; no <code>innerHTML</code> with external data; no <code>var</code></td><td>Three files; one minor violation</td><td>Two files; some mixing</td><td>Single file</td></tr>
+<tr><td><strong>Responsive design</strong></td><td>Mobile-first; custom properties for all design values; layout functional at 375px, 768px, and 1280px</td><td>Responsive with minor gap at one size</td><td>Partially responsive; some custom properties</td><td>Not responsive</td></tr>
+<tr><td><strong>Accessibility</strong></td><td>Validates; skip nav; alt text; keyboard-operable; <code>aria-live</code>; contrast passes; focus visible</td><td>Four of six criteria</td><td>Three criteria</td><td>Two or fewer</td></tr>
+<tr><td><strong>Commit history</strong></td><td>10+ meaningful commits distributed across the build period</td><td>7–9 commits; most meaningful</td><td>4–6 commits</td><td>3 or fewer; or all on one day</td></tr>
+</tbody>
+</table>
+<h3>Course Reflection (graded at Milestone 5)</h3>
+<table>
+<thead><tr><th>Criterion</th><th>Excellent (4)</th><th>Proficient (3)</th><th>Developing (2)</th><th>Incomplete (1)</th></tr></thead>
+<tbody>
+<tr><td><strong>Depth and specificity</strong></td><td>All five prompts answered with specific, concrete details from the project; demonstrates genuine self-assessment</td><td>Four prompts answered specifically</td><td>Three prompts; answers somewhat vague</td><td>Two or fewer prompts; very vague</td></tr>
+<tr><td><strong>Technical honesty</strong></td><td>Identifies real weaknesses and specific things to change; does not claim everything went perfectly</td><td>Identifies some weaknesses</td><td>Weaknesses mentioned but not specific</td><td>Claims no weaknesses or missing</td></tr>
+<tr><td><strong>Growth evidence</strong></td><td>Reflection on accessibility prompt shows concrete shift in understanding from start to end of course</td><td>Some growth evident</td><td>Accessibility prompt answered generically</td><td>Not addressed</td></tr>
+</tbody>
+</table>
 </body>
 </html>

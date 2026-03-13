@@ -1,0 +1,114 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>API Troubleshooting Guide</title>
+<meta name="identifier" content="i0e2b724fe805cc3ae68fb22fb0349e0f"/>
+<meta name="workflow_state" content="active"/>
+</head>
+<body>
+<h1>API Troubleshooting Guide</h1>
+<p>This guide covers the most common problems students encounter when working with real-world public APIs. Bookmark it while working on Assignment 4 and Project 2.</p>
+<hr />
+<h2>1. Accessing Deeply Nested Data</h2>
+<p>Some APIs return objects many levels deep. A response that looks tidy in the docs may require several property accesses to reach the value you want.</p>
+<p><strong>Example problem:</strong> an API returns:</p>
+<pre><code class="language-json">{
+  &quot;result&quot;: {
+    &quot;items&quot;: [
+      { &quot;details&quot;: { &quot;author&quot;: { &quot;name&quot;: &quot;Jane Austen&quot; } } }
+    ]
+  }
+}</code></pre>
+<p><strong>Fragile access:</strong></p>
+<pre><code class="language-js">const author = data.result.items[0].details.author.name; // throws if any level is missing</code></pre>
+<p><strong>Defensive access using optional chaining and nullish coalescing:</strong></p>
+<pre><code class="language-js">const author = data?.result?.items?.[0]?.details?.author?.name ?? &#x27;Unknown&#x27;;</code></pre>
+<p><strong>Best practice:</strong> do this work once, inside your <code>normalizeData()</code> function. The rest of your code should only ever touch the clean, normalized object — never the raw response.</p>
+<hr />
+<h2>2. Fields That Are Sometimes Null or Missing</h2>
+<p>Many APIs omit fields entirely when the value is absent, or return <code>null</code>. If your code assumes a field is always present, it will throw when it is not.</p>
+<p><strong>Example:</strong></p>
+<pre><code class="language-json">{ &quot;title&quot;: &quot;Dune&quot;, &quot;cover_i&quot;: null }          // cover ID is null
+{ &quot;title&quot;: &quot;Foundation&quot; }                      // cover ID is missing entirely</code></pre>
+<p><strong>Handle both cases in normalization:</strong></p>
+<pre><code class="language-js">function normalizeBook(doc) {
+  return {
+    title: doc.title ?? &#x27;Untitled&#x27;,
+    coverId: doc.cover_i ?? null,             // store null explicitly; render handles it
+    author: doc.author_name?.[0] ?? &#x27;Unknown&#x27;,
+    year: doc.first_publish_year ?? &#x27;Year unknown&#x27;,
+  };
+}</code></pre>
+<p><strong>In the render function</strong>, check before using the optional value:</p>
+<pre><code class="language-js">const img = item.coverId
+  ? `&lt;img src=&quot;https://covers.openlibrary.org/b/id/${item.coverId}-M.jpg&quot; alt=&quot;Cover of ${item.title}&quot;&gt;`
+  : `&lt;div class=&quot;no-cover&quot; aria-label=&quot;No cover available&quot;&gt;&lt;/div&gt;`;</code></pre>
+<hr />
+<h2>3. Fields That Change Type</h2>
+<p>Some APIs return a value as a string in one response and as a number in another — or an array when there is more than one item and a plain string when there is only one.</p>
+<p><strong>Example:</strong></p>
+<pre><code class="language-json">{ &quot;author_name&quot;: [&quot;George Orwell&quot;] }     // array with one item
+{ &quot;author_name&quot;: &quot;Isaac Asimov&quot; }        // plain string (inconsistent API)</code></pre>
+<p><strong>Normalize to a consistent type:</strong></p>
+<pre><code class="language-js">const authorRaw = doc.author_name;
+const author = Array.isArray(authorRaw)
+  ? authorRaw[0] ?? &#x27;Unknown&#x27;
+  : authorRaw ?? &#x27;Unknown&#x27;;</code></pre>
+<hr />
+<h2>4. Array Versus Object Wrapping</h2>
+<p>Some APIs wrap results in a property; others return a bare array. Check the actual response in the browser's Network tab before writing normalization code.</p>
+<p><strong>Fetch and log the raw response before writing anything else:</strong></p>
+<pre><code class="language-js">const res = await fetch(url);
+const data = await res.json();
+console.log(data);                // inspect in DevTools — is it an array or an object?</code></pre>
+<p>Common patterns and how to extract the array:</p>
+<table>
+<thead><tr><th>Response shape</th><th>How to get the array</th></tr></thead>
+<tbody>
+<tr><td><code>[{...}, {...}]</code></td><td><code>data</code> directly</td></tr>
+<tr><td><code>{ &quot;docs&quot;: [{...}] }</code></td><td><code>data.docs</code></td></tr>
+<tr><td><code>{ &quot;results&quot;: [{...}] }</code></td><td><code>data.results</code></td></tr>
+<tr><td><code>{ &quot;message&quot;: { &quot;breeds&quot;: [...] } }</code></td><td><code>data.message.breeds</code></td></tr>
+</tbody>
+</table>
+<p>Write a guard in <code>normalizeData()</code> so it always receives an array:</p>
+<pre><code class="language-js">function normalizeData(raw) {
+  const items = Array.isArray(raw) ? raw : (raw.docs ?? raw.results ?? []);
+  return items.map(normalizeItem);
+}</code></pre>
+<hr />
+<h2>5. CORS Errors</h2>
+<p>If the browser console shows a CORS error, the API does not allow browser requests from other origins. This is a server-side restriction — you cannot fix it from the browser.</p>
+<p><strong>What to do:</strong></p>
+<ul>
+<li>Switch to an API that explicitly supports browser requests (most APIs in the Assignment 4 suggested list do).</li>
+<li>Check the API's documentation for a note about <code>Access-Control-Allow-Origin</code>.</li>
+<li>Test in the browser's Network tab: look for a preflight <code>OPTIONS</code> request that returns a 4xx status.</li>
+</ul>
+<hr />
+<h2>6. Rate Limiting (429 Too Many Requests)</h2>
+<p>Free-tier APIs often limit how many requests you can make per minute. If you see a <code>429</code> status in the Network tab:</p>
+<ul>
+<li>Slow down your requests — do not fire a new fetch on every keystroke. Debounce input with a short delay (300–500ms).</li>
+<li>Cache the last successful result in <code>sessionStorage</code> so reloads do not consume your rate limit.</li>
+<li>Read the API documentation for the specific rate limit and respect it.</li>
+</ul>
+<p><strong>Simple debounce:</strong></p>
+<pre><code class="language-js">let debounceTimer;
+searchInput.addEventListener(&#x27;input&#x27;, () =&gt; {
+  clearTimeout(debounceTimer);
+  debounceTimer = setTimeout(() =&gt; fetchData(searchInput.value), 400);
+});</code></pre>
+<hr />
+<h2>7. Debugging Checklist</h2>
+<p>When a fetch is not working:</p>
+<ol>
+<li>Open DevTools → <strong>Network</strong> tab. Find the request. What is the status code?</li>
+<li>Click the response — does the JSON match what you expected?</li>
+<li><code>console.log(data)</code> immediately after <code>await res.json()</code> — before any normalization.</li>
+<li>Check the <strong>Console</strong> tab for red errors (CORS, JSON parse failure, undefined access).</li>
+<li>Verify the URL is correct — paste it directly into the browser address bar.</li>
+<li>Confirm your normalization function receives the array, not the wrapper object.</li>
+</ol>
+</body>
+</html>

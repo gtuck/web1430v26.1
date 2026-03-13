@@ -7,36 +7,128 @@
 </head>
 <body>
 <h1>Chapter 7: Event-Driven Interfaces and Forms</h1>
-<p>The chapter focuses on user interaction, event lifecycles, form validation, and accessible feedback loops.</p>
+<p>The browser waits. It waits for clicks, keystrokes, form submissions, and scroll events. Your job is to describe what should happen in response to those moments — without assuming when they will occur.</p>
 <h2>What this chapter is really about</h2>
-<p>The chapter focuses on user interaction, event lifecycles, form validation, and accessible feedback loops. Rather than treating the browser like a magic box, this chapter asks students to name the moving parts, decide where responsibility belongs, and make design decisions visible in code.</p>
+<p>This chapter teaches you how to listen for user interactions, respond to them appropriately, validate form input on the client side, and communicate clearly what happened. It also covers accessibility for interactive elements: making sure error messages are perceivable, associated with their fields, and delivered at the right moment.</p>
 <h2>Key ideas</h2>
-<p>The web is layered. Content comes first, presentation follows, behavior enhances, and data flows across boundaries. Good client-side code respects those layers instead of blurring them into one large script.</p>
+<p><strong>Adding event listeners</strong> — always use <code>addEventListener</code>, never inline HTML handlers:</p>
+<pre><code class="language-js">const btn = document.querySelector(&#x27;#submit-btn&#x27;);
+btn.addEventListener(&#x27;click&#x27;, handleClick);
+
+function handleClick(event) {
+  console.log(&#x27;Button clicked&#x27;, event.target);
+}</code></pre>
+<p>Avoid <code>onclick=&quot;handleClick()&quot;</code> in HTML. It mixes behavior into markup, is harder to remove or replace, and only allows one handler per event.</p>
+<p><strong>The event object</strong> is passed automatically to your handler. Key properties:</p>
+<pre><code class="language-js">function handleSubmit(event) {
+  event.preventDefault();         // stop the form from navigating to a new page
+  console.log(event.target);      // the element that triggered the event
+  console.log(event.type);        // &#x27;submit&#x27;, &#x27;click&#x27;, &#x27;input&#x27;, etc.
+}</code></pre>
+<p><strong>Common events</strong>:</p>
+<ul>
+<li><code>click</code> — any element clicked</li>
+<li><code>submit</code> — a form submitted (always call <code>event.preventDefault()</code>)</li>
+<li><code>input</code> — fires on every keystroke inside an input</li>
+<li><code>change</code> — fires when an input loses focus after its value changed (also for select/checkbox)</li>
+<li><code>keydown</code> — fires when a key is pressed; check <code>event.key</code> for which key</li>
+</ul>
+<p><strong>Reading form values</strong>:</p>
+<pre><code class="language-js">const form = document.querySelector(&#x27;#contact-form&#x27;);
+form.addEventListener(&#x27;submit&#x27;, (event) =&gt; {
+  event.preventDefault();
+  const name = form.querySelector(&#x27;#name&#x27;).value.trim();
+  const email = form.querySelector(&#x27;#email&#x27;).value.trim();
+  // validate and process
+});</code></pre>
+<p><strong>Client-side validation</strong> — check before trusting:</p>
+<pre><code class="language-js">function isValidEmail(email) {
+  return email.includes(&#x27;@&#x27;) &amp;&amp; email.includes(&#x27;.&#x27;);
+}
+
+function showError(inputEl, message) {
+  const errorEl = document.querySelector(`#${inputEl.id}-error`);
+  errorEl.textContent = message;
+  inputEl.setAttribute(&#x27;aria-invalid&#x27;, &#x27;true&#x27;);
+}
+
+function clearError(inputEl) {
+  const errorEl = document.querySelector(`#${inputEl.id}-error`);
+  errorEl.textContent = &#x27;&#x27;;
+  inputEl.removeAttribute(&#x27;aria-invalid&#x27;);
+}</code></pre>
+<p><strong>Event delegation</strong> — instead of adding a listener to every item in a list, add one listener to the container and check <code>event.target</code>:</p>
+<pre><code class="language-js">const list = document.querySelector(&#x27;#task-list&#x27;);
+list.addEventListener(&#x27;click&#x27;, (event) =&gt; {
+  if (event.target.matches(&#x27;.remove-btn&#x27;)) {
+    event.target.closest(&#x27;li&#x27;).remove();
+  }
+});</code></pre>
+<p>This works even for items added dynamically after the listener is set up.</p>
 <h2>Mental model</h2>
-<p>Each page is a conversation between structure, style, state, and time. Structure gives the page meaning. Style gives it shape. State tracks what the user has done and what the application knows. Time matters because users click, type, navigate, and wait.</p>
+<p>The browser runs an event loop. It sits idle until something happens, then fires the appropriate event, runs any listeners registered for it, and returns to idle. Your code doesn't run continuously — it runs in short bursts, triggered by user actions.</p>
+<p>This means you cannot predict <em>when</em> your handler will run. You cannot assume the user has filled in all fields. You cannot assume the user clicked buttons in the order you designed them. Validate everything. Handle every state — not just the happy path.</p>
 <h2>Working habits</h2>
-<p>Students are encouraged to experiment in small loops: change one thing, observe the result, document the reason, and commit progress in Git. The goal is not simply to make a page work; the goal is to understand why it works.</p>
+<ul>
+<li>Always call <code>event.preventDefault()</code> in form submit handlers. Without it, the page navigates away before your JavaScript runs.</li>
+<li>Validate on <code>submit</code>, not on every <code>input</code> keystroke (validating while the user is still typing is annoying). Use <code>blur</code> (focus leaving a field) for optional early validation.</li>
+<li>Separate validation logic from rendering logic. Write <code>isValidEmail(email)</code> separately from <code>showError(input, message)</code>.</li>
+<li>Use <code>&lt;button type=&quot;button&quot;&gt;</code> for buttons inside a form that are not meant to submit. Otherwise every button is a submit button by default.</li>
+<li>Log <code>event.target</code> when debugging to confirm which element triggered the event.</li>
+</ul>
 <h2>Common mistakes</h2>
-<p>Many beginners overreach too early. They add libraries before they understand the browser, hide logic in anonymous handlers, or skip naming conventions that would make the code readable later. This chapter pushes against that pattern.</p>
+<ul>
+<li><strong>Using <code>onclick</code> HTML attributes</strong>: hard to remove, only one per element, mixes concerns. Always use <code>addEventListener</code>.</li>
+<li><strong>Forgetting <code>event.preventDefault()</code> on form submit</strong>: the page navigates and you lose all your work.</li>
+<li><strong>Adding a listener inside a loop</strong>: if you add a listener to each of 100 items, you have 100 listeners. Use event delegation — one listener on the parent, check <code>event.target</code>.</li>
+<li><strong>Not connecting error messages to their inputs</strong>: a visible error message below an input is useless to a screen reader user unless it is associated with the input via <code>aria-describedby</code>.</li>
+<li><strong>Showing validation errors before the user has a chance to type</strong>: validate on <code>submit</code> or on <code>blur</code>, not immediately on <code>input</code>.</li>
+<li><strong>Reading input <code>.value</code> at page load</strong>: the value is empty at load time. Always read <code>.value</code> inside a handler, not as a constant at the top of the file.</li>
+</ul>
 <h2>Accessibility and UX note</h2>
-<p>Every technical choice has an experience consequence. Heading structure affects screen-reader navigation. Button labeling affects confidence. Error messaging affects recovery. A client-side developer is always shaping user experience, even when writing simple scripts.</p>
+<p>Form errors must be <strong>perceivable</strong> (not just a color change), <strong>associated with their field</strong> (not just placed nearby), and <strong>delivered at the right time</strong> (not before the user has interacted with the field).</p>
+<p>Use <code>aria-describedby</code> to connect an error message element to its input:</p>
+<pre><code class="language-html">&lt;label for=&quot;email&quot;&gt;Email&lt;/label&gt;
+&lt;input id=&quot;email&quot; type=&quot;email&quot; aria-describedby=&quot;email-error&quot;&gt;
+&lt;span id=&quot;email-error&quot; class=&quot;error-msg&quot; aria-live=&quot;polite&quot;&gt;&lt;/span&gt;</code></pre>
+<p>When you set <code>errorEl.textContent = &#x27;Please enter a valid email&#x27;</code>, the <code>aria-live=&quot;polite&quot;</code> attribute causes screen readers to announce the message automatically.</p>
+<p>After a successful form submission, move focus to the confirmation message so keyboard and screen reader users know what happened:</p>
+<pre><code class="language-js">confirmationEl.focus();</code></pre>
 <h2>Practice prompt</h2>
-<p>Open one of your existing pages or a provided course starter. Identify one part of the interface that depends on event-driven interfaces and forms and explain what the browser needs in order to make that feature understandable and usable.</p>
+<p>Build a contact form with <code>name</code>, <code>email</code>, and <code>message</code> fields and a Submit button.</p>
+<ol>
+<li>Add a <code>submit</code> listener that prevents default page navigation.</li>
+<li>Validate: name must be non-empty, email must contain <code>@</code>, message must be at least 10 characters.</li>
+<li>For each invalid field, set a visible error message in a <code>&lt;span&gt;</code> linked to that input with <code>aria-describedby</code>. Set <code>aria-invalid=&quot;true&quot;</code> on the input.</li>
+<li>Clear errors from valid fields.</li>
+<li>If all fields are valid, hide the form and show a success message. Move focus to the success message.</li>
+</ol>
+<p>Use <code>addEventListener</code> — no <code>onclick</code> attributes. Use <code>textContent</code> — no <code>innerHTML</code>.</p>
 <h2>Reflection</h2>
-<p>What did you assume the browser was doing automatically that actually depends on deliberate authoring? Where can you make your intent more visible in HTML, CSS, or JavaScript?</p>
+<p>What happened when you submitted the form without <code>event.preventDefault()</code>? How did you structure your validation so that error messages appear at the right time? What did you need to add to the HTML to make error messages audible to a screen reader?</p>
 <h2>Vocabulary</h2>
 <ul>
-<li>semantics</li>
-<li>enhancement</li>
-<li>state</li>
-<li>rendering</li>
-<li>debugging</li>
+<li><strong>event</strong> — a signal that something happened in the browser (click, input, submit, etc.)</li>
+<li><strong>event listener</strong> — a function registered to run when a specific event fires on a specific element</li>
+<li><strong>handler</strong> — the function that runs in response to an event</li>
+<li><strong>event object</strong> — the argument passed to a handler containing information about the event</li>
+<li><strong>preventDefault</strong> — stops the browser's default behavior for an event (e.g., form submission navigating away)</li>
+<li><strong>submit</strong> — the event fired when a form is submitted</li>
+<li><strong>input</strong> — the event fired on every change to an input's value</li>
+<li><strong>change</strong> — the event fired when an input loses focus after its value changed</li>
+<li><strong>validation</strong> — checking that user input meets required criteria before processing it</li>
+<li><strong>aria-describedby</strong> — an ARIA attribute that associates a description element with an input</li>
+<li><strong>aria-invalid</strong> — an ARIA attribute that communicates to assistive technology that a field has an invalid value</li>
+<li><strong>event delegation</strong> — attaching one listener to a parent element and checking <code>event.target</code> to handle events from children</li>
 </ul>
 <h2>Mini checklist</h2>
 <ul>
-<li>I can explain the purpose of the layer I am working in.</li>
-<li>I can name the data or state I need.</li>
-<li>I can describe how a user will experience the result.</li>
+<li>I can add an event listener with <code>addEventListener</code> and explain why I avoid <code>onclick</code> HTML attributes.</li>
+<li>I can prevent default form submission behavior with <code>event.preventDefault()</code>.</li>
+<li>I can read form input values inside a submit handler.</li>
+<li>I can write a validation function that returns true or false and use it to conditionally show an error message.</li>
+<li>I can connect an error message to its input using <code>aria-describedby</code>.</li>
+<li>I can use event delegation to handle events on dynamically added elements.</li>
 </ul>
 </body>
 </html>

@@ -7,36 +7,141 @@
 </head>
 <body>
 <h1>Chapter 1: Thinking in the Browser</h1>
-<p>The chapter introduces the browser as a runtime, explains how a request becomes a rendered page, and frames web development as an exercise in working with constraints and layers.</p>
+<p>The browser is a runtime environment, not a display engine. Understanding what it does — and in what order — changes how you write every line of HTML, CSS, and JavaScript.</p>
 <h2>What this chapter is really about</h2>
-<p>The chapter introduces the browser as a runtime, explains how a request becomes a rendered page, and frames web development as an exercise in working with constraints and layers. Rather than treating the browser like a magic box, this chapter asks students to name the moving parts, decide where responsibility belongs, and make design decisions visible in code.</p>
+<p>Most beginners treat the browser as a magic box: put code in, get a web page out. This chapter opens the box. You will learn how a URL becomes a rendered page, why the order of your code matters, and how to use developer tools to see exactly what the browser is doing at any moment. The goal is not just to write working pages but to understand why they work.</p>
 <h2>Key ideas</h2>
-<p>The web is layered. Content comes first, presentation follows, behavior enhances, and data flows across boundaries. Good client-side code respects those layers instead of blurring them into one large script.</p>
+<h3>The request-response cycle</h3>
+<p>When you type a URL and press Enter, the browser sends an <strong>HTTP GET request</strong> to a server. The server responds with an HTML document and a status code. A <code>200 OK</code> status means success. A <code>404 Not Found</code> means the resource doesn't exist. A <code>301</code> or <code>302</code> means the resource has moved. You can watch every one of these transactions happen in DevTools → Network tab.</p>
+<pre><code>GET /index.html HTTP/1.1
+Host: example.com
+
+HTTP/1.1 200 OK
+Content-Type: text/html</code></pre>
+<p>The response body is the raw HTML text — not a rendered page, just characters. The browser's job is to interpret those characters.</p>
+<h3>Parsing HTML into the DOM</h3>
+<p>The browser reads the HTML document top to bottom, one token at a time, building the <strong>DOM</strong> (Document Object Model) — a live tree of objects representing every element on the page. Consider this small document:</p>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+  &lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;style.css&quot;&gt;
+    &lt;title&gt;My Page&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;h1&gt;Hello&lt;/h1&gt;
+    &lt;p&gt;Welcome.&lt;/p&gt;
+    &lt;script src=&quot;app.js&quot;&gt;&lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<p>Here is what the browser does, in order:</p>
+<ol>
+<li>Reads <code>&lt;!DOCTYPE html&gt;</code> — signals HTML5 parsing mode.</li>
+<li>Reads <code>&lt;html&gt;</code> — creates the root DOM node.</li>
+<li>Reads <code>&lt;head&gt;</code> — enters the head section.</li>
+<li>Reads <code>&lt;link rel=&quot;stylesheet&quot; href=&quot;style.css&quot;&gt;</code> — <strong>pauses HTML parsing</strong>, fetches <code>style.css</code> from the server, parses it into the CSSOM, then resumes.</li>
+<li>Reads <code>&lt;title&gt;</code> — sets the page title.</li>
+<li>Reads <code>&lt;body&gt;</code> — begins the body.</li>
+<li>Reads <code>&lt;h1&gt;Hello&lt;/h1&gt;</code> and <code>&lt;p&gt;Welcome.&lt;/p&gt;</code> — creates those DOM nodes.</li>
+<li>Reads <code>&lt;script src=&quot;app.js&quot;&gt;</code> — <strong>pauses HTML parsing</strong>, fetches <code>app.js</code>, executes it completely, then resumes.</li>
+</ol>
+<p>The order matters. JavaScript that runs at step 8 can access <code>&lt;h1&gt;</code> and <code>&lt;p&gt;</code> because they were added to the DOM at step 7. JavaScript in <code>&lt;head&gt;</code> (without <code>defer</code>) runs before the body exists, so it cannot find any body elements.</p>
+<h3>The CSSOM and the render tree</h3>
+<p>While HTML is parsed into the DOM, CSS is parsed into the <strong>CSSOM</strong> (CSS Object Model). The browser must have both trees before it can display anything. Once both are ready, it combines them into a <strong>render tree</strong> — a version of the DOM that only includes elements that will actually be painted to the screen. Elements with <code>display: none</code> are excluded from the render tree entirely (unlike <code>visibility: hidden</code>, which keeps the space but makes the element invisible).</p>
+<p>The render tree drives <strong>layout</strong> (calculating exact positions and sizes) and <strong>paint</strong> (drawing pixels). Anything that changes the render tree — adding a class, changing a style, removing an element — triggers a recalculation. Understanding this helps you avoid expensive operations inside animation loops or event handlers that fire hundreds of times per second.</p>
+<h3>Why script placement matters: <code>defer</code> and <code>async</code></h3>
+<p>A <code>&lt;script&gt;</code> tag in <code>&lt;head&gt;</code> without attributes blocks HTML parsing. The browser stops building the DOM, fetches the script, runs it, then continues. This delays the first visible content on screen and makes the page feel slow.</p>
+<p>The solution is to control when scripts execute:</p>
+<pre><code class="language-html">&lt;!-- Blocks parsing — avoid this --&gt;
+&lt;head&gt;
+  &lt;script src=&quot;app.js&quot;&gt;&lt;/script&gt;
+&lt;/head&gt;
+
+&lt;!-- Recommended: defer --&gt;
+&lt;head&gt;
+  &lt;script src=&quot;app.js&quot; defer&gt;&lt;/script&gt;
+&lt;/head&gt;
+
+&lt;!-- Use for independent scripts only: async --&gt;
+&lt;head&gt;
+  &lt;script src=&quot;analytics.js&quot; async&gt;&lt;/script&gt;
+&lt;/head&gt;</code></pre>
+<p><strong><code>defer</code></strong> — The script is fetched in parallel while HTML continues parsing. Execution is delayed until the HTML is fully parsed. Multiple deferred scripts execute in the order they appear. Use <code>defer</code> for most application scripts.</p>
+<p><strong><code>async</code></strong> — The script is fetched in parallel and executed as soon as it downloads, potentially interrupting HTML parsing. Execution order is not guaranteed. Use <code>async</code> only for scripts that have no dependencies (analytics, third-party widgets).</p>
+<p><strong>Bottom of <code>&lt;body&gt;</code></strong> — An older technique that works but is less explicit than <code>defer</code>. Placing scripts just before <code>&lt;/body&gt;</code> ensures the DOM exists when the script runs. <code>defer</code> is preferred because it starts fetching earlier.</p>
+<p>For this course, always use <code>defer</code> or place scripts at the bottom of <code>&lt;body&gt;</code>.</p>
+<h3>The layered model</h3>
+<p>Good client-side code respects three distinct layers:</p>
+<table>
+<thead><tr><th>Layer</th><th>Technology</th><th>Purpose</th></tr></thead>
+<tbody>
+<tr><td>Content</td><td>HTML</td><td>Structure and meaning</td></tr>
+<tr><td>Presentation</td><td>CSS</td><td>Visual form and layout</td></tr>
+<tr><td>Behavior</td><td>JavaScript</td><td>Interactivity and dynamic updates</td></tr>
+</tbody>
+</table>
+<p>Collapsing these layers — writing CSS in JavaScript, or putting behavior in HTML <code>onclick</code> attributes — creates code that is harder to debug, maintain, and make accessible. Throughout this course, you will practice keeping these layers separate.</p>
 <h2>Mental model</h2>
-<p>Each page is a conversation between structure, style, state, and time. Structure gives the page meaning. Style gives it shape. State tracks what the user has done and what the application knows. Time matters because users click, type, navigate, and wait.</p>
+<p>Think of the browser as a document interpreter that also runs programs. HTML is not displayed — it is <em>parsed</em> into a tree. CSS is not read top to bottom — it is <em>calculated</em> by specificity and cascade rules. JavaScript does not run instantly — it waits for the parser to reach it, or for events to fire.</p>
+<p>When something goes wrong, ask: which layer is responsible? Is this a structure problem (HTML), a presentation problem (CSS), or a behavior problem (JavaScript)?</p>
 <h2>Working habits</h2>
-<p>Students are encouraged to experiment in small loops: change one thing, observe the result, document the reason, and commit progress in Git. The goal is not simply to make a page work; the goal is to understand why it works.</p>
+<p>Open DevTools before you write your first line of code for the day. Use the <strong>Elements</strong> panel to inspect the live DOM tree — remember this shows the <em>current</em> state of the DOM, which may differ from your HTML source if JavaScript has modified it. Use the <strong>Console</strong> to read errors and run quick experiments. Use the <strong>Network</strong> tab to watch requests fire and see response status codes. Treat DevTools as your primary working environment, not an afterthought.</p>
+<p>Read error messages completely. The browser's error messages are usually accurate and include a file name and line number. Skipping them is the single biggest time-waster a beginner can fall into.</p>
 <h2>Common mistakes</h2>
-<p>Many beginners overreach too early. They add libraries before they understand the browser, hide logic in anonymous handlers, or skip naming conventions that would make the code readable later. This chapter pushes against that pattern.</p>
+<ul>
+<li>Treating <code>&lt;div&gt;</code> as a neutral container for everything. Divs have no meaning; most things on a page have a more appropriate element (<code>&lt;nav&gt;</code>, <code>&lt;main&gt;</code>, <code>&lt;section&gt;</code>, <code>&lt;button&gt;</code>, etc.).</li>
+<li>Placing <code>&lt;script&gt;</code> tags in <code>&lt;head&gt;</code> without <code>defer</code>, causing JavaScript to block HTML parsing and making the page slower to display.</li>
+<li>Confusing the Elements panel in DevTools with the HTML source file. Elements shows the <em>live DOM</em>, which may have been modified by JavaScript. View Source (Ctrl+U) shows the original file.</li>
+<li>Using <code>document.write()</code> — it destroys the DOM and is never appropriate in modern code.</li>
+<li>Closing DevTools because it "gets in the way." Keep it open while you work.</li>
+<li>Ignoring the red errors in the Console.</li>
+</ul>
 <h2>Accessibility and UX note</h2>
-<p>Every technical choice has an experience consequence. Heading structure affects screen-reader navigation. Button labeling affects confidence. Error messaging affects recovery. A client-side developer is always shaping user experience, even when writing simple scripts.</p>
+<p>The DOM is not just a rendering mechanism — it is how assistive technologies navigate the page. Screen readers traverse the DOM tree, announcing headings, landmarks, and interactive elements. If your HTML structure is meaningful, a screen reader user can navigate your page efficiently. If it is a sea of unnamed <code>&lt;div&gt;</code> elements, they cannot.</p>
+<p>This also means that JavaScript-modified DOM is immediately visible to assistive technologies. When you add an element to the DOM dynamically, a screen reader can encounter it. When you remove one, it disappears. The way you structure and modify HTML is the single most impactful accessibility decision you make throughout this course.</p>
 <h2>Practice prompt</h2>
-<p>Open one of your existing pages or a provided course starter. Identify one part of the interface that depends on thinking in the browser and explain what the browser needs in order to make that feature understandable and usable.</p>
+<p>Open browser DevTools (F12 or Cmd+Option+I) on any live website you use regularly.</p>
+<p><strong>Part 1 — DOM inspection:</strong></p>
+<ol>
+<li>In the <strong>Elements</strong> panel, find three semantic HTML elements (not <code>&lt;div&gt;</code> or <code>&lt;span&gt;</code>). Name them and explain what each one communicates to the browser and to assistive technologies.</li>
+<li>Right-click any element and choose "Edit as HTML." Change some visible text. What happens on screen? What does this tell you about the relationship between the source file and the live DOM?</li>
+</ol>
+<p><strong>Part 2 — Network tab:</strong></p>
+<ol>
+<li>Open the <strong>Network</strong> tab and reload the page. Find the very first request (it should be the HTML document). What is the status code? What type of file was returned?</li>
+<li>Find the CSS file(s) in the list. Notice the "Initiator" column — what initiated these requests?</li>
+<li>Look for any failed requests (shown in red). What status codes do you see?</li>
+</ol>
+<p><strong>Part 3 — Script analysis:</strong></p>
+<ol>
+<li>In the <strong>Elements</strong> panel, find the <code>&lt;script&gt;</code> tags on the page. Do any have <code>defer</code> or <code>async</code> attributes? Are any in the <code>&lt;head&gt;</code> without those attributes?</li>
+<li>In the <strong>Console</strong>, type <code>document.querySelectorAll(&#x27;script&#x27;).length</code> and press Enter. How many scripts does the page use?</li>
+</ol>
+<p>Write a short paragraph describing what the browser is doing to render this page, based on what you observed.</p>
 <h2>Reflection</h2>
-<p>What did you assume the browser was doing automatically that actually depends on deliberate authoring? Where can you make your intent more visible in HTML, CSS, or JavaScript?</p>
+<p>In what order does the browser process HTML, CSS, and JavaScript? What would happen to a page if the CSS file failed to load? If the JavaScript file failed to load? What does that tell you about progressive enhancement — the principle that a page should work at a basic level without CSS, and at a fully enhanced level with JavaScript?</p>
 <h2>Vocabulary</h2>
 <ul>
-<li>semantics</li>
-<li>enhancement</li>
-<li>state</li>
-<li>rendering</li>
-<li>debugging</li>
+<li><strong>DOM</strong> — Document Object Model; a live tree of objects representing the page as the browser currently understands it</li>
+<li><strong>CSSOM</strong> — CSS Object Model; the browser's parsed representation of all CSS rules</li>
+<li><strong>render tree</strong> — the combined DOM + CSSOM used to calculate layout and paint; excludes hidden elements</li>
+<li><strong>HTTP request/response</strong> — the protocol by which browsers ask for and receive web resources</li>
+<li><strong>parse</strong> — to read and interpret a document, building an internal representation</li>
+<li><strong>render</strong> — to calculate layout and paint the final visual result to the screen</li>
+<li><strong>runtime</strong> — an environment that executes code (the browser is a JS runtime)</li>
+<li><strong>DevTools</strong> — browser developer tools for inspecting and debugging pages</li>
+<li><strong>semantic</strong> — HTML that describes the meaning of content, not just its appearance</li>
+<li><strong>defer</strong> — a script attribute that delays execution until HTML parsing is complete</li>
+<li><strong>async</strong> — a script attribute that fetches and executes the script independently of HTML parsing</li>
 </ul>
 <h2>Mini checklist</h2>
 <ul>
-<li>I can explain the purpose of the layer I am working in.</li>
-<li>I can name the data or state I need.</li>
-<li>I can describe how a user will experience the result.</li>
+<li>I can describe what happens between typing a URL and seeing a page, step by step.</li>
+<li>I can explain what <code>defer</code> does and why it is preferred over placing scripts in <code>&lt;head&gt;</code> without it.</li>
+<li>I can open DevTools and find an element in the DOM, an error in the Console, and a network request in the Network tab.</li>
+<li>I can name the three layers of client-side web development and explain what belongs in each.</li>
+<li>I can explain the difference between the live DOM (Elements panel) and the HTML source file (View Source).</li>
+<li>I can explain why semantic HTML matters for both sighted users and assistive technology users.</li>
 </ul>
 </body>
 </html>

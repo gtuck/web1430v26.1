@@ -1,11 +1,160 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-<title>Week 10 Lecture Notes</title>
+<title>Week 10 Lecture Notes: localStorage, sessionStorage, and UI State</title>
 <meta name="identifier" content="i55a8e7ed412b5011d4378eb07c932ff9"/>
 <meta name="workflow_state" content="active"/>
 </head>
 <body>
-<h1>Week 10 Lecture Notes: localStorage, sessionStorage, and UI State</h1><h2>Weekly focus</h2><p>Client-Side State and Persistence</p><h2>Why this matters</h2><p>This week's material helps students move from isolated syntax toward purposeful client-side design decisions. The lecture emphasizes examples that can be inspected in the browser and rebuilt in small pieces.</p><h2>Learning targets</h2><ul><li>Explain the core concept in plain language</li><li>Build one focused example from scratch</li><li>Debug mistakes with browser tools</li><li>Connect this week's ideas to the running course projects</li></ul><h2>Lecture flow</h2><ol><li>Warm-up concept check</li><li>Demonstration of a focused example</li><li>Guided breakdown of the code</li><li>Common bug patterns</li><li>Independent practice prompt</li><li>Bridge to lab, assignment, or quiz</li></ol><h2>Instructor notes</h2><p>Use short code examples, narrate tradeoffs, and revisit accessibility in every demo. Avoid introducing abstractions before students can inspect the DOM, state, or network behavior involved.</p><h2>Exit ticket</h2><p>Ask students to explain one idea from the week using the sentence frame: <em>This matters in the browser because...</em></p>
+<h1>Week 10 Lecture Notes: localStorage, sessionStorage, and UI State</h1>
+<h2>Weekly focus</h2>
+<p>Persist user preferences and UI state across page loads using the Web Storage API, and build a centralized state pattern that keeps the DOM in sync with your data.</p>
+<h2>Why this matters</h2>
+<p>Without client-side storage, every page reload wipes out everything the user has done — their preferences, their progress, their settings. The Web Storage API gives you a simple key-value store that lives in the browser with no server required. Learning to store and restore state is also the foundation for understanding how larger frameworks (React, Vue) think about data: the UI is a function of state, not a pile of direct DOM mutations.</p>
+<h2>Learning targets</h2>
+<ul>
+<li>Explain the difference between <code>localStorage</code> and <code>sessionStorage</code> in terms of persistence and scope</li>
+<li>Use <code>setItem</code>, <code>getItem</code>, <code>removeItem</code>, and <code>clear</code> correctly</li>
+<li>Serialize and deserialize a JavaScript object using <code>JSON.stringify</code> and <code>JSON.parse</code></li>
+<li>Explain why all storage values are strings and what that means for reading them back</li>
+<li>Apply a centralized state object pattern where the DOM is derived from state, not mutated directly</li>
+<li>Identify appropriate use cases for each storage type</li>
+</ul>
+<h2>Core concepts</h2>
+<h3>localStorage vs sessionStorage</h3>
+<p>Both APIs live on the <code>window</code> object and share the same four methods. The difference is lifetime and scope:</p>
+<table>
+<thead><tr><th></th><th><code>localStorage</code></th><th><code>sessionStorage</code></th></tr></thead>
+<tbody>
+<tr><td>Persists after tab close</td><td>Yes</td><td>No</td></tr>
+<tr><td>Persists after browser close</td><td>Yes</td><td>No</td></tr>
+<tr><td>Shared across tabs (same origin)</td><td>Yes</td><td>No — each tab has its own</td></tr>
+<tr><td>Cleared by user/JS</td><td>Manual</td><td>Automatic on tab close</td></tr>
+<tr><td>Typical use</td><td>Preferences, saved settings</td><td>Form wizard state, one-session cart</td></tr>
+</tbody>
+</table>
+<p>Both are <strong>origin-scoped</strong> — code on <code>https://example.com</code> cannot read storage from <code>https://other.com</code>.</p>
+<h3>The four storage methods</h3>
+<pre><code class="language-js">// Store a value
+localStorage.setItem(&quot;theme&quot;, &quot;dark&quot;);
+
+// Read it back
+const theme = localStorage.getItem(&quot;theme&quot;); // &quot;dark&quot;
+
+// Remove one key
+localStorage.removeItem(&quot;theme&quot;);
+
+// Wipe everything for this origin
+localStorage.clear();</code></pre>
+<p><code>getItem</code> returns <code>null</code> (not <code>undefined</code>) when the key does not exist. Always handle the <code>null</code> case:</p>
+<pre><code class="language-js">const theme = localStorage.getItem(&quot;theme&quot;) ?? &quot;light&quot;; // default to &quot;light&quot;</code></pre>
+<h3>All values are strings</h3>
+<p>This is the most important constraint: <code>localStorage</code> stores strings only. Numbers, booleans, and objects must be converted.</p>
+<pre><code class="language-js">// BAD — stores the string &quot;[object Object]&quot;
+localStorage.setItem(&quot;user&quot;, { name: &quot;Ana&quot;, score: 42 });
+
+// GOOD — serialize first
+localStorage.setItem(&quot;user&quot;, JSON.stringify({ name: &quot;Ana&quot;, score: 42 }));
+
+// Reading back — always parse
+const raw = localStorage.getItem(&quot;user&quot;);
+const user = raw ? JSON.parse(raw) : null;
+console.log(user.name); // &quot;Ana&quot;
+console.log(user.score); // 42 (number, not string)</code></pre>
+<p>The same applies to booleans:</p>
+<pre><code class="language-js">localStorage.setItem(&quot;notifications&quot;, true);
+localStorage.getItem(&quot;notifications&quot;); // &quot;true&quot; — a string!
+localStorage.getItem(&quot;notifications&quot;) === true; // false — never works
+localStorage.getItem(&quot;notifications&quot;) === &quot;true&quot;; // true — this is how you check it</code></pre>
+<h3>Storing and restoring user preferences</h3>
+<p>A common pattern: save a preference when it changes, restore it on page load.</p>
+<pre><code class="language-js">const toggle = document.getElementById(&quot;dark-mode-toggle&quot;);
+
+// Restore on load
+const saved = localStorage.getItem(&quot;darkMode&quot;);
+if (saved === &quot;true&quot;) {
+  document.body.classList.add(&quot;dark&quot;);
+  toggle.checked = true;
+}
+
+// Save on change
+toggle.addEventListener(&quot;change&quot;, () =&gt; {
+  const isDark = toggle.checked;
+  document.body.classList.toggle(&quot;dark&quot;, isDark);
+  localStorage.setItem(&quot;darkMode&quot;, isDark);
+});</code></pre>
+<h3>Centralized state object</h3>
+<p>Once your app stores several pieces of UI state, managing them individually becomes error-prone. A better approach: keep all state in one object and write a <code>render</code> function that derives the DOM from that object.</p>
+<pre><code class="language-js">// Central state — single source of truth
+let state = {
+  theme: &quot;light&quot;,
+  fontSize: &quot;medium&quot;,
+  notifications: true,
+};
+
+// Apply state to the DOM
+function applyState() {
+  document.body.dataset.theme = state.theme;
+  document.body.dataset.fontSize = state.fontSize;
+  document.getElementById(&quot;notify-toggle&quot;).checked = state.notifications;
+}
+
+// Update state and persist in one place
+function updateState(changes) {
+  state = { ...state, ...changes };
+  localStorage.setItem(&quot;appState&quot;, JSON.stringify(state));
+  applyState();
+}
+
+// Load state on page start
+function loadState() {
+  const saved = localStorage.getItem(&quot;appState&quot;);
+  if (saved) {
+    state = { ...state, ...JSON.parse(saved) };
+  }
+  applyState();
+}
+
+loadState();</code></pre>
+<p>Now every part of the app calls <code>updateState({ theme: &quot;dark&quot; })</code> instead of touching the DOM directly. The DOM is always a reflection of <code>state</code>, never the source of truth.</p>
+<h3>Storage limits and when to use each</h3>
+<p>Browsers typically allow 5–10 MB per origin for Web Storage. This is enough for preferences and small data structures — not for images, large datasets, or anything that should live on a server. Rules of thumb:</p>
+<ul>
+<li>Use <code>localStorage</code> for preferences that should survive across visits (theme, language, saved form drafts)</li>
+<li>Use <code>sessionStorage</code> for temporary state that only needs to last one session (current step in a multi-step form, scroll position)</li>
+<li>Use <code>IndexedDB</code> (beyond this course) for larger structured data</li>
+<li>Never store passwords, tokens, or sensitive data in Web Storage — it is accessible to any JavaScript on the page</li>
+</ul>
+<h2>Common mistakes</h2>
+<ol>
+<li><strong>Reading a stored object without parsing it.</strong> <code>JSON.stringify</code> on the way in, <code>JSON.parse</code> on the way out — every time. Forgetting <code>JSON.parse</code> gives you a string like <code>&quot;[object Object]&quot;</code> where you expected an object.</li>
+<li><strong>Comparing a stored boolean to <code>true</code>.</strong> Storage always gives back a string. <code>getItem(&quot;flag&quot;) === true</code> is always <code>false</code>. Compare to <code>&quot;true&quot;</code> or use <code>JSON.parse(getItem(&quot;flag&quot;))</code>.</li>
+<li><strong>Calling <code>clear()</code> when you only mean to remove one key.</strong> <code>localStorage.clear()</code> removes everything for your origin, including keys set by other parts of your app. Use <code>removeItem(&quot;specificKey&quot;)</code> instead.</li>
+<li><strong>Assuming storage is always available.</strong> In private/incognito mode, some browsers throw a <code>SecurityError</code> when you call <code>setItem</code>. Wrap storage calls in a try/catch if you need resilience, or at minimum do not let a storage error crash your whole app.</li>
+<li><strong>Updating the DOM directly instead of updating state.</strong> When you mix "update DOM here, save to storage there" across multiple event handlers, the DOM and storage drift out of sync. Centralize updates through one function so the DOM and storage are always updated together.</li>
+</ol>
+<h2>Accessibility connection</h2>
+<p>Persisting preferences like font size, contrast, and reduced motion settings has direct accessibility value. If a user increases the text size for readability, that setting should survive a page reload — forcing them to re-apply it every visit is a usability barrier. When restoring state on page load, apply it before the page renders visible content (or as early as possible) to avoid a visible "flash" from default to preferred settings.</p>
+<h2>Demo walkthrough</h2>
+<ol>
+<li>Build a settings panel with a theme toggle (light/dark), a font size selector (small/medium/large), and a checkbox for showing hints.</li>
+<li>Show the Application tab in Chrome DevTools &gt; Local Storage — currently empty.</li>
+<li>Wire up each control to call <code>updateState()</code> with the changed value.</li>
+<li>Reload the page — settings are lost (storage not hooked up yet).</li>
+<li>Add <code>localStorage.setItem</code> inside <code>updateState</code> and <code>localStorage.getItem</code> inside <code>loadState</code>.</li>
+<li>Reload again — settings survive. Show the key/value pairs appearing in DevTools.</li>
+<li>Open a new tab to the same page — settings are there (localStorage). Open a new tab to a different origin — storage is not shared.</li>
+<li>Demonstrate <code>sessionStorage</code> by switching the calls and showing the value disappears when the tab closes.</li>
+</ol>
+<h2>Practice prompt</h2>
+<p>Build a "reading preferences" panel with three controls:</p>
+<ul>
+<li>A <code>&lt;select&gt;</code> for font size (small, medium, large)</li>
+<li>A toggle for dark mode</li>
+<li>A toggle for hiding images</li>
+</ul>
+<p>When any control changes, save the full preferences object to <code>localStorage</code> using <code>JSON.stringify</code>. On page load, read the saved preferences and apply them immediately. Write a <code>render(prefs)</code> function that takes the preferences object and applies all three settings to the page — do not reach into the DOM from individual event handlers.</p>
+<h2>Bridge</h2>
+<p>Lab 09 builds a full preference panel using exactly this pattern — you will save and restore a preferences object across reloads. Project 2 Proposal is also due this week; the project will use both the Fetch API from Week 09 and storage from this week, so your proposal should describe what data you will fetch and what preferences or state you will persist. Quiz 6 will ask you to trace a JSON round-trip and identify what type <code>getItem</code> returns.</p>
 </body>
 </html>
