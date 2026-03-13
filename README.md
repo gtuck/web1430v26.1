@@ -28,11 +28,13 @@ This repository contains a fully rebuilt, online-first **WEB 1430** course packa
 
 ## Canvas build workflow
 
-Regenerate the exploded Canvas package and the importable `.imscc` from the markdown sources:
+Regenerate the exploded Canvas package and the importable `.imscc` from the source files:
 
 ```bash
 python3 scripts/build_canvas_package.py build
 ```
+
+The build now regenerates both learner-facing Canvas pages and assessment export files. Markdown is the source of truth for course pages, and `quizzes/*.json` is the source of truth for quizzes and exams.
 
 Validate that the current Canvas package is synchronized with the source files:
 
