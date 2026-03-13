@@ -143,7 +143,7 @@
     {
       "name": "Storage choice",
       "question_type": "multiple_choice_question",
-      "question_text": "<p>Which storage option is best for a small saved theme preference?</p>",
+      "question_text": "<p>A user selects dark mode on your site, closes the browser, and expects that preference to still be there tomorrow. Which storage option is the best fit?</p>",
       "points_possible": 1,
       "answers": [
         {
@@ -239,31 +239,31 @@
     {
       "name": "Accessibility",
       "question_type": "multiple_choice_question",
-      "question_text": "<p>Keyboard access matters because:</p>",
+      "question_text": "<p>A user can open a dialog with the keyboard, but after it opens the Tab key skips behind the dialog and lands on the page underneath. What is the biggest accessibility problem?</p>",
       "points_possible": 1,
       "answers": [
         {
           "id": "accessibility_a1",
-          "text": "Not all users interact with a mouse",
-          "html": "<p>Not all users interact with a mouse</p>",
+          "text": "Keyboard users do not have a usable focus path within the active interface",
+          "html": "<p>Keyboard users do not have a usable focus path within the active interface</p>",
           "weight": 100
         },
         {
           "id": "accessibility_a2",
-          "text": "Browsers require it for CSS",
-          "html": "<p>Browsers require it for CSS</p>",
+          "text": "Browsers require a mouse for dialogs",
+          "html": "<p>Browsers require a mouse for dialogs</p>",
           "weight": 0
         },
         {
           "id": "accessibility_a3",
-          "text": "GitHub blocks clicks",
-          "html": "<p>GitHub blocks clicks</p>",
+          "text": "GitHub Pages does not support keyboard events",
+          "html": "<p>GitHub Pages does not support keyboard events</p>",
           "weight": 0
         },
         {
           "id": "accessibility_a4",
-          "text": "It disables screen readers",
-          "html": "<p>It disables screen readers</p>",
+          "text": "Screen readers turn off when a dialog opens",
+          "html": "<p>Screen readers turn off when a dialog opens</p>",
           "weight": 0
         }
       ]

@@ -3,6 +3,8 @@
 **Date:** March 13, 2026  
 **Purpose:** Strengthen assessment quality, make weak-signal outcomes more visible, and operationalize course feedback loops for the next iteration of WEB 1430.
 
+**Implementation status:** A first implementation pass is now complete. Quiz 4, Quizzes 6-8, the Midterm, and the Final include stronger code-reading/debug stems, and the Canvas assessment package is generated from the `quizzes/*.json` sources.
+
 ## Current limitations
 
 1. **Selected-response dominance**

@@ -155,7 +155,7 @@
     {
       "name": "DOM update",
       "question_type": "multiple_choice_question",
-      "question_text": "<p>Which property inserts plain text into an element without parsing HTML?</p>",
+      "question_text": "<p>A comment form lets users type text such as <code>&lt;strong&gt;Hello&lt;/strong&gt;</code>. The app should display exactly what they typed, not interpret it as HTML. Which property should the script use?</p>",
       "points_possible": 1,
       "answers": [
         {
@@ -187,7 +187,7 @@
     {
       "name": "Event target",
       "question_type": "multiple_choice_question",
-      "question_text": "<p>In an event handler, event.target usually refers to:</p>",
+      "question_text": "<p>Given the click handler below, what does <code>event.target</code> refer to when the user clicks the button inside the card?</p><pre><code>card.addEventListener('click', (event) =&gt; {\n  console.log(event.target)\n})</code></pre>",
       "points_possible": 1,
       "answers": [
         {
@@ -198,8 +198,8 @@
         },
         {
           "id": "event-target_a2",
-          "text": "The element that triggered the event",
-          "html": "<p>The element that triggered the event</p>",
+          "text": "The specific element that initiated the event, such as the button that was clicked",
+          "html": "<p>The specific element that initiated the event, such as the button that was clicked</p>",
           "weight": 100
         },
         {
@@ -271,31 +271,31 @@
     {
       "name": "Array search",
       "question_type": "multiple_choice_question",
-      "question_text": "<p>Which method returns the first matching element in an array?</p>",
+      "question_text": "<p>Given the array below, which expression returns the first product whose <code>inStock</code> value is <code>true</code>?</p><pre><code>const products = [\n  { name: 'Pen', inStock: false },\n  { name: 'Notebook', inStock: true }\n]</code></pre>",
       "points_possible": 1,
       "answers": [
         {
           "id": "array-search_a1",
-          "text": "map",
-          "html": "<p>map</p>",
+          "text": "products.map(p => p.inStock)",
+          "html": "<p>products.map(p =&gt; p.inStock)</p>",
           "weight": 0
         },
         {
           "id": "array-search_a2",
-          "text": "filter",
-          "html": "<p>filter</p>",
+          "text": "products.filter(p => p.inStock)",
+          "html": "<p>products.filter(p =&gt; p.inStock)</p>",
           "weight": 0
         },
         {
           "id": "array-search_a3",
-          "text": "find",
-          "html": "<p>find</p>",
+          "text": "products.find(p => p.inStock)",
+          "html": "<p>products.find(p =&gt; p.inStock)</p>",
           "weight": 100
         },
         {
           "id": "array-search_a4",
-          "text": "reduce",
-          "html": "<p>reduce</p>",
+          "text": "products.reduce((p) => p.inStock)",
+          "html": "<p>products.reduce((p) =&gt; p.inStock)</p>",
           "weight": 0
         }
       ]

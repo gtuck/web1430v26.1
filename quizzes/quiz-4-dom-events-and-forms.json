@@ -7,7 +7,7 @@
     {
       "name": "Selector",
       "question_type": "multiple_choice_question",
-      "question_text": "<p>Which DOM method returns the first element that matches a CSS selector?</p>",
+      "question_text": "<p>A developer needs the first required email field on a page. Which method correctly completes the code below?</p><pre><code>const field = document.???('input[type=\"email\"][required]')</code></pre>",
       "points_possible": 1,
       "answers": [
         {
@@ -39,31 +39,31 @@
     {
       "name": "Event listener",
       "question_type": "multiple_choice_question",
-      "question_text": "<p>Which method attaches a handler for a click event?</p>",
+      "question_text": "<p>A button should call <code>saveProfile</code> only when the user clicks it. The current code runs <code>saveProfile</code> immediately during page load:</p><pre><code>button.addEventListener('click', saveProfile())</code></pre><p>Which change fixes the problem?</p>",
       "points_possible": 1,
       "answers": [
         {
           "id": "event-listener_a1",
-          "text": "listen('click')",
-          "html": "<p>listen(&#x27;click&#x27;)</p>",
+          "text": "button.listen('click', saveProfile)",
+          "html": "<p>button.listen(&#x27;click&#x27;, saveProfile)</p>",
           "weight": 0
         },
         {
           "id": "event-listener_a2",
-          "text": "onClick()",
-          "html": "<p>onClick()</p>",
+          "text": "button.onClick(saveProfile)",
+          "html": "<p>button.onClick(saveProfile)</p>",
           "weight": 0
         },
         {
           "id": "event-listener_a3",
-          "text": "addEventListener('click', handler)",
-          "html": "<p>addEventListener(&#x27;click&#x27;, handler)</p>",
+          "text": "button.addEventListener('click', saveProfile)",
+          "html": "<p>button.addEventListener(&#x27;click&#x27;, saveProfile)</p>",
           "weight": 100
         },
         {
           "id": "event-listener_a4",
-          "text": "bindClick(handler)",
-          "html": "<p>bindClick(handler)</p>",
+          "text": "button.bindClick(saveProfile)",
+          "html": "<p>button.bindClick(saveProfile)</p>",
           "weight": 0
         }
       ]
@@ -103,7 +103,7 @@
     {
       "name": "Prevent default",
       "question_type": "true_false_question",
-      "question_text": "<p>event.preventDefault() can stop a form from submitting immediately.</p>",
+      "question_text": "<p>Inside a form submit handler, calling <code>event.preventDefault()</code> keeps the browser from submitting the form immediately so custom validation can run first.</p>",
       "points_possible": 1,
       "answers": [
         {
@@ -123,19 +123,19 @@
     {
       "name": "State source",
       "question_type": "multiple_choice_question",
-      "question_text": "<p>For many forms, the most trustworthy source of current user input is:</p>",
+      "question_text": "<p>A validation script needs the text the user has actually typed into an <code>&lt;input&gt;</code>. Which value should it read?</p>",
       "points_possible": 1,
       "answers": [
         {
           "id": "state-source_a1",
-          "text": "A comment in the code",
-          "html": "<p>A comment in the code</p>",
+          "text": "The placeholder text shown in the field",
+          "html": "<p>The placeholder text shown in the field</p>",
           "weight": 0
         },
         {
           "id": "state-source_a2",
-          "text": "The value of the form control",
-          "html": "<p>The value of the form control</p>",
+          "text": "The control's current .value",
+          "html": "<p>The control&#x27;s current <code>.value</code></p>",
           "weight": 100
         },
         {

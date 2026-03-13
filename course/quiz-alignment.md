@@ -3,6 +3,7 @@
 This document maps the current assessment source files in `quizzes/` to the week they are administered, the chapter range they cover, the learning outcomes they assess, and the number of questions currently present in each JSON file.
 
 All current assessment source files use **1 point per question**, so each assessment's `points` value now matches its question count.
+The Canvas assessment package is now regenerated directly from these JSON sources, so the quiz files are the assessment source of truth.
 
 ---
 
@@ -89,7 +90,7 @@ All current assessment source files use **1 point per question**, so each assess
 
 **Covers:** Chapters 6–7 – The Document Object Model; Event-Driven Interfaces and Forms  
 **Administered:** End of Week 07  
-**Current format:** 5 selected-response questions, 5 points
+**Current format:** 5 selected-response questions, 5 points, including code-reading/debug stems
 
 **Learning outcomes addressed:**
 - Manipulate the DOM to create interactive interfaces that respond to user events
@@ -108,7 +109,7 @@ All current assessment source files use **1 point per question**, so each assess
 
 **Covers:** Chapters 1–7 (cumulative through Week 07)  
 **Administered:** Week 08  
-**Current format:** 15 selected-response questions, 15 points  
+**Current format:** 15 selected-response questions, 15 points, including several scenario/debug items  
 **Time limit:** 60 minutes
 
 **Learning outcomes addressed:**
@@ -139,7 +140,7 @@ All current assessment source files use **1 point per question**, so each assess
 
 **Covers:** Chapter 9 – Fetch, JSON, and Remote Data  
 **Administered:** End of Week 09  
-**Current format:** 7 selected-response questions, 7 points
+**Current format:** 7 selected-response questions, 7 points, including code-reading/debug stems
 
 **Learning outcomes addressed:**
 - Exchange data with external services using JSON and the Fetch API
@@ -159,7 +160,7 @@ All current assessment source files use **1 point per question**, so each assess
 
 **Covers:** Chapter 10 – Storage, Preferences, and State  
 **Administered:** End of Week 10  
-**Current format:** 7 selected-response questions, 7 points
+**Current format:** 7 selected-response questions, 7 points, including code-reading/debug stems
 
 **Learning outcomes addressed:**
 - Persist client-side state with local storage and session storage when appropriate
@@ -179,7 +180,7 @@ All current assessment source files use **1 point per question**, so each assess
 
 **Covers:** Chapters 11–12 – Modules, npm, and Vite; Introductory Component-Based Development  
 **Administered:** End of Week 12  
-**Current format:** 7 selected-response questions, 7 points
+**Current format:** 7 selected-response questions, 7 points, including code-reading/debug stems
 
 **Learning outcomes addressed:**
 - Write readable JavaScript using modules
@@ -259,4 +260,4 @@ All current assessment source files use **1 point per question**, so each assess
 
 ## Note on Item Types
 
-The current source files store all quiz and exam items as selected-response questions. Scenario-based or application-style prompts are embedded as multiple-choice items rather than separated into a distinct free-response question type.
+The current source files still store all quiz and exam items as selected-response questions. Scenario-based, code-reading, and debugging prompts are embedded as multiple-choice items rather than separated into a distinct free-response question type.

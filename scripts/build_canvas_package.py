@@ -27,6 +27,7 @@ COURSE_SYLLABUS_PATH = EXPANDED_PACKAGE / "course_settings" / "syllabus.html"
 IMS_NS = "http://www.imsglobal.org/xsd/imsccv1p1/imscp_v1p1"
 LOM_NS = "http://ltsc.ieee.org/xsd/imsccv1p1/LOM/manifest"
 CANVAS_NS = "http://canvas.instructure.com/xsd/cccv1p0"
+QTI_NS = "http://www.imsglobal.org/xsd/ims_qtiasiv1p2"
 XSI_NS = "http://www.w3.org/2001/XMLSchema-instance"
 
 ET.register_namespace("", IMS_NS)
@@ -101,6 +102,16 @@ class WikiPageSpec:
 class AssignmentBodySpec:
     source: Path
     output_path: Path
+
+
+@dataclass(frozen=True)
+class AssessmentSpec:
+    source: Path
+    title: str
+    resource_id: str
+    assignment_id: str
+    assignment_group_id: str
+    position: str
 
 
 class MarkdownRenderer:
@@ -432,6 +443,223 @@ def xml_bytes(root: ET.Element, namespace: str | None = None) -> bytes:
     return ET.tostring(root, encoding="utf-8", xml_declaration=True)
 
 
+def assessment_specs(manifest_root: ET.Element) -> list[AssessmentSpec]:
+    resources = manifest_root.find("im:resources", NS)
+    assert resources is not None
+
+    existing_by_title: dict[str, AssessmentSpec] = {}
+    for resource in resources.findall("im:resource", NS):
+        href = resource.get("href", "")
+        if not href.endswith("/assessment_meta.xml"):
+            continue
+        resource_id = Path(href).parts[0]
+        meta_path = EXPANDED_PACKAGE / href
+        meta_root = ET.parse(meta_path).getroot()
+        title = meta_root.find("c:title", NS)
+        assignment = meta_root.find("c:assignment", NS)
+        if title is None or assignment is None:
+            raise ValueError(f"Assessment metadata is incomplete for {href}")
+        group_id = assignment.find("c:assignment_group_identifierref", NS)
+        position = assignment.find("c:position", NS)
+        if group_id is None or position is None or assignment.get("identifier") is None:
+            raise ValueError(f"Assessment assignment metadata is incomplete for {href}")
+        existing_by_title[title.text] = AssessmentSpec(
+            source=Path(),
+            title=title.text,
+            resource_id=resource_id,
+            assignment_id=assignment.get("identifier", ""),
+            assignment_group_id=group_id.text or "",
+            position=position.text or "1",
+        )
+
+    specs: list[AssessmentSpec] = []
+    for source in sorted((ROOT / "quizzes").glob("*.json")):
+        data = json.loads(source.read_text(encoding="utf-8"))
+        title = data.get("title")
+        if title not in existing_by_title:
+            raise ValueError(f"Assessment resource missing for quiz source {source.relative_to(ROOT)}")
+        existing = existing_by_title[title]
+        specs.append(
+            AssessmentSpec(
+                source=source,
+                title=existing.title,
+                resource_id=existing.resource_id,
+                assignment_id=existing.assignment_id,
+                assignment_group_id=existing.assignment_group_id,
+                position=existing.position,
+            )
+        )
+
+    return specs
+
+
+def qti_item_profile(question_type: str) -> str:
+    if question_type == "multiple_choice_question":
+        return "cc.multiple_choice.v0p1"
+    if question_type == "true_false_question":
+        return "cc.true_false.v0p1"
+    raise ValueError(f"Unsupported question type: {question_type}")
+
+
+def build_assessment_meta(spec: AssessmentSpec, data: dict) -> ET.Element:
+    root = ET.Element(
+        qname(CANVAS_NS, "quiz"),
+        {
+            "identifier": spec.resource_id,
+            qname(XSI_NS, "schemaLocation"): (
+                f"{CANVAS_NS} https://canvas.instructure.com/xsd/cccv1p0.xsd"
+            ),
+        },
+    )
+    ET.SubElement(root, qname(CANVAS_NS, "title")).text = data["title"]
+    ET.SubElement(
+        root, qname(CANVAS_NS, "description")
+    ).text = f"This assessment checks understanding for {data['title']}."
+    ET.SubElement(root, qname(CANVAS_NS, "shuffle_answers")).text = "false"
+    ET.SubElement(root, qname(CANVAS_NS, "scoring_policy")).text = "keep_highest"
+    ET.SubElement(root, qname(CANVAS_NS, "hide_results"))
+    ET.SubElement(root, qname(CANVAS_NS, "quiz_type")).text = "assignment"
+    ET.SubElement(root, qname(CANVAS_NS, "points_possible")).text = str(data["points"])
+    ET.SubElement(root, qname(CANVAS_NS, "show_correct_answers")).text = "true"
+    ET.SubElement(root, qname(CANVAS_NS, "allowed_attempts")).text = "1"
+    ET.SubElement(root, qname(CANVAS_NS, "one_question_at_a_time")).text = "false"
+    ET.SubElement(root, qname(CANVAS_NS, "cant_go_back")).text = "false"
+    ET.SubElement(root, qname(CANVAS_NS, "available")).text = "false"
+    ET.SubElement(root, qname(CANVAS_NS, "one_time_results")).text = "false"
+
+    assignment = ET.SubElement(
+        root, qname(CANVAS_NS, "assignment"), {"identifier": spec.assignment_id}
+    )
+    ET.SubElement(assignment, qname(CANVAS_NS, "title")).text = data["title"]
+    ET.SubElement(
+        assignment, qname(CANVAS_NS, "assignment_group_identifierref")
+    ).text = spec.assignment_group_id
+    ET.SubElement(assignment, qname(CANVAS_NS, "workflow_state")).text = "published"
+    ET.SubElement(assignment, qname(CANVAS_NS, "points_possible")).text = str(data["points"])
+    ET.SubElement(assignment, qname(CANVAS_NS, "grading_type")).text = "points"
+    ET.SubElement(assignment, qname(CANVAS_NS, "submission_types")).text = "online_quiz"
+    ET.SubElement(assignment, qname(CANVAS_NS, "position")).text = spec.position
+    ET.SubElement(assignment, qname(CANVAS_NS, "only_visible_to_overrides")).text = "false"
+    ET.SubElement(root, qname(CANVAS_NS, "assignment_group_identifierref")).text = (
+        spec.assignment_group_id
+    )
+    return root
+
+
+def qti_question_identifier(assessment_id: str, question: dict) -> str:
+    return stable_id(
+        f"{assessment_id}:{question['name']}:{question['question_text']}:{question.get('question_type')}"
+    )
+
+
+def build_assessment_qti(spec: AssessmentSpec, data: dict, *, non_cc: bool) -> ET.Element:
+    schema_location = (
+        "http://www.imsglobal.org/xsd/ims_qtiasiv1p2p1.xsd"
+        if non_cc
+        else "http://www.imsglobal.org/profile/cc/ccv1p1/ccv1p1_qtiasiv1p2p1_v1p0.xsd"
+    )
+    root = ET.Element(
+        qname(QTI_NS, "questestinterop"),
+        {qname(XSI_NS, "schemaLocation"): f"{QTI_NS} {schema_location}"},
+    )
+    assessment = ET.SubElement(
+        root,
+        qname(QTI_NS, "assessment"),
+        {"ident": spec.resource_id, "title": data["title"]},
+    )
+    qti_metadata = ET.SubElement(assessment, qname(QTI_NS, "qtimetadata"))
+    metadata_fields = (
+        [("cc_maxattempts", "1")]
+        if non_cc
+        else [
+            ("cc_profile", "cc.exam.v0p1"),
+            ("qmd_assessmenttype", "Examination"),
+            ("qmd_scoretype", "Percentage"),
+            ("cc_maxattempts", "1"),
+        ]
+    )
+    for label, value in metadata_fields:
+        field = ET.SubElement(qti_metadata, qname(QTI_NS, "qtimetadatafield"))
+        ET.SubElement(field, qname(QTI_NS, "fieldlabel")).text = label
+        ET.SubElement(field, qname(QTI_NS, "fieldentry")).text = value
+
+    section = ET.SubElement(assessment, qname(QTI_NS, "section"), {"ident": "root_section"})
+    for question in data["questions"]:
+        question_type = question.get("question_type")
+        answers = question.get("answers", [])
+        if question_type not in {"multiple_choice_question", "true_false_question"}:
+            raise ValueError(
+                f"Unsupported question type in {spec.source.relative_to(ROOT)}: {question_type}"
+            )
+        if not answers:
+            raise ValueError(f"Question '{question['name']}' in {spec.source.relative_to(ROOT)} has no answers")
+        correct_answers = [answer["id"] for answer in answers if answer.get("weight") == 100]
+        if len(correct_answers) != 1:
+            raise ValueError(
+                f"Question '{question['name']}' in {spec.source.relative_to(ROOT)} must have exactly one correct answer"
+            )
+
+        item = ET.SubElement(
+            section,
+            qname(QTI_NS, "item"),
+            {"ident": qti_question_identifier(spec.resource_id, question), "title": question["name"]},
+        )
+        item_metadata = ET.SubElement(item, qname(QTI_NS, "itemmetadata"))
+        qti_item_metadata = ET.SubElement(item_metadata, qname(QTI_NS, "qtimetadata"))
+
+        if non_cc:
+            item_fields = [
+                ("question_type", question_type),
+                ("points_possible", str(question.get("points_possible", 0))),
+                ("original_answer_ids", ",".join(answer["id"] for answer in answers)),
+            ]
+        else:
+            item_fields = [("cc_profile", qti_item_profile(question_type))]
+
+        for label, value in item_fields:
+            field = ET.SubElement(qti_item_metadata, qname(QTI_NS, "qtimetadatafield"))
+            ET.SubElement(field, qname(QTI_NS, "fieldlabel")).text = label
+            ET.SubElement(field, qname(QTI_NS, "fieldentry")).text = value
+
+        presentation = ET.SubElement(item, qname(QTI_NS, "presentation"))
+        material = ET.SubElement(presentation, qname(QTI_NS, "material"))
+        ET.SubElement(material, qname(QTI_NS, "mattext"), {"texttype": "text/html"}).text = question[
+            "question_text"
+        ]
+        response = ET.SubElement(
+            presentation, qname(QTI_NS, "response_lid"), {"ident": "response1", "rcardinality": "Single"}
+        )
+        render_choice = ET.SubElement(response, qname(QTI_NS, "render_choice"))
+        for answer in answers:
+            label = ET.SubElement(
+                render_choice, qname(QTI_NS, "response_label"), {"ident": answer["id"]}
+            )
+            answer_material = ET.SubElement(label, qname(QTI_NS, "material"))
+            ET.SubElement(
+                answer_material, qname(QTI_NS, "mattext"), {"texttype": "text/html"}
+            ).text = answer.get("html") or f"<p>{html.escape(answer['text'])}</p>"
+
+        resprocessing = ET.SubElement(item, qname(QTI_NS, "resprocessing"))
+        outcomes = ET.SubElement(resprocessing, qname(QTI_NS, "outcomes"))
+        ET.SubElement(
+            outcomes,
+            qname(QTI_NS, "decvar"),
+            {"maxvalue": "100", "minvalue": "0", "varname": "SCORE", "vartype": "Decimal"},
+        )
+        respcondition = ET.SubElement(
+            resprocessing, qname(QTI_NS, "respcondition"), {"continue": "No"}
+        )
+        condition = ET.SubElement(respcondition, qname(QTI_NS, "conditionvar"))
+        ET.SubElement(condition, qname(QTI_NS, "varequal"), {"respident": "response1"}).text = (
+            correct_answers[0]
+        )
+        ET.SubElement(
+            respcondition, qname(QTI_NS, "setvar"), {"action": "Set", "varname": "SCORE"}
+        ).text = "100"
+
+    return root
+
+
 def publishable_wiki_specs() -> list[WikiPageSpec]:
     specs: list[WikiPageSpec] = [
         WikiPageSpec(ROOT / "home.md", "wiki_content/home.html", front_page=True),
@@ -658,6 +886,7 @@ def create_expected_file_outputs() -> tuple[dict[Path, str], dict[Path, bytes]]:
     manifest_root = manifest_tree.getroot()
 
     wiki_specs, published_sources = build_published_source_map(manifest_root)
+    assessment_source_specs = assessment_specs(manifest_root)
     resource_ids = {
         spec.href: existing_manifest_resources(manifest_root)[spec.href].get("identifier", "")
         for spec in wiki_specs
@@ -710,6 +939,21 @@ def create_expected_file_outputs() -> tuple[dict[Path, str], dict[Path, bytes]]:
         syllabus_body,
         include_workflow_state=False,
     )
+
+    for spec in assessment_source_specs:
+        data = json.loads(spec.source.read_text(encoding="utf-8"))
+        meta_root = build_assessment_meta(spec, data)
+        expected_binary_files[EXPANDED_PACKAGE / spec.resource_id / "assessment_meta.xml"] = xml_bytes(
+            meta_root, CANVAS_NS
+        )
+        resource_qti_root = build_assessment_qti(spec, data, non_cc=False)
+        expected_binary_files[EXPANDED_PACKAGE / spec.resource_id / "assessment_qti.xml"] = xml_bytes(
+            resource_qti_root, QTI_NS
+        )
+        non_cc_qti_root = build_assessment_qti(spec, data, non_cc=True)
+        expected_binary_files[
+            EXPANDED_PACKAGE / "non_cc_assessments" / f"{spec.resource_id}.xml.qti"
+        ] = xml_bytes(non_cc_qti_root, QTI_NS)
 
     expected_binary_files[MANIFEST_PATH] = xml_bytes(manifest_root, IMS_NS)
     ET.register_namespace("", CANVAS_NS)

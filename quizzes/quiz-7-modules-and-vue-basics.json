@@ -123,31 +123,31 @@
     {
       "name": "Props",
       "question_type": "multiple_choice_question",
-      "question_text": "<p>Props are commonly used to:</p>",
+      "question_text": "<p>A child Vue component receives <code>count</code> as a prop and tries to run <code>props.count++</code> when a button is clicked. What is the better pattern?</p>",
       "points_possible": 1,
       "answers": [
         {
           "id": "props_a1",
-          "text": "Pass data into a component",
-          "html": "<p>Pass data into a component</p>",
+          "text": "Emit an event or call a parent-provided handler so the parent updates the prop value",
+          "html": "<p>Emit an event or call a parent-provided handler so the parent updates the prop value</p>",
           "weight": 100
         },
         {
           "id": "props_a2",
-          "text": "Store server secrets",
-          "html": "<p>Store server secrets</p>",
+          "text": "Mutate the prop directly because props are writable local state",
+          "html": "<p>Mutate the prop directly because props are writable local state</p>",
           "weight": 0
         },
         {
           "id": "props_a3",
-          "text": "Write CSS media queries",
-          "html": "<p>Write CSS media queries</p>",
+          "text": "Store the new count in localStorage so the parent sees it",
+          "html": "<p>Store the new count in <code>localStorage</code> so the parent sees it</p>",
           "weight": 0
         },
         {
           "id": "props_a4",
-          "text": "Create Git commits",
-          "html": "<p>Create Git commits</p>",
+          "text": "Query the parent DOM and overwrite the rendered text directly",
+          "html": "<p>Query the parent DOM and overwrite the rendered text directly</p>",
           "weight": 0
         }
       ]

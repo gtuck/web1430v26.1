@@ -39,31 +39,31 @@
     {
       "name": "Alt text",
       "question_type": "multiple_choice_question",
-      "question_text": "<p>Why is alt text important?</p>",
+      "question_text": "<p>An online campus pantry page shows an informative image of a shelf stocked with canned food. Which <code>alt</code> text is strongest?</p>",
       "points_possible": 1,
       "answers": [
         {
           "id": "alt-text_a1",
-          "text": "It speeds up JavaScript execution",
-          "html": "<p>It speeds up JavaScript execution</p>",
+          "text": "image1234.jpg",
+          "html": "<p>image1234.jpg</p>",
           "weight": 0
         },
         {
           "id": "alt-text_a2",
-          "text": "It supports accessibility and non-visual understanding of images",
-          "html": "<p>It supports accessibility and non-visual understanding of images</p>",
+          "text": "Shelves stocked with canned food and boxed goods in the campus pantry",
+          "html": "<p>Shelves stocked with canned food and boxed goods in the campus pantry</p>",
           "weight": 100
         },
         {
           "id": "alt-text_a3",
-          "text": "It hides content from search engines",
-          "html": "<p>It hides content from search engines</p>",
+          "text": "Photo",
+          "html": "<p>Photo</p>",
           "weight": 0
         },
         {
           "id": "alt-text_a4",
-          "text": "It stores cookies",
-          "html": "<p>It stores cookies</p>",
+          "text": "Leave alt empty even though the image conveys content",
+          "html": "<p>Leave <code>alt</code> empty even though the image conveys content</p>",
           "weight": 0
         }
       ]

@@ -123,31 +123,31 @@
     {
       "name": "Serialization",
       "question_type": "multiple_choice_question",
-      "question_text": "<p>Which function converts a JavaScript object to JSON text for storage?</p>",
+      "question_text": "<p>A developer wants to save the object below in <code>localStorage</code>:</p><pre><code>const prefs = { theme: 'dark', compact: true }\nlocalStorage.setItem('prefs', ???)</code></pre><p>What should replace <code>???</code>?</p>",
       "points_possible": 1,
       "answers": [
         {
           "id": "serialization_a1",
-          "text": "JSON.parse",
-          "html": "<p>JSON.parse</p>",
+          "text": "JSON.parse(prefs)",
+          "html": "<p>JSON.parse(prefs)</p>",
           "weight": 0
         },
         {
           "id": "serialization_a2",
-          "text": "JSON.stringify",
-          "html": "<p>JSON.stringify</p>",
+          "text": "JSON.stringify(prefs)",
+          "html": "<p>JSON.stringify(prefs)</p>",
           "weight": 100
         },
         {
           "id": "serialization_a3",
-          "text": "Object.freeze",
-          "html": "<p>Object.freeze</p>",
+          "text": "Object.freeze(prefs)",
+          "html": "<p>Object.freeze(prefs)</p>",
           "weight": 0
         },
         {
           "id": "serialization_a4",
-          "text": "Array.join",
-          "html": "<p>Array.join</p>",
+          "text": "prefs.join(',')",
+          "html": "<p>prefs.join(&#x27;,&#x27;)</p>",
           "weight": 0
         }
       ]
