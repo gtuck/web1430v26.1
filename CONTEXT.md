@@ -1,4 +1,4 @@
-# CLAUDE.md
+# CONTEXT.md
 
 This file provides project context for Claude Code and similar coding agents working in this repository.
 
