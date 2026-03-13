@@ -82,6 +82,8 @@ Each error message must name the specific field and the problem: "Number of peop
 
 ## Above baseline (stretch)
 
+Work in this section is reflected in the Excellent (4) column of the rubric.
+
 - Store the last calculation result in `sessionStorage` and restore it on page reload
 - Add a "calculation history" list showing the last three results
 - Support keyboard submission (pressing Enter in any input field triggers the calculation)

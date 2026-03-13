@@ -83,6 +83,8 @@ The library page itself should have:
 
 ## Above baseline (stretch)
 
+Work in this section is reflected in the Excellent (4) column of the rubric.
+
 - The accordion supports keyboard navigation: Down/Up arrow keys move focus between triggers
 - The filter input debounces keystrokes (waits 150ms after the last keystroke before filtering, using `setTimeout`)
 - Each pattern section includes a collapsed `<details>` element showing the relevant HTML snippet for that pattern

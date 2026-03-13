@@ -127,6 +127,8 @@ For each invalid field:
 
 ## Above baseline (stretch)
 
+Work in this section is reflected in the Excellent (4) column of the rubric.
+
 - Persist partially-completed form data to `localStorage` so a user who closes the tab mid-flow can resume where they left off
 - Add a `computed` property in `App.vue` that tracks overall form completion percentage and display it in `StepIndicator`
 - Animate step transitions using Vue's `<Transition>` component

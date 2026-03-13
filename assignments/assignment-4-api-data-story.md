@@ -103,6 +103,8 @@ Each error condition must produce a different, human-readable message in the UI.
 
 ## Above baseline (stretch)
 
+Work in this section is reflected in the Excellent (4) column of the rubric.
+
 - Cache the most recent successful result in `sessionStorage` and restore it on page reload so users don't see a blank page on refresh
 - Add pagination or a "load more" button that fetches the next page of results
 - Implement an `AbortController` to cancel in-flight requests when a new search is submitted before the previous one completes
