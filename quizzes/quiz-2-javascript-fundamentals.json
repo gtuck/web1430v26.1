@@ -215,6 +215,38 @@
           "weight": 0
         }
       ]
+    },
+    {
+      "name": "devtools-debugging",
+      "question_type": "multiple_choice_question",
+      "question_text": "<p>A function you wrote is returning <code>undefined</code> instead of the expected value. Which DevTools approach would most directly help you trace the problem?</p>",
+      "points_possible": 1,
+      "answers": [
+        {
+          "id": "devtools-debugging_a1",
+          "text": "Open the Console tab and add console.log() calls inside the function to inspect intermediate values and confirm which line produces undefined",
+          "html": "<p>Open the Console tab and add <code>console.log()</code> calls inside the function to inspect intermediate values and confirm which line produces <code>undefined</code></p>",
+          "weight": 100
+        },
+        {
+          "id": "devtools-debugging_a2",
+          "text": "Open the Network tab and check the HTTP status code",
+          "html": "<p>Open the Network tab and check the HTTP status code</p>",
+          "weight": 0
+        },
+        {
+          "id": "devtools-debugging_a3",
+          "text": "Open the Elements tab and inspect the DOM structure",
+          "html": "<p>Open the Elements tab and inspect the DOM structure</p>",
+          "weight": 0
+        },
+        {
+          "id": "devtools-debugging_a4",
+          "text": "Open the Application tab and clear localStorage",
+          "html": "<p>Open the Application tab and clear localStorage</p>",
+          "weight": 0
+        }
+      ]
     }
   ]
 }

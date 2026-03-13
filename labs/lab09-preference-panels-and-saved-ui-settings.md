@@ -201,7 +201,51 @@ document.addEventListener('DOMContentLoaded', () => {
 
 ---
 
-## Part 5: DevTools verification
+## Part 5: Handling quota exceeded errors
+
+`localStorage` has a storage limit (typically 5–10 MB per origin). In most preference-panel scenarios you will never hit it, but robust code handles the possibility. Wrap `setItem` in a `try/catch` so a full storage quota does not silently break saving.
+
+Update `savePreferences` to catch `QuotaExceededError`:
+
+```js
+function savePreferences(prefs) {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(prefs));
+  } catch (err) {
+    if (err.name === 'QuotaExceededError') {
+      // Storage is full — preferences will not persist this session.
+      // Show a non-intrusive warning rather than crashing.
+      console.warn('localStorage quota exceeded. Preferences will not be saved this session.');
+      showStorageWarning(); // implement below
+    }
+  }
+}
+```
+
+Add `showStorageWarning()` to your JS and a matching element to your HTML:
+
+```html
+<!-- In index.html, inside #preferences-panel -->
+<p id="storage-warning" role="alert" hidden>
+  Preferences could not be saved (storage full). Your choices will reset on the next visit.
+</p>
+```
+
+```js
+function showStorageWarning() {
+  const warning = document.getElementById('storage-warning');
+  if (warning) warning.hidden = false;
+}
+```
+
+**Why `role="alert"`?** Alert regions are announced immediately by screen readers — appropriate for error conditions that affect the user's experience even if they did not trigger an explicit action.
+
+**Testing quota exceeded:**
+You cannot easily fill storage in a lab setting, but you can verify your code handles the path correctly by temporarily replacing `localStorage.setItem(...)` with `throw Object.assign(new Error(), { name: 'QuotaExceededError' })` inside `savePreferences`, reloading, and confirming the warning appears without a JavaScript crash.
+
+---
+
+## Part 6: DevTools verification
 
 Before submitting, use DevTools → Application → Local Storage to verify:
 
@@ -220,6 +264,7 @@ Before submitting, use DevTools → Application → Local Storage to verify:
 - [ ] Reload page: dark theme is applied before content is visible
 - [ ] Reset: all preferences return to defaults, radio buttons update
 - [ ] Corrupted localStorage value: page loads with defaults, no error thrown
+- [ ] Quota exceeded (simulated): `showStorageWarning()` fires, no uncaught exception
 - [ ] Keyboard: all radio buttons reachable by Tab and operable with arrow keys
 
 ---
@@ -251,7 +296,7 @@ Answer in 4–6 sentences:
 
 | Criterion | Excellent (4) | Proficient (3) | Developing (2) | Incomplete (1) |
 |-----------|--------------|----------------|----------------|----------------|
-| **localStorage read/write** | `setItem`/`getItem` with `JSON.stringify`/`JSON.parse`; null handled; `try/catch` present | Read/write works; no null handling | Write works; read partially works | Not functional |
+| **localStorage read/write** | `setItem`/`getItem` with `JSON.stringify`/`JSON.parse`; null handled; `try/catch` on both read (parse) and write (quota exceeded); storage warning shown | Read/write works; one edge case (null or quota) not handled | Write works; read partially works | Not functional |
 | **Preference application** | Classes swapped correctly for all three categories; no inline styles | Two categories work | One category works | Not functional |
 | **Page load behavior** | Preferences applied in `DOMContentLoaded` before render; no visible flash | Applied at load but with minor flash | Applied after a delay | Not applied at load |
 | **Reset** | Resets all three preferences in storage, DOM, and radio buttons | Resets two of three | Partially resets | Not implemented |

@@ -35,6 +35,8 @@ Select **one** public API that:
 
 If you use a different API, confirm it supports browser cross-origin requests (no CORS block) before committing to it.
 
+> **Reference:** See `course/api-troubleshooting-guide.md` for help with deeply nested responses, null fields, type inconsistencies, CORS errors, and rate limiting.
+
 ---
 
 ## What to build

@@ -15,7 +15,8 @@
 
 ## Resources
 - [Lecture notes: Quality Checks, Accessibility Audits, and Shipping to the Web](../lectures/week-14-lecture.md)
-- Review all chapters for deployment and quality context
+- [Chapter 14: Performance, Testing, and Deployment](../textbook/chapters/chapter-14-performance-testing-and-deployment.md) — Lighthouse metrics, tree-shaking, image optimization, manual testing checklist, Netlify/Vercel deployment
+- [Chapter 13: Accessibility Synthesis](../textbook/chapters/chapter-13-accessibility-synthesis.md) — Reference for Lab 13 accessibility audit work
 - **Time estimate:** 8–10 hours (lab, quiz, Project 2 final submission)
 
 ## Checkpoint question

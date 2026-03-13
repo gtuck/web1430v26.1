@@ -124,6 +124,54 @@ Design decisions have direct accessibility consequences:
 - **Spacing and touch targets**: interactive elements should be at least 44×44px touch target size. Use your spacing tokens to ensure consistent sizing.
 - **Consistent design** builds user trust and reduces cognitive load for all users, including those with cognitive disabilities. A page that looks intentional is easier to navigate than one that feels random.
 
+## Performance fundamentals
+
+Good architecture does not just make code readable — it directly affects how fast a page loads and how quickly users see content. You do not need to be a performance expert, but you should understand the most common bottlenecks and how to identify them.
+
+**What makes a page slow?**
+
+The browser renders a page in a sequence of steps: download HTML → parse HTML → download CSS and JavaScript (possibly blocking) → render the page → run JavaScript → paint pixels. Each step can stall the one after it.
+
+The three most common culprits:
+
+1. **Render-blocking scripts:** A `<script src="app.js">` in `<head>` without `defer` or `async` pauses HTML parsing until the script downloads and runs. Add `defer` (or move scripts to the end of `<body>`) so HTML parsing continues unblocked.
+
+   ```html
+   <!-- Blocks rendering -->
+   <script src="app.js"></script>
+
+   <!-- Doesn't block — browser downloads script in parallel -->
+   <script defer src="app.js"></script>
+   ```
+
+2. **Large JavaScript bundles:** Sending 1 MB of JavaScript to the browser is slow even on fast connections. Build tools like Vite automatically split code into smaller chunks (**tree-shaking** removes code you never use; **code splitting** breaks a large bundle into smaller files loaded on demand).
+
+3. **Unoptimized images:** Images are usually the heaviest assets on a page. Use modern formats (WebP, AVIF), set explicit `width` and `height` attributes to prevent layout shifts, and use `loading="lazy"` on images below the fold.
+
+**How to measure: Lighthouse**
+
+Lighthouse is built into Chrome DevTools (DevTools → Lighthouse tab). Run it on any page to get scores in five categories:
+
+| Category | What it measures |
+|---|---|
+| **Performance** | How fast the page loads and becomes interactive (FCP, LCP, TBT, CLS) |
+| **Accessibility** | Whether the page meets WCAG guidelines |
+| **Best Practices** | Security and code quality signals |
+| **SEO** | Search engine crawlability |
+| **PWA** | Progressive Web App compliance |
+
+Each finding includes a description of the problem and a link to documentation explaining how to fix it. You will run a full Lighthouse audit in Lab 13 (Week 14) and on every project before final submission.
+
+**Quick performance checklist for this course:**
+
+- [ ] All `<script>` tags in `<head>` use `defer`
+- [ ] Images have explicit `width` and `height` attributes
+- [ ] Images below the fold use `loading="lazy"`
+- [ ] No unused CSS or JavaScript imported
+- [ ] Vite build (`npm run build`) runs without warnings
+
+---
+
 ## Practice prompt
 
 Refactor the CSS from one of your previous labs:

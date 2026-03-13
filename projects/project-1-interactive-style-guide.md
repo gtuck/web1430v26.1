@@ -31,6 +31,7 @@ Submit a `proposal.md` file in `projects/project-1/` containing:
 3. **Typography plan:** Font family choices (Google Fonts or system fonts), scale (at minimum body, small, large, heading sizes in rem).
 4. **Component list:** The five components you will document (from the required list below).
 5. **Rough sketch:** A hand-drawn or digital wireframe showing how the style guide page will be organized.
+6. **Accessibility plan:** For each interactive pattern you plan to implement, answer two questions: (a) How will a keyboard-only user operate it? (b) What ARIA attributes will communicate its state to a screen reader? This does not need to be code — a sentence or two per pattern is sufficient.
 
 Proposal does not need to be code — it is a planning document.
 
@@ -179,4 +180,4 @@ Write 6–8 sentences addressing:
 | **Interactive patterns** | Both chosen patterns functional, keyboard-accessible, and ARIA-correct | Both functional; one ARIA attribute missing | One pattern functional | Neither pattern functional |
 | **Code organization** | CSS in separate files by responsibility; JS in separate files with responsibility comments; no mixed concerns | Two files each; minor mixing | One CSS file; one JS file | Single monolithic file |
 | **Accessibility** | All interactive elements keyboard-operable; contrast passes; ARIA used correctly; focus visible | Three of four criteria | Two criteria | One or none |
-| **Proposal and rationale** | Proposal submitted on time with all five elements; rationale addresses all four prompts specifically | Proposal complete; rationale addresses three prompts | Proposal partially complete; rationale vague | Proposal missing or rationale missing |
+| **Proposal and rationale** | Proposal submitted on time with all six elements (including accessibility plan); rationale addresses all four prompts specifically | Proposal complete; accessibility plan vague; rationale addresses three prompts | Proposal partially complete; rationale vague | Proposal missing or rationale missing |

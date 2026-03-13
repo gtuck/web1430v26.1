@@ -16,6 +16,7 @@
 ## Resources
 - [Lecture notes: Component Communication, Reactive Forms, and Derived State](../lectures/week-13-lecture.md)
 - [Chapter 12: Introductory Component-Based Development](../textbook/chapters/chapter-12-introductory-component-based-development.md) (continued)
+- [Chapter 13: Accessibility Synthesis](../textbook/chapters/chapter-13-accessibility-synthesis.md) — WCAG conformance, ARIA patterns, focus management, prefers-reduced-motion, 3-minute manual audit checklist
 - **Time estimate:** 10–12 hours (reading, lab, Assignment 6)
 
 ## Checkpoint question

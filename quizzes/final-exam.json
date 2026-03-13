@@ -447,6 +447,70 @@
           "weight": 0
         }
       ]
+    },
+    {
+      "name": "gitignore-purpose",
+      "question_type": "multiple_choice_question",
+      "question_text": "<p>Which files should be listed in a <code>.gitignore</code> for a Vite/Node.js project, and why?</p>",
+      "points_possible": 1,
+      "answers": [
+        {
+          "id": "gitignore-purpose_a1",
+          "text": "node_modules/ and dist/ — they can be rebuilt from package.json and source files, so committing them wastes space and creates merge conflicts",
+          "html": "<p><code>node_modules/</code> and <code>dist/</code> — they can be rebuilt from <code>package.json</code> and source files, so committing them wastes space and creates merge conflicts</p>",
+          "weight": 100
+        },
+        {
+          "id": "gitignore-purpose_a2",
+          "text": "index.html and style.css — HTML and CSS should never be committed",
+          "html": "<p><code>index.html</code> and <code>style.css</code> — HTML and CSS should never be committed</p>",
+          "weight": 0
+        },
+        {
+          "id": "gitignore-purpose_a3",
+          "text": "All JavaScript files — only configuration files belong in git",
+          "html": "<p>All JavaScript files — only configuration files belong in git</p>",
+          "weight": 0
+        },
+        {
+          "id": "gitignore-purpose_a4",
+          "text": "The .gitignore file itself — it is generated automatically on push",
+          "html": "<p>The <code>.gitignore</code> file itself — it is generated automatically on push</p>",
+          "weight": 0
+        }
+      ]
+    },
+    {
+      "name": "lighthouse-render-blocking",
+      "question_type": "multiple_choice_question",
+      "question_text": "<p>A Lighthouse audit flags a page's First Contentful Paint as 'poor.' The page includes <code>&lt;script src=\"app.js\"&gt;</code> in <code>&lt;head&gt;</code> without any attributes. Which change would most directly improve this score?</p>",
+      "points_possible": 1,
+      "answers": [
+        {
+          "id": "lighthouse-render-blocking_a1",
+          "text": "Add defer — the browser can then parse HTML and download the script in parallel, unblocking the initial render",
+          "html": "<p>Add <code>defer</code> — the browser can then parse HTML and download the script in parallel, unblocking the initial render</p>",
+          "weight": 100
+        },
+        {
+          "id": "lighthouse-render-blocking_a2",
+          "text": "Move the script tag to the bottom of body and remove defer",
+          "html": "<p>Move the script tag to the bottom of <code>&lt;body&gt;</code> and remove <code>defer</code></p>",
+          "weight": 0
+        },
+        {
+          "id": "lighthouse-render-blocking_a3",
+          "text": "Add more CSS custom properties to reduce JavaScript size",
+          "html": "<p>Add more CSS custom properties to reduce JavaScript size</p>",
+          "weight": 0
+        },
+        {
+          "id": "lighthouse-render-blocking_a4",
+          "text": "Replace all arrow functions with regular function declarations",
+          "html": "<p>Replace all arrow functions with regular function declarations</p>",
+          "weight": 0
+        }
+      ]
     }
   ]
 }

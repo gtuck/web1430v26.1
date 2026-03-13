@@ -16,6 +16,7 @@
 ## Resources
 - [Lecture notes: How the Browser Parses, Paints, and Executes](../lectures/week-01-lecture.md)
 - [Chapter 1: Thinking in the Browser](../textbook/chapters/chapter-01-thinking-in-the-browser.md)
+- [Accessibility Fundamentals Primer](../course/accessibility-fundamentals-primer.md) — **Read before Week 2.** Establishes the vocabulary and mindset you will use throughout the course.
 - **Time estimate:** 6–8 hours (reading, lab, quiz)
 
 ## Checkpoint question

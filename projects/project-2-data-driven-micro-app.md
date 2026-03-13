@@ -34,6 +34,8 @@ Once you can answer those three questions, find a public API that provides the d
 
 Notice that the problem comes first in every example. Choose a public API that does not require payment information for access.
 
+> **Reference:** See `course/api-troubleshooting-guide.md` for help with deeply nested responses, fields that are sometimes null, inconsistent types, CORS errors, rate limiting, and a debugging checklist.
+
 ---
 
 ## Milestone 1 — Proposal and Data Plan
@@ -56,13 +58,20 @@ The proposal will be reviewed against the problem statement first. If the proble
 
 **Due:** End of Week 11
 
-A deployed, in-progress version with:
-- Vite project scaffolded and running (`npm run dev` works)
-- At least one successful fetch and render of real API data
-- Loading and error states functional (not just placeholder text)
-- Module file structure started (at minimum `api.js` and `render.js` exist with their content)
+Milestone 2 must represent a substantially complete application. Week 12 is for polish, accessibility review, and deployment — not core feature development. An incomplete Milestone 2 means an incomplete final submission.
 
-Submit live URL and repo URL. Include a brief note on what is still to be done.
+A deployed version with **all of the following**:
+
+- Vite project scaffolded, running, and deployed (`npm run dev` works; live URL accessible)
+- All five required module files exist (`api.js`, `normalize.js`, `render.js`, `state.js`, `events.js`), each with its one-sentence comment and correct single responsibility
+- Fetch, normalization, and render pipeline complete — real API data flows through `normalizeData()` before any rendering function touches it
+- Loading, success, and error states all produce distinct UI (not placeholder text)
+- At least **one** user interaction type (search, filter, or sort) functional end-to-end
+- At least **one** localStorage feature reading and writing correctly (preference restored on page reload)
+
+Submit live URL and repo URL. Include a `checkpoint.md` note (3–5 sentences) covering:
+- What two features remain for Week 12?
+- Did you encounter any API quirks during normalization? How did you handle them?
 
 ---
 

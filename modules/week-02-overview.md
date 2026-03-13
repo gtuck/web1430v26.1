@@ -16,6 +16,7 @@
 ## Resources
 - [Lecture notes: Semantic HTML, CSS Architecture, and Mobile-First Layout](../lectures/week-02-lecture.md)
 - [Chapter 2: HTML, CSS, and Progressive Enhancement](../textbook/chapters/chapter-02-html-css-and-progressive-enhancement.md)
+- [Accessibility Fundamentals Primer](../course/accessibility-fundamentals-primer.md) — Review the quick reference checklist before submitting Assignment 1.
 - **Time estimate:** 10–12 hours (reading, lab, Assignment 1)
 
 ## Checkpoint question
