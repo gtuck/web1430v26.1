@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wildcat Hiking Club</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <nav>
+      <a href="#" class="brand">Wildcat Hiking Club</a>
+      <ul>
+        <li><a href="#upcoming">Upcoming Hikes</a></li>
+        <li><a href="#members">Members</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main-content">
+
+    <section class="hero">
+      <h1>Explore the Trails Together</h1>
+      <p>A student-led hiking club for all experience levels. We hike every weekend.</p>
+      <a href="#contact" class="btn-primary">Join Us</a>
+    </section>
+
+    <section id="upcoming">
+      <h2>Upcoming Hike</h2>
+      <article class="hike-card">
+        <h3>Malans Peak Trail</h3>
+        <p><strong>Date:</strong> Saturday, March 22</p>
+        <p><strong>Distance:</strong> 5.4 miles round trip</p>
+        <p><strong>Difficulty:</strong> Intermediate</p>
+        <p>A beautiful loop above Ogden with panoramic views of the valley. Meet at the trailhead at 8:00 AM.</p>
+      </article>
+    </section>
+
+    <section id="members">
+      <h2>Member Spotlight</h2>
+      <ul class="member-grid">
+        <li class="member-card">
+          <h3>Taylor Reyes</h3>
+          <p>Trail captain and certified wilderness first aid responder. Has hiked every trail in the Wasatch Front.</p>
+        </li>
+        <li class="member-card">
+          <h3>Sam Nguyen</h3>
+          <p>Joined last semester and has already completed six weekend hikes. Loves early morning starts and ridge lines.</p>
+        </li>
+        <li class="member-card">
+          <h3>Jordan Park</h3>
+          <p>Graduate student and nature photographer. Brings the best trail mix and always knows where the wildflowers are.</p>
+        </li>
+      </ul>
+    </section>
+
+    <section id="contact">
+      <h2>Get in Touch</h2>
+      <form>
+        <div class="field-group">
+          <label for="contact-name">Your Name</label>
+          <input type="text" id="contact-name" name="name" autocomplete="name">
+        </div>
+        <div class="field-group">
+          <label for="contact-email">Email Address</label>
+          <input type="email" id="contact-email" name="email" autocomplete="email">
+        </div>
+        <div class="field-group">
+          <label for="contact-message">Message</label>
+          <textarea id="contact-message" name="message" rows="4"></textarea>
+        </div>
+        <button type="submit">Send Message</button>
+      </form>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Wildcat Hiking Club</p>
+    <nav aria-label="Social links">
+      <a href="#">Instagram</a>
+      <a href="#">Facebook</a>
+      <a href="#">GitHub</a>
+    </nav>
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lab 04 – Trail Recommender</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main>
+    <h1>Trail Recommender</h1>
+
+    <!-- ─── Section 1: Trail Recommender ─────────────────────── -->
+    <section class="recommender">
+      <h2>Find Your Trail</h2>
+
+      <div class="field-group">
+        <label for="experience">Experience Level</label>
+        <select id="experience">
+          <option value="beginner">Beginner</option>
+          <option value="intermediate">Intermediate</option>
+          <option value="advanced">Advanced</option>
+        </select>
+      </div>
+
+      <div class="field-group">
+        <label for="max-distance">Max Distance (miles)</label>
+        <input type="number" id="max-distance" min="1" max="20" value="10">
+      </div>
+
+      <div class="field-group">
+        <label for="max-hours">Available Time (hours)</label>
+        <input type="number" id="max-hours" min="1" max="8" value="4">
+      </div>
+
+      <button type="button" id="find-btn">Find My Trail</button>
+
+      <div id="recommendation" aria-live="polite"></div>
+    </section>
+
+    <!-- ─── Section 2: Distance Converter ────────────────────── -->
+    <section class="converter">
+      <h2>Miles to Kilometers Table</h2>
+
+      <div class="field-group">
+        <label for="increment">Miles per row</label>
+        <input type="number" id="increment" min="0.1" value="5">
+      </div>
+
+      <div class="field-group">
+        <label for="row-count">Number of rows (max 20)</label>
+        <input type="number" id="row-count" min="1" max="20" value="10">
+      </div>
+
+      <button type="button" id="generate-btn">Generate Table</button>
+
+      <div id="table-output" aria-live="polite"></div>
+    </section>
+  </main>
+
+  <script src="lab04.js" defer></script>
+</body>
+</html>

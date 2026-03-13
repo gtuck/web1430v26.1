@@ -1,243 +1,219 @@
 # Instructional Design Review: WEB 1430 – Client Side Web Development
 
 **Reviewer:** Claude (Instructional Design Analysis)
-**Date:** March 2026
-**Scope:** Full course review including textbook, labs, assignments, projects, schedule, learning outcomes, and syllabus
+**Date:** March 2026 (Revised)
+**Scope:** Full course review — textbook, labs, assignments, projects, quizzes, starters, schedule, learning outcomes, syllabus
+**Previous report:** March 2026 (initial draft, written against earlier version of materials)
 
 ---
 
 ## Executive Summary
 
-WEB 1430 has a strong conceptual skeleton: a sound learning progression, an authentic tech stack, consistent accessibility emphasis, and a portfolio-first workflow that serves students well beyond the course. However, the course materials as they currently exist are scaffolding rather than a finished product. The textbook chapters, labs, assignments, and projects are all built from nearly identical templates with placeholder-level content. Before the course is delivered to students, the individual documents need to be substantially differentiated and fleshed out. This report identifies those gaps in detail and provides prioritized, actionable recommendations.
+WEB 1430 is a substantially complete, professionally executed online learning experience built around a coherent 15-week curriculum. Since the initial review, the course has undergone significant development: all 12 textbook chapters have been written with fully differentiated content, all 14 labs have been specified with scenarios, tasks, and 4-level rubrics, all 6 assignments have been rewritten with calibrated requirements and specific scenarios, all 3 projects have been built out with milestone structures and performance-level rubrics, and a full set of lab starter files has been created.
+
+The course is **ready for delivery** in its current form. Its primary strengths are a well-designed curriculum sequence, consistent accessibility emphasis, design-first project structures, and strong alignment between textbook chapters, labs, and assignments. The most significant remaining gap is the lecture layer: all 16 lecture files are structural templates without substantive content, which is acceptable only if lectures are delivered via video screencasts or live sessions. A secondary gap is the quiz assessment model, which currently assesses recall only and does not include application-level questions.
+
+This report documents the current state, identifies remaining gaps in priority order, and provides specific, actionable recommendations for the next revision cycle.
 
 ---
 
 ## Section 1: Strengths
 
-### 1.1 Coherent Conceptual Framework
+### 1.1 Coherent Course Narrative
 
-The course opens with a unifying mental model — the web as layers (content, presentation, behavior, data) — and returns to it consistently. This is good instructional design: a single organizing idea that students can use to orient new knowledge throughout the semester.
+The 15-week arc has a clear, defensible progression: browser fundamentals → semantic HTML/CSS → JavaScript syntax → control flow → data modeling → DOM → events/forms → design systems → async/Fetch → state persistence → modules → Vue → integration and deployment. Each layer builds on the previous one, and the placement of the midterm at Week 8 (after DOM and forms, before async) creates a natural integration checkpoint.
 
-### 1.2 Sound Learning Progression
+### 1.2 Textbook: Complete and Differentiated
 
-The 16-week arc moves logically from browser fundamentals → semantic HTML/CSS → JavaScript syntax → control flow → data modeling → DOM → events → design systems → async/Fetch → state persistence → modules → Vue. Each topic builds on the prior one. The placement of the midterm at Week 8 as an integration checkpoint before the async pivot is well-considered.
+All 12 chapters are written with topic-specific content throughout. Every chapter contains: a "What this chapter is really about" framing section, topic-specific key ideas with code examples, a concrete mental model, working habits, common mistakes, an accessibility note tied to the chapter's topic, a directed practice prompt, chapter-specific reflection questions, chapter-appropriate vocabulary (not generic boilerplate), and a topic-specific mini checklist.
 
-### 1.3 Authentic Tech Stack
+This was the most critical gap in the original report. It has been fully addressed.
 
-HTML5, CSS3, vanilla JavaScript, ES modules, Vite, and Vue represent a realistic, contemporary front-end skill set. Students who complete the course will have worked with the actual tools used in industry, not toy abstractions.
+### 1.3 Labs: Concrete, Scaffolded, Accessible
 
-### 1.4 Portfolio-Oriented Assessment Design
+All 14 labs have differentiated scenarios (Wildcat Hiking Club, Campus Services, Open Library Book Search, etc.), named skills, step-by-step tasks, manual testing checklists, and 4-level rubrics. Accessibility is embedded as a first-class requirement in every lab that involves interactivity — not as an afterthought but as part of the specification. Lab 07 is dedicated entirely to accessible form validation; Lab 13 closes the course with a full Lighthouse audit cycle.
 
-Requiring live deployment URLs and GitHub repositories for every major submission is excellent practice. Students graduate with a demonstrable portfolio rather than a folder of graded files no employer will ever see.
+Starter files (HTML shells, data arrays, function stubs) have been created for Labs 00–10 and documented in `starters/README.md`. Students have a concrete starting point for every lab.
 
-### 1.5 Accessibility Thread
+### 1.4 Assignments: Calibrated and Differentiated
 
-Accessibility is not a bolt-on topic; it appears in the stated learning outcomes, the rubric criteria for every lab and assignment, and the chapter notes. This is commendable and increasingly important in both industry and legal contexts.
+All 6 assignments now have distinct scenarios, requirements calibrated to their position in the course, specific function/component expectations, and rubrics with 4 performance levels and concrete descriptors. The JavaScript requirement has been removed from Assignment 1 (which is correctly HTML/CSS only at Week 2). The sequence from Assignment 1 (HTML/CSS structure) through Assignment 6 (Vue reactive form) traces a clear professional development arc.
 
-### 1.6 Metacognitive Reflection Requirement
+### 1.5 Projects: Design-First, Milestone-Driven
 
-Asking students to submit a process reflection alongside every deliverable is pedagogically sound. It surfaces misconceptions, rewards effort and growth (not just correctness), and builds the habit of professional self-evaluation.
+All 3 projects include multi-milestone structures that prevent last-minute builds. Project 1 (Style Guide) requires a written proposal before any code. Project 2 (Data-Driven Micro-App) requires a full data plan documenting the API shape, normalized object structure, and localStorage plan. The Final Project requires a pitch, wireframes, a beta review, a final submission, and a course reflection — each graded separately. This is exemplary project management pedagogy for an introductory course.
 
-### 1.7 Grading Weights Favor Application
+### 1.6 Accessibility Thread
 
-With projects at 30% and labs + assignments together at 40%, graded work skews toward doing rather than knowing. This aligns with the applied nature of the discipline.
+Accessibility is woven throughout the course rather than treated as a bolt-on topic. It appears in the stated learning outcomes, in the mini checklist of every textbook chapter, in the rubric criteria of every lab, assignment, and project, and in Lab 07 (dedicated form validation) and Lab 13 (Lighthouse audit). Every assignment rubric includes an accessibility criterion with 4 performance levels. WCAG AA compliance and keyboard operability are mandatory for all three projects.
+
+### 1.7 Assessment Variety and Alignment
+
+The course uses a well-varied assessment structure: weekly quizzes (knowledge recall), labs (skill practice in constrained contexts), assignments (individual skill demonstration with specified scenarios), projects (integrated complexity with milestones and design phases), and exams (breadth and retention check). This variety prevents any single assessment type from dominating the grade, and the weighting (Labs 20%, Assignments 20%, Projects 30%) correctly prioritizes application over recall.
+
+### 1.8 Professional Practice Reinforcement
+
+Git workflow (meaningful commits, public repositories, deployment links) is required on every submission. Separation of concerns is explicitly required in Assignments 2–5 and modeled in lab code. Named functions are required throughout. `innerHTML` with user-supplied data is prohibited and explained in Lab 06. These are professional standards presented as standards, not optional suggestions.
 
 ---
 
-## Section 2: Critical Issues
+## Section 2: Remaining Critical Issues
 
-These issues must be addressed before the course is delivered. They represent gaps where students would be confused, under-served, or unable to complete tasks with the materials as written.
+These issues should be addressed before or during the first delivery.
 
-### 2.1 Textbook Chapters Are Undifferentiated Templates
+### 2.1 Lectures Are Templates Without Content
 
-**This is the most significant issue in the course.**
+**This is the most significant remaining gap.**
 
-Every chapter (1–12) shares identical body content in the following sections:
+All 16 lecture files (Week 00 through Week 15) follow an identical structural template: a focus statement, a "why this matters" paragraph (generic across all weeks), a fixed six-step lecture flow (warm-up → demo → breakdown → bugs → practice → bridge), instructor notes (generic), and an exit ticket (generic format). No lecture file contains actual instructional material: no code examples for the week's topic, no explanation of concepts, no worked problems.
 
-- **Key ideas** — the same paragraph, word-for-word, in all 12 chapters
-- **Mental model** — the same paragraph, word-for-word, in all 12 chapters
-- **Working habits** — the same paragraph, word-for-word, in all 12 chapters
-- **Common mistakes** — the same paragraph, word-for-word, in all 12 chapters
-- **Accessibility and UX note** — the same paragraph, word-for-word, in all 12 chapters
-- **Reflection** — the same question, word-for-word, in all 12 chapters
-- **Vocabulary** — the same five terms (`semantics`, `enhancement`, `state`, `rendering`, `debugging`) in all 12 chapters
-- **Mini checklist** — the same three bullets, word-for-word, in all 12 chapters
+**This is acceptable only if lectures are delivered as video screencasts or live sessions**, in which case the template functions as a preparation outline for the instructor. It is not acceptable if students are expected to read lecture files as standalone learning content.
 
-The only text that varies between chapters is the title, the one-sentence opening description, and a single practice prompt sentence that inserts the chapter topic name into a generic template (e.g., "Identify one part of the interface that depends on **fetch, json, and remote data**…").
+**Concrete consequence:** A student who opens `lectures/week-09-lecture.md` to read about async/Fetch will find no explanation of Promises, no code examples of `await`, no description of the two-step response pattern. The syllabus does not clarify how lectures are delivered.
 
-**Concrete consequences for students:**
+**Recommendation:** Add one sentence to the syllabus clarifying the lecture delivery model: "Lectures are delivered as weekly video screencasts (linked from each module overview)" or "Lectures are live Zoom sessions (recorded and linked in Canvas)." Then link recordings from each module overview. If text-based lectures are desired, expand each file with actual content — approximately 500–800 words of topic-specific explanation and code examples.
 
-- A student reading Chapter 3 (JavaScript Syntax) will find vocabulary terms like *semantics* and *rendering* with no definition of *variable*, *operator*, *type coercion*, or *expression*.
-- A student reading Chapter 9 (Fetch, JSON) will be told "the web is layered" and given the same checklist as Chapter 1, with no explanation of Promises, `async/await`, error handling, or JSON parsing.
-- A student reading Chapter 12 (Vue) will encounter vocabulary that doesn't include *component*, *reactivity*, *props*, or *template*.
+### 2.2 Chapter 1 Is Underdeveloped
 
-**Recommendation:** Each chapter must be written with topic-specific content throughout. At minimum, the following must be differentiated per chapter:
-- Key ideas (concrete, chapter-specific technical concepts)
-- Common mistakes (specific to that topic)
-- Vocabulary (terms actually introduced in that chapter)
-- Mini checklist (skills specific to that chapter's learning goals)
-- Practice prompt (a concrete, directed task, not a fill-in-the-blank generic)
+Chapter 1 (Thinking in the Browser) is 68 lines — the shortest chapter in the textbook — despite covering the most foundational concepts in the course: HTTP request/response, HTML parsing, DOM construction, CSSOM, the render tree, and JavaScript execution and blocking.
 
-### 2.2 Labs Are Undifferentiated Templates
+A student reading Chapter 1 will understand that these things exist but will lack the mental model to reason about execution order. The chapter names `defer` and `async` but does not explain them. It mentions the render tree but does not show how HTML and CSS combine to produce it.
 
-All 14 labs (Lab 00 through Lab 13) share identical content:
+**Recommendation:** Expand Chapter 1 to 150–200 lines. Add:
+- A concrete example of parsing a small HTML document top to bottom, showing when each resource is fetched
+- An explanation of `defer` vs. `async` with a before/after code example
+- A more detailed description of what the render tree is and why it matters for JavaScript timing
+- An expanded practice prompt that requires inspecting parsing behavior in DevTools, not just identifying elements
 
-- **Purpose:** Always "a constrained practice space for the week's concepts" with a fixed emphasis line
-- **Tasks:** The exact same 5 generic tasks in every lab
-- **Deliverable:** Identical across all 14 labs
-- **Rubric:** The same 4 generic bullets in every lab
+### 2.3 Module Overviews Lack Integration Links and Estimates
 
-A student opening Lab 00 (Local Setup and GitHub Workflow) receives no instructions for installing Node.js, configuring Git, creating a GitHub account, creating their repository, or connecting it to their local machine. They are told to "build the required interface or script in small increments" — but there is no interface specified, no script described, and no starter files provided.
+All 16 module overview files are brief (400–600 bytes each) and follow a generic structure: weekly focus, deliverables list, and a five-step "success plan" that is identical across all weeks. No overview links to the corresponding lecture file, textbook chapter, or lab document. Students must navigate to these resources independently.
 
-Lab 08 (Build an API-Powered Viewer) is equally content-free. No API is suggested or provided, no data structure is described, no expected interface elements are identified.
+**Recommendation:** Add three lines to each module overview:
+1. A direct link to the week's lecture file
+2. A direct link to the relevant textbook chapter(s)
+3. A time estimate: "This module typically requires 8–10 hours including lab and assignment work"
 
-**Recommendation:** Each lab needs:
-- A specific scenario or starter context ("You are building a FAQ accordion for a fictional campus club")
-- The specific skills to practice, named explicitly
-- Concrete step-by-step tasks that guide students through the exercise without doing the work for them
-- A grading rubric with performance-level descriptions (see Section 2.4)
-- For Lab 00 specifically: a full setup walkthrough with OS-specific notes
-
-### 2.3 Assignments Are Undifferentiated Templates
-
-All 6 assignments share the same "What to build," requirements, submission instructions, and rubric bullet points. Only the summary paragraph and title differ.
-
-**Concrete problem:** Assignment 1 (Responsive Content Page, due Week 2) lists "Readable JavaScript with named functions or modules" as a requirement — but JavaScript is not introduced until Week 3. A student following the course schedule cannot meet this requirement with the knowledge the course has provided at that point. Either the requirement must be removed from Assignment 1 or the schedule must be reordered.
-
-Additionally, there is no meaningful differentiation between the requirements for Assignment 1 (HTML/CSS layout) and Assignment 6 (Reactive Vue Form Workflow). Both list "Semantic HTML, Responsive behavior, Accessible interaction patterns, Readable JavaScript with named functions or modules" — making it impossible for students to know what specifically distinguishes and elevates the later work.
-
-**Recommendation:** Each assignment needs:
-- A specific scenario, audience, or constraint that makes it unique
-- Requirements that are calibrated to where students are in the course
-- A "stretch" or "above baseline" section identifying what distinguishes good work from minimal work
-- The JavaScript requirement removed from Assignment 1 (or appropriately scoped)
-
-### 2.4 Rubrics Are Too Vague to Be Useful
-
-Every lab and assignment uses the same rubric format:
-
-```
-- Functionality
-- Code organization
-- Accessibility and UX clarity
-- Reflection quality
-```
-
-These are categories, not rubrics. A rubric requires:
-- Performance levels (Excellent / Proficient / Developing / Beginning, or equivalent)
-- Point values
-- Descriptors that distinguish one level from another
-
-Without descriptors, grading is entirely subjective, students cannot self-assess before submitting, and grading consistency across sections or over time is impossible.
-
-**Recommendation:** Develop a master rubric template with 4 performance levels and point ranges for each criterion, then adapt it per assignment to include topic-specific descriptors. Even a simple 4×4 grid (4 criteria × 4 levels) would dramatically improve consistency and student clarity.
+This is a small change that significantly reduces friction for online, asynchronous students.
 
 ---
 
 ## Section 3: Moderate Issues
 
-These issues do not block delivery but meaningfully reduce course effectiveness. They should be addressed in the first revision cycle.
+### 3.1 Quizzes Assess Recall Only
 
-### 3.1 No Starter Code or Example Files
+All 10 weekly quizzes and both exams use multiple-choice and true/false questions that assess knowledge recognition (Bloom's Levels 1–2). There are no application-level questions: no "given this code snippet, what does it output?", no "which of these is the correct way to handle a 404 response from fetch?", no "what is wrong with this validation function?".
 
-Students are asked to build sophisticated things — API-powered viewers, reactive Vue forms, modular JavaScript refactors — with no starter files, no example code, and no model of what the finished product might look like. The "small loops" working habit described in every chapter is good advice, but it requires a starting point to loop from.
+This is partially acceptable because labs and assignments assess skill application at a much higher weight. However, students who score well on quizzes may have a distorted sense of their actual fluency. Recall of `typeof null === 'object'` does not indicate the ability to use it correctly.
 
-**Recommendation:** For each lab, provide at minimum:
-- A minimal HTML/CSS shell to start from
-- A README with the expected folder structure
-- For later labs, a partially-completed starter that scaffolds the difficult parts while leaving the learning-critical parts for students to write
+**Recommendation:** Add 1–2 code-reading or scenario-based questions to each quiz. These can remain multiple-choice for Canvas compatibility. Example:
 
-Consider creating a "gallery of examples" on the course site showing prior-semester work (with permission), so students have a concrete target.
+*"A developer writes `if (userAge == '28')` in their code. What is the potential problem with this comparison? (A) It always returns false. (B) It uses type coercion and may produce unexpected results. (C) The `if` statement is missing braces. (D) It will throw a SyntaxError."*
 
-### 3.2 Vue Introduction May Be Too Compressed
+This is achievable within the current JSON/QTI format and requires no changes to how quizzes are scored.
 
-Weeks 12–13 introduce Vue: component thinking, props, state, templates, component communication, reactive forms, and derived state — all in two weeks. For a student coming from vanilla JavaScript, the Vue mental model shift (declarative vs. imperative, reactivity system, single-file components) is substantial. Two weeks leaves little room for confusion, debugging, or consolidation.
+### 3.2 No Quiz Alignment Document
 
-**Recommendation:** Consider one of:
-- Moving the Vue introduction earlier (Week 10–11) and allowing three weeks total
-- Narrowing the Vue scope to Composition API basics and simple component composition only, removing reactive forms and derived state from the required curriculum
-- Providing a "Vue in 30 minutes" bridge reading that explicitly maps vanilla JS concepts students know to Vue equivalents
+The course includes 10 quizzes and 2 exams but no document mapping each quiz to the week, chapter, and specific learning outcomes it covers. This makes it difficult for instructors to verify assessment coverage, identify outcome gaps, or revise the course efficiently.
 
-### 3.3 Debugging Is Under-Assessed
+**Recommendation:** Create `course/quiz-alignment.md` with a table mapping each quiz to:
+- The week it is administered
+- The textbook chapter(s) it covers
+- 2–3 specific learning outcomes it addresses
+- The number of questions by type (MC, T/F, application)
 
-The learning outcome "Use browser developer tools to inspect, debug, and improve client-side code" appears in the syllabus and is referenced conceptually in chapters, but there is no lab or assignment specifically targeting debugging skills. Debugging is often where beginners spend most of their actual time, and it is a learnable, teachable skill.
+### 3.3 No Screen Reader Testing Guide
 
-**Recommendation:** Either Lab 03 (Console Exercises) or Lab 06 (Interactive FAQ) should include a debugging-specific component: provide intentionally broken code and ask students to identify, document, and fix the errors using DevTools. This directly assesses the stated learning outcome in a way the current labs do not.
+Labs 07 and 13 and all three projects reference testing with a screen reader (VoiceOver on Mac, NVDA on Windows), but no course material explains how to use a screen reader or what to listen for. For most students, this will be their first interaction with assistive technology.
 
-### 3.4 No Explicit Peer Learning or Code Review
+A student who has never used VoiceOver or NVDA will not know how to enable it, navigate with it, or interpret what they hear. Without this guidance, "test with a screen reader" is an empty instruction.
 
-The course is fully asynchronous, which eliminates natural peer interaction. The only social artifact is a GitHub repository that other students might see — but there is no structured peer feedback mechanism.
+**Recommendation:** Create a short guide (1–2 pages) titled "Introduction to Screen Reader Testing" and link to it from Lab 13 and the Final Project brief. At minimum, include:
+- How to enable VoiceOver on Mac (Cmd+F5) and navigate with arrow keys
+- How to install and start NVDA on Windows
+- What to check: heading navigation, form labels, error announcements, button names, live region announcements
+- What "passing" looks like for each
 
-**Recommendation:** Add one lightweight peer code review activity, ideally at Week 8 (Midterm Integration Week, which already functions as a studio week). Students swap repository links, run through a short checklist (Does it deploy? Is it accessible? Can you follow the code?), and write two sentences of feedback. This builds professional communication skills and gives students a low-stakes external perspective on their work.
+### 3.4 Final Exam Format Not Described
 
-### 3.5 Quiz Content Is Opaque
+The syllabus and schedule reference a Final Exam at Week 15 worth part of the 15% exam credit, but no course document describes its format, scope, duration, or how it differs from the midterm. Students need to know whether it is cumulative, identical in format to weekly quizzes, or a different kind of assessment.
 
-The Canvas package includes 10 QTI quiz files, but the course materials give no indication of what these quizzes assess, what format the questions use, or how they align to specific learning outcomes. With quizzes worth 10% of the grade, students and instructors need visibility into this coverage.
+**Recommendation:** Add a section to `course/` or the syllabus describing the final exam: format (same MC/T-F as quizzes, or different?), scope (cumulative from Week 1 or focused on Weeks 9–15?), duration (timed?), and weight relative to the midterm.
 
-**Recommendation:** Add a `course/quiz-alignment.md` file that maps each quiz to the week, chapter, and 2–3 specific learning outcomes it covers. This also serves as a tool for maintaining assessment alignment if the course is revised.
+### 3.5 Assignment 5 and Lab 10 Are Closely Similar
 
-### 3.6 Week 00 Orientation Is Under-Specified
+Lab 10 (Convert a Script Bundle into Modules) and Assignment 5 (Modular Refactor) both ask students to take a monolithic JavaScript script and reorganize it into a Vite module project with the same file structure (`api.js`, `render.js`, `events.js`, `main.js`). The lab uses a provided script; the assignment uses the student's own Assignment 4 code (or a provided alternative).
 
-The orientation week is critical for setting up the entire course workflow (GitHub, local environment, Canvas), yet Lab 00 gives students the same 5 generic tasks as every other lab. Students who struggle with setup in Week 00 often fall irreversibly behind.
+This is intentional scaffolding — do it once in a low-stakes lab, then demonstrate mastery in a graded assignment — and it is pedagogically sound. However, students who submit nearly identical code for both may find the assignment feels redundant.
 
-**Recommendation:** Expand Lab 00 into a proper setup guide with:
-- Step-by-step Git and GitHub configuration (with screenshots or a linked video)
-- Node.js and VS Code installation instructions
-- Repository naming conventions and required folder structure
-- A "smoke test" — a specific first commit to verify everything is working
-- A troubleshooting FAQ for the 4–5 most common setup problems
+**Recommendation:** Add one or two requirements to Assignment 5 that go beyond what Lab 10 covers. For example: the assignment could require a `constants.js` file for all magic strings, or a `ARCHITECTURE.md` that diagrams the module dependency graph. This ensures the assignment tests mastery, not repetition.
 
 ---
 
 ## Section 4: Minor Issues and Suggestions
 
-### 4.1 Vocabulary Lists Should Be Chapter-Specific
+### 4.1 Starter Files for Labs 11–12 Not Provided
 
-Every chapter lists the same five vocabulary terms: *semantics, enhancement, state, rendering, debugging*. A chapter on arrays and objects should introduce *array, index, method, iteration, destructuring*. A chapter on Fetch should introduce *promise, async, await, response, JSON*. Vocabulary that doesn't change between chapters provides no learning value.
+Labs 11 (Vue Card System) and 12 (Small Data Dashboard) require students to scaffold a Vite + Vue project with `npm create vite@latest`. The `starters/README.md` notes this with "*(none)*" but doesn't provide the exact command or what to do after scaffolding.
 
-### 4.2 Reflection Prompts Are Identical Across Chapters
+For students new to npm and Vite, this is a nontrivial step. The first 20 minutes of the lab should not be troubleshooting scaffolding.
 
-Every chapter ends with: "What did you assume the browser was doing automatically that actually depends on deliberate authoring? Where can you make your intent more visible in HTML, CSS, or JavaScript?"
+**Recommendation:** Add the exact command and first-steps checklist to `starters/README.md` for Labs 11 and 12:
+```bash
+npm create vite@latest lab11 -- --template vue
+cd lab11
+npm install
+npm run dev
+```
+Then: delete HelloWorld.vue, create components/MemberCard.vue, add node_modules/ and dist/ to .gitignore.
 
-This is a good prompt for Chapter 1. By Chapter 9 (Fetch/JSON), students need a reflection prompt that surfaces thinking about asynchronous mental models, error states, and user feedback during loading. Generic prompts lead to generic reflections.
+### 4.2 Project 2 API Selection Framing
 
-### 4.3 Practice Prompts Are Not Specific Enough
+Project 2 (Data-Driven Micro-App) provides a list of 7 suggested APIs (Open Library, JSONPlaceholder, REST Countries, etc.) and asks students to choose one. The current framing selects the API first, then finds a problem — which often leads to "yet another book finder" built because Open Library is familiar from Lab 08, not because the student had a genuine use case in mind.
 
-The practice prompt in each chapter uses the template: "Identify one part of the interface that depends on **[chapter topic]** and explain what the browser needs…" This is too open-ended to be actionable. Students need a concrete context, not a meta-instruction to find their own context.
+**Recommendation:** Reframe the selection guidance: "Start by identifying a specific problem for a specific audience. Then find an API that provides the data needed to solve it." Keep the API list as suggestions, but place the problem statement before the API selection in the proposal template.
 
-**Example improvement for Chapter 6 (DOM):**
-> *"Starting from the provided FAQ starter page, write JavaScript that toggles the visibility of each answer when its question heading is clicked. Use `querySelector`, `addEventListener`, and `classList.toggle`. Explain in a comment why you selected elements the way you did."*
+### 4.3 Chapter 1 and Chapter 13 Coverage Gap
 
-### 4.4 No Explicit Error Handling Instruction for Fetch
+There is no textbook chapter explicitly covering testing, performance, or the deployment pipeline. Lab 13 (Lighthouse) and the Final Project handle these topics in practice, but students encounter Lighthouse for the first time in Lab 13 without a conceptual framing.
 
-Assignment 4 (API Data Story) requires "error handling" but Chapter 9's content (as currently written) does not specifically address error handling patterns for `fetch`. Students will encounter `try/catch`, `.catch()`, HTTP status codes, and network failures but have no guided instruction on how to handle them. This should be a named section in Chapter 9.
+**Recommendation (optional):** A 13th chapter covering performance, testing, and deployment would complete the arc: build (Ch 1–12) → ship (Ch 13). Topics could include: Lighthouse categories and what drives each score, image optimization basics, `defer`/`async` and render-blocking resources, what `npm run build` produces and why it matters, and HTTPS/deployment options (GitHub Pages, Netlify, Vercel). This would make Lab 13 more effective by providing context before the audit rather than discovering the context during it.
 
-### 4.5 The Final Exam Is Mentioned but Not Described
+### 4.4 Course Reflection Prompt Is Excellent; Visibility Is Low
 
-The syllabus and schedule mention a Final Exam at Week 15 worth part of the 15% exam credit, but there is no description of its format, scope, or how it differs from the midterm. Students need to know whether it is cumulative, project-based, or quiz-style.
+The Final Project brief includes one of the strongest reflection prompts in the course — 5 specific prompts about what was built, the hardest technical problem, what would be changed, how understanding of accessibility grew, and what the student is most proud of. This is genuinely valuable metacognitive practice.
 
-### 4.6 Course Reflection Is Under-Specified
+However, it is buried at the bottom of a 200-line project brief. Students working quickly through deliverable requirements may not read it carefully.
 
-The Week 15 deliverables include a "Course Reflection" but there is no prompt, format, or rubric for it. A well-designed capstone reflection prompt can be one of the most valuable learning activities in a course.
+**Recommendation:** Extract the course reflection prompt into its own document (`course/course-reflection-prompt.md`) and reference it from both the project brief and the Week 15 module overview. Its visibility should match its importance.
+
+### 4.5 "Above Baseline" Stretch Items Inconsistently Formatted
+
+All 6 assignments and all 3 projects include an "Above baseline (stretch)" section. Labs include stretch items under various headings. The rubrics for labs and assignments include an "Excellent (4)" column that describes work at this level, but the connection between the stretch items and the Excellent rubric column is not always explicit.
+
+**Recommendation:** Add a sentence to each "Above baseline" section: "Work in this section is reflected in the Excellent (4) column of the rubric." This makes the relationship clear without changing either section.
 
 ---
 
-## Section 5: Learning Outcome Alignment Audit
+## Section 5: Learning Outcome Alignment Audit (Updated)
 
-| Learning Outcome | Chapter(s) | Lab(s) | Assignment(s) | Assessed? |
-|---|---|---|---|---|
-| Responsive semantic HTML | 2 | 02 | 1 | Yes |
-| Readable JavaScript | 3, 4, 5 | 03, 04, 05 | 2 | Yes |
-| Browser DevTools / debugging | 1 | 01 | — | **Weak** – no dedicated assessment |
-| DOM manipulation | 6 | 06 | 3 | Yes |
-| Accessible form design | 7 | 07 | — | **Weak** – no dedicated assignment |
-| Fetch / JSON / remote data | 9 | 08 | 4 | Yes |
-| localStorage / state | 10 | 09 | — | **Weak** – no dedicated assignment |
-| Component-based thinking | 12 | 11, 12 | 6 | Yes |
-| Git / GitHub workflow | 0 | 00 | All | Yes |
-| Plan, build, test, present | All | All | Projects | Yes |
+| Learning Outcome | Chapter(s) | Lab(s) | Assignment(s) | Project(s) | Assessment Status |
+|---|---|---|---|---|---|
+| Responsive semantic HTML | 2 | 02 | 1 | P1, FP | Strong |
+| Readable JavaScript | 3, 4, 5 | 03, 04, 05 | 2, 3 | P1 | Strong |
+| Browser DevTools / debugging | 1 | 01, 03 | — | — | Moderate — no graded assignment |
+| DOM manipulation | 6 | 06 | 3 | P1 | Strong |
+| Accessible form design | 7 | 07 | 2, 3 | FP | Strong |
+| Fetch / JSON / remote data | 9 | 08 | 4 | P2, FP | Strong |
+| localStorage / state | 10 | 09 | — | P2, FP | Moderate — no dedicated assignment |
+| Component-based thinking | 12 | 11, 12 | 6 | FP | Moderate — only one chapter |
+| Git / GitHub workflow | 0 | 00 | All | All | Strong |
+| Plan, build, test, present | All | All | Rationale | P1, P2, FP | Strong |
 
-**Notable gaps:** Browser DevTools, accessible forms, and localStorage each appear in learning outcomes but do not have a corresponding graded assignment (only labs, which together are worth 20%). Consider whether a lab is sufficient assessment weight for these outcomes, or whether an assignment should target them more directly.
+**Notable gaps:**
+- **Browser DevTools** — Covered in Lab 01 and Lab 03 (debugging) but no dedicated graded assignment. Lab 13 (Lighthouse) partially addresses it. Weight is adequate for a supporting skill.
+- **localStorage** — Covered well in Chapter 10, Lab 09, and both major projects, but no dedicated assignment. Students who struggle with this topic have only one practice lab before encountering it in Project 2.
+- **Component-based thinking** — Only one textbook chapter and two labs before Assignment 6 (the most complex individual assignment) and the Final Project. The ramp from vanilla JS to Vue in two weeks is workable but tight.
 
 ---
 
@@ -245,51 +221,64 @@ The Week 15 deliverables include a "Course Reflection" but there is no prompt, f
 
 ### Priority 1 — Before First Delivery
 
-1. **Write differentiated content for all 12 textbook chapters.** Each needs chapter-specific key ideas, common mistakes, vocabulary, mini checklist, and practice prompt. The current templates must be replaced with actual instructional content.
+1. **Clarify lecture delivery model in the syllabus.** Add one sentence specifying whether lectures are video screencasts, live sessions, or text documents. If video/live, link recordings from module overviews.
 
-2. **Write differentiated instructions for all 14 labs.** Each lab needs a specific scenario, named skills, concrete step-by-step tasks, and a content-specific rubric. Lab 00 must be a full environment setup guide.
+2. **Expand Chapter 1** to 150–200 lines with a worked parsing example, `defer`/`async` explanation, and render tree description.
 
-3. **Differentiate the 6 assignment briefs.** Each must have unique requirements calibrated to course position. Remove the JavaScript requirement from Assignment 1.
+3. **Add resource links to each module overview.** Three lines per overview: link to lecture, link to chapter, time estimate.
 
-4. **Build rubrics with performance levels.** Replace the 4-bullet "suggested rubrics" with rubrics that have at minimum three performance levels (Exemplary / Proficient / Incomplete) and descriptors per criterion.
-
-5. **Provide starter files or project shells** for each lab so students have a concrete starting point.
+4. **Describe the final exam format** in the syllabus or a course document (scope, format, duration, weight).
 
 ### Priority 2 — First Revision Cycle
 
-6. Add a peer code review activity at Week 8.
-7. Write a debugging-focused component into Lab 03 or Lab 06.
-8. Create a quiz alignment document mapping each quiz to chapters and outcomes.
-9. Expand the final exam and course reflection prompts with format and scope details.
-10. Replace all vocabulary lists with chapter-specific terms.
-11. Replace all reflection prompts with chapter-specific questions.
+5. **Create `course/quiz-alignment.md`** mapping each quiz to week, chapter, and learning outcomes.
+
+6. **Add 1–2 application-level questions per quiz** (code-reading or scenario-based, still MC format).
+
+7. **Write a screen reader testing guide** (1–2 pages) and link it from Lab 13 and the Final Project.
+
+8. **Add setup instructions for Labs 11 and 12** to `starters/README.md`.
+
+9. **Reframe Project 2 API selection** to start with problem/audience before API choice.
+
+10. **Differentiate Assignment 5** from Lab 10 with one additional requirement beyond what the lab covers.
 
 ### Priority 3 — Continuous Improvement
 
-12. Evaluate Vue pacing after first delivery; consider expanding to three weeks.
-13. Add a student-facing example gallery.
-14. Survey students at Week 5 and Week 10 on workload, clarity, and confidence.
-15. Review quiz item quality against Bloom's taxonomy — ensure questions assess application and analysis, not just recall.
+11. **Add Chapter 13: Accessibility First** — a synthesis chapter covering WCAG, testing, ARIA patterns, screen reader usage, and contrast tools.
+
+12. **Add Chapter 14: Performance, Testing, and Deployment** — covering Lighthouse categories, build output, image optimization, and deployment options.
+
+13. **Add a `localStorage` assignment** (optional or replacing a lower-value deliverable) to give this outcome more direct assessment weight.
+
+14. **Survey students at Weeks 5 and 11** on workload, clarity, and confidence. Adjust Vue pacing if Week 12 consistently produces the most distress.
+
+15. **Evaluate Vue pacing after first delivery.** If students consistently struggle with Assignment 6, consider expanding Vue coverage to Weeks 11–13 and shifting modules slightly.
 
 ---
 
-## Section 7: Overall Assessment
+## Section 7: Overall Assessment (Updated)
 
-| Dimension | Rating | Notes |
-|---|---|---|
-| Learning outcome clarity | Strong | Outcomes are action-verb, measurable, and well-scoped |
-| Curriculum sequence | Strong | Logical progression; one sequencing error (Assignment 1) |
-| Textbook content | Needs major work | Template content, not instructional content |
-| Lab specificity | Needs major work | Identical generic tasks across all 14 labs |
-| Assignment differentiation | Needs major work | Identical requirements; minimal brief-level guidance |
-| Rubric quality | Needs work | Categories only, no performance descriptors |
-| Assessment alignment | Adequate | Most outcomes covered; three have weak assessment weight |
-| Accessibility integration | Strong | Consistent throughout materials |
-| Tech stack relevance | Strong | Appropriate for 2026 front-end development |
-| Portfolio integration | Strong | Live URLs and GitHub throughout |
+| Dimension | Rating | Change from Initial | Notes |
+|---|---|---|---|
+| Learning outcome clarity | Strong | — | Outcomes are action-verb, measurable, well-scoped |
+| Curriculum sequence | Strong | — | Logical; minor compression risk at Vue introduction |
+| Textbook content | Strong | ↑↑ Was "Needs major work" | All 12 chapters fully written and differentiated |
+| Lab specificity | Excellent | ↑↑ Was "Needs major work" | 14 labs with scenarios, tasks, rubrics, starters |
+| Assignment differentiation | Excellent | ↑↑ Was "Needs major work" | 6 assignments fully rewritten, calibrated to course position |
+| Rubric quality | Excellent | ↑↑ Was "Needs work" | 4-level rubrics with descriptors across all graded work |
+| Project structure | Excellent | ↑↑ Not previously noted | 3 projects with milestones, design-first proposals, capstone reflection |
+| Starter files | Strong | ↑↑ Not previously noted | Labs 00–10 have HTML shells, data files, and function stubs |
+| Assessment alignment | Strong | ↑ Was "Adequate" | Most outcomes strongly covered; 3 have moderate weight |
+| Lecture content | Needs work | — | Templates without substantive content; requires video/live delivery |
+| Quiz quality | Adequate | — | Good concept alignment; recall-only format |
+| Accessibility integration | Strong | — | Consistent throughout all materials |
+| Module integration | Adequate | — | Structural but generic; no resource links or time estimates |
+| Tech stack relevance | Strong | — | Appropriate for 2026 front-end development |
+| Portfolio integration | Strong | — | Live URLs, GitHub, and deployments throughout |
 
-The course concept and architecture are sound. The primary work remaining is content development — replacing the scaffolding templates with the actual instructional material they were designed to hold. That is a significant but well-defined task, and the structure provided here makes it straightforward to execute chapter by chapter, lab by lab.
+**Overall course readiness: Ready for delivery.** The course structure is sound, the assessments are aligned, and the materials are sufficient for students to succeed. The lecture template issue is the primary delivery risk and should be resolved before Week 1 by confirming and communicating the delivery model.
 
 ---
 
-*Report prepared March 2026. Recommendations are based on review of all source Markdown files in the repository as of the initial commit.*
+*Report updated March 2026. Based on full review of all source Markdown files and JSON quiz files in the repository as of the current revision.*

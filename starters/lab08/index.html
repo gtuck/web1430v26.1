@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lab 08 – Book Search</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main>
+    <h1>Open Library Book Search</h1>
+
+    <form id="search-form">
+      <label for="search-input">Search by title</label>
+      <input type="search" id="search-input" placeholder="e.g. Dune" autocomplete="off">
+      <button type="submit">Search</button>
+    </form>
+
+    <!-- aria-live="polite" means screen readers will announce changes here -->
+    <div id="results-region" aria-live="polite" aria-label="Search results">
+      <!-- Status messages (loading, error, empty) and result cards are injected here -->
+    </div>
+  </main>
+
+  <script src="lab08.js" defer></script>
+</body>
+</html>
