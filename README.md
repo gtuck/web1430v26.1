@@ -47,7 +47,7 @@ python3 scripts/build_canvas_package.py validate
 ```bash
 git init
 git branch -M main
-git remote add origin git@github.com:gtuck/web1430-new.git
+git remote add origin git@github.com:gtuck/web1430v261.git
 git add .
 git commit -m "Initial WEB1430 course build"
 git push -u origin main
