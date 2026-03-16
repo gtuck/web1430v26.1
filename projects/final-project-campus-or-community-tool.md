@@ -1,6 +1,6 @@
 # Final Project – Campus or Community Tool
 
-**Due:** End of Week 15 (five milestones across Weeks 13–15)
+**Due:** End of Week 15 (five milestones across Weeks 12–15)
 **Weight:** Largest single component of Projects (30% of course grade)
 **Skills:** Full-stack front-end — semantic HTML, responsive CSS, vanilla JS or Vue, Fetch API, localStorage, ES modules, Vite, accessibility, deployment, presentation
 
@@ -14,7 +14,7 @@ The tool must solve a real (if small) problem for a defined audience. "Campus or
 
 ## Start-ahead plan
 
-The first graded Final Project milestone lands in Week 13, but you should not enter Week 13 with a blank page.
+The first graded Final Project milestone lands at the end of Week 12, so you should not wait until Week 13 to start planning.
 
 During Week 12, spend 20 to 45 minutes doing these three things:
 
@@ -22,13 +22,12 @@ During Week 12, spend 20 to 45 minutes doing these three things:
 2. Test one API endpoint or local JSON source and confirm that the data is usable.
 3. Write a rough feature list with 3 to 5 realistic interactions.
 
-This is not a separate submission. It is a runway step so the Week 13 pitch and wireframe milestones begin from a real idea instead of last-minute brainstorming.
+This is not a separate submission. It is runway work so the Week 12 pitch and the Week 13 wireframe/data-plan milestone begin from a real idea instead of last-minute brainstorming.
 
 ## Suggested pacing across Weeks 12–15
 
-- **Week 12 preview:** choose the audience, test data, and rule out ideas that are too large.
-- **Week 13 early:** submit the pitch, scaffold the project, and prove one core interaction is technically possible.
-- **Week 13 late:** finish the wireframes, data plan, and state map while the implementation is still small.
+- **Week 12:** choose the audience, test data, rule out ideas that are too large, and submit the pitch by Sunday.
+- **Week 13:** scaffold the project, prove one core interaction is technically possible, and finish the wireframes, data plan, and state map while the implementation is still small.
 - **Week 14:** reach the beta with all major features present, then use Lab 13 and the audit guides to find weak spots.
 - **Week 15:** tighten deployment quality, write the rationale while your decisions are fresh, and finish the reflection before the final deadline window closes.
 
@@ -55,7 +54,7 @@ You may choose to use Vue for your front-end layer. If you use Vue, the requirem
 
 ## Milestone 1 — Pitch
 
-**Due:** End of Week 13 (Monday)
+**Due:** End of Week 12 (Sunday)
 
 Submit `projects/final-project/pitch.md` containing:
 
@@ -79,6 +78,8 @@ Submit in `projects/final-project/`:
   - The shape of one normalized data object (all properties, types, sources)
   - What is stored in `localStorage` (key name, value shape, when it is written/read)
   - Which UI states exist (loading, empty, error, success, detail, etc.)
+
+Use fictional or demo data while planning and testing. Do not store passwords, government IDs, tokens, or other sensitive personal data in `localStorage` or `sessionStorage`.
 
 ---
 
@@ -170,6 +171,7 @@ Committing all work in one or two commits suggests the project was not developed
 - No paid APIs or APIs that require payment info for a free tier
 - If using Vue: Vue 3 with `<script setup>` only (no Options API)
 - No UI component libraries (Bootstrap, Vuetify, etc.)
+- If your project models user-entered or account-like information, use fictional/demo data only and never store sensitive personal data in Web Storage
 - Original work — cite any code you did not write, including AI-assisted sections
 
 ---

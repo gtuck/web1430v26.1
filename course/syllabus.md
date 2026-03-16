@@ -45,7 +45,7 @@ Students maintain a public or instructor-shared GitHub repository for labs, assi
 - Monday: module opens
 - Midweek: lecture notes, reading, and lab work
 - Sunday: major weekly due date window
-- Short anonymous course check-in surveys run in Weeks 5 and 11
+- Short anonymous course check-in surveys run in Weeks 5 and 11, with an additional Week 13 Vue and workload pulse check
 
 ## Lecture delivery
 

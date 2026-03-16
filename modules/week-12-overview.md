@@ -4,7 +4,7 @@
 - Theme: Component Thinking with Vue
 - Lecture: Props, State, Templates, and Simple Components
 - Lab: Lab 11 – Vue UI Card System
-- Deliverables: Quiz 7, Project 2 Build
+- Deliverables: Quiz 7, Project 2 Build, Final Project Pitch
 
 ## Success plan
 1. Read the module overview and chapter
@@ -17,8 +17,8 @@
 - [Lecture notes: Props, State, Templates, and Simple Components](../lectures/week-12-lecture.md)
 - [Chapter 12: Introductory Component-Based Development](../textbook/chapters/chapter-12-introductory-component-based-development.md)
 - [Vue Transition Guide](../course/vue-transition-guide.md) — Use this if the switch from DOM code to components feels abrupt; it breaks the week into one working Vue pattern at a time.
-- [Final Project brief](../projects/final-project-campus-or-community-tool.md) — Read the start-ahead plan now so Week 13 milestones do not begin from zero.
-- **Time estimate:** 10–12 hours (reading, lab, quiz, Project 2 Build checkpoint)
+- [Final Project brief](../projects/final-project-campus-or-community-tool.md) — Read the start-ahead plan and Milestone 1 section now; the pitch is due Sunday, and it should grow directly out of your Week 12 preview work.
+- **Time estimate:** 11–13 hours (reading, lab, quiz, Project 2 Build checkpoint, Final Project Pitch)
 
 ## What students usually struggle with
 - The biggest mistake this week is trying to build a full app before one parent component and one child component can already exchange data clearly.

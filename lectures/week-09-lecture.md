@@ -160,7 +160,7 @@ When you update `status.textContent` with "Loading..." or an error message, scre
 
 4. **Not showing any UI feedback during loading.** If the request takes 2 seconds and the page shows nothing, users assume it is broken. Always set a loading state before `await`.
 
-5. **Using `async` on a function and then not `await`-ing it at the call site.** Calling `loadData()` without `await` in an async context means the function starts but errors are silently swallowed. Either `await` the call or attach a `.catch()` handler.
+5. **Using `async` on a function and then not `await`-ing it at the call site.** Calling `loadData()` without `await` starts it immediately and returns a Promise. If it fails later, the failure becomes a rejected Promise and may surface as an unhandled rejection. Either `await` the call or attach a `.catch()` handler.
 
 ## Accessibility connection
 Asynchronous content updates are one of the most common accessibility failures in modern web apps. When a fetch completes and new content appears, sighted users see it instantly — but screen reader users receive no notification unless you explicitly mark regions with `aria-live`. Error messages are equally important: an error that appears visually but is never announced leaves keyboard-only and screen reader users unable to understand why their action failed.

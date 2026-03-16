@@ -50,6 +50,8 @@ Choose **one** of the following multi-step form contexts, or propose your own wi
 
 All workflows must have exactly **three input steps plus one review step** (four steps total).
 
+Use fictional or demo data for any names, email addresses, IDs, or preferences you show in the app. Do not store passwords, government IDs, tokens, or other sensitive personal data in `localStorage` or `sessionStorage`.
+
 ---
 
 ## What to build

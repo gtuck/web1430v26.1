@@ -4,7 +4,7 @@
 - Theme: Framework Forms and Data Flow
 - Lecture: Component Communication, Reactive Forms, and Derived State
 - Lab: Lab 12 – Small Data Dashboard
-- Deliverables: Assignment 6, Final Project Pitch, Final Project Wireframe and Data Plan, Vue and Workload Pulse Check
+- Deliverables: Assignment 6, Final Project Wireframe and Data Plan, Vue and Workload Pulse Check
 
 ## Success plan
 1. Read the module overview and chapter
@@ -19,9 +19,9 @@
 - [Chapter 13: Accessibility Synthesis](../textbook/chapters/chapter-13-accessibility-synthesis.md) — WCAG conformance, ARIA patterns, focus management, prefers-reduced-motion, 3-minute manual audit checklist
 - [Vue Transition Guide](../course/vue-transition-guide.md) — Use the parent/child event checklist before debugging your entire app.
 - [Assignment 6 brief](../assignments/assignment-6-reactive-form-workflow.md) — Follow the build-order section so the workflow works one step at a time instead of all at once.
-- [Final Project brief](../projects/final-project-campus-or-community-tool.md) — Milestone 1 pitch is due Monday; Milestone 2 wireframes and data plan are due Sunday.
+- [Final Project brief](../projects/final-project-campus-or-community-tool.md) — Use your Milestone 1 pitch feedback to tighten the wireframes and data plan before the Week 13 Sunday deadline.
 - [Vue and Workload Pulse Check](../course/student-survey-week-13.md) — Complete the anonymous instructor-provided survey link so late-course pacing and Vue support can be adjusted during the live term.
-- **Time estimate:** 12–14 hours (reading, lab, Assignment 6, Final Project Milestones 1–2)
+- **Time estimate:** 11–13 hours (reading, lab, Assignment 6, Final Project Milestone 2)
 
 ## What students usually struggle with
 - This week combines validation, emits, derived state, focus management, and planning work. Do not solve all five at once. Get one step working, then repeat the pattern.
