@@ -16,6 +16,7 @@ This repository contains a fully rebuilt, online-first **WEB 1430** course packa
 ## Repository structure
 
 - `course/` – syllabus, schedule, outcomes, grading
+  - includes support guides, survey question banks, and first-delivery monitoring docs
 - `textbook/` – original textbook chapters
 - `lectures/` – weekly lecture notes
 - `modules/` – weekly overview pages

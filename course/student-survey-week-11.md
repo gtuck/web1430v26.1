@@ -4,6 +4,8 @@
 
 **Takes approximately:** 5–8 minutes
 
+**How to complete it:** Use the anonymous survey form or Canvas survey link provided by your instructor. This page is the canonical prompt set for that survey.
+
 ---
 
 ## Section 1: Pacing and Cognitive Load
@@ -96,27 +98,36 @@
 
 ---
 
+**10.** Looking ahead to Weeks 12–15, how realistic does the remaining workload feel right now?
+
+- [ ] Very realistic — I understand the plan and feel on track
+- [ ] Mostly realistic — it looks busy but manageable
+- [ ] Concerning — I think I may have to sacrifice quality in one area to finish everything
+- [ ] Not realistic — I do not currently see a path to finishing the final stretch on time
+
+---
+
 ## Section 4: Open Feedback
 
-**10.** What is one thing about the second half of the course that is working well for you?
+**11.** What is one thing about the second half of the course that is working well for you?
 
 *(Free response)*
 
 ---
 
-**11.** What is one thing you would change about Weeks 9–11 to improve your learning?
+**12.** What is one thing you would change about Weeks 9–11 to improve your learning?
 
 *(Free response)*
 
 ---
 
-**12.** Is there any topic from Weeks 9–11 you wish had been explained more clearly or with more examples?
+**13.** Is there any topic from Weeks 9–11 you wish had been explained more clearly or with more examples?
 
 *(Free response)*
 
 ---
 
-**13.** Any other feedback you'd like to share?
+**14.** Any other feedback you'd like to share?
 
 *(Free response)*
 

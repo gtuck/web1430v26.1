@@ -4,6 +4,8 @@
 
 **Takes approximately:** 5–8 minutes
 
+**How to complete it:** Use the anonymous survey form or Canvas survey link provided by your instructor. This page is the canonical prompt set for that survey.
+
 ---
 
 ## Section 1: Pacing and Cognitive Load

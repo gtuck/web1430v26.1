@@ -43,6 +43,7 @@ PUBLISHED_COURSE_GUIDES = (
     ROOT / "course" / "screen-reader-testing-guide.md",
     ROOT / "course" / "student-survey-week-05.md",
     ROOT / "course" / "student-survey-week-11.md",
+    ROOT / "course" / "student-survey-week-13.md",
 )
 
 FIXED_ZIP_TIMESTAMP = (2026, 3, 13, 0, 0, 0)
