@@ -14,6 +14,16 @@
 <h2>Overview</h2>
 <p>A micro-app is a small, focused browser application that does one thing well. It loads real data from an external source, lets users interact with and filter that data, remembers user preferences across sessions, and handles every possible state — loading, success, error, empty — gracefully.</p>
 <p>This project is the culmination of the async and state management half of the course. It requires you to combine the Fetch API, <code>localStorage</code>, and ES module organization into a deployed, production-ready application.</p>
+<h2>Recommended pacing</h2>
+<p>Use the milestone structure as a workload guardrail, not just as grading checkpoints.</p>
+<ul>
+<li><strong>Week 10:</strong> choose the audience, test the API, and normalize one example object before you write much UI code.</li>
+<li><strong>Week 11:</strong> scaffold the Vite project and get the fetch → normalize → render path working with real data.</li>
+<li><strong>Week 12:</strong> reach the deployed build checkpoint with one interaction type and one persistence feature already working.</li>
+<li><strong>Week 13:</strong> add the second interaction, improve accessibility, and remove fragile code before the final week gets crowded.</li>
+<li><strong>Week 14:</strong> run <code>npm run build</code>, test keyboard flow, verify error and empty states, and submit the polished final version.</li>
+</ul>
+<p>If you delay the build checkpoint work until Week 13, this project will compete directly with <code>Assignment 6</code> and the <code>Final Project</code>.</p>
 <hr />
 <h2>Scenario</h2>
 <p>You are building a small public-facing tool for a specific audience. Start by identifying a problem worth solving — then find the data that solves it. A tool built backward from an API tends to feel like a tech demo; a tool built from a real need tends to feel like a product.</p>
@@ -65,6 +75,13 @@
 <ul>
 <li>What two features remain for Week 12?</li>
 <li>Did you encounter any API quirks during normalization? How did you handle them?</li>
+</ul>
+<p>Before leaving Milestone 2, verify these four things:</p>
+<ul>
+<li>the app works from a deployed URL, not only <code>npm run dev</code></li>
+<li>one interaction works end-to-end with real data</li>
+<li>one persistence feature restores correctly on reload</li>
+<li>your loading, error, and success states are visibly different</li>
 </ul>
 <hr />
 <h2>Milestone 3 — Final Submission</h2>

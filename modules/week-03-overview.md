@@ -19,4 +19,4 @@
 - **Time estimate:** 8–10 hours (reading, lab, quiz)
 
 ## Checkpoint question
-What is the smallest working example you can build this week that demonstrates the main idea clearly?
+Before you run a short script, can you predict its output and identify which value or type conversion is most likely to surprise you?

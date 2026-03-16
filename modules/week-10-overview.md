@@ -19,4 +19,4 @@
 - **Time estimate:** 10–12 hours (reading, lab, quiz, Project 2 Proposal)
 
 ## Checkpoint question
-What is the smallest working example you can build this week that demonstrates the main idea clearly?
+What should your app do on the first visit when storage is empty, and what should change after the user saves a preference or list?

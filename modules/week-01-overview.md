@@ -20,4 +20,4 @@
 - **Time estimate:** 6–8 hours (reading, lab, quiz)
 
 ## Checkpoint question
-What is the smallest working example you can build this week that demonstrates the main idea clearly?
+When you inspect a page in DevTools, can you point to one HTML element, one applied CSS rule, and one browser behavior that helps explain what you are seeing?

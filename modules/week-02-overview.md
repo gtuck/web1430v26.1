@@ -20,4 +20,4 @@
 - **Time estimate:** 10–12 hours (reading, lab, Assignment 1)
 
 ## Checkpoint question
-What is the smallest working example you can build this week that demonstrates the main idea clearly?
+If your CSS disappeared, would your page still make sense from its headings, sections, landmarks, and reading order alone?

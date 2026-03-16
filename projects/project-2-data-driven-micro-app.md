@@ -12,6 +12,18 @@ A micro-app is a small, focused browser application that does one thing well. It
 
 This project is the culmination of the async and state management half of the course. It requires you to combine the Fetch API, `localStorage`, and ES module organization into a deployed, production-ready application.
 
+## Recommended pacing
+
+Use the milestone structure as a workload guardrail, not just as grading checkpoints.
+
+- **Week 10:** choose the audience, test the API, and normalize one example object before you write much UI code.
+- **Week 11:** scaffold the Vite project and get the fetch → normalize → render path working with real data.
+- **Week 12:** reach the deployed build checkpoint with one interaction type and one persistence feature already working.
+- **Week 13:** add the second interaction, improve accessibility, and remove fragile code before the final week gets crowded.
+- **Week 14:** run `npm run build`, test keyboard flow, verify error and empty states, and submit the polished final version.
+
+If you delay the build checkpoint work until Week 13, this project will compete directly with `Assignment 6` and the `Final Project`.
+
 ---
 
 ## Scenario
@@ -72,6 +84,13 @@ A deployed version with **all of the following**:
 Submit live URL and repo URL. Include a `checkpoint.md` note (3–5 sentences) covering:
 - What two features remain for Week 12?
 - Did you encounter any API quirks during normalization? How did you handle them?
+
+Before leaving Milestone 2, verify these four things:
+
+- the app works from a deployed URL, not only `npm run dev`
+- one interaction works end-to-end with real data
+- one persistence feature restores correctly on reload
+- your loading, error, and success states are visibly different
 
 ---
 

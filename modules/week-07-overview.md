@@ -19,4 +19,4 @@
 - **Time estimate:** 10–12 hours (reading, lab, quiz, Project 1 Build checkpoint)
 
 ## Checkpoint question
-What is the smallest working example you can build this week that demonstrates the main idea clearly?
+If a form field is invalid, what should a keyboard user see, hear, and be able to do next without guessing?

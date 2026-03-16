@@ -20,4 +20,4 @@
 - **Time estimate:** 10–12 hours (reading, lab, Assignment 5)
 
 ## Checkpoint question
-What is the smallest working example you can build this week that demonstrates the main idea clearly?
+If you split your app into modules today, what should each file own, and which responsibilities should never be mixed together?

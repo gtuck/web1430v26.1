@@ -12,6 +12,27 @@
 <h2>Overview</h2>
 <p>You will build a <strong>multi-step form workflow</strong> in Vue 3 that guides a user through a sequence of inputs, validates each step, previews the submitted data before final confirmation, and provides clear, accessible feedback throughout. No page navigation — all steps happen within a single Vue application.</p>
 <p>This is the most complex individual assignment in the course. It requires you to coordinate reactive state across components, manage which step is visible, validate before advancing, and ensure that assistive technology users receive the same information as sighted users.</p>
+<p>If Vue still feels new, use the <a href="../wiki_content/vue-transition-guide.html">Vue Transition Guide</a> while you build. This assignment goes much better when you treat it as a repeatable parent/child pattern instead of one giant interface.</p>
+<h2>Build order that keeps this manageable</h2>
+<p>Use this sequence. It is the fastest path to a working submission.</p>
+<ol>
+<li>Build <code>App.vue</code>, <code>StepIndicator.vue</code>, and <code>Step1.vue</code> first. Hard-code <code>currentStep</code> if needed until Step 1 can render and advance.</li>
+<li>Add one shared form-data object in <code>App.vue</code> and make Step 1 emit its data upward on "Next."</li>
+<li>Create <code>ReviewStep.vue</code> early, even if it only shows two or three fields at first. Seeing data arrive in the review step makes the rest of the assignment easier to reason about.</li>
+<li>Add <code>Step2.vue</code> and <code>Step3.vue</code> by repeating the same pattern: local inputs, validation, emit upward, parent changes the visible step.</li>
+<li>Add focus management, <code>aria-live</code>, and the success/reset flow after the step transitions are stable.</li>
+<li>Only after the baseline works should you consider stretch work such as <code>localStorage</code>, progress percentage, or transitions.</li>
+</ol>
+<h2>Minimum viable path</h2>
+<p>If you start to feel overloaded, protect these requirements first:</p>
+<ul>
+<li>one parent component owns the workflow state</li>
+<li>each step validates before advancing</li>
+<li>the review step shows the collected data clearly</li>
+<li>focus moves when the step changes</li>
+<li>errors are linked to the correct fields</li>
+</ul>
+<p>Do not spend your best time on animation or visual polish before these are working.</p>
 <hr />
 <h2>Scenario</h2>
 <p>Choose <strong>one</strong> of the following multi-step form contexts, or propose your own with instructor approval:</p>

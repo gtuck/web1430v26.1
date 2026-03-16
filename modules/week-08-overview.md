@@ -19,4 +19,4 @@
 - **Time estimate:** 8–10 hours (studio, midterm exam, Project 1 final submission)
 
 ## Checkpoint question
-What is the smallest working example you can build this week that demonstrates the main idea clearly?
+Which repeated pattern from Project 1 should you refactor now so the code is easier to trust, test, and explain on the midterm?

@@ -20,5 +20,9 @@
 - No new chapter this week — focus is on final project and reflection
 - **Time estimate:** 10–14 hours (final studio, Final Project, Final Exam, Course Reflection)
 
+## What students usually struggle with
+- Leaving the rationale and reflection until after the final deploy usually creates rushed writing and weak explanation. Draft them while the implementation details are still fresh.
+- Last-minute code changes are risky if you do not re-test keyboard flow, loading states, and the production build afterward.
+
 ## Checkpoint question
-What is the smallest working example you can build this week that demonstrates the main idea clearly?
+What single revision would most improve trust for a first-time user before you submit the final project?

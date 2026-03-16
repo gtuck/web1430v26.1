@@ -18,5 +18,9 @@
 - No textbook chapter this week — focus is on tool setup
 - **Time estimate:** 4–6 hours (setup and orientation)
 
+## What students usually struggle with
+- Git and GitHub can feel harder than the course content this week. The goal is not speed; it is proving that you can clone, edit, commit, push, and find the same work again.
+- If something goes wrong, slow down and repeat one small step rather than restarting your whole setup from scratch.
+
 ## Checkpoint question
-What is the smallest working example you can build this week that demonstrates the main idea clearly?
+Can you clone your repository, make one small change, commit it with a clear message, and confirm that the update appears on GitHub?

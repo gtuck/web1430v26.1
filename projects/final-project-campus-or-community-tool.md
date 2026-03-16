@@ -12,6 +12,26 @@ The final project is your capstone: a complete, deployed, portfolio-ready client
 
 The tool must solve a real (if small) problem for a defined audience. "Campus or community" is a prompt, not a constraint: your audience can be students, staff, club members, volunteers, local residents, or any group you can describe concretely. The requirement is that the tool is useful and the audience is real, not hypothetical.
 
+## Start-ahead plan
+
+The first graded Final Project milestone lands in Week 13, but you should not enter Week 13 with a blank page.
+
+During Week 12, spend 20 to 45 minutes doing these three things:
+
+1. Choose one likely audience and one specific problem worth solving.
+2. Test one API endpoint or local JSON source and confirm that the data is usable.
+3. Write a rough feature list with 3 to 5 realistic interactions.
+
+This is not a separate submission. It is a runway step so the Week 13 pitch and wireframe milestones begin from a real idea instead of last-minute brainstorming.
+
+## Suggested pacing across Weeks 12–15
+
+- **Week 12 preview:** choose the audience, test data, and rule out ideas that are too large.
+- **Week 13 early:** submit the pitch, scaffold the project, and prove one core interaction is technically possible.
+- **Week 13 late:** finish the wireframes, data plan, and state map while the implementation is still small.
+- **Week 14:** reach the beta with all major features present, then use Lab 13 and the audit guides to find weak spots.
+- **Week 15:** tighten deployment quality, write the rationale while your decisions are fresh, and finish the reflection before the final deadline window closes.
+
 ---
 
 ## Scope

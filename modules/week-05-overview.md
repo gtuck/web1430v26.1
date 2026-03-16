@@ -20,4 +20,4 @@
 - **Time estimate:** 10–12 hours (reading, lab, quiz, Project 1 Proposal)
 
 ## Checkpoint question
-What is the smallest working example you can build this week that demonstrates the main idea clearly?
+What object shape would make your data easiest to render, filter, and explain to another developer before you write more code?

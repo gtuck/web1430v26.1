@@ -12,6 +12,31 @@ You will build a **multi-step form workflow** in Vue 3 that guides a user throug
 
 This is the most complex individual assignment in the course. It requires you to coordinate reactive state across components, manage which step is visible, validate before advancing, and ensure that assistive technology users receive the same information as sighted users.
 
+If Vue still feels new, use the [Vue Transition Guide](../course/vue-transition-guide.md) while you build. This assignment goes much better when you treat it as a repeatable parent/child pattern instead of one giant interface.
+
+## Build order that keeps this manageable
+
+Use this sequence. It is the fastest path to a working submission.
+
+1. Build `App.vue`, `StepIndicator.vue`, and `Step1.vue` first. Hard-code `currentStep` if needed until Step 1 can render and advance.
+2. Add one shared form-data object in `App.vue` and make Step 1 emit its data upward on "Next."
+3. Create `ReviewStep.vue` early, even if it only shows two or three fields at first. Seeing data arrive in the review step makes the rest of the assignment easier to reason about.
+4. Add `Step2.vue` and `Step3.vue` by repeating the same pattern: local inputs, validation, emit upward, parent changes the visible step.
+5. Add focus management, `aria-live`, and the success/reset flow after the step transitions are stable.
+6. Only after the baseline works should you consider stretch work such as `localStorage`, progress percentage, or transitions.
+
+## Minimum viable path
+
+If you start to feel overloaded, protect these requirements first:
+
+- one parent component owns the workflow state
+- each step validates before advancing
+- the review step shows the collected data clearly
+- focus moves when the step changes
+- errors are linked to the correct fields
+
+Do not spend your best time on animation or visual polish before these are working.
+
 ---
 
 ## Scenario

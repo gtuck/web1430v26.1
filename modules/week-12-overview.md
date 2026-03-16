@@ -16,7 +16,13 @@
 ## Resources
 - [Lecture notes: Props, State, Templates, and Simple Components](../lectures/week-12-lecture.md)
 - [Chapter 12: Introductory Component-Based Development](../textbook/chapters/chapter-12-introductory-component-based-development.md)
+- [Vue Transition Guide](../course/vue-transition-guide.md) — Use this if the switch from DOM code to components feels abrupt; it breaks the week into one working Vue pattern at a time.
+- [Final Project brief](../projects/final-project-campus-or-community-tool.md) — Read the start-ahead plan now so Week 13 milestones do not begin from zero.
 - **Time estimate:** 10–12 hours (reading, lab, quiz, Project 2 Build checkpoint)
 
+## What students usually struggle with
+- The biggest mistake this week is trying to build a full app before one parent component and one child component can already exchange data clearly.
+- If multiple components need the same data, the data probably belongs in the parent. Let children receive props and emit events instead of silently changing shared state.
+
 ## Checkpoint question
-What is the smallest working example you can build this week that demonstrates the main idea clearly?
+Which piece of data belongs in the parent this week, and what should the child receive as a prop instead of owning itself?

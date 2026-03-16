@@ -19,4 +19,4 @@
 - **Time estimate:** 10–12 hours (reading, lab, Assignment 2)
 
 ## Checkpoint question
-What is the smallest working example you can build this week that demonstrates the main idea clearly?
+Which part of your solution should become a function this week, and what inputs does it need to stay reusable instead of hard-coded?

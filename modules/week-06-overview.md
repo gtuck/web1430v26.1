@@ -19,4 +19,4 @@
 - **Time estimate:** 10–12 hours (reading, lab, Assignment 3)
 
 ## Checkpoint question
-What is the smallest working example you can build this week that demonstrates the main idea clearly?
+For one interaction in your app, which existing element do you select, which new node do you create, and which text or attribute should change?
