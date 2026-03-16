@@ -53,11 +53,14 @@ The build script now regenerates:
 ## Current course state
 
 - The course content is substantive and aligned across source docs and Canvas export.
-- Module overviews now include resource links and time estimates.
-- Published support pages include the accessibility primer, API troubleshooting guide, screen reader testing guide, course reflection prompt, and Week 5 / Week 11 surveys.
+- Module overviews now include resource links, time estimates, week-specific checkpoint questions, and harder-week `What students usually struggle with` guidance.
+- Published support pages include the accessibility primer, API troubleshooting guide, screen reader testing guide, course reflection prompt, Week 5 / Week 11 / Week 13 surveys, and the Vue transition guide.
 - The weekly schedule and late-course module overviews now surface Final Project milestones instead of hiding that workload.
+- `Assignment 6`, `Project 2`, and the `Final Project` now include pacing/build-order guidance intended to reduce late-course student overload.
 - Quizzes and exams now include stronger code-reading and debugging stems, although they still use selected-response item types.
 - The Canvas assessment package is generated from `quizzes/*.json`, so quiz JSON is the canonical assessment source.
+- Instructor-side delivery support now includes `course/import_to_canvas.md` and `course/first-delivery-monitoring-guide.md`.
+- The reports in `reports/` are current as of March 16, 2026 and should be treated as the latest cross-role analysis snapshot.
 
 ## Curriculum sequence and dependency rules
 
@@ -80,6 +83,7 @@ When changing major course content, check these related files together:
 - `modules/week-*-overview.md`
 - `assignments/*.md`
 - `projects/*.md`
+- `course/*.md` support docs when linked from modules or briefs
 - `syllabus.md`
 - `course/syllabus.md`
 - `course/quiz-alignment.md`
@@ -100,7 +104,9 @@ Each `modules/week-NN-overview.md` should include:
 - resources list
 - time estimate
 - five-step success plan
-- checkpoint question
+- checkpoint question tailored to the week's core concept
+
+For the more difficult or higher-risk weeks, module overviews should also include a short `What students usually struggle with` section that names the most common failure point or prioritization mistake.
 
 ### Rubric levels
 
@@ -122,5 +128,8 @@ Rubrics use exactly four levels:
 
 - No live Canvas import smoke test is performed from this repo; validation is package-level only.
 - Assessments are stronger than before, but they are still selected-response only.
+- There are still no standalone low-stakes applied checkpoints for DevTools or persistence.
+- Survey/feedback workflows are documented, but the live forms and follow-up announcements still require manual instructor setup and execution.
 - `course/syllabus.md` drives the Canvas syllabus export, but `syllabus.md` also exists and must stay synchronized.
 - The build script relies on the existing Canvas manifest/resource structure for the current assessment set; adding brand-new assessments may require extending that mapping.
+- The main open instructional-design question is still late-term workload compression; use first-delivery evidence before changing deadlines or milestone overlap.

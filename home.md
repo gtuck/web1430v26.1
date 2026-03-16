@@ -13,6 +13,8 @@ By the end of the term, you will be able to plan, build, debug, test, and presen
 - Original course textbook with 14 chapters
 - Labs, quizzes, assignments, two major projects, and a final project
 - Midterm and final exam
+- Published support guides for accessibility, APIs, screen reader testing, and the Vue transition
+- Mid-course and late-course check-ins to monitor pacing and support needs
 - GitHub-based workflow and Canvas delivery
 
 ## Major tools
@@ -31,3 +33,4 @@ By the end of the term, you will be able to plan, build, debug, test, and presen
 3. Clone or create your course repository
 4. Set up your local development environment
 5. Submit the orientation quiz and welcome survey
+6. Read the Accessibility Fundamentals Primer before Week 2
