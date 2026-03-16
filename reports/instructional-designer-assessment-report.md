@@ -1,34 +1,44 @@
 # Updated Instructional Designer Assessment Report: WEB 1430
 
 **Reviewer:** Codex  
-**Date:** March 13, 2026  
-**Scope:** Current repository state after the content synchronization pass, Canvas build restoration, support-document publication, and assessment revision work  
-**Previous related reports:** `reports/claude-id-report.md`, `reports/codex-id-report.md`, `reports/content-expert-report.md`, `reports/assessment-feedback-redesign.md`
+**Date:** March 16, 2026  
+**Scope:** Current repository state after synchronization, assessment revision, support-document publication, first-delivery monitoring setup, and the student-experience improvement pass
 
 ---
 
 ## Executive Summary
 
-WEB 1430 is now a delivery-ready online course. The major instructional design and package-quality issues identified in earlier reviews have been addressed: the course is no longer template-driven, the Canvas package is rebuilt from source inside the repo, the weekly/module schedule is synchronized, support guides and student surveys are published, and quizzes/exams now include stronger code-reading and debugging stems.
+WEB 1430 is now a mature, delivery-ready online course. Earlier problems around package drift, missing learner-path supports, late-course visibility, and generic weekly guidance have been substantially reduced. The course now combines a coherent instructional sequence with stronger asynchronous navigation, better transition scaffolding, and clearer operational maintenance than it did in earlier review states.
 
-The course's strongest qualities are its coherent skill progression, authentic project-based workflow, persistent accessibility emphasis, and much stronger source-to-Canvas maintainability. The remaining shortcomings are no longer critical. They are mostly second-order design issues around workload concentration, assessment format ceiling, repetitive weekly metacognitive prompts, and a few maintainability/operational risks that should be handled in the next revision cycle rather than before delivery.
+The most important instructional design improvement since the last report is that the learner path now acknowledges real student difficulty rather than assuming students will infer it. The weekly checkpoint prompts are now concept-specific, the more difficult weeks explicitly name common breakdown points, the Vue transition has a dedicated support guide, and the late-course briefs now provide build-order and pacing guidance.
 
-**Current verdict: Ready for delivery, with a focused post-delivery improvement list.**
+The course still has a few meaningful risks, but they are now concentrated in a narrow band:
+
+- workload compression in Weeks 13-15
+- the selected-response ceiling of the assessment layer
+- a few manual instructor/operations dependencies
+
+**Current verdict:** Ready for delivery, with a clear monitoring plan and a focused next-cycle improvement list.
 
 ---
 
-## What Has Improved Since Earlier ID Reviews
+## What Has Improved Since the Earlier ID Review
 
-Earlier high-severity concerns are now resolved in the live repo:
+Several prior findings are now resolved in the live repo:
 
-- The course package is source-driven rather than manually patched. `scripts/build_canvas_package.py` now rebuilds Canvas pages, module metadata, assessment XML/QTI, and the importable `.imscc`.
-- Schedule, module overviews, assignment briefs, and project briefs are synchronized around actual due dates in `course/schedule.md`.
-- Module overviews include resources and time estimates.
-- Published support materials now exist in the learner path, including the accessibility primer, API troubleshooting guide, screen reader testing guide, and Week 5 / Week 11 student surveys.
-- The late-course structure now surfaces Final Project milestones in Weeks 13-15 instead of hiding them inside the project brief.
-- `course/quiz-alignment.md` now matches the current assessment set, point totals, and chapter coverage.
-- The quiz/exam export is generated from `quizzes/*.json`, reducing package drift.
-- Assessment items in Quiz 4, Quizzes 6-8, the Midterm, and the Final now include applied code-reading/debugging stems instead of relying almost entirely on plain recall.
+- The Canvas package is source-driven via `scripts/build_canvas_package.py`.
+- Schedules, module overviews, assignments, and projects are synchronized.
+- Support documents and surveys are published into the learner path.
+- The late-course schedule now surfaces Final Project milestones directly.
+- The assessment package is generated from `quizzes/*.json`.
+- Quizzes/exams now include more code-reading and debugging-oriented stems.
+- The generic weekly checkpoint question has been replaced with week-specific prompts.
+- Harder modules now include `What students usually struggle with` guidance.
+- `course/vue-transition-guide.md` now supports the Week 12-13 framework transition.
+- `Assignment 6`, `Project 2`, and the `Final Project` now include pacing/build-order scaffolds.
+- `course/first-delivery-monitoring-guide.md` and `course/import_to_canvas.md` now operationalize the survey and monitoring workflow more clearly.
+
+Taken together, these changes move the course from "publication-ready with cautions" to "instructionally polished, with only a small set of refinement risks remaining."
 
 ---
 
@@ -36,136 +46,115 @@ Earlier high-severity concerns are now resolved in the live repo:
 
 ### 1. Strong macro-level instructional sequence
 
-The course still demonstrates a defensible progression from browser mental models to semantic structure, JavaScript fundamentals, DOM/event work, async/state, modules/tooling, Vue, and final integration/deployment. The sequence in `course/schedule.md` is clear and academically appropriate for an introductory client-side course.
+The course still shows a defensible progression from browser model to semantic structure, JavaScript fundamentals, DOM/event work, async/state, modules, Vue, and capstone integration. This remains one of the course's strongest design qualities.
 
-### 2. Better weekly navigation for asynchronous learners
+### 2. Better asynchronous learner support
 
-The module overviews now do more real instructional work than in prior versions. Files such as `modules/week-13-overview.md` and `modules/week-14-overview.md` now show the actual deliverables, link the relevant chapters/support docs/project brief, and include realistic time estimates. That meaningfully improves learner self-management.
+The weekly overviews now do more than route students through content. They also cue the main concept, name common traps, and direct students toward the right support resources. That matters in an asynchronous environment where students often need help deciding what to focus on first.
 
-### 3. Authentic project-based learning model
+### 3. More humane late-course scaffolding
 
-The project structure remains one of the course's best design choices. Project 1, Project 2, and the Final Project ask students to plan, build, deploy, explain, and revise real front-end work rather than complete disconnected exercises. The Final Project brief in `projects/final-project-campus-or-community-tool.md` is especially strong in its milestone structure, technical requirements, and accessibility expectations.
+The course still expects rigorous work late in the term, but it now supports that rigor better. The Vue guide, build-order language in `Assignment 6`, pacing guidance in `Project 2`, and the start-ahead plan in the Final Project brief all reduce avoidable confusion and wasted effort.
 
-### 4. Accessibility is integrated rather than isolated
+### 4. Authentic project-centered pedagogy
 
-Accessibility is reinforced in the structure/content layers early, revisited in forms work, synthesized in Chapter 13, and operationalized again in Week 14 and the Final Project. The published support docs materially strengthen this thread instead of leaving it as a generic statement of values.
+The milestone structure for Project 1, Project 2, and the Final Project remains a strong instructional choice. Students are asked to plan, build, deploy, explain, and revise work that resembles real front-end practice.
 
-### 5. Assessment/package maintainability is much better
+### 5. Accessibility is fully embedded
 
-From an instructional operations standpoint, the move to source-driven assessment export is a substantial improvement. The course is now easier to revise without silently drifting between the repo and Canvas package.
+Accessibility remains integrated rather than isolated. It appears early, returns in forms work, is synthesized in Chapter 13, and is operationalized again in Week 14 and the final deliverables. This is a strong design decision and a real curricular strength.
+
+### 6. Improved instructional operations
+
+From a course-maintenance perspective, the source-driven build pipeline and assessment generation are substantial improvements. The course is now much less fragile than it was before.
 
 ---
 
 ## Remaining Findings
 
-### 1. Moderate: The end-of-term workload is now visible, but it is still heavy and compressed
+### 1. Moderate: The late-term workload is still the main instructional-design risk
 
-The previous "hidden workload" problem has been fixed operationally, but the structural load remains high. `course/schedule.md`, `modules/week-13-overview.md`, `modules/week-14-overview.md`, and `projects/final-project-campus-or-community-tool.md` now correctly show that students are juggling:
+The course now communicates the late-course load honestly and supports it better, but the structural concentration remains:
 
-- `Assignment 6`
-- Final Project Pitch
-- Final Project Wireframe and Data Plan
-- `Quiz 8`
-- `Project 2`
-- Final Project Beta Review
-- Final Project
-- Final Exam
-- Course Reflection
-
-This is now honest and visible, which is a major improvement. But the underlying pacing remains tight, especially for students who hit friction during the Vue transition in Weeks 12-13.
+- Week 13 combines `Assignment 6` with two Final Project milestones
+- Week 14 combines `Quiz 8`, `Project 2`, and Final Project Beta work
+- Week 15 combines the Final Project, Final Exam, and Course Reflection
 
 **Why it matters:**  
-Visibility solves the surprise problem, but not the cognitive-load problem. The late course asks students to learn/perform framework work, complete a project, and manage a capstone in overlapping windows.
+The student-experience improvements reduce surprise and reduce wasted motion, but they do not remove the underlying density. This remains the main risk area to watch during first delivery.
 
 **Recommendation:**  
-Monitor first-delivery data closely. If late-course completion quality dips, the first structural adjustment should be to loosen the overlap between Project 2 finalization and Final Project beta/final milestones rather than adding more support text.
+Use the first-delivery monitoring plan already in `course/first-delivery-monitoring-guide.md`. If quality drops late in the course, change overlap before adding more explanatory material.
 
-### 2. Moderate: Assessment quality is stronger, but the format ceiling is still selected-response
+### 2. Moderate: Assessment quality improved, but the format ceiling remains
 
-`course/quiz-alignment.md` now accurately describes the current assessment model, and the revised items are more applied than before. That is a real improvement. However, the assessment layer still depends entirely on selected-response item types, including the Midterm and Final.
-
-**Why it matters:**  
-The current design can assess recognition, code reading, and basic debugging judgment more effectively than before, but it still undersamples:
+The revised quizzes and exams are stronger than before, but the assessment system still depends primarily on selected-response items. This means the course still undersamples some high-value skills:
 
 - direct troubleshooting process
 - DevTools evidence
-- persistence implementation reasoning
-- written justification of design/debug choices
+- persistence reasoning
+- written explanation of implementation/debug decisions
 
 **Recommendation:**  
-Keep the current selected-response improvements for delivery 1, but plan a next-cycle assessment expansion that adds one or two low-stakes artifact-based checkpoints or short-response items where operationally feasible.
+Keep the current assessment set for delivery 1, but add one or two lightweight applied checkpoints in a later revision cycle if first-delivery evidence shows weak transfer.
 
-### 3. Moderate-low: Weekly checkpoint questions are still too generic to drive strong metacognition
+### 3. Moderate-low: Instructor responsiveness is now documented, but still manual
 
-The module pages are better than before, but the checkpoint prompt remains effectively identical across all overviews: "What is the smallest working example you can build this week that demonstrates the main idea clearly?" That exact wording appears across `modules/week-00-overview.md` through `modules/week-15-overview.md`.
+The course now includes the survey question banks, the monitoring guide, and the `You said / I changed / I am watching` response pattern. That is a real improvement. However, the live course still depends on the instructor to:
+
+- create the anonymous forms in Canvas or an external tool
+- monitor responses on time
+- post the follow-up announcement
 
 **Why it matters:**  
-The prompt is not bad; it reinforces prototyping. But because it is repeated every week, it stops functioning as a true week-specific metacognitive cue. It does not help students think about the distinctive conceptual trap of that week's material.
+The design now supports a feedback loop, but the loop is not automatic. Course quality during live delivery will still depend on instructors actually using the workflow.
 
 **Recommendation:**  
-Replace the generic checkpoint with concept-specific prompts in a later revision cycle. Example directions:
+Treat the survey setup and announcement response pattern as part of pre-term launch, not as optional instructor enhancement.
 
-- Week 09: identify the difference between loading, error, and empty states
-- Week 10: explain the first-visit null case in `localStorage`
-- Week 13: identify the cleanest parent/child data-flow boundary
-
-### 4. Moderate-low: The feedback loop is visible to students, but not yet fully closed in the instructor workflow
-
-The Week 5 and Week 11 surveys are now published and surfaced in the course flow, which resolves the earlier delivery-path problem. What is still missing is a documented instructor response routine tied to those surveys.
-
-**Why it matters:**  
-Without a visible "you said / I changed / I am watching" pattern, surveys risk becoming informational but not instructional. Students are more likely to complete feedback instruments when they see responsive action.
-
-**Recommendation:**  
-Add a short instructor-facing note in the maintenance/release workflow: after each survey window, post a brief follow-up announcement that summarizes what students reported and what will change or be monitored.
-
-### 5. Low: A few maintainability risks remain, even though the package is much healthier
+### 4. Low: A few maintainability risks remain
 
 Two operational issues still deserve mention:
 
-- `syllabus.md` and `course/syllabus.md` both exist and must stay aligned.
-- Package validation is repo-level only; there is still no live Canvas import smoke test in the repo workflow.
+- duplicated syllabus files (`syllabus.md` and `course/syllabus.md`)
+- no live Canvas import smoke test in the repo workflow
 
-These are not instructional blockers, but they are the kinds of low-level issues that create future drift if they are ignored.
-
-**Recommendation:**  
-Keep the duplicated syllabus pair synchronized deliberately, and add a short import smoke-test checklist to the next maintenance pass.
+These are not instructional blockers, but they remain the most likely sources of future drift.
 
 ---
 
 ## Priority Recommendations
 
-### Priority 1: Monitor during first delivery
+### Priority 1: Monitor first delivery
 
-1. Track Week 13-15 completion quality and time pressure.
-2. Watch whether the Vue transition creates a spike in incomplete or rushed final submissions.
-3. Review whether Project 2 and Final Project overlap depresses quality in either artifact.
+1. Track Week 12-15 completion quality, time pressure, and extension patterns.
+2. Watch whether the new Vue support materials reduce confusion in Weeks 12-13.
+3. Compare `Project 2` and Final Project Beta quality to see whether overlap still depresses one or both artifacts.
 
-### Priority 2: Improve assessment depth next revision cycle
+### Priority 2: Add lightweight applied checkpoints if needed
 
-1. Add one or two artifact-based or short-response checkpoints for fragile skills such as DevTools and persistence.
-2. Continue replacing the weakest recall-only items with code-reading/debugging stems.
-3. Consider one manually graded response item in the Midterm or Final if the Canvas workflow can support it without adding grading friction.
+1. Consider a small DevTools evidence checkpoint.
+2. Consider a small persistence/state trace checkpoint.
+3. Only implement these if first-delivery data shows that projects are surfacing gaps too late.
 
-### Priority 3: Improve learner reflection and instructor responsiveness
+### Priority 3: Tighten live-delivery operations
 
-1. Replace generic module checkpoint questions with week-specific self-test prompts.
-2. Formalize an instructor follow-up routine after the Week 5 and Week 11 surveys.
-3. Add a simple post-import Canvas smoke test to the course maintenance checklist.
+1. Use the existing import/setup documentation before term start.
+2. Add a short live Canvas smoke-test checklist in a future maintenance pass.
+3. Keep the duplicated syllabus pair intentionally synchronized until one is retired.
 
 ---
 
 ## Overall Judgment
 
-This course has crossed the threshold from "strong but still partially operationalized" to "instructionally solid and publication-ready." The earlier problems were mostly about missing specificity, synchronization drift, and packaging fragility. Those issues have largely been resolved.
+This course is now better than the last ID report described. It is not only synchronized and technically maintainable; it is also more learner-aware in the places that matter most for an asynchronous introductory audience.
 
-The remaining work is now refinement work:
+The remaining work is targeted refinement work:
 
-- pacing optimization
-- assessment-format expansion
-- stronger metacognitive prompting
-- instructor workflow polish
+- monitor workload pressure
+- consider deeper assessment formats if evidence justifies them
+- keep instructor operations disciplined during live delivery
 
-That is the right place for the course to be at this stage.
+That is the right improvement profile for a course at this stage.
 
-**Final verdict: Ready for delivery. Recommend post-delivery revision rather than pre-delivery redesign.**
+**Final verdict:** Delivery-ready and instructionally strong, with a narrow post-launch watch list rather than a redesign agenda.
