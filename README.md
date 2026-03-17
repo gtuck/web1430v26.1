@@ -37,6 +37,20 @@ Recent alignment work also updated:
 - `canvas/` – exploded package and importable IMSCC
 - `scripts/` – Canvas build and validation tools
 
+## Safe to edit without affecting Canvas
+
+These repo-maintenance files and folders are **not** included in the Canvas export package, so editing them will not change the generated learner-facing Canvas content:
+
+- `reports/`
+- `memory/`
+- `CONTEXT.md`
+- `README.md`
+- `textbook/README.md`
+- `course/first-delivery-monitoring-guide.md`
+- `course/import_to_canvas.md`
+
+If you edit `home.md`, `course/syllabus.md`, `textbook-table-of-contents.md`, anything in `textbook/chapters/`, `lectures/`, `modules/`, `labs/`, `assignments/`, `projects/`, or the published learner-support guides in `course/`, those changes **do** affect the Canvas export.
+
 ## Canvas build workflow
 
 Regenerate the exploded Canvas package and the importable `.imscc` from the source files:
