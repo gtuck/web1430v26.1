@@ -72,6 +72,7 @@ dist/</code></pre>
 <li>Add <code>node_modules/</code> and <code>dist/</code> to <code>.gitignore</code> before your first commit.</li>
 <li>Prefer named exports over default exports when a file exports more than one thing — named exports are easier to search for and rename.</li>
 <li>One file, one responsibility. If a file's purpose is hard to describe in one sentence, split it.</li>
+<li>Add a <code>README.md</code> for substantial projects. It should explain the audience/problem, setup steps, data source, and quality checks so another developer can run and understand the project without guessing.</li>
 </ul>
 <h2>Common mistakes</h2>
 <ul>
@@ -98,6 +99,7 @@ dist/</code></pre>
 <li>Move your book data array (from Chapter 5) into <code>src/data.js</code> and export it.</li>
 <li>Import it in <code>main.js</code>, filter it, and render the results to the DOM.</li>
 <li>Run <code>npm run dev</code> and verify it works. Run <code>npm run build</code> and inspect the <code>dist/</code> folder. What is different about the files there?</li>
+<li>Add a short <code>README.md</code> that explains what the project does, how to run it, and which files matter most.</li>
 </ol>
 <h2>Reflection</h2>
 <p>What changed about your workflow when you started using a dev server instead of opening a file directly? What does the <code>dist/</code> folder contain that <code>src/</code> does not? What happened when you forgot to run <code>npm install</code> before <code>npm run dev</code>?</p>
@@ -124,6 +126,7 @@ dist/</code></pre>
 <li>I can add <code>node_modules/</code> and <code>dist/</code> to <code>.gitignore</code> before committing.</li>
 <li>I can explain the difference between <code>dependencies</code> and <code>devDependencies</code>.</li>
 <li>I can explain why modules prevent naming collisions that occur with global script loading.</li>
+<li>I can write a short project <code>README.md</code> that helps another developer set up and understand my module-based project.</li>
 </ul>
 </body>
 </html>

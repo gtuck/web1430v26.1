@@ -61,6 +61,7 @@ Submit `projects/project-2/proposal.md` containing these sections **in this orde
 3. **Data model:** What does one normalized item look like as a JavaScript object? List each property, its type, and where it comes from in the raw API response.
 4. **UI sketch:** A wireframe showing the layout of the loaded state, the loading state, and the error state.
 5. **localStorage plan:** What preferences or data will you persist? What is the key name and what does the stored value look like?
+6. **API viability check:** In 4 bullets, document CORS/browser access, rate limits or auth requirements, attribution or terms-of-use expectations, and how current/reliable the data appears to be.
 
 The proposal will be reviewed against the problem statement first. If the problem statement is vague ("users can search for things"), the proposal will be returned for revision before you build.
 
@@ -185,9 +186,16 @@ Each file must have a one-sentence comment at the top. `node_modules/` and `dist
 
 `projects/project-2/` in your repository (Vite project source, no `node_modules/` or `dist/`).
 
+Also include `README.md` in `projects/project-2/` with:
+- audience and problem statement
+- setup and run steps
+- API source and attribution notes
+- accessibility / QA checks performed
+- known limitations or next steps
+
 Deploy to Netlify or Vercel.
 
-**Submit to Canvas (Milestone 3):** Live URL, repo URL, rationale link.
+**Submit to Canvas (Milestone 3):** Live URL, repo URL, `README.md` link, rationale link.
 
 ---
 
@@ -198,6 +206,7 @@ Write 6–8 sentences addressing:
 - Walk through one complete user flow from initial load to seeing a result — what happens at each step in the code?
 - How does your normalization function protect the rest of the app from API inconsistency?
 - What would you need to change to support a different API with the same UI?
+- What did you learn from the API viability check, and how did it change your implementation decisions?
 
 ---
 
@@ -210,4 +219,4 @@ Write 6–8 sentences addressing:
 | **Persistence** | Two persistence features implemented; preferences restored correctly on page load; `JSON.stringify/parse` used correctly | Two features present; one restoration issue | One feature implemented | No localStorage use |
 | **Module structure** | All five required files present; each file has one responsibility and a comment; no circular imports | Four files with correct responsibilities | Three files; some mixing | Single file or no modules |
 | **Accessibility** | `aria-live` on results; text-based state messages; labels on all controls; focus managed | Three of four criteria | Two criteria | One or none |
-| **Proposal and rationale** | Proposal complete with all five elements; rationale walks through code flow specifically | Proposal complete; rationale addresses three prompts | Proposal partially complete | Missing |
+| **Proposal and rationale** | Proposal complete with all six elements; `README.md` present and useful; rationale walks through code flow specifically | Proposal complete; README or rationale has minor gaps | Proposal partially complete; documentation thin | Missing |

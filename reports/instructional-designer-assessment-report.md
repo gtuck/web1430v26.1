@@ -2,7 +2,7 @@
 
 **Reviewer:** Codex  
 **Date:** March 16, 2026  
-**Scope:** Current repository state after synchronization, assessment revision, support-document publication, first-delivery monitoring setup, and the student-experience improvement pass
+**Scope:** Current repository state after synchronization, assessment revision, support-document publication, first-delivery monitoring setup, the student-experience improvement pass, and the documentation/textbook alignment pass
 
 ---
 
@@ -37,6 +37,10 @@ Several prior findings are now resolved in the live repo:
 - `course/vue-transition-guide.md` now supports the Week 12-13 framework transition.
 - `Assignment 6`, `Project 2`, and the `Final Project` now include pacing/build-order scaffolds.
 - `course/first-delivery-monitoring-guide.md` and `course/import_to_canvas.md` now operationalize the survey and monitoring workflow more clearly.
+- Week 00 now explicitly teaches `git status` and `git pull --ff-only` as baseline recovery/sync habits.
+- API-driven assignments/projects now require an API viability check before students commit to a data source.
+- Major project briefs and syllabus docs now require lightweight `README.md` documentation.
+- Textbook chapters 8, 9, 10, 11, and 14 now align with those live-course expectations.
 
 Taken together, these changes move the course from "publication-ready with cautions" to "instructionally polished, with only a small set of refinement risks remaining."
 
@@ -76,8 +80,8 @@ From a course-maintenance perspective, the source-driven build pipeline and asse
 
 The course now communicates the late-course load honestly and supports it better, but the structural concentration remains:
 
-- Week 13 combines `Assignment 6` with two Final Project milestones
-- Week 14 combines `Quiz 8`, `Project 2`, and Final Project Beta work
+- Week 13 still combines `Assignment 6` with a substantial Final Project revision milestone
+- Week 14 combines a short `Quiz 8` readiness check, `Lab 13` QA reporting, `Project 2`, and Final Project Beta work
 - Week 15 combines the Final Project, Final Exam, and Course Reflection
 
 **Why it matters:**  
@@ -86,9 +90,9 @@ The student-experience improvements reduce surprise and reduce wasted motion, bu
 **Recommendation:**  
 Use the first-delivery monitoring plan already in `course/first-delivery-monitoring-guide.md`. If quality drops late in the course, change overlap before adding more explanatory material.
 
-### 2. Moderate: Assessment quality improved, but the format ceiling remains
+### 2. Moderate-low: Assessment quality improved again, but the format ceiling remains
 
-The revised quizzes and exams are stronger than before, but the assessment system still depends primarily on selected-response items. This means the course still undersamples some high-value skills:
+The revised quizzes and exams are stronger than before, and Week 14 now includes stronger applied QA evidence through `Lab 13`. Even so, the assessment system still depends primarily on selected-response items. This means the course still undersamples some high-value skills:
 
 - direct troubleshooting process
 - DevTools evidence

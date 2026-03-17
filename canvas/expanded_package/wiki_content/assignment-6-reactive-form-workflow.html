@@ -34,7 +34,7 @@
 <li>focus moves when the step changes</li>
 <li>errors are linked to the correct fields</li>
 </ul>
-<p>Do not spend your best time on animation or visual polish before these are working.</p>
+<p>Do not spend your best time on animation or visual polish before these are working. A visually simple app can still earn a strong grade if the flow, validation, and accessibility are correct. Fancy styling is not a substitute for a reliable multi-step workflow.</p>
 <hr />
 <h2>Scenario</h2>
 <p>Choose <strong>one</strong> of the following multi-step form contexts, or propose your own with instructor approval:</p>
@@ -111,7 +111,7 @@
 </ul>
 <p>For each invalid field:</p>
 <ul>
-<li>Show an inline error message using <code>textContent</code> (or a <code>&lt;span&gt;</code> with the message bound via <code>{{ }}</code></li>
+<li>Show an inline error message using <code>textContent</code> (or a <code>&lt;span&gt;</code> with the message bound via <code>{{ }}</code>)</li>
 <li>Set <code>aria-invalid=&quot;true&quot;</code> on the input (<code>:aria-invalid=&quot;fieldError ? &#x27;true&#x27; : &#x27;false&#x27;&quot;</code>)</li>
 <li>Link the error to its input with <code>aria-describedby</code></li>
 </ul>
@@ -143,7 +143,7 @@
 </ul>
 <hr />
 <h2>Above baseline (stretch)</h2>
-<p>Work in this section is reflected in the Excellent (4) column of the rubric.</p>
+<p>Stretch work can strengthen an already solid submission, but it is not required for an Excellent if the core workflow, validation, and accessibility work are strong.</p>
 <ul>
 <li>Persist partially-completed form data to <code>localStorage</code> so a user who closes the tab mid-flow can resume where they left off</li>
 <li>Add a <code>computed</code> property in <code>App.vue</code> that tracks overall form completion percentage and display it in <code>StepIndicator</code></li>
@@ -172,7 +172,7 @@
 <tr><td><strong>Reactive form state</strong></td><td><code>v-model</code> on all inputs; <code>computed</code> used for derived value; review reflects parent data via props</td><td><code>v-model</code> used; no <code>computed</code></td><td>Mixed <code>v-model</code> and manual handlers</td><td>Manual DOM reads</td></tr>
 <tr><td><strong>Validation</strong></td><td>All three steps validate before advancing; error messages inline and linked via <code>aria-describedby</code>; <code>aria-invalid</code> set correctly</td><td>Two steps validate; error messages present</td><td>One step validates</td><td>No validation</td></tr>
 <tr><td><strong>Step flow</strong></td><td>Advancing, going back, and submitting work correctly; review shows complete data; success view resets app</td><td>Advancing and submitting work; back navigation missing</td><td>Forward flow works; review incomplete</td><td>Flow non-functional</td></tr>
-<tr><td><strong>Accessibility</strong></td><td>Focus managed on step change; <code>aria-live</code> on step region; all labels connected; step indicator readable by screen reader</td><td>Three of four criteria</td><td>Two criteria</td><td>One or none</td></tr>
+<tr><td><strong>Accessibility</strong></td><td>Focus managed on step change; live announcements work; labels, error links, and submit text are clear; step indicator communicates progress accessibly</td><td>Most accessibility requirements met; one minor gap remains</td><td>Some accessibility work present; several requirements incomplete</td><td>Little or no accessibility support</td></tr>
 <tr><td><strong>Rationale</strong></td><td>Specific, honest, addresses all four prompts</td><td>Addresses three prompts</td><td>Vague or two prompts</td><td>Missing</td></tr>
 </tbody>
 </table>

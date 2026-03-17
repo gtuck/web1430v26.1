@@ -56,6 +56,14 @@
 </ol>
 <p>Missing any of these leaves users confused.</p>
 <p><strong>CORS (Cross-Origin Resource Sharing)</strong> — browsers block requests to a different domain unless that server explicitly allows it via CORS headers. If you get a CORS error, it is a server configuration issue, not a bug in your JavaScript. Use APIs that explicitly support public access (like JSONPlaceholder, Open Library, or The Movie Database) while learning.</p>
+<p><strong>API viability</strong> — before you build your interface around an API, verify that it is actually usable for your project. Four checks matter most:</p>
+<ol>
+<li><strong>Browser access</strong> — does the API support cross-origin browser requests, or will CORS block you?</li>
+<li><strong>Rate limits / auth</strong> — how often can you request data, and do you need an API key?</li>
+<li><strong>Attribution / terms</strong> — does the provider require a link, logo, credit line, or any specific terms-of-use compliance?</li>
+<li><strong>Reliability</strong> — how stable and current is the data, and what happens in your UI when fields are missing or the service is unavailable?</li>
+</ol>
+<p>Choosing an API is not just a technical question. It is a product decision. A flashy API that rate-limits aggressively, breaks in the browser, or forbids your intended use is a bad fit no matter how interesting the data looks.</p>
 <h2>Mental model</h2>
 <p>Fetch is <strong>non-blocking</strong>. When you call <code>fetch()</code>, the browser sends the request and immediately moves on to the next line of code. The function does not pause and wait — it returns a Promise. When you use <code>await</code>, you are telling JavaScript: "pause <em>this function</em> here and continue other work until the Promise resolves."</p>
 <p>Think of a Promise as a ticket at a deli counter. You order (call <code>fetch</code>), get your ticket (the Promise), and do other things. When your number is called (the Promise resolves), you come back and collect your result (the data).</p>
@@ -68,6 +76,7 @@
 <li>Show descriptive error messages to users. "Something went wrong" is not helpful. "Could not load products — please check your connection and try again" is.</li>
 <li>Log the full error to the console for debugging while showing a user-friendly message in the UI.</li>
 <li>Read the Network tab in DevTools while your fetch runs. See the request, its status code, and the raw response body.</li>
+<li>Before you commit to an API for a project, document your API viability check: CORS support, rate limits, attribution requirements, and data reliability.</li>
 </ul>
 <h2>Common mistakes</h2>
 <ul>
@@ -94,6 +103,7 @@
 <li>For each post, creates a <code>&lt;article&gt;</code> element using <code>createElement</code> with the post's <code>title</code> (in an <code>&lt;h2&gt;</code>) and <code>body</code> (in a <code>&lt;p&gt;</code>), and appends it to the container.</li>
 <li>Wraps everything in <code>try/catch</code>. On error, clears the container and shows a descriptive error message.</li>
 <li>Removes the "Loading…" message in a <code>finally</code> block.</li>
+<li>Write four short bullets describing whether this API is viable for a student project: CORS support, rate limits, attribution requirements, and data reliability.</li>
 </ol>
 <p>Add <code>aria-live=&quot;polite&quot;</code> to the container. Test the error state by changing the URL to something invalid.</p>
 <h2>Reflection</h2>
@@ -121,6 +131,7 @@
 <li>I can handle three distinct UI states: loading, success, and error.</li>
 <li>I can use the Network tab in DevTools to inspect a request's status and response body.</li>
 <li>I can explain what a CORS error is and why the browser enforces it.</li>
+<li>I can evaluate whether an API is viable for browser-based project work before I build around it.</li>
 </ul>
 </body>
 </html>

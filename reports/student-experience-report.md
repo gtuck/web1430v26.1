@@ -2,7 +2,7 @@
 
 **Reviewer role:** Simulated student  
 **Date:** March 16, 2026  
-**Scope:** Current learner-facing course after the student-experience improvement pass  
+**Scope:** Current learner-facing course after the student-experience improvement pass and the later documentation/textbook alignment pass  
 **Student profile used for simulation:** Second-semester freshman who has completed CS 1030, CS 1400, ENGL 2010, a general education engineering culture course, and college-level math
 
 ---
@@ -13,7 +13,7 @@ After the student-experience revision pass, WEB 1430 feels more student-aware, m
 
 The most important improvement is that the course no longer just expects students to manage complexity on their own. The weekly overviews now use week-specific checkpoint prompts, the harder weeks explicitly name common student failure points, the Vue transition has its own support guide, and the major late-course briefs now include pacing/build-order guidance instead of simply listing requirements.
 
-The course is still demanding. It still expects steady weekly work, public Git/GitHub workflow, and strong self-management in an asynchronous format. The late-semester load is also still structurally heavy. But from a student perspective, the course now feels less like "figure out how to survive the hard part" and more like "the hard part is real, but the course is helping me through it."
+The course is still demanding. It still expects steady weekly work, a GitHub-based workflow, and strong self-management in an asynchronous format. The late-semester load is also still structurally heavy. But from a student perspective, the course now feels less like "figure out how to survive the hard part" and more like "the hard part is real, but the course is helping me through it."
 
 **Updated student verdict:** Strong overall student experience, good fit for the stated prerequisites, and noticeably improved late-course support. The main remaining concern is workload compression in Weeks 13-15, not confusion or poor continuity.
 
@@ -56,6 +56,12 @@ This matters because freshmen often do not need more theory at that point; they 
 - a Week 12 start-ahead plan plus a suggested Weeks 12-15 runway for the Final Project
 
 This does not remove the heavy workload, but it improves how students experience it. The course now gives them an actual path through the busiest part of the term.
+
+### 5. Git/GitHub now feels less like a one-shot setup hurdle
+
+The Week 00 materials now do a better job of teaching what students should do after the first successful push. They explicitly introduce `git status`, `git pull --ff-only`, and the idea that "my local repo and GitHub disagree" is a normal situation with a normal first response. That matters because freshmen often do not need more Git theory; they need one safe recovery move.
+
+The revised repo-policy language also helps slightly. A student still has to use GitHub, but the expectation is now "public or instructor-shared," which is less socially loaded than treating public visibility as the only valid workflow.
 
 ---
 
@@ -151,7 +157,7 @@ From a student perspective, that makes the course feel prepared for common break
 
 ### 1. Git/GitHub will still feel high stakes to some freshmen
 
-Even with the stronger Week 00 framing, students who are nervous about version control will still feel exposed by the expectation of public repositories and meaningful commit history. This is not a flaw in the course, but it remains part of the student experience.
+Even with the stronger Week 00 framing, the sync/recovery guidance, and the more flexible public-or-instructor-shared repo language, students who are nervous about version control will still feel exposed by meaningful commit-history expectations. This is not a flaw in the course, but it remains part of the student experience.
 
 ### 2. The course still depends on self-management
 
@@ -168,9 +174,9 @@ The difference now is that the course recognizes that dip and gives students a w
 This remains the biggest unresolved student-experience issue. The improved pacing language makes the overlap clearer and more navigable, but the underlying load across Weeks 13-15 is still substantial:
 
 - Assignment 6
-- Final Project Pitch
-- Final Project Wireframe and Data Plan
-- Quiz 8
+- Final Project Revised Wireframe and Data Plan
+- Quiz 8 readiness check
+- Lab 13 QA report
 - Project 2 final submission
 - Final Project Beta
 - Final Project
@@ -216,6 +222,7 @@ The course still feels connected from week to week, and the student-experience u
 - browser understanding into DOM behavior
 - semantic structure into accessibility
 - fetch and normalization into Project 2 and the Final Project
+- API choice and data-source judgment into Project 2 and the Final Project
 - modules into Vue component thinking
 - quality checks into final deployment decisions
 

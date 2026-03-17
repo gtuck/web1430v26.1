@@ -9,6 +9,7 @@
 <h1>Lab 13 – Lighthouse, Accessibility, and Deployment</h1>
 <h2>Purpose</h2>
 <p>Code that runs locally but is never deployed is unfinished. Code that deploys but scores poorly on performance and accessibility is incomplete. This lab closes the loop: you will audit a previous project with Lighthouse, identify and fix issues, verify improvements, and deploy a production-ready build.</p>
+<p>This lab is also the main applied quality-assurance evidence for Week 14, so your notes should directly inform Project 2, your Final Project beta, or both.</p>
 <h2>Skills practiced</h2>
 <ul>
 <li>Running a Lighthouse audit in Chrome DevTools</li>
@@ -19,8 +20,8 @@
 <li>Verifying deployment with a second Lighthouse audit</li>
 </ul>
 <h2>What you're auditing</h2>
-<p>Choose <strong>one</strong> of your previous projects or labs that is already deployed or can be deployed. Recommended: your Lab 08 (API viewer) or Lab 05 (product explorer) — pages with enough content and interactivity to produce interesting audit results.</p>
-<p>If none of your previous work is deployed, use Lab 05 as a starting point. Deploy it to GitHub Pages or Netlify before beginning the audit.</p>
+<p>Choose <strong>one</strong> project you can still improve this week. Strongly recommended: <strong>Project 2</strong> or your <strong>Final Project beta</strong>. Those are the artifacts most likely to benefit immediately from a real QA pass.</p>
+<p>If neither current project is ready enough to audit, use Lab 08 or Lab 05 as a fallback. The goal is still to practice a QA workflow you can carry into the current week's graded work.</p>
 <hr />
 <h2>Part 1: Run the initial Lighthouse audit</h2>
 <ol>
@@ -51,7 +52,7 @@
 <li>How many elements are affected</li>
 <li>A link to documentation</li>
 </ul>
-<p>In your <code>notes.md</code>, document at least <strong>six issues</strong> Lighthouse flagged, organized by category:</p>
+<p>In your <code>notes.md</code>, document at least <strong>six issues</strong> Lighthouse flagged, organized by category. Write the notes clearly enough that they function like a short QA memo, not just a checklist:</p>
 <pre><code>## Issues found
 
 ### Accessibility
@@ -71,6 +72,7 @@
 <li>The file and line number</li>
 <li>Why the fix addresses the issue</li>
 </ul>
+<p>Prioritize fixes you can actually carry into this week's submission. The best version of this lab improves a real project, not only a disconnected practice page.</p>
 <h3>Common accessibility fixes</h3>
 <p><strong>Missing form labels:</strong></p>
 <pre><code class="language-html">&lt;!-- Before --&gt;
@@ -150,12 +152,13 @@
 <h2>Deliverable</h2>
 <p>In <code>labs/lab13/</code>:</p>
 <ul>
-<li><code>notes.md</code> — baseline scores, six documented issues, five fixes documented, final scores</li>
+<li><code>notes.md</code> — baseline scores, six documented issues, five fixes documented, final scores; treat this like a short QA memo you can reuse</li>
 <li><code>screenshot-baseline.png</code> — initial Lighthouse report</li>
 <li><code>screenshot-final.png</code> — final Lighthouse report</li>
 <li>A link to the deployed, audited project</li>
 </ul>
 <p>Submit to Canvas: your deployed project URL, GitHub repo URL, and the link to <code>labs/lab13/notes.md</code>.</p>
+<p>If you audited Project 2 or the Final Project beta, use the same issue list when writing that project's self-assessment or revision plan.</p>
 <hr />
 <h2>Process reflection (in notes.md)</h2>
 <p>Answer in 4–6 sentences:</p>

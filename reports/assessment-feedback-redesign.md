@@ -9,6 +9,8 @@
 
 The assessment and feedback layer is meaningfully stronger than it was in the initial redesign draft. The biggest operational weakness has been fixed: assessment export is now generated from the `quizzes/*.json` sources, which makes the quiz JSON files the source of truth for the Canvas package. The quizzes and exams themselves also now include more code-reading and debugging-oriented stems, which improves signal quality even within a selected-response format.
 
+Since the earlier revision pass, Week 14 has also been rebalanced: `Quiz 8` now functions as a short readiness check, while `Lab 13` carries the main applied QA evidence for testing, accessibility, deployment, and revision work.
+
 The course feedback loop is also more operational than before. The Week 5, Week 11, and Week 13 survey question banks are now surfaced in the learner path, and the instructor workflow for monitoring and responding is documented in `course/first-delivery-monitoring-guide.md` and `course/import_to_canvas.md`.
 
 The remaining limitations are narrower now:
@@ -38,13 +40,23 @@ This is a major improvement because it reduces silent drift between planning doc
 The revised assessments now include more applied selected-response items, especially in:
 
 - Quiz 4
-- Quizzes 6-8
+- Quizzes 6-7
 - Midterm Exam
 - Final Exam
 
 The improvements are mostly in code-reading, debugging judgment, safer DOM updates, storage reasoning, data-flow recognition, and accessibility/performance judgment. This does not fully solve the format ceiling, but it materially improves assessment quality inside the current tooling constraints.
 
-### 3. Better feedback delivery path
+### 3. Week 14 now includes stronger applied QA evidence
+
+The course now relies less heavily on selected-response assessment in Week 14:
+
+- `Quiz 8` was shortened into a readiness check
+- `Lab 13` now functions as the primary applied QA artifact
+- students are expected to reuse that QA evidence while revising `Project 2` and the Final Project beta
+
+This is a meaningful improvement because testing, deployment, and accessibility quality are better demonstrated through artifacts than through recognition-only questions.
+
+### 4. Better feedback delivery path
 
 The survey question banks for:
 
@@ -54,7 +66,7 @@ The survey question banks for:
 
 are now visible in the learner path and reflected in course structure. This corrects the earlier problem where feedback instruments existed in the repo but were not meaningfully integrated into the course experience.
 
-### 4. Instructor response workflow is documented
+### 5. Instructor response workflow is documented
 
 The feedback loop is now better operationalized through:
 
@@ -70,7 +82,7 @@ These documents now specify:
 
 This is a real design improvement, even though it still depends on instructor execution.
 
-### 5. The Final Project beta is more diagnostic than before
+### 6. The Final Project beta is more diagnostic than before
 
 The Final Project Beta already asks students to explain:
 

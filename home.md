@@ -16,6 +16,7 @@ By the end of the term, you will be able to plan, build, debug, test, and presen
 - Published support guides for accessibility, APIs, screen reader testing, and the Vue transition
 - Mid-course and late-course check-ins to monitor pacing and support needs
 - GitHub-based workflow and Canvas delivery
+- Lightweight project documentation and deployed QA expectations throughout the course
 
 ## Major tools
 
@@ -31,6 +32,6 @@ By the end of the term, you will be able to plan, build, debug, test, and presen
 1. Read the syllabus
 2. Complete the Start Here module
 3. Clone or create your course repository
-4. Set up your local development environment
+4. Set up your local development environment and verify `git status` / `git pull --ff-only`
 5. Submit the orientation quiz and welcome survey
 6. Read the Accessibility Fundamentals Primer before Week 2

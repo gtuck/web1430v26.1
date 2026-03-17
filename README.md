@@ -2,6 +2,14 @@
 
 This repository contains a fully rebuilt, online-first **WEB 1430** course package designed for Canvas and a GitHub-based workflow.
 
+Recent alignment work also updated:
+
+- Week 00 Git/GitHub materials to teach `git status` and `git pull --ff-only` as baseline sync/recovery habits
+- API-driven assignments and projects to require an API viability check (CORS, rate limits/auth, attribution/terms, data reliability)
+- major project briefs and syllabus docs to require lightweight `README.md` documentation
+- Week 14 quality-assurance materials so Lab 13 functions as applied QA evidence alongside a shorter Quiz 8 readiness check
+- textbook chapters 8, 9, 10, 11, and 14 so the textbook matches current assignment, project, and QA expectations
+
 ## Included
 
 - original textbook with 14 chapters

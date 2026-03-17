@@ -40,9 +40,20 @@
   };
 }</code></pre>
 <p><strong>In the render function</strong>, check before using the optional value:</p>
-<pre><code class="language-js">const img = item.coverId
-  ? `&lt;img src=&quot;https://covers.openlibrary.org/b/id/${item.coverId}-M.jpg&quot; alt=&quot;Cover of ${item.title}&quot;&gt;`
-  : `&lt;div class=&quot;no-cover&quot; aria-label=&quot;No cover available&quot;&gt;&lt;/div&gt;`;</code></pre>
+<pre><code class="language-js">function renderCover(item) {
+  if (item.coverId) {
+    const img = document.createElement(&#x27;img&#x27;);
+    img.src = `https://covers.openlibrary.org/b/id/${item.coverId}-M.jpg`;
+    img.alt = `Cover of ${item.title}`;
+    return img;
+  }
+
+  const fallback = document.createElement(&#x27;div&#x27;);
+  fallback.className = &#x27;no-cover&#x27;;
+  fallback.setAttribute(&#x27;aria-label&#x27;, &#x27;No cover available&#x27;);
+  return fallback;
+}</code></pre>
+<p>This keeps the fallback logic clear without switching back to HTML-string rendering for API-derived content.</p>
 <hr />
 <h2>3. Fields That Change Type</h2>
 <p>Some APIs return a value as a string in one response and as a number in another — or an array when there is more than one item and a plain string when there is only one.</p>

@@ -63,17 +63,17 @@
 ## Week 12: Component Thinking with Vue
 - Lecture: Props, State, Templates, and Simple Components
 - Lab: Lab 11 – Vue UI Card System
-- Deliverables: Quiz 7, Project 2 Build, Final Project Pitch
+- Deliverables: Quiz 7, Project 2 Build, Final Project Pitch and Planning Starter
 
 ## Week 13: Framework Forms and Data Flow
 - Lecture: Component Communication, Reactive Forms, and Derived State
 - Lab: Lab 12 – Small Data Dashboard
-- Deliverables: Assignment 6, Final Project Wireframe and Data Plan, Vue and Workload Pulse Check
+- Deliverables: Assignment 6, Final Project Revised Wireframe and Data Plan, Vue and Workload Pulse Check
 
 ## Week 14: Testing, Performance, and Deployment
 - Lecture: Quality Checks, Accessibility Audits, and Shipping to the Web
 - Lab: Lab 13 – Lighthouse, Accessibility, and Deployment
-- Deliverables: Quiz 8, Project 2, Final Project Beta Review
+- Deliverables: Quiz 8 Readiness Check, Lab 13 QA Report, Project 2, Final Project Beta Review
 
 ## Week 15: Final Project Sprint and Reflection
 - Lecture: Project Storytelling, Portfolio Readiness, and Next Steps

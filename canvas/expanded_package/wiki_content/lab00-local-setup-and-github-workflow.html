@@ -16,6 +16,7 @@
 <li>Creating and cloning a GitHub repository</li>
 <li>Making commits with meaningful messages</li>
 <li>Pushing changes and verifying them on GitHub</li>
+<li>Checking repository status and safely syncing with GitHub</li>
 </ul>
 <h2>What you're building</h2>
 <p>A course repository on GitHub that will hold all your labs, assignments, and projects this semester. By the end of this lab your repo will be live, your tools will be verified, and you will have made your first real commit.</p>
@@ -48,7 +49,7 @@ git config --global user.email &quot;you@example.com&quot;</code></pre>
 <ol>
 <li>Log in to github.com. Create an account if you don't have one — use your school email.</li>
 <li>Click <strong>New repository</strong> (the + icon, top right).</li>
-<li>Name it <code>web1430-[yourname]</code> (e.g., <code>web1430-jordan-smith</code>). Keep it public so your instructor can view it.</li>
+<li>Name it <code>web1430-[yourname]</code> (e.g., <code>web1430-jordan-smith</code>). Make it public if your section uses public repos; otherwise a private or instructor-shared repo is acceptable as long as your instructor can access it.</li>
 <li>Check <strong>Add a README file</strong>.</li>
 <li>Click <strong>Create repository</strong>.</li>
 </ol>
@@ -91,21 +92,36 @@ git commit -m &quot;lab00: initial setup and folder structure&quot;
 git push</code></pre>
 <p>Visit your repository on GitHub and verify the file appears there.</p>
 <hr />
-<h2>Part 7: Smoke test checklist</h2>
+<h2>Part 7: Sync and recovery check</h2>
+<p>After your first push, run these commands:</p>
+<pre><code class="language-bash">git status
+git pull --ff-only</code></pre>
+<p>You should see a clean working tree and an "Already up to date" message.</p>
+<p>Why this matters:</p>
+<ul>
+<li><code>git status</code> tells you whether you have local changes that are not committed yet.</li>
+<li><code>git pull --ff-only</code> is the safest first sync command when you just want to update your local repo without creating a surprise merge commit.</li>
+</ul>
+<p>If <code>git pull --ff-only</code> fails because you have local edits, do <strong>not</strong> panic. Run <code>git status</code>, commit the work you want to keep, and try again. If Git shows conflict markers like <code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code>, save the file, ask for help if needed, and do not keep coding until the markers are removed and the file is committed again.</p>
+<hr />
+<h2>Part 8: Smoke test checklist</h2>
 <p>Before submitting, confirm every item below:</p>
 <ul>
 <li>[ ] <code>node --version</code> prints v18 or higher</li>
 <li>[ ] <code>npm --version</code> prints a version number</li>
 <li>[ ] <code>git --version</code> prints a version number</li>
 <li>[ ] <code>git config user.name</code> and <code>git config user.email</code> show your details</li>
-<li>[ ] Your GitHub repository is public and visible at its URL</li>
+<li>[ ] Your GitHub repository is visible at its URL and accessible to your instructor</li>
 <li>[ ] <code>labs/lab00/index.html</code> is committed and visible on GitHub</li>
 <li>[ ] The page opens correctly in Live Server</li>
+<li>[ ] <code>git status</code> shows a clean working tree after your first push</li>
+<li>[ ] <code>git pull --ff-only</code> runs successfully after your first push</li>
 </ul>
 <hr />
 <h2>Troubleshooting</h2>
 <p><strong>"git: command not found" on Mac</strong>: Run <code>xcode-select --install</code> in the terminal.</p>
 <p><strong>"Permission denied" when pushing</strong>: You may need to authenticate. GitHub now requires a Personal Access Token instead of a password. Go to GitHub → Settings → Developer Settings → Personal Access Tokens → Generate new token. Use that token as your password when Git prompts for credentials.</p>
+<p><strong>"rejected — fetch first" or "Updates were rejected" when pushing</strong>: Your GitHub copy changed and your local copy is behind. Run <code>git status</code>, then <code>git pull --ff-only</code>. If Git says you have local changes, commit them first. If you see conflict markers in a file, stop and fix them before your next push.</p>
 <p><strong>Live Server shows a blank page</strong>: Check that you saved the file (Cmd/Ctrl+S). Check that there are no errors in the VS Code terminal.</p>
 <p><strong>npm install errors</strong>: Make sure you installed the LTS version of Node.js, not the "Current" version.</p>
 <hr />
@@ -113,19 +129,19 @@ git push</code></pre>
 <p>Submit to Canvas:</p>
 <ul>
 <li>The URL of your GitHub repository (e.g., <code>https://github.com/username/web1430-yourname</code>)</li>
-<li>A screenshot showing your terminal with <code>node --version</code>, <code>npm --version</code>, and <code>git --version</code> output</li>
+<li>A screenshot showing your terminal with <code>node --version</code>, <code>npm --version</code>, <code>git --version</code>, and <code>git status</code> output</li>
 </ul>
 <h2>Process reflection</h2>
-<p>In 3–5 sentences: What took longer than expected? What error did you run into and how did you fix it? What does your commit history look like so far?</p>
+<p>In 3–5 sentences: What took longer than expected? What error did you run into and how did you fix it? What does your commit history look like so far? If your local repo and GitHub ever differed, what command would you run first and why?</p>
 <hr />
 <h2>Rubric</h2>
 <table>
 <thead><tr><th>Criterion</th><th>Excellent (4)</th><th>Proficient (3)</th><th>Developing (2)</th><th>Incomplete (1)</th></tr></thead>
 <tbody>
 <tr><td><strong>Tools installed and verified</strong></td><td>All three tools verified in terminal with correct versions</td><td>Two of three verified</td><td>One verified, others attempted</td><td>No verification shown</td></tr>
-<tr><td><strong>Repository setup</strong></td><td>Public repo, correct name, proper folder structure committed</td><td>Repo exists, some structure present</td><td>Repo exists but empty or private</td><td>No repo found</td></tr>
+<tr><td><strong>Repository setup</strong></td><td>Repo accessible to instructor, correct name, proper folder structure committed</td><td>Repo exists, some structure present</td><td>Repo exists but access/setup incomplete</td><td>No repo found</td></tr>
 <tr><td><strong>First commit and push</strong></td><td>Meaningful commit message, file visible on GitHub</td><td>File on GitHub, generic message</td><td>Pushed but incomplete</td><td>Not pushed</td></tr>
-<tr><td><strong>Smoke test</strong></td><td>All checklist items confirmed</td><td>Most items confirmed</td><td>Some items confirmed</td><td>Few or none confirmed</td></tr>
+<tr><td><strong>Smoke test</strong></td><td>All checklist items confirmed, including status and sync check</td><td>Most items confirmed</td><td>Some items confirmed</td><td>Few or none confirmed</td></tr>
 <tr><td><strong>Reflection</strong></td><td>Specific, honest account of what worked and what broke</td><td>Addresses the prompts briefly</td><td>Vague or one sentence</td><td>Missing</td></tr>
 </tbody>
 </table>

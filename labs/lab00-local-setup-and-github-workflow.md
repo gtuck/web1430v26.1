@@ -11,6 +11,7 @@ Before any code can be written, you need a working development environment. This
 - Creating and cloning a GitHub repository
 - Making commits with meaningful messages
 - Pushing changes and verifying them on GitHub
+- Checking repository status and safely syncing with GitHub
 
 ## What you're building
 
@@ -66,7 +67,7 @@ Verify: `git config --list` should show your name and email.
 
 1. Log in to github.com. Create an account if you don't have one — use your school email.
 2. Click **New repository** (the + icon, top right).
-3. Name it `web1430-[yourname]` (e.g., `web1430-jordan-smith`). Keep it public so your instructor can view it.
+3. Name it `web1430-[yourname]` (e.g., `web1430-jordan-smith`). Make it public if your section uses public repos; otherwise a private or instructor-shared repo is acceptable as long as your instructor can access it.
 4. Check **Add a README file**.
 5. Click **Create repository**.
 
@@ -136,7 +137,26 @@ Visit your repository on GitHub and verify the file appears there.
 
 ---
 
-## Part 7: Smoke test checklist
+## Part 7: Sync and recovery check
+
+After your first push, run these commands:
+
+```bash
+git status
+git pull --ff-only
+```
+
+You should see a clean working tree and an "Already up to date" message.
+
+Why this matters:
+- `git status` tells you whether you have local changes that are not committed yet.
+- `git pull --ff-only` is the safest first sync command when you just want to update your local repo without creating a surprise merge commit.
+
+If `git pull --ff-only` fails because you have local edits, do **not** panic. Run `git status`, commit the work you want to keep, and try again. If Git shows conflict markers like `<<<<<<<`, save the file, ask for help if needed, and do not keep coding until the markers are removed and the file is committed again.
+
+---
+
+## Part 8: Smoke test checklist
 
 Before submitting, confirm every item below:
 
@@ -144,9 +164,11 @@ Before submitting, confirm every item below:
 - [ ] `npm --version` prints a version number
 - [ ] `git --version` prints a version number
 - [ ] `git config user.name` and `git config user.email` show your details
-- [ ] Your GitHub repository is public and visible at its URL
+- [ ] Your GitHub repository is visible at its URL and accessible to your instructor
 - [ ] `labs/lab00/index.html` is committed and visible on GitHub
 - [ ] The page opens correctly in Live Server
+- [ ] `git status` shows a clean working tree after your first push
+- [ ] `git pull --ff-only` runs successfully after your first push
 
 ---
 
@@ -155,6 +177,8 @@ Before submitting, confirm every item below:
 **"git: command not found" on Mac**: Run `xcode-select --install` in the terminal.
 
 **"Permission denied" when pushing**: You may need to authenticate. GitHub now requires a Personal Access Token instead of a password. Go to GitHub → Settings → Developer Settings → Personal Access Tokens → Generate new token. Use that token as your password when Git prompts for credentials.
+
+**"rejected — fetch first" or "Updates were rejected" when pushing**: Your GitHub copy changed and your local copy is behind. Run `git status`, then `git pull --ff-only`. If Git says you have local changes, commit them first. If you see conflict markers in a file, stop and fix them before your next push.
 
 **Live Server shows a blank page**: Check that you saved the file (Cmd/Ctrl+S). Check that there are no errors in the VS Code terminal.
 
@@ -166,11 +190,11 @@ Before submitting, confirm every item below:
 
 Submit to Canvas:
 - The URL of your GitHub repository (e.g., `https://github.com/username/web1430-yourname`)
-- A screenshot showing your terminal with `node --version`, `npm --version`, and `git --version` output
+- A screenshot showing your terminal with `node --version`, `npm --version`, `git --version`, and `git status` output
 
 ## Process reflection
 
-In 3–5 sentences: What took longer than expected? What error did you run into and how did you fix it? What does your commit history look like so far?
+In 3–5 sentences: What took longer than expected? What error did you run into and how did you fix it? What does your commit history look like so far? If your local repo and GitHub ever differed, what command would you run first and why?
 
 ---
 
@@ -179,7 +203,7 @@ In 3–5 sentences: What took longer than expected? What error did you run into 
 | Criterion | Excellent (4) | Proficient (3) | Developing (2) | Incomplete (1) |
 |-----------|--------------|----------------|----------------|----------------|
 | **Tools installed and verified** | All three tools verified in terminal with correct versions | Two of three verified | One verified, others attempted | No verification shown |
-| **Repository setup** | Public repo, correct name, proper folder structure committed | Repo exists, some structure present | Repo exists but empty or private | No repo found |
+| **Repository setup** | Repo accessible to instructor, correct name, proper folder structure committed | Repo exists, some structure present | Repo exists but access/setup incomplete | No repo found |
 | **First commit and push** | Meaningful commit message, file visible on GitHub | File on GitHub, generic message | Pushed but incomplete | Not pushed |
-| **Smoke test** | All checklist items confirmed | Most items confirmed | Some items confirmed | Few or none confirmed |
+| **Smoke test** | All checklist items confirmed, including status and sync check | Most items confirmed | Some items confirmed | Few or none confirmed |
 | **Reflection** | Specific, honest account of what worked and what broke | Addresses the prompts briefly | Vague or one sentence | Missing |

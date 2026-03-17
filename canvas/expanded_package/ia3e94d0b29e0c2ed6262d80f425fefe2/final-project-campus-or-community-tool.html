@@ -13,20 +13,20 @@
 <p>The final project is your capstone: a complete, deployed, portfolio-ready client-side web application built for a realistic audience. It synthesizes every skill from the course — design, structure, behavior, data, state, and accessibility — in a single coherent product.</p>
 <p>The tool must solve a real (if small) problem for a defined audience. "Campus or community" is a prompt, not a constraint: your audience can be students, staff, club members, volunteers, local residents, or any group you can describe concretely. The requirement is that the tool is useful and the audience is real, not hypothetical.</p>
 <h2>Start-ahead plan</h2>
-<p>The first graded Final Project milestone lands at the end of Week 12, so you should not wait until Week 13 to start planning.</p>
+<p>The first graded Final Project milestone lands at the end of Week 12 and now includes a small planning starter, so you should not wait until Week 13 to start thinking.</p>
 <p>During Week 12, spend 20 to 45 minutes doing these three things:</p>
 <ol>
 <li>Choose one likely audience and one specific problem worth solving.</li>
 <li>Test one API endpoint or local JSON source and confirm that the data is usable.</li>
 <li>Write a rough feature list with 3 to 5 realistic interactions.</li>
 </ol>
-<p>This is not a separate submission. It is runway work so the Week 12 pitch and the Week 13 wireframe/data-plan milestone begin from a real idea instead of last-minute brainstorming.</p>
+<p>Milestone 1 asks you to capture that work in a small, low-overhead form. The goal is not finished planning in Week 12. The goal is to make Week 13 a revision week instead of a cold start.</p>
 <h2>Suggested pacing across Weeks 12–15</h2>
 <ul>
-<li><strong>Week 12:</strong> choose the audience, test data, rule out ideas that are too large, and submit the pitch by Sunday.</li>
-<li><strong>Week 13:</strong> scaffold the project, prove one core interaction is technically possible, and finish the wireframes, data plan, and state map while the implementation is still small.</li>
-<li><strong>Week 14:</strong> reach the beta with all major features present, then use Lab 13 and the audit guides to find weak spots.</li>
-<li><strong>Week 15:</strong> tighten deployment quality, write the rationale while your decisions are fresh, and finish the reflection before the final deadline window closes.</li>
+<li><strong>Week 12:</strong> choose the audience, test data, rule out ideas that are too large, and submit the pitch plus a small planning starter by Sunday.</li>
+<li><strong>Week 13:</strong> scaffold the project, prove one core interaction is technically possible, and revise the starter into the full wireframes, data plan, and state map while the implementation is still small.</li>
+<li><strong>Week 14:</strong> reach the beta with all major features present, then use Lab 13 and the audit guides to find weak spots and begin the rationale draft.</li>
+<li><strong>Week 15:</strong> tighten deployment quality, finish the rationale while your decisions are still visible in the code, and complete the reflection before the final deadline window closes.</li>
 </ul>
 <hr />
 <h2>Scope</h2>
@@ -46,7 +46,7 @@
 </table>
 <p>You may choose to use Vue for your front-end layer. If you use Vue, the requirement for ES module organization is satisfied by the Vue SFC structure, and you should demonstrate at least two components with props/emits communication.</p>
 <hr />
-<h2>Milestone 1 — Pitch</h2>
+<h2>Milestone 1 — Pitch and Planning Starter</h2>
 <p><strong>Due:</strong> End of Week 12 (Sunday)</p>
 <p>Submit <code>projects/final-project/pitch.md</code> containing:</p>
 <ol>
@@ -55,11 +55,15 @@
 <li><strong>Feature list:</strong> 3–5 bullet points describing what a user can do</li>
 <li><strong>API or data source:</strong> What data powers the app? Paste an example endpoint or a sample of the JSON</li>
 <li><strong>Tech stack decisions:</strong> Vanilla JS or Vue? Which API? Any other libraries?</li>
+<li><strong>Starter sketch:</strong> Paste or link one rough sketch of either the initial/empty state or the loaded state</li>
+<li><strong>Data starter:</strong> Draft one normalized object with 4–6 likely properties and add one sentence describing what you expect to store in <code>localStorage</code></li>
+<li><strong>API viability check:</strong> In 4 bullets, document CORS/browser access, rate limits or auth requirements, attribution or terms-of-use expectations, and how current/reliable the data appears to be</li>
 </ol>
-<p>Pitch feedback will be returned within 48 hours. If scope is too large or too small, you will be asked to adjust before proceeding.</p>
+<p>Pitch feedback will be returned within 48 hours. If scope is too large or too small, you will be asked to adjust before proceeding. The planning starter exists to reduce Week 13 friction, not to make Week 12 feel like a finished design document.</p>
 <hr />
-<h2>Milestone 2 — Wireframe and Data Plan</h2>
+<h2>Milestone 2 — Revised Wireframe and Data Plan</h2>
 <p><strong>Due:</strong> End of Week 13 (Sunday)</p>
+<p>By this point you should already have a starter sketch and a draft normalized object from Milestone 1. Use Week 13 to revise those early ideas after you have scaffolded the project or proven that one core interaction is technically possible.</p>
 <p>Submit in <code>projects/final-project/</code>:</p>
 <ul>
 <li><code>wireframes/</code> — at minimum three sketches: initial/empty state, loaded state, and a detail or interaction state. Hand-drawn photos are acceptable.</li>
@@ -67,6 +71,7 @@
 <li>The shape of one normalized data object (all properties, types, sources)</li>
 <li>What is stored in <code>localStorage</code> (key name, value shape, when it is written/read)</li>
 <li>Which UI states exist (loading, empty, error, success, detail, etc.)</li>
+<li>Where each major piece of state lives (for example, UI state, fetched data, selected item, saved preferences)</li>
 </ul>
 <p>Use fictional or demo data while planning and testing. Do not store passwords, government IDs, tokens, or other sensitive personal data in <code>localStorage</code> or <code>sessionStorage</code>.</p>
 <hr />
@@ -84,7 +89,9 @@
 <li>What is working well?</li>
 <li>What is not yet done or not working correctly?</li>
 <li>What help do you need before final submission?</li>
+<li>Which 2–3 issues from your Lab 13 audit or personal QA pass are highest priority before Week 15?</li>
 </ul>
+<p>Also start <code>rationale.md</code> this week. It does not need to be polished yet, but the file should exist with each required prompt and at least bullet notes under each heading so Week 15 writing becomes revision instead of first drafting.</p>
 <hr />
 <h2>Milestone 4 — Final Submission</h2>
 <p><strong>Due:</strong> End of Week 15 (Sunday)</p>
@@ -92,9 +99,18 @@
 <ul>
 <li>Live URL (deployed production build)</li>
 <li>GitHub repository URL (link to <code>projects/final-project/</code>)</li>
+<li><code>README.md</code> link</li>
 <li><code>rationale.md</code> link</li>
 </ul>
 <p>The submitted live URL must load within 5 seconds on a standard connection. The deployed version is what is graded — not the source code alone.</p>
+<p>Include <code>README.md</code> in <code>projects/final-project/</code> with:</p>
+<ul>
+<li>audience and problem statement</li>
+<li>setup and run steps</li>
+<li>data source and attribution notes</li>
+<li>accessibility and QA checks performed</li>
+<li>known limitations / future improvements</li>
+</ul>
 <hr />
 <h2>Milestone 5 — Course Reflection</h2>
 <p><strong>Due:</strong> End of Week 15 (same deadline as final submission)</p>
@@ -106,6 +122,7 @@
 <ul>
 <li>All JavaScript in ES modules loaded via Vite</li>
 <li>Minimum four module files with clear single-responsibility comments</li>
+<li><code>README.md</code> in the project root with setup, audience/problem, data source, and QA notes</li>
 <li>No <code>innerHTML</code> with user-supplied or API-sourced data</li>
 <li>No <code>var</code>; no anonymous functions for named responsibilities</li>
 </ul>
@@ -177,7 +194,7 @@
 <tr><td><strong>Functionality</strong></td><td>All stated features work correctly; three distinct interactions functional; no broken states</td><td>Most features work; one interaction has minor issues</td><td>Core feature works; secondary features incomplete or broken</td><td>Non-functional or only partially loads</td></tr>
 <tr><td><strong>Remote data</strong></td><td>Fetch with <code>response.ok</code> check; <code>try/catch/finally</code>; loading, success, error, and empty states all handled distinctly</td><td>Three of four states handled; <code>response.ok</code> checked</td><td>Two states handled</td><td>No fetch or no error handling</td></tr>
 <tr><td><strong>Persistence</strong></td><td><code>localStorage</code> feature correctly reads on load, writes on change, and handles first-visit null case; <code>JSON.stringify/parse</code> used for objects</td><td>Feature works; first-visit case not handled</td><td>Feature present but broken on reload</td><td>No localStorage</td></tr>
-<tr><td><strong>Code organization</strong></td><td>Four module files with responsibility comments; no circular dependencies; no <code>innerHTML</code> with external data; no <code>var</code></td><td>Three files; one minor violation</td><td>Two files; some mixing</td><td>Single file</td></tr>
+<tr><td><strong>Code organization</strong></td><td>Four module files with responsibility comments; useful <code>README.md</code>; no circular dependencies; no <code>innerHTML</code> with external data; no <code>var</code></td><td>Three files or README has minor gaps; one minor violation</td><td>Two files; weak or missing documentation; some mixing</td><td>Single file</td></tr>
 <tr><td><strong>Responsive design</strong></td><td>Mobile-first; custom properties for all design values; layout functional at 375px, 768px, and 1280px</td><td>Responsive with minor gap at one size</td><td>Partially responsive; some custom properties</td><td>Not responsive</td></tr>
 <tr><td><strong>Accessibility</strong></td><td>Validates; skip nav; alt text; keyboard-operable; <code>aria-live</code>; contrast passes; focus visible</td><td>Four of six criteria</td><td>Three criteria</td><td>Two or fewer</td></tr>
 <tr><td><strong>Commit history</strong></td><td>10+ meaningful commits distributed across the build period</td><td>7–9 commits; most meaningful</td><td>4–6 commits</td><td>3 or fewer; or all on one day</td></tr>

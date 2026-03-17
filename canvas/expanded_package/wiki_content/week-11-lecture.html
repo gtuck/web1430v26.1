@@ -56,10 +56,14 @@ console.log(formatCurrency(1999));        // &quot;$19.99&quot;</code></pre>
 export default function renderCard(item) {
   const article = document.createElement(&quot;article&quot;);
   article.className = &quot;card&quot;;
-  article.innerHTML = `
-    &lt;h2&gt;${item.title}&lt;/h2&gt;
-    &lt;p&gt;${item.description}&lt;/p&gt;
-  `;
+
+  const heading = document.createElement(&quot;h2&quot;);
+  heading.textContent = item.title;
+
+  const description = document.createElement(&quot;p&quot;);
+  description.textContent = item.description;
+
+  article.append(heading, description);
   return article;
 }</code></pre>
 <pre><code class="language-js">// main.js
@@ -67,7 +71,7 @@ import renderCard from &quot;./components/card.js&quot;;
 
 const card = renderCard({ title: &quot;Hello&quot;, description: &quot;World&quot; });
 document.getElementById(&quot;grid&quot;).append(card);</code></pre>
-<p>The import does not use <code>{ }</code> for default exports, and you can name it anything you want at the import site — though using the same name is clearest.</p>
+<p>The import does not use <code>{ }</code> for default exports, and you can name it anything you want at the import site — though using the same name is clearest. This example also keeps the rendering pattern aligned with the course's broader rule: when content comes from data, prefer <code>createElement</code> and <code>textContent</code> over HTML strings.</p>
 <h3>Mixing named and default exports</h3>
 <p>A file can have both, and you can import both in one statement:</p>
 <pre><code class="language-js">import renderCard, { cardStyles, CARD_LIMIT } from &quot;./components/card.js&quot;;</code></pre>

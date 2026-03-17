@@ -36,6 +36,7 @@ If you start to feel overloaded, protect these requirements first:
 - errors are linked to the correct fields
 
 Do not spend your best time on animation or visual polish before these are working.
+A visually simple app can still earn a strong grade if the flow, validation, and accessibility are correct. Fancy styling is not a substitute for a reliable multi-step workflow.
 
 ---
 
@@ -117,7 +118,7 @@ Each step must validate before allowing the user to advance. Required validation
 - At minimum one required field validated
 
 For each invalid field:
-- Show an inline error message using `textContent` (or a `<span>` with the message bound via `{{ }}`
+- Show an inline error message using `textContent` (or a `<span>` with the message bound via `{{ }}`)
 - Set `aria-invalid="true"` on the input (`:aria-invalid="fieldError ? 'true' : 'false'"`)
 - Link the error to its input with `aria-describedby`
 
@@ -154,7 +155,7 @@ For each invalid field:
 
 ## Above baseline (stretch)
 
-Work in this section is reflected in the Excellent (4) column of the rubric.
+Stretch work can strengthen an already solid submission, but it is not required for an Excellent if the core workflow, validation, and accessibility work are strong.
 
 - Persist partially-completed form data to `localStorage` so a user who closes the tab mid-flow can resume where they left off
 - Add a `computed` property in `App.vue` that tracks overall form completion percentage and display it in `StepIndicator`
@@ -190,5 +191,5 @@ Write 4–6 sentences addressing:
 | **Reactive form state** | `v-model` on all inputs; `computed` used for derived value; review reflects parent data via props | `v-model` used; no `computed` | Mixed `v-model` and manual handlers | Manual DOM reads |
 | **Validation** | All three steps validate before advancing; error messages inline and linked via `aria-describedby`; `aria-invalid` set correctly | Two steps validate; error messages present | One step validates | No validation |
 | **Step flow** | Advancing, going back, and submitting work correctly; review shows complete data; success view resets app | Advancing and submitting work; back navigation missing | Forward flow works; review incomplete | Flow non-functional |
-| **Accessibility** | Focus managed on step change; `aria-live` on step region; all labels connected; step indicator readable by screen reader | Three of four criteria | Two criteria | One or none |
+| **Accessibility** | Focus managed on step change; live announcements work; labels, error links, and submit text are clear; step indicator communicates progress accessibly | Most accessibility requirements met; one minor gap remains | Some accessibility work present; several requirements incomplete | Little or no accessibility support |
 | **Rationale** | Specific, honest, addresses all four prompts | Addresses three prompts | Vague or two prompts | Missing |

@@ -161,4 +161,4 @@ Lighthouse accessibility scores measure automated rule compliance, not lived exp
 Run a Lighthouse audit on your Project 2. Document every Accessibility failure in a short list. Fix at least three failures. Re-run Lighthouse and screenshot the before and after scores. Then deploy the fixed build to GitHub Pages or Netlify and submit the live URL alongside your fix list.
 
 ## Bridge
-Lab 13 — Lighthouse, Accessibility, and Deployment walks you through this exact sequence: audit, fix, deploy. Quiz 8 covers Lighthouse categories, common accessibility failures, and the GitHub Pages deployment steps. Project 2 final submission requires a live deployed URL — the deploy workflow from today is how you produce that URL.
+Lab 13 — Lighthouse, Accessibility, and Deployment walks you through this exact sequence: audit, fix, deploy, and document what changed. Quiz 8 is now a short readiness check on the core concepts behind that work: Lighthouse categories, common accessibility failures, and deployment verification steps. Project 2 final submission requires a live deployed URL, and Final Project Beta asks you to carry those same QA habits forward.

@@ -62,10 +62,14 @@ A default export represents the primary thing a file provides. A file can have o
 export default function renderCard(item) {
   const article = document.createElement("article");
   article.className = "card";
-  article.innerHTML = `
-    <h2>${item.title}</h2>
-    <p>${item.description}</p>
-  `;
+
+  const heading = document.createElement("h2");
+  heading.textContent = item.title;
+
+  const description = document.createElement("p");
+  description.textContent = item.description;
+
+  article.append(heading, description);
   return article;
 }
 ```
@@ -78,7 +82,7 @@ const card = renderCard({ title: "Hello", description: "World" });
 document.getElementById("grid").append(card);
 ```
 
-The import does not use `{ }` for default exports, and you can name it anything you want at the import site — though using the same name is clearest.
+The import does not use `{ }` for default exports, and you can name it anything you want at the import site — though using the same name is clearest. This example also keeps the rendering pattern aligned with the course's broader rule: when content comes from data, prefer `createElement` and `textContent` over HTML strings.
 
 ### Mixing named and default exports
 A file can have both, and you can import both in one statement:

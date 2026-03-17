@@ -56,11 +56,16 @@ The build script now regenerates:
 - Module overviews now include resource links, time estimates, week-specific checkpoint questions, and harder-week `What students usually struggle with` guidance.
 - Published support pages include the accessibility primer, API troubleshooting guide, screen reader testing guide, course reflection prompt, Week 5 / Week 11 / Week 13 surveys, and the Vue transition guide.
 - The weekly schedule and late-course module overviews now surface Final Project milestones instead of hiding that workload.
-- `Assignment 6`, `Project 2`, and the `Final Project` now include pacing/build-order guidance intended to reduce late-course student overload.
+- `Assignment 6`, `Project 2`, and the `Final Project` now include pacing/build-order guidance intended to reduce late-course student overload, and the Final Project now uses a Week 12 planning starter followed by Week 13 revision work.
+- Week 14 assessment now leans more heavily on Lab 13 as applied QA evidence, while Quiz 8 has been reduced to a short readiness check.
 - Quizzes and exams now include stronger code-reading and debugging stems, although they still use selected-response item types.
+- API-driven assignments and projects now require an API viability check covering browser access, rate limits/auth, attribution/terms, and data reliability.
+- Major project briefs and syllabus docs now require lightweight `README.md` documentation for setup, audience/problem, data-source notes, and QA context.
+- Week 00 materials now explicitly teach `git status` and `git pull --ff-only` as baseline sync/recovery habits, and repo policy now supports public or instructor-shared workflows depending on section requirements.
+- Textbook chapters 8, 9, 10, 11, and 14 were updated to match those newer documentation, API, storage, and QA expectations.
 - The Canvas assessment package is generated from `quizzes/*.json`, so quiz JSON is the canonical assessment source.
 - Instructor-side delivery support now includes `course/import_to_canvas.md` and `course/first-delivery-monitoring-guide.md`.
-- The reports in `reports/` are current as of March 16, 2026 and should be treated as the latest cross-role analysis snapshot.
+- The reports in `reports/` are current as of March 16, 2026 and reflect the additional alignment pass that updated late-course pacing, Week 00 Git guidance, project documentation expectations, and textbook/course consistency.
 
 ## Curriculum sequence and dependency rules
 
@@ -129,6 +134,7 @@ Rubrics use exactly four levels:
 - No live Canvas import smoke test is performed from this repo; validation is package-level only.
 - Assessments are stronger than before, but they are still selected-response only.
 - There are still no standalone low-stakes applied checkpoints for DevTools or persistence.
+- Week 14 now has stronger applied QA evidence, but there are still no standalone earlier low-stakes checkpoints for DevTools or persistence.
 - Survey/feedback workflows are documented, but the live forms and follow-up announcements still require manual instructor setup and execution.
 - `course/syllabus.md` drives the Canvas syllabus export, but `syllabus.md` also exists and must stay synchronized.
 - The build script relies on the existing Canvas manifest/resource structure for the current assessment set; adding brand-new assessments may require extending that mapping.

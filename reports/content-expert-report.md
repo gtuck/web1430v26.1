@@ -1,13 +1,20 @@
 # Updated Content Expert Analysis Report: WEB 1430 Client-Side Web Development
 
 **Date:** March 16, 2026  
-**Scope:** Current course-level documents, weekly module overviews, lecture structure, labs, assignments, projects, textbook navigation docs, support guides, and quiz/exam source files after the synchronization, assessment, and student-experience improvement passes
+**Scope:** Current course-level documents, weekly module overviews, lecture structure, labs, assignments, projects, textbook chapters/navigation docs, support guides, and quiz/exam source files after the synchronization, assessment, student-experience, and documentation/textbook alignment passes
 
 ---
 
 ## Executive Summary
 
 WEB 1430 is now content-complete, internally coherent, and substantially better synchronized than it was in the earlier review state. The course still delivers a strong conceptual arc from browser fundamentals through semantic structure, JavaScript, DOM/event work, async/state, modules, Vue, accessibility, testing, deployment, and capstone integration. The main difference now is that the learner-facing content does more support work at the transition points where students are most likely to stall.
+
+An additional alignment pass also strengthened four cross-cutting areas that were previously more implicit than explicit:
+
+- Week 00 now teaches Git sync/recovery habits, not just first-push setup
+- API-driven work now asks students to evaluate source viability before building
+- major projects now require lightweight README-style documentation
+- textbook chapters now match those live course expectations instead of lagging behind them
 
 There are no major content gaps relative to the stated learning outcomes. The earlier high-visibility drift problems around due dates, chapter count, quiz alignment, and Canvas-package mismatch have been addressed. The course now reads like one course instead of a strong course split across slightly conflicting artifacts.
 
@@ -35,6 +42,10 @@ The earlier content review found a strong course underneath a synchronization pr
 - The harder weeks now include explicit `What students usually struggle with` guidance.
 - The Vue transition is better scaffolded with `course/vue-transition-guide.md`.
 - `Assignment 6`, `Project 2`, and the `Final Project` now include practical pacing and build-order guidance.
+- Week 00 now explicitly teaches `git status` and `git pull --ff-only` as baseline recovery moves.
+- API-driven assignments/projects now require an API viability check and clearer data-source documentation.
+- Project briefs and syllabus docs now require lightweight `README.md` documentation.
+- Textbook chapters 8, 9, 10, 11, and 14 now align with those project/documentation/QA expectations.
 
 These are not just packaging fixes. They meaningfully improve continuity and help the course teach through the difficult weeks instead of only assigning through them.
 
@@ -110,14 +121,14 @@ All stated learning outcomes remain adequately covered.
 
 ## Remaining Findings
 
-### 1. Moderate: The late-course load is still structurally compressed
+### 1. Moderate: The late-course load is still structurally compressed, though slightly less than before
 
 The content now surfaces the real demands of Weeks 13-15 much more clearly, and the pacing/build-order language is better than before. However, the underlying cluster of deliverables is still heavy:
 
 - `Assignment 6`
-- Final Project Pitch
-- Final Project Wireframe and Data Plan
-- `Quiz 8`
+- Final Project Revised Wireframe and Data Plan
+- `Quiz 8` readiness check
+- `Lab 13` QA report
 - `Project 2`
 - Final Project Beta
 - Final Project
@@ -128,7 +139,7 @@ The content now surfaces the real demands of Weeks 13-15 much more clearly, and 
 This is no longer a continuity problem, but it is still a content-flow and cognitive-load issue. The late course asks students to synthesize framework thinking, quality checks, and capstone production in overlapping windows.
 
 **Recommendation:**  
-Use first-delivery evidence before changing structure, but if a structural change becomes necessary, reduce overlap before adding more explanatory text.
+Use first-delivery evidence before changing structure, but if a structural change becomes necessary, reduce overlap before adding more explanatory text. The recent pass improved pacing and clarity; it did not remove the underlying late-term density entirely.
 
 ### 2. Moderate-low: Assessment coverage is stronger, but still concentrated in projects for some outcomes
 

@@ -63,10 +63,22 @@ function normalizeBook(doc) {
 **In the render function**, check before using the optional value:
 
 ```js
-const img = item.coverId
-  ? `<img src="https://covers.openlibrary.org/b/id/${item.coverId}-M.jpg" alt="Cover of ${item.title}">`
-  : `<div class="no-cover" aria-label="No cover available"></div>`;
+function renderCover(item) {
+  if (item.coverId) {
+    const img = document.createElement('img');
+    img.src = `https://covers.openlibrary.org/b/id/${item.coverId}-M.jpg`;
+    img.alt = `Cover of ${item.title}`;
+    return img;
+  }
+
+  const fallback = document.createElement('div');
+  fallback.className = 'no-cover';
+  fallback.setAttribute('aria-label', 'No cover available');
+  return fallback;
+}
 ```
+
+This keeps the fallback logic clear without switching back to HTML-string rendering for API-derived content.
 
 ---
 

@@ -4,6 +4,8 @@
 
 Code that runs locally but is never deployed is unfinished. Code that deploys but scores poorly on performance and accessibility is incomplete. This lab closes the loop: you will audit a previous project with Lighthouse, identify and fix issues, verify improvements, and deploy a production-ready build.
 
+This lab is also the main applied quality-assurance evidence for Week 14, so your notes should directly inform Project 2, your Final Project beta, or both.
+
 ## Skills practiced
 
 - Running a Lighthouse audit in Chrome DevTools
@@ -15,9 +17,9 @@ Code that runs locally but is never deployed is unfinished. Code that deploys bu
 
 ## What you're auditing
 
-Choose **one** of your previous projects or labs that is already deployed or can be deployed. Recommended: your Lab 08 (API viewer) or Lab 05 (product explorer) — pages with enough content and interactivity to produce interesting audit results.
+Choose **one** project you can still improve this week. Strongly recommended: **Project 2** or your **Final Project beta**. Those are the artifacts most likely to benefit immediately from a real QA pass.
 
-If none of your previous work is deployed, use Lab 05 as a starting point. Deploy it to GitHub Pages or Netlify before beginning the audit.
+If neither current project is ready enough to audit, use Lab 08 or Lab 05 as a fallback. The goal is still to practice a QA workflow you can carry into the current week's graded work.
 
 ---
 
@@ -51,7 +53,7 @@ Expand each failed or warning-level audit item. For each issue, Lighthouse shows
 - How many elements are affected
 - A link to documentation
 
-In your `notes.md`, document at least **six issues** Lighthouse flagged, organized by category:
+In your `notes.md`, document at least **six issues** Lighthouse flagged, organized by category. Write the notes clearly enough that they function like a short QA memo, not just a checklist:
 
 ```
 ## Issues found
@@ -75,6 +77,8 @@ Fix at least **five** of the issues you documented. For each fix, record:
 - What you changed
 - The file and line number
 - Why the fix addresses the issue
+
+Prioritize fixes you can actually carry into this week's submission. The best version of this lab improves a real project, not only a disconnected practice page.
 
 ### Common accessibility fixes
 
@@ -195,12 +199,14 @@ Do a manual accessibility check before submitting:
 ## Deliverable
 
 In `labs/lab13/`:
-- `notes.md` — baseline scores, six documented issues, five fixes documented, final scores
+- `notes.md` — baseline scores, six documented issues, five fixes documented, final scores; treat this like a short QA memo you can reuse
 - `screenshot-baseline.png` — initial Lighthouse report
 - `screenshot-final.png` — final Lighthouse report
 - A link to the deployed, audited project
 
 Submit to Canvas: your deployed project URL, GitHub repo URL, and the link to `labs/lab13/notes.md`.
+
+If you audited Project 2 or the Final Project beta, use the same issue list when writing that project's self-assessment or revision plan.
 
 ---
 

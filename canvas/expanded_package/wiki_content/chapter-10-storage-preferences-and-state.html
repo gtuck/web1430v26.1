@@ -78,12 +78,14 @@ const prefs = raw ? JSON.parse(raw) : null;</code></pre>
 <li>Apply stored preferences synchronously in <code>DOMContentLoaded</code> before your first render to avoid a flash of unstyled or incorrectly-configured UI.</li>
 <li>Inspect storage in DevTools: Application → Local Storage / Session Storage.</li>
 <li>Clear storage in DevTools when testing first-visit behavior: Application → Clear Site Data.</li>
+<li>In course work, use fictional or demo data when a feature resembles an account, registration, or user profile. Browser storage is for preferences, lightweight drafts, and non-sensitive state, not real personal records.</li>
 </ul>
 <h2>Common mistakes</h2>
 <ul>
 <li><strong>Storing objects without <code>JSON.stringify</code></strong>: <code>localStorage.setItem(&#x27;user&#x27;, { name: &#x27;Jordan&#x27; })</code> stores the string <code>&quot;[object Object]&quot;</code>. Always stringify.</li>
 <li><strong>Not handling <code>null</code> from <code>getItem</code></strong>: <code>JSON.parse(null)</code> returns <code>null</code> without throwing, but calling <code>.theme</code> on <code>null</code> throws a TypeError. Check for <code>null</code> first.</li>
 <li><strong>Storing sensitive data</strong>: localStorage is accessible to any JavaScript running on the page — including third-party scripts and browser extensions. Never store passwords, authentication tokens, or personal information.</li>
+<li><strong>Using real personal data in class projects</strong>: even if the feature is "just a demo," treat names, emails, IDs, and preference data as sensitive unless the assignment explicitly says otherwise. Use fictional/demo values when practicing browser storage patterns.</li>
 <li><strong>Hitting the 5MB storage limit</strong>: storing large amounts of data (images encoded as strings, full API responses) will throw a <code>QuotaExceededError</code>. Store references (IDs) rather than full records.</li>
 <li><strong>Not clearing stale state</strong>: if your data model changes between versions of your app, old stored data can break the new version. Consider versioning your stored keys or clearing old data on initialization.</li>
 </ul>

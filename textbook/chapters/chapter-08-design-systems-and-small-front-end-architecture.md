@@ -62,6 +62,8 @@ main.js          → entry point: imports and initializes everything
 
 Write a one-sentence comment at the top of each file stating its purpose. This is documentation you give your future self.
 
+For substantial projects, add a short `README.md` at the project root as well. A top-of-file purpose comment explains one file; a README explains the whole system: who it is for, how to run it, what data it depends on, and what quality checks you performed before shipping.
+
 **Naming conventions** — consistent names reduce cognitive load:
 
 - **CSS classes**: lowercase, hyphen-separated: `.nav-bar`, `.product-card`, `.btn-primary`

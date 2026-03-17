@@ -110,6 +110,7 @@ Suggested response:
 
 Review:
 
+- `Lab 13` QA report quality
 - `Project 2` submission quality
 - Final Project Beta quality
 - late/missing counts
@@ -151,8 +152,8 @@ Use one row per week.
 |------|---------------|-----------|--------|-----------|------------------|----------------|----------------------|-------|
 | 11 | Survey, Project 2 Build | | | | | | | |
 | 12 | Quiz 7, Lab 11 / Project 2 Build | | | | | | | |
-| 13 | Assignment 6, FP Milestones 1–2, pulse check | | | | | | | |
-| 14 | Quiz 8, Project 2, FP Beta | | | | | | | |
+| 13 | Assignment 6, FP Planning Starter + Revised Plan, pulse check | | | | | | | |
+| 14 | Quiz 8 readiness check, Lab 13 QA report, Project 2, FP Beta | | | | | | | |
 | 15 | Final Exam, Final Project, Reflection | | | | | | | |
 
 ---

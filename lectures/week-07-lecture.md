@@ -201,7 +201,7 @@ Event-driven validation is one of the highest-impact areas for accessibility in 
 2. In `demo-07.js`, write `showError(fieldId, message)` and `clearError(fieldId)` helper functions that set/remove `aria-invalid` and update `textContent` of the error container.
 3. Attach `blur` listeners to each field. On blur, validate the field's value and call `showError` or `clearError` accordingly.
 4. Attach a `submit` listener to the form. Call `event.preventDefault()`. Run all three validations. If any fail, move focus to the first invalid field.
-5. If all fields pass, replace the form's `innerHTML` with a success message and focus the message container.
+5. If all fields pass, hide the form, create a separate success `<div role="alert" tabindex="-1">`, set its `textContent`, append it next to the form, and move focus to that success message.
 6. Use a screen reader (macOS VoiceOver: Cmd+F5) to demonstrate that the live region announces errors without the student having to navigate to them manually.
 
 ## Practice prompt

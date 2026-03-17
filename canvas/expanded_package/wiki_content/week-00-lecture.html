@@ -17,6 +17,7 @@
 <li>Install and configure VS Code with the recommended extensions for this course</li>
 <li>Create a GitHub account and explain the difference between Git (local version control) and GitHub (remote hosting)</li>
 <li>Clone a repository to your machine, make a change, commit it, and push it back to GitHub</li>
+<li>Use <code>git status</code> and <code>git pull --ff-only</code> to check whether your local repository is in sync with GitHub</li>
 <li>Describe the weekly rhythm: when to read, when labs are due, and how to ask for help asynchronously</li>
 <li>Submit the Welcome Survey and the GitHub Repo Setup deliverable</li>
 </ul>
@@ -55,6 +56,39 @@
 git commit -m &quot;describe the change&quot;  # save a snapshot locally
 git push                         # send the snapshot to GitHub</code></pre>
 <p>A commit message should finish the sentence "This commit will…". Write <code>&quot;Add hero section HTML&quot;</code>, not <code>&quot;stuff&quot;</code> or <code>&quot;asdfgh&quot;</code>.</p>
+<h3>Staying in sync with GitHub</h3>
+<p>The first push is not the end of the workflow. You also need to know whether your local copy and GitHub still agree.</p>
+<pre><code class="language-bash">git status         # tells you whether files are changed, staged, or clean
+git pull --ff-only # updates your local repo only when Git can do it safely without a merge commit
+git push           # sends your committed work to GitHub</code></pre>
+<p>Use this order when something feels off:</p>
+<ol>
+<li>Run <code>git status</code> and read it carefully.</li>
+<li>If your work is committed and you just need updates from GitHub, run <code>git pull --ff-only</code>.</li>
+<li>If <code>git push</code> is rejected because the remote changed, stop and sync before making more edits.</li>
+</ol>
+<p><code>git pull --ff-only</code> is a good Week 00 default because it keeps the sync behavior simple. It succeeds when GitHub is simply ahead of your local copy and stops when the situation is more complicated.</p>
+<h3>Simple recovery example</h3>
+<p>Imagine this sequence:</p>
+<ul>
+<li>You pushed your Lab 00 file yesterday.</li>
+<li>Today you made a quick README edit on GitHub.com or from another machine.</li>
+<li>Now your laptop copy is behind GitHub, and <code>git push</code> says the remote contains work you do not have yet.</li>
+</ul>
+<p>Start here:</p>
+<pre><code class="language-bash">git status
+git pull --ff-only</code></pre>
+<p>If Git updates cleanly, you are done. If Git says you have local changes, commit them first. If Git stops and a file shows markers like this:</p>
+<pre><code class="language-txt">&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+Local version
+=======
+GitHub version
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; main</code></pre>
+<p>That is a merge conflict. Open the file, decide what content to keep, delete the marker lines, save, then run:</p>
+<pre><code class="language-bash">git add &lt;file&gt;
+git commit -m &quot;Resolve merge conflict in &lt;file&gt;&quot;
+git push</code></pre>
+<p>You are not expected to be fast at this in Week 00. You are expected to recognize the situation and stop before making it messier.</p>
 <h3>Cloning the course starter repo</h3>
 <p>The instructor will share a GitHub Classroom link in the Week 00 module. Clicking it creates a personal copy of the starter repository under your GitHub account. To get it onto your machine:</p>
 <pre><code class="language-bash"># Replace YOUR-USERNAME and REPO-NAME with the actual values shown on GitHub
@@ -82,9 +116,10 @@ cd ..      # go up one level</code></pre>
 <ol>
 <li><strong>Skipping the Modules view.</strong> Students who navigate Canvas by clicking dashboard tiles miss hidden links and submission instructions buried in module pages.</li>
 <li><strong>Committing without a message.</strong> Running <code>git commit</code> without <code>-m &quot;...&quot;</code> drops you into a terminal text editor (Vim). If this happens, type <code>:q!</code> and press Enter to exit, then re-run with the <code>-m</code> flag.</li>
-<li><strong>Editing files directly on GitHub.com instead of locally.</strong> This creates a diverged history. Always work locally and push.</li>
+<li><strong>Editing files directly on GitHub.com instead of locally.</strong> This can create a diverged history. If it happens, stop, run <code>git status</code>, then <code>git pull --ff-only</code> before making more changes locally.</li>
 <li><strong>Not installing Live Server before Lab 01.</strong> Lab 01 requires a running local server. Install it now so you are not troubleshooting an extension during a lab deadline.</li>
 <li><strong>Confusing the repo URL formats.</strong> GitHub shows both HTTPS and SSH clone URLs. Use HTTPS unless you have set up an SSH key — the HTTPS URL starts with <code>https://github.com/</code>.</li>
+<li><strong>Trying random Git commands after a rejected push.</strong> In this course, your first recovery move should usually be <code>git status</code>, not guessing.</li>
 </ol>
 <h2>Accessibility connection</h2>
 <p>Accessible online course design starts with the instructor, but students benefit from understanding it too. Canvas pages use heading structure, alt text on images, and sufficient color contrast — pay attention to how well-structured documents help you navigate faster, because you will apply the same principles to your own HTML pages starting in Week 02. Screen reader users and keyboard-only users depend on that structure.</p>
@@ -104,7 +139,11 @@ cd ..      # go up one level</code></pre>
 <ol>
 <li>Refresh your GitHub repository page. Confirm the README now shows your name.</li>
 <li>Show the commit history on GitHub: click the clock icon ("N commits") above the file list to see every snapshot.</li>
+<li>Back in the terminal, run:</li>
 </ol>
+<pre><code class="language-bash">   git status
+   git pull --ff-only</code></pre>
+<p>Confirm that the working tree is clean and your local repo is in sync with GitHub.</p>
 <h2>Practice prompt</h2>
 <p>Open VS Code and create a new folder called <code>week-00-practice</code> on your Desktop. Inside it, create a file called <code>notes.txt</code> and type three things you want to learn in this course. Initialize a Git repository in that folder (<code>git init</code>), stage the file, commit it with a descriptive message, and inspect the log with <code>git log --oneline</code>. You do not need to push this one — the goal is to practice the local commit cycle without a remote repository.</p>
 <h2>Bridge</h2>

@@ -95,12 +95,14 @@ Start with in-memory state. Promote to sessionStorage or localStorage only when 
 - Apply stored preferences synchronously in `DOMContentLoaded` before your first render to avoid a flash of unstyled or incorrectly-configured UI.
 - Inspect storage in DevTools: Application → Local Storage / Session Storage.
 - Clear storage in DevTools when testing first-visit behavior: Application → Clear Site Data.
+- In course work, use fictional or demo data when a feature resembles an account, registration, or user profile. Browser storage is for preferences, lightweight drafts, and non-sensitive state, not real personal records.
 
 ## Common mistakes
 
 - **Storing objects without `JSON.stringify`**: `localStorage.setItem('user', { name: 'Jordan' })` stores the string `"[object Object]"`. Always stringify.
 - **Not handling `null` from `getItem`**: `JSON.parse(null)` returns `null` without throwing, but calling `.theme` on `null` throws a TypeError. Check for `null` first.
 - **Storing sensitive data**: localStorage is accessible to any JavaScript running on the page — including third-party scripts and browser extensions. Never store passwords, authentication tokens, or personal information.
+- **Using real personal data in class projects**: even if the feature is "just a demo," treat names, emails, IDs, and preference data as sensitive unless the assignment explicitly says otherwise. Use fictional/demo values when practicing browser storage patterns.
 - **Hitting the 5MB storage limit**: storing large amounts of data (images encoded as strings, full API responses) will throw a `QuotaExceededError`. Store references (IDs) rather than full records.
 - **Not clearing stale state**: if your data model changes between versions of your app, old stored data can break the new version. Consider versioning your stored keys or clearing old data on initialization.
 

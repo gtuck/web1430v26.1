@@ -19,7 +19,7 @@ The Canvas assessment package is now regenerated directly from these JSON source
 | Quiz 5 | 09 | Ch 9 | 7 / 7 | `fetch()`, `.json()`, `async/await`, loading states, `response.ok` |
 | Quiz 6 | 10 | Ch 10 | 7 / 7 | `localStorage`, `sessionStorage`, serialization, persistence gotchas |
 | Quiz 7 | 12 | Ch 11–12 | 7 / 7 | ES modules, Vite, Vue components, props, refs, imports |
-| Quiz 8 | 14 | Ch 13–14 | 7 / 7 | Lighthouse, alt text, accessibility failures, performance, deployment |
+| Quiz 8 | 14 | Ch 13–14 | 4 / 4 | Lighthouse categories, accessibility failures, production verification, GitHub Pages base path |
 | Final Exam | 15 | Ch 1–14 | 17 / 17 | Cumulative; stronger emphasis on async/state, modules/Vue, accessibility, deployment |
 
 ---
@@ -201,7 +201,7 @@ The Canvas assessment package is now regenerated directly from these JSON source
 
 **Covers:** Chapters 13–14 – Accessibility Synthesis; Performance, Testing, and Deployment  
 **Administered:** End of Week 14  
-**Current format:** 7 selected-response questions, 7 points
+**Current format:** 4 selected-response questions, 4 points, used as a short readiness check before the applied QA evidence in Lab 13
 
 **Learning outcomes addressed:**
 - Design and validate accessible interfaces
@@ -209,10 +209,7 @@ The Canvas assessment package is now regenerated directly from these JSON source
 
 **Topic checklist:**
 - [ ] Lighthouse categories
-- [ ] Alt text purpose
 - [ ] Production vs local verification
-- [ ] Asset optimization
-- [ ] Final QA checks
 - [ ] Common Lighthouse accessibility failures
 - [ ] Vite base-path configuration for GitHub Pages
 
@@ -251,12 +248,12 @@ The Canvas assessment package is now regenerated directly from these JSON source
 | Responsive semantic HTML | Quiz 1, Midterm, Final | Assignment 1 remains the primary applied measure |
 | Readable JavaScript | Quizzes 2–3, Midterm, Final | Strong concept coverage plus applied work |
 | DOM manipulation | Quiz 4, Midterm, Final | Reinforced in Lab 06 and Assignment 3 |
-| Accessible form design | Quiz 4, Quiz 8, Final | Stronger direct performance evidence in labs/assignments |
+| Accessible form design | Quiz 4, Quiz 8, Final | Stronger direct performance evidence in labs, assignments, and Lab 13 |
 | Fetch / JSON / APIs | Quiz 5, Final | Applied heavily in Assignment 4 and Project 2 |
 | localStorage / state | Quiz 6, Final | Reinforced in Lab 09 and Project 2 |
 | Component-based thinking | Quiz 7, Final | Assignment 6 provides applied evidence |
 | Git / GitHub workflow | Midterm, Final | Also enforced through repo-based submissions |
-| Plan, build, test, present | Quiz 8, Final | Major project milestones remain the main evidence |
+| Plan, build, test, present | Quiz 8, Lab 13, Final | Lab 13 now provides the primary applied QA evidence for Week 14 |
 
 ## Note on Item Types
 

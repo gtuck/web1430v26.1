@@ -11,6 +11,7 @@ In a fully online course, the toolchain *is* the classroom. If your editor, term
 - Install and configure VS Code with the recommended extensions for this course
 - Create a GitHub account and explain the difference between Git (local version control) and GitHub (remote hosting)
 - Clone a repository to your machine, make a change, commit it, and push it back to GitHub
+- Use `git status` and `git pull --ff-only` to check whether your local repository is in sync with GitHub
 - Describe the weekly rhythm: when to read, when labs are due, and how to ask for help asynchronously
 - Submit the Welcome Survey and the GitHub Repo Setup deliverable
 
@@ -56,6 +57,55 @@ git push                         # send the snapshot to GitHub
 
 A commit message should finish the sentence "This commit will…". Write `"Add hero section HTML"`, not `"stuff"` or `"asdfgh"`.
 
+### Staying in sync with GitHub
+The first push is not the end of the workflow. You also need to know whether your local copy and GitHub still agree.
+
+```bash
+git status         # tells you whether files are changed, staged, or clean
+git pull --ff-only # updates your local repo only when Git can do it safely without a merge commit
+git push           # sends your committed work to GitHub
+```
+
+Use this order when something feels off:
+1. Run `git status` and read it carefully.
+2. If your work is committed and you just need updates from GitHub, run `git pull --ff-only`.
+3. If `git push` is rejected because the remote changed, stop and sync before making more edits.
+
+`git pull --ff-only` is a good Week 00 default because it keeps the sync behavior simple. It succeeds when GitHub is simply ahead of your local copy and stops when the situation is more complicated.
+
+### Simple recovery example
+Imagine this sequence:
+- You pushed your Lab 00 file yesterday.
+- Today you made a quick README edit on GitHub.com or from another machine.
+- Now your laptop copy is behind GitHub, and `git push` says the remote contains work you do not have yet.
+
+Start here:
+
+```bash
+git status
+git pull --ff-only
+```
+
+If Git updates cleanly, you are done. If Git says you have local changes, commit them first. If Git stops and a file shows markers like this:
+
+```txt
+<<<<<<< HEAD
+Local version
+=======
+GitHub version
+>>>>>>> main
+```
+
+That is a merge conflict. Open the file, decide what content to keep, delete the marker lines, save, then run:
+
+```bash
+git add <file>
+git commit -m "Resolve merge conflict in <file>"
+git push
+```
+
+You are not expected to be fast at this in Week 00. You are expected to recognize the situation and stop before making it messier.
+
 ### Cloning the course starter repo
 The instructor will share a GitHub Classroom link in the Week 00 module. Clicking it creates a personal copy of the starter repository under your GitHub account. To get it onto your machine:
 
@@ -92,9 +142,10 @@ Other students can answer, which benefits everyone. The instructor checks the bo
 ## Common mistakes
 1. **Skipping the Modules view.** Students who navigate Canvas by clicking dashboard tiles miss hidden links and submission instructions buried in module pages.
 2. **Committing without a message.** Running `git commit` without `-m "..."` drops you into a terminal text editor (Vim). If this happens, type `:q!` and press Enter to exit, then re-run with the `-m` flag.
-3. **Editing files directly on GitHub.com instead of locally.** This creates a diverged history. Always work locally and push.
+3. **Editing files directly on GitHub.com instead of locally.** This can create a diverged history. If it happens, stop, run `git status`, then `git pull --ff-only` before making more changes locally.
 4. **Not installing Live Server before Lab 01.** Lab 01 requires a running local server. Install it now so you are not troubleshooting an extension during a lab deadline.
 5. **Confusing the repo URL formats.** GitHub shows both HTTPS and SSH clone URLs. Use HTTPS unless you have set up an SSH key — the HTTPS URL starts with `https://github.com/`.
+6. **Trying random Git commands after a rejected push.** In this course, your first recovery move should usually be `git status`, not guessing.
 
 ## Accessibility connection
 Accessible online course design starts with the instructor, but students benefit from understanding it too. Canvas pages use heading structure, alt text on images, and sufficient color contrast — pay attention to how well-structured documents help you navigate faster, because you will apply the same principles to your own HTML pages starting in Week 02. Screen reader users and keyboard-only users depend on that structure.
@@ -115,6 +166,12 @@ Accessible online course design starts with the instructor, but students benefit
    ```
 7. Refresh your GitHub repository page. Confirm the README now shows your name.
 8. Show the commit history on GitHub: click the clock icon ("N commits") above the file list to see every snapshot.
+9. Back in the terminal, run:
+   ```bash
+   git status
+   git pull --ff-only
+   ```
+   Confirm that the working tree is clean and your local repo is in sync with GitHub.
 
 ## Practice prompt
 Open VS Code and create a new folder called `week-00-practice` on your Desktop. Inside it, create a file called `notes.txt` and type three things you want to learn in this course. Initialize a Git repository in that folder (`git init`), stage the file, commit it with a descriptive message, and inspect the log with `git log --oneline`. You do not need to push this one — the goal is to practice the local commit cycle without a remote repository.

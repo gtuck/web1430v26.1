@@ -100,6 +100,7 @@ The bundler (Vite) takes all your modules, resolves the imports, and produces a 
 - Add `node_modules/` and `dist/` to `.gitignore` before your first commit.
 - Prefer named exports over default exports when a file exports more than one thing — named exports are easier to search for and rename.
 - One file, one responsibility. If a file's purpose is hard to describe in one sentence, split it.
+- Add a `README.md` for substantial projects. It should explain the audience/problem, setup steps, data source, and quality checks so another developer can run and understand the project without guessing.
 
 ## Common mistakes
 
@@ -127,6 +128,7 @@ For users on slow connections or low-powered devices, these optimizations meanin
 5. Move your book data array (from Chapter 5) into `src/data.js` and export it.
 6. Import it in `main.js`, filter it, and render the results to the DOM.
 7. Run `npm run dev` and verify it works. Run `npm run build` and inspect the `dist/` folder. What is different about the files there?
+8. Add a short `README.md` that explains what the project does, how to run it, and which files matter most.
 
 ## Reflection
 
@@ -155,3 +157,4 @@ What changed about your workflow when you started using a dev server instead of 
 - I can add `node_modules/` and `dist/` to `.gitignore` before committing.
 - I can explain the difference between `dependencies` and `devDependencies`.
 - I can explain why modules prevent naming collisions that occur with global script loading.
+- I can write a short project `README.md` that helps another developer set up and understand my module-based project.

@@ -2,7 +2,7 @@
   "slug": "quiz-8-testing-performance-and-deployment",
   "title": "Quiz 8 \u2013 Testing, Performance, and Deployment",
   "group": "Quizzes",
-  "points": 7,
+  "points": 4,
   "questions": [
     {
       "name": "Lighthouse",
@@ -37,38 +37,6 @@
       ]
     },
     {
-      "name": "Alt text",
-      "question_type": "multiple_choice_question",
-      "question_text": "<p>An online campus pantry page shows an informative image of a shelf stocked with canned food. Which <code>alt</code> text is strongest?</p>",
-      "points_possible": 1,
-      "answers": [
-        {
-          "id": "alt-text_a1",
-          "text": "image1234.jpg",
-          "html": "<p>image1234.jpg</p>",
-          "weight": 0
-        },
-        {
-          "id": "alt-text_a2",
-          "text": "Shelves stocked with canned food and boxed goods in the campus pantry",
-          "html": "<p>Shelves stocked with canned food and boxed goods in the campus pantry</p>",
-          "weight": 100
-        },
-        {
-          "id": "alt-text_a3",
-          "text": "Photo",
-          "html": "<p>Photo</p>",
-          "weight": 0
-        },
-        {
-          "id": "alt-text_a4",
-          "text": "Leave alt empty even though the image conveys content",
-          "html": "<p>Leave <code>alt</code> empty even though the image conveys content</p>",
-          "weight": 0
-        }
-      ]
-    },
-    {
       "name": "Deployment",
       "question_type": "true_false_question",
       "question_text": "<p>Testing a deployed version of a site is important because production behavior can differ from local behavior.</p>",
@@ -84,70 +52,6 @@
           "id": "deployment_false",
           "text": "False",
           "html": "<p>False</p>",
-          "weight": 0
-        }
-      ]
-    },
-    {
-      "name": "Performance",
-      "question_type": "multiple_choice_question",
-      "question_text": "<p>Which choice usually improves front-end performance?</p>",
-      "points_possible": 1,
-      "answers": [
-        {
-          "id": "performance_a1",
-          "text": "Shipping unused libraries",
-          "html": "<p>Shipping unused libraries</p>",
-          "weight": 0
-        },
-        {
-          "id": "performance_a2",
-          "text": "Compressing and optimizing assets",
-          "html": "<p>Compressing and optimizing assets</p>",
-          "weight": 100
-        },
-        {
-          "id": "performance_a3",
-          "text": "Adding more blocking scripts",
-          "html": "<p>Adding more blocking scripts</p>",
-          "weight": 0
-        },
-        {
-          "id": "performance_a4",
-          "text": "Ignoring image sizes",
-          "html": "<p>Ignoring image sizes</p>",
-          "weight": 0
-        }
-      ]
-    },
-    {
-      "name": "Quality",
-      "question_type": "multiple_choice_question",
-      "question_text": "<p>A strong final quality pass should include:</p>",
-      "points_possible": 1,
-      "answers": [
-        {
-          "id": "quality_a1",
-          "text": "Accessibility checks, responsive review, and link testing",
-          "html": "<p>Accessibility checks, responsive review, and link testing</p>",
-          "weight": 100
-        },
-        {
-          "id": "quality_a2",
-          "text": "Only color preference changes",
-          "html": "<p>Only color preference changes</p>",
-          "weight": 0
-        },
-        {
-          "id": "quality_a3",
-          "text": "Only renaming files",
-          "html": "<p>Only renaming files</p>",
-          "weight": 0
-        },
-        {
-          "id": "quality_a4",
-          "text": "Avoiding user testing",
-          "html": "<p>Avoiding user testing</p>",
           "weight": 0
         }
       ]

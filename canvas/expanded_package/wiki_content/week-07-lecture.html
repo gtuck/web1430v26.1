@@ -155,7 +155,7 @@ function clearError(fieldId) {
 <li>In <code>demo-07.js</code>, write <code>showError(fieldId, message)</code> and <code>clearError(fieldId)</code> helper functions that set/remove <code>aria-invalid</code> and update <code>textContent</code> of the error container.</li>
 <li>Attach <code>blur</code> listeners to each field. On blur, validate the field's value and call <code>showError</code> or <code>clearError</code> accordingly.</li>
 <li>Attach a <code>submit</code> listener to the form. Call <code>event.preventDefault()</code>. Run all three validations. If any fail, move focus to the first invalid field.</li>
-<li>If all fields pass, replace the form's <code>innerHTML</code> with a success message and focus the message container.</li>
+<li>If all fields pass, hide the form, create a separate success <code>&lt;div role=&quot;alert&quot; tabindex=&quot;-1&quot;&gt;</code>, set its <code>textContent</code>, append it next to the form, and move focus to that success message.</li>
 <li>Use a screen reader (macOS VoiceOver: Cmd+F5) to demonstrate that the live region announces errors without the student having to navigate to them manually.</li>
 </ol>
 <h2>Practice prompt</h2>

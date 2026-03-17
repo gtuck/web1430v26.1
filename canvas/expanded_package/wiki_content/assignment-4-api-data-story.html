@@ -37,6 +37,14 @@
 <blockquote>
 <p><strong>Reference:</strong> See <code>course/api-troubleshooting-guide.md</code> for help with deeply nested responses, null fields, type inconsistencies, CORS errors, and rate limiting.</p>
 </blockquote>
+<h3>API viability check</h3>
+<p>Before you build, verify these four things and keep short notes so you can refer to them in your rationale:</p>
+<ul>
+<li><strong>Browser access:</strong> Does the API support cross-origin browser requests, or will CORS block your app?</li>
+<li><strong>Rate limits / auth:</strong> Does the API limit how often you can request data, and do you need a key?</li>
+<li><strong>Attribution / terms:</strong> Does the provider expect attribution, a logo, or a link back?</li>
+<li><strong>Data reliability:</strong> How current and stable is the data, and what will your UI do if fields are missing or the service is down?</li>
+</ul>
 <hr />
 <h2>What to build</h2>
 <h3>Required features</h3>
@@ -107,12 +115,13 @@ renderResults(items)    — renders an array of normalized objects to the DOM</c
 <p>Deploy and submit live URL, repo URL, and rationale link to Canvas.</p>
 <hr />
 <h2>Rationale (in rationale.md)</h2>
-<p>Write 4–6 sentences addressing:</p>
+<p>Write 5–7 sentences addressing:</p>
 <ul>
 <li>What API did you choose and what data story does your page tell?</li>
 <li>How does your normalization function protect your rendering code from inconsistent API responses?</li>
 <li>Walk through one error path: what happens in the UI when the request fails?</li>
 <li>What would you add or change if you were building this for a real audience?</li>
+<li>What did you verify about CORS support, rate limits, attribution, and data reliability before you committed to this API?</li>
 </ul>
 <hr />
 <h2>Rubric</h2>
@@ -124,7 +133,7 @@ renderResults(items)    — renders an array of normalized objects to the DOM</c
 <tr><td><strong>Search / filter</strong></td><td>User control triggers data update; empty results handled</td><td>Control works; empty results not handled</td><td>Control partially functional</td><td>No interactive control</td></tr>
 <tr><td><strong>Accessible async</strong></td><td><code>aria-live</code> on results region; loading/error messages are text-based and descriptive; focus managed on detail view</td><td><code>aria-live</code> present; text messages present; focus not managed</td><td>Partially accessible</td><td>No accessible state management</td></tr>
 <tr><td><strong>Code structure</strong></td><td>Named functions for fetch, normalize, and each UI state; no <code>innerHTML</code> with API data</td><td>Named functions; one minor <code>innerHTML</code> issue</td><td>Partial function separation</td><td>All logic inline</td></tr>
-<tr><td><strong>Rationale</strong></td><td>Specific, honest, addresses all four prompts</td><td>Addresses three prompts</td><td>Vague or two prompts</td><td>Missing</td></tr>
+<tr><td><strong>Rationale</strong></td><td>Specific, honest, addresses all five prompts including the API viability check</td><td>Addresses four prompts</td><td>Vague or two or three prompts</td><td>Missing</td></tr>
 </tbody>
 </table>
 </body>

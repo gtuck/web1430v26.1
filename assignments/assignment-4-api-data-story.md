@@ -37,6 +37,14 @@ If you use a different API, confirm it supports browser cross-origin requests (n
 
 > **Reference:** See `course/api-troubleshooting-guide.md` for help with deeply nested responses, null fields, type inconsistencies, CORS errors, and rate limiting.
 
+### API viability check
+
+Before you build, verify these four things and keep short notes so you can refer to them in your rationale:
+- **Browser access:** Does the API support cross-origin browser requests, or will CORS block your app?
+- **Rate limits / auth:** Does the API limit how often you can request data, and do you need a key?
+- **Attribution / terms:** Does the provider expect attribution, a logo, or a link back?
+- **Data reliability:** How current and stable is the data, and what will your UI do if fields are missing or the service is down?
+
 ---
 
 ## What to build
@@ -127,11 +135,12 @@ Deploy and submit live URL, repo URL, and rationale link to Canvas.
 
 ## Rationale (in rationale.md)
 
-Write 4–6 sentences addressing:
+Write 5–7 sentences addressing:
 - What API did you choose and what data story does your page tell?
 - How does your normalization function protect your rendering code from inconsistent API responses?
 - Walk through one error path: what happens in the UI when the request fails?
 - What would you add or change if you were building this for a real audience?
+- What did you verify about CORS support, rate limits, attribution, and data reliability before you committed to this API?
 
 ---
 
@@ -144,4 +153,4 @@ Write 4–6 sentences addressing:
 | **Search / filter** | User control triggers data update; empty results handled | Control works; empty results not handled | Control partially functional | No interactive control |
 | **Accessible async** | `aria-live` on results region; loading/error messages are text-based and descriptive; focus managed on detail view | `aria-live` present; text messages present; focus not managed | Partially accessible | No accessible state management |
 | **Code structure** | Named functions for fetch, normalize, and each UI state; no `innerHTML` with API data | Named functions; one minor `innerHTML` issue | Partial function separation | All logic inline |
-| **Rationale** | Specific, honest, addresses all four prompts | Addresses three prompts | Vague or two prompts | Missing |
+| **Rationale** | Specific, honest, addresses all five prompts including the API viability check | Addresses four prompts | Vague or two or three prompts | Missing |

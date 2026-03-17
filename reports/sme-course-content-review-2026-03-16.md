@@ -3,7 +3,7 @@
 **Reviewer:** Codex  
 **Date:** March 16, 2026  
 **Review mode:** Content Review Mode  
-**Scope reviewed:** `syllabus.md`, `course/syllabus.md`, `course/schedule.md`, representative module overviews, lectures, labs, assignments, projects, and quiz source files  
+**Scope reviewed:** `syllabus.md`, `course/syllabus.md`, `course/schedule.md`, representative module overviews, lectures, labs, assignments, projects, support docs, textbook chapters, and quiz source files  
 **Update status:** Revised after source-level corrections, Canvas package rebuild, and successful validation
 
 ---
@@ -29,6 +29,13 @@ I did not find major topic omissions relative to the stated learning outcomes in
 4. the form/persistence briefs now restate the Web Storage privacy guardrail
 
 The course remains strong, and the current state is cleaner and more internally consistent than the initial review snapshot.
+
+A later alignment pass also strengthened the surrounding course ecosystem:
+
+5. Week 12-15 pacing now shifts some Final Project planning earlier and treats Lab 13 as stronger applied QA evidence
+6. Week 00 now teaches Git sync/recovery habits instead of stopping at the first push
+7. API-driven briefs now require viability checks and major projects now require lightweight README documentation
+8. textbook chapters now reflect those same API, storage/privacy, documentation, and QA expectations
 
 ---
 
@@ -119,6 +126,44 @@ Updated sources:
 - `projects/final-project-campus-or-community-tool.md`
 
 Both briefs now explicitly require fictional/demo data where appropriate and prohibit storing sensitive personal data in `localStorage` or `sessionStorage`.
+
+### 5. Late-course scaffolding and QA evidence improved further
+
+The course now shifts a small amount of Final Project planning earlier into Week 12, clarifies Week 13 as revision work rather than a cold-start planning week, and treats `Lab 13` as stronger applied QA evidence while reducing `Quiz 8` to a short readiness check.
+
+Updated sources:
+
+- `course/schedule.md`
+- `modules/week-12-overview.md`
+- `modules/week-13-overview.md`
+- `modules/week-14-overview.md`
+- `modules/week-15-overview.md`
+- `projects/final-project-campus-or-community-tool.md`
+- `labs/lab13-lighthouse-accessibility-and-deployment.md`
+- `course/quiz-alignment.md`
+- `quizzes/quiz-8-testing-performance-and-deployment.json`
+
+### 6. Git workflow, documentation, and textbook alignment improved
+
+The course now makes three expectations more explicit than before:
+
+- Week 00 teaches `git status` and `git pull --ff-only` as baseline sync/recovery habits
+- API-driven work requires students to think about CORS, rate limits, attribution, and data reliability before they build
+- major project work requires lightweight `README.md` documentation, and the textbook now teaches that expectation instead of leaving it implicit
+
+Updated sources:
+
+- `labs/lab00-local-setup-and-github-workflow.md`
+- `modules/week-00-overview.md`
+- `lectures/week-00-lecture.md`
+- `assignments/assignment-4-api-data-story.md`
+- `projects/project-2-data-driven-micro-app.md`
+- `projects/final-project-campus-or-community-tool.md`
+- `textbook/chapters/chapter-08-design-systems-and-small-front-end-architecture.md`
+- `textbook/chapters/chapter-09-fetch-json-and-remote-data.md`
+- `textbook/chapters/chapter-10-storage-preferences-and-state.md`
+- `textbook/chapters/chapter-11-modules-npm-and-vite.md`
+- `textbook/chapters/chapter-14-performance-testing-and-deployment.md`
 
 ---
 

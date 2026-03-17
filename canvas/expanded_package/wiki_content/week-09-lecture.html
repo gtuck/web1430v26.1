@@ -110,7 +110,7 @@
 
 function showLoading() {
   document.getElementById(&quot;status&quot;).textContent = &quot;Loading...&quot;;
-  document.getElementById(&quot;results&quot;).innerHTML = &quot;&quot;;
+  document.getElementById(&quot;results&quot;).textContent = &quot;&quot;;
 }
 
 function showError(message) {
@@ -121,6 +121,7 @@ function showError(message) {
 function hideLoading() {
   document.getElementById(&quot;status&quot;).textContent = &quot;&quot;;
 }</code></pre>
+<p>Using <code>textContent = &quot;&quot;</code> to clear a region is the same safe DOM pattern introduced earlier in the course. It resets the container without reintroducing HTML-string rendering into an async example.</p>
 <h3>aria-live for async updates</h3>
 <p>When content changes dynamically — after a fetch completes — screen readers are not automatically notified. The <code>aria-live</code> attribute tells assistive technology to announce changes to a region when they happen.</p>
 <pre><code class="language-html">&lt;div id=&quot;status&quot; aria-live=&quot;polite&quot; aria-atomic=&quot;true&quot;&gt;&lt;/div&gt;

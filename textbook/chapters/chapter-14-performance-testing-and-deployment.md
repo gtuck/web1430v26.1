@@ -154,6 +154,15 @@ VITE_WEATHER_API_KEY=your_actual_key_here
 
 **Preview deploys** — both Netlify and Vercel create a unique URL for every pull request or branch push. This lets you share a live, shareable link for review before merging to main. The pattern is: create a branch, push it, share the preview URL, review and approve, merge. The main branch URL then updates automatically.
 
+**Documentation and attribution before launch** — shipping includes more than making the code run. If your project depends on a third-party API, dataset, icon set, or image source, verify what attribution or usage terms apply and document them in your `README.md`. Your README should also explain:
+
+- who the project is for
+- how to install and run it
+- what quality checks you performed
+- known limitations or future improvements
+
+This is part of professional delivery. A deployed app without clear setup notes, source attribution, or QA context is harder to evaluate, maintain, and trust.
+
 **The 3-check method** — before submitting any lab, assignment, or project, run these three checks in order:
 
 1. **Keyboard-only walkthrough**: unplug (or ignore) your mouse and navigate the entire application using only Tab, Shift+Tab, Enter, Space, and arrow keys. Every interactive element must be reachable and operable. If you get stuck, something is wrong.
@@ -173,6 +182,8 @@ Before submitting:
 [ ] Keyboard-only walkthrough: all interactions reachable and operable
 [ ] DevTools Network throttle (Fast 3G): no broken layout or unreadable state
 [ ] Lighthouse on preview or deployed URL: Performance ≥ 90, Accessibility ≥ 90
+[ ] README.md explains audience/problem, setup, QA checks, and limitations
+[ ] Data source attribution and provider terms are satisfied where relevant
 [ ] No API keys or secrets in source code (use import.meta.env.VITE_*)
 [ ] .env.local is in .gitignore
 [ ] dist/ is in .gitignore
@@ -199,6 +210,8 @@ A project that is shipped, accessible, and fast is more valuable than a project 
 - Convert images to WebP before adding them to the project, not as an afterthought. Set `width` and `height` attributes at the same time you write the `<img>` tag.
 - Keep `dist/` and `.env.local` in `.gitignore` from your first commit. Adding them later is harder than adding them first.
 - After a successful Netlify or Vercel deployment, run the keyboard walkthrough and Lighthouse audit on the live URL, not just the preview. The production CDN occasionally introduces subtle differences.
+- Keep `README.md` current as the project changes. Setup steps, data-source notes, and QA notes should describe the shipped version, not an earlier draft.
+- If the project uses remote data, check provider attribution and terms before launch, not after publishing.
 
 ## Common mistakes
 
@@ -219,7 +232,8 @@ A project that is shipped, accessible, and fast is more valuable than a project 
 4. Find one Lighthouse Performance finding and one Accessibility finding. Read the description for each. Implement the recommended fix for each finding and re-run Lighthouse. Did your scores improve?
 5. Add one image to the project (any image). Set explicit `width` and `height` attributes. Convert it to WebP if it is not already in that format. Add `loading="lazy"` if it appears below the fold. Re-run Lighthouse and note the CLS score.
 6. If you have an API key used in one of your projects, move it to `.env.local` using a `VITE_` prefix and reference it with `import.meta.env.VITE_YOUR_KEY_NAME`. Verify the application still works, then add `.env.local` to `.gitignore`.
-7. Create a free Netlify or Vercel account, connect your repository, set the build command to `npm run build` and publish directory to `dist`, and deploy. Share the live URL and run a final Lighthouse audit on it.
+7. Update or create `README.md` so it includes setup steps, QA checks performed, known limitations, and any required data-source attribution.
+8. Create a free Netlify or Vercel account, connect your repository, set the build command to `npm run build` and publish directory to `dist`, and deploy. Share the live URL and run a final Lighthouse audit on it.
 
 ## Reflection
 

@@ -123,7 +123,7 @@ async function searchPokemon(name) {
 
 function showLoading() {
   document.getElementById("status").textContent = "Loading...";
-  document.getElementById("results").innerHTML = "";
+  document.getElementById("results").textContent = "";
 }
 
 function showError(message) {
@@ -135,6 +135,8 @@ function hideLoading() {
   document.getElementById("status").textContent = "";
 }
 ```
+
+Using `textContent = ""` to clear a region is the same safe DOM pattern introduced earlier in the course. It resets the container without reintroducing HTML-string rendering into an async example.
 
 ### aria-live for async updates
 When content changes dynamically — after a fetch completes — screen readers are not automatically notified. The `aria-live` attribute tells assistive technology to announce changes to a region when they happen.

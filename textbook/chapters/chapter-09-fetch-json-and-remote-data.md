@@ -72,6 +72,15 @@ Missing any of these leaves users confused.
 
 **CORS (Cross-Origin Resource Sharing)** — browsers block requests to a different domain unless that server explicitly allows it via CORS headers. If you get a CORS error, it is a server configuration issue, not a bug in your JavaScript. Use APIs that explicitly support public access (like JSONPlaceholder, Open Library, or The Movie Database) while learning.
 
+**API viability** — before you build your interface around an API, verify that it is actually usable for your project. Four checks matter most:
+
+1. **Browser access** — does the API support cross-origin browser requests, or will CORS block you?
+2. **Rate limits / auth** — how often can you request data, and do you need an API key?
+3. **Attribution / terms** — does the provider require a link, logo, credit line, or any specific terms-of-use compliance?
+4. **Reliability** — how stable and current is the data, and what happens in your UI when fields are missing or the service is unavailable?
+
+Choosing an API is not just a technical question. It is a product decision. A flashy API that rate-limits aggressively, breaks in the browser, or forbids your intended use is a bad fit no matter how interesting the data looks.
+
 ## Mental model
 
 Fetch is **non-blocking**. When you call `fetch()`, the browser sends the request and immediately moves on to the next line of code. The function does not pause and wait — it returns a Promise. When you use `await`, you are telling JavaScript: "pause *this function* here and continue other work until the Promise resolves."
@@ -88,6 +97,7 @@ Synchronous code runs top to bottom, one step at a time. Asynchronous code sched
 - Show descriptive error messages to users. "Something went wrong" is not helpful. "Could not load products — please check your connection and try again" is.
 - Log the full error to the console for debugging while showing a user-friendly message in the UI.
 - Read the Network tab in DevTools while your fetch runs. See the request, its status code, and the raw response body.
+- Before you commit to an API for a project, document your API viability check: CORS support, rate limits, attribution requirements, and data reliability.
 
 ## Common mistakes
 
@@ -121,6 +131,7 @@ Write an async function called `loadPosts()` that:
 5. For each post, creates a `<article>` element using `createElement` with the post's `title` (in an `<h2>`) and `body` (in a `<p>`), and appends it to the container.
 6. Wraps everything in `try/catch`. On error, clears the container and shows a descriptive error message.
 7. Removes the "Loading…" message in a `finally` block.
+8. Write four short bullets describing whether this API is viable for a student project: CORS support, rate limits, attribution requirements, and data reliability.
 
 Add `aria-live="polite"` to the container. Test the error state by changing the URL to something invalid.
 
@@ -151,3 +162,4 @@ What happened when you removed an `await` — which one caused the most confusin
 - I can handle three distinct UI states: loading, success, and error.
 - I can use the Network tab in DevTools to inspect a request's status and response body.
 - I can explain what a CORS error is and why the browser enforces it.
+- I can evaluate whether an API is viable for browser-based project work before I build around it.

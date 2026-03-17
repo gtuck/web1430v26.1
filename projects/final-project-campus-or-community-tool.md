@@ -14,7 +14,7 @@ The tool must solve a real (if small) problem for a defined audience. "Campus or
 
 ## Start-ahead plan
 
-The first graded Final Project milestone lands at the end of Week 12, so you should not wait until Week 13 to start planning.
+The first graded Final Project milestone lands at the end of Week 12 and now includes a small planning starter, so you should not wait until Week 13 to start thinking.
 
 During Week 12, spend 20 to 45 minutes doing these three things:
 
@@ -22,14 +22,14 @@ During Week 12, spend 20 to 45 minutes doing these three things:
 2. Test one API endpoint or local JSON source and confirm that the data is usable.
 3. Write a rough feature list with 3 to 5 realistic interactions.
 
-This is not a separate submission. It is runway work so the Week 12 pitch and the Week 13 wireframe/data-plan milestone begin from a real idea instead of last-minute brainstorming.
+Milestone 1 asks you to capture that work in a small, low-overhead form. The goal is not finished planning in Week 12. The goal is to make Week 13 a revision week instead of a cold start.
 
 ## Suggested pacing across Weeks 12–15
 
-- **Week 12:** choose the audience, test data, rule out ideas that are too large, and submit the pitch by Sunday.
-- **Week 13:** scaffold the project, prove one core interaction is technically possible, and finish the wireframes, data plan, and state map while the implementation is still small.
-- **Week 14:** reach the beta with all major features present, then use Lab 13 and the audit guides to find weak spots.
-- **Week 15:** tighten deployment quality, write the rationale while your decisions are fresh, and finish the reflection before the final deadline window closes.
+- **Week 12:** choose the audience, test data, rule out ideas that are too large, and submit the pitch plus a small planning starter by Sunday.
+- **Week 13:** scaffold the project, prove one core interaction is technically possible, and revise the starter into the full wireframes, data plan, and state map while the implementation is still small.
+- **Week 14:** reach the beta with all major features present, then use Lab 13 and the audit guides to find weak spots and begin the rationale draft.
+- **Week 15:** tighten deployment quality, finish the rationale while your decisions are still visible in the code, and complete the reflection before the final deadline window closes.
 
 ---
 
@@ -52,7 +52,7 @@ You may choose to use Vue for your front-end layer. If you use Vue, the requirem
 
 ---
 
-## Milestone 1 — Pitch
+## Milestone 1 — Pitch and Planning Starter
 
 **Due:** End of Week 12 (Sunday)
 
@@ -63,14 +63,19 @@ Submit `projects/final-project/pitch.md` containing:
 3. **Feature list:** 3–5 bullet points describing what a user can do
 4. **API or data source:** What data powers the app? Paste an example endpoint or a sample of the JSON
 5. **Tech stack decisions:** Vanilla JS or Vue? Which API? Any other libraries?
+6. **Starter sketch:** Paste or link one rough sketch of either the initial/empty state or the loaded state
+7. **Data starter:** Draft one normalized object with 4–6 likely properties and add one sentence describing what you expect to store in `localStorage`
+8. **API viability check:** In 4 bullets, document CORS/browser access, rate limits or auth requirements, attribution or terms-of-use expectations, and how current/reliable the data appears to be
 
-Pitch feedback will be returned within 48 hours. If scope is too large or too small, you will be asked to adjust before proceeding.
+Pitch feedback will be returned within 48 hours. If scope is too large or too small, you will be asked to adjust before proceeding. The planning starter exists to reduce Week 13 friction, not to make Week 12 feel like a finished design document.
 
 ---
 
-## Milestone 2 — Wireframe and Data Plan
+## Milestone 2 — Revised Wireframe and Data Plan
 
 **Due:** End of Week 13 (Sunday)
+
+By this point you should already have a starter sketch and a draft normalized object from Milestone 1. Use Week 13 to revise those early ideas after you have scaffolded the project or proven that one core interaction is technically possible.
 
 Submit in `projects/final-project/`:
 - `wireframes/` — at minimum three sketches: initial/empty state, loaded state, and a detail or interaction state. Hand-drawn photos are acceptable.
@@ -78,6 +83,7 @@ Submit in `projects/final-project/`:
   - The shape of one normalized data object (all properties, types, sources)
   - What is stored in `localStorage` (key name, value shape, when it is written/read)
   - Which UI states exist (loading, empty, error, success, detail, etc.)
+  - Where each major piece of state lives (for example, UI state, fetched data, selected item, saved preferences)
 
 Use fictional or demo data while planning and testing. Do not store passwords, government IDs, tokens, or other sensitive personal data in `localStorage` or `sessionStorage`.
 
@@ -97,6 +103,9 @@ Submit live URL and a brief self-assessment:
 - What is working well?
 - What is not yet done or not working correctly?
 - What help do you need before final submission?
+- Which 2–3 issues from your Lab 13 audit or personal QA pass are highest priority before Week 15?
+
+Also start `rationale.md` this week. It does not need to be polished yet, but the file should exist with each required prompt and at least bullet notes under each heading so Week 15 writing becomes revision instead of first drafting.
 
 ---
 
@@ -107,9 +116,17 @@ Submit live URL and a brief self-assessment:
 Submit to Canvas:
 - Live URL (deployed production build)
 - GitHub repository URL (link to `projects/final-project/`)
+- `README.md` link
 - `rationale.md` link
 
 The submitted live URL must load within 5 seconds on a standard connection. The deployed version is what is graded — not the source code alone.
+
+Include `README.md` in `projects/final-project/` with:
+- audience and problem statement
+- setup and run steps
+- data source and attribution notes
+- accessibility and QA checks performed
+- known limitations / future improvements
 
 ---
 
@@ -128,6 +145,7 @@ This reflection is graded separately from the project itself (see rubric below).
 ### JavaScript / Vue
 - All JavaScript in ES modules loaded via Vite
 - Minimum four module files with clear single-responsibility comments
+- `README.md` in the project root with setup, audience/problem, data source, and QA notes
 - No `innerHTML` with user-supplied or API-sourced data
 - No `var`; no anonymous functions for named responsibilities
 
@@ -203,7 +221,7 @@ Write 6–8 sentences addressing:
 | **Functionality** | All stated features work correctly; three distinct interactions functional; no broken states | Most features work; one interaction has minor issues | Core feature works; secondary features incomplete or broken | Non-functional or only partially loads |
 | **Remote data** | Fetch with `response.ok` check; `try/catch/finally`; loading, success, error, and empty states all handled distinctly | Three of four states handled; `response.ok` checked | Two states handled | No fetch or no error handling |
 | **Persistence** | `localStorage` feature correctly reads on load, writes on change, and handles first-visit null case; `JSON.stringify/parse` used for objects | Feature works; first-visit case not handled | Feature present but broken on reload | No localStorage |
-| **Code organization** | Four module files with responsibility comments; no circular dependencies; no `innerHTML` with external data; no `var` | Three files; one minor violation | Two files; some mixing | Single file |
+| **Code organization** | Four module files with responsibility comments; useful `README.md`; no circular dependencies; no `innerHTML` with external data; no `var` | Three files or README has minor gaps; one minor violation | Two files; weak or missing documentation; some mixing | Single file |
 | **Responsive design** | Mobile-first; custom properties for all design values; layout functional at 375px, 768px, and 1280px | Responsive with minor gap at one size | Partially responsive; some custom properties | Not responsive |
 | **Accessibility** | Validates; skip nav; alt text; keyboard-operable; `aria-live`; contrast passes; focus visible | Four of six criteria | Three criteria | Two or fewer |
 | **Commit history** | 10+ meaningful commits distributed across the build period | 7–9 commits; most meaningful | 4–6 commits | 3 or fewer; or all on one day |

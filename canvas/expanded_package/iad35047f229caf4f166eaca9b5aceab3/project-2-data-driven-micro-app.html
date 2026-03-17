@@ -54,6 +54,7 @@
 <li><strong>Data model:</strong> What does one normalized item look like as a JavaScript object? List each property, its type, and where it comes from in the raw API response.</li>
 <li><strong>UI sketch:</strong> A wireframe showing the layout of the loaded state, the loading state, and the error state.</li>
 <li><strong>localStorage plan:</strong> What preferences or data will you persist? What is the key name and what does the stored value look like?</li>
+<li><strong>API viability check:</strong> In 4 bullets, document CORS/browser access, rate limits or auth requirements, attribution or terms-of-use expectations, and how current/reliable the data appears to be.</li>
 </ol>
 <p>The proposal will be reviewed against the problem statement first. If the problem statement is vague ("users can search for things"), the proposal will be returned for revision before you build.</p>
 <hr />
@@ -162,8 +163,16 @@
 <hr />
 <h2>Deliverable</h2>
 <p><code>projects/project-2/</code> in your repository (Vite project source, no <code>node_modules/</code> or <code>dist/</code>).</p>
+<p>Also include <code>README.md</code> in <code>projects/project-2/</code> with:</p>
+<ul>
+<li>audience and problem statement</li>
+<li>setup and run steps</li>
+<li>API source and attribution notes</li>
+<li>accessibility / QA checks performed</li>
+<li>known limitations or next steps</li>
+</ul>
 <p>Deploy to Netlify or Vercel.</p>
-<p><strong>Submit to Canvas (Milestone 3):</strong> Live URL, repo URL, rationale link.</p>
+<p><strong>Submit to Canvas (Milestone 3):</strong> Live URL, repo URL, <code>README.md</code> link, rationale link.</p>
 <hr />
 <h2>Rationale (rationale.md)</h2>
 <p>Write 6–8 sentences addressing:</p>
@@ -172,6 +181,7 @@
 <li>Walk through one complete user flow from initial load to seeing a result — what happens at each step in the code?</li>
 <li>How does your normalization function protect the rest of the app from API inconsistency?</li>
 <li>What would you need to change to support a different API with the same UI?</li>
+<li>What did you learn from the API viability check, and how did it change your implementation decisions?</li>
 </ul>
 <hr />
 <h2>Rubric</h2>
@@ -183,7 +193,7 @@
 <tr><td><strong>Persistence</strong></td><td>Two persistence features implemented; preferences restored correctly on page load; <code>JSON.stringify/parse</code> used correctly</td><td>Two features present; one restoration issue</td><td>One feature implemented</td><td>No localStorage use</td></tr>
 <tr><td><strong>Module structure</strong></td><td>All five required files present; each file has one responsibility and a comment; no circular imports</td><td>Four files with correct responsibilities</td><td>Three files; some mixing</td><td>Single file or no modules</td></tr>
 <tr><td><strong>Accessibility</strong></td><td><code>aria-live</code> on results; text-based state messages; labels on all controls; focus managed</td><td>Three of four criteria</td><td>Two criteria</td><td>One or none</td></tr>
-<tr><td><strong>Proposal and rationale</strong></td><td>Proposal complete with all five elements; rationale walks through code flow specifically</td><td>Proposal complete; rationale addresses three prompts</td><td>Proposal partially complete</td><td>Missing</td></tr>
+<tr><td><strong>Proposal and rationale</strong></td><td>Proposal complete with all six elements; <code>README.md</code> present and useful; rationale walks through code flow specifically</td><td>Proposal complete; README or rationale has minor gaps</td><td>Proposal partially complete; documentation thin</td><td>Missing</td></tr>
 </tbody>
 </table>
 </body>

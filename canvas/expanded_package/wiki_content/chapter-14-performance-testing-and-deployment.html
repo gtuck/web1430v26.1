@@ -107,6 +107,14 @@ VITE_WEATHER_API_KEY=your_actual_key_here</code></pre>
 <pre><code># .gitignore — add this line if it is not already there
 .env.local</code></pre>
 <p><strong>Preview deploys</strong> — both Netlify and Vercel create a unique URL for every pull request or branch push. This lets you share a live, shareable link for review before merging to main. The pattern is: create a branch, push it, share the preview URL, review and approve, merge. The main branch URL then updates automatically.</p>
+<p><strong>Documentation and attribution before launch</strong> — shipping includes more than making the code run. If your project depends on a third-party API, dataset, icon set, or image source, verify what attribution or usage terms apply and document them in your <code>README.md</code>. Your README should also explain:</p>
+<ul>
+<li>who the project is for</li>
+<li>how to install and run it</li>
+<li>what quality checks you performed</li>
+<li>known limitations or future improvements</li>
+</ul>
+<p>This is part of professional delivery. A deployed app without clear setup notes, source attribution, or QA context is harder to evaluate, maintain, and trust.</p>
 <p><strong>The 3-check method</strong> — before submitting any lab, assignment, or project, run these three checks in order:</p>
 <ol>
 <li><strong>Keyboard-only walkthrough</strong>: unplug (or ignore) your mouse and navigate the entire application using only Tab, Shift+Tab, Enter, Space, and arrow keys. Every interactive element must be reachable and operable. If you get stuck, something is wrong.</li>
@@ -121,6 +129,8 @@ VITE_WEATHER_API_KEY=your_actual_key_here</code></pre>
 [ ] Keyboard-only walkthrough: all interactions reachable and operable
 [ ] DevTools Network throttle (Fast 3G): no broken layout or unreadable state
 [ ] Lighthouse on preview or deployed URL: Performance ≥ 90, Accessibility ≥ 90
+[ ] README.md explains audience/problem, setup, QA checks, and limitations
+[ ] Data source attribution and provider terms are satisfied where relevant
 [ ] No API keys or secrets in source code (use import.meta.env.VITE_*)
 [ ] .env.local is in .gitignore
 [ ] dist/ is in .gitignore</code></pre>
@@ -139,6 +149,8 @@ VITE_WEATHER_API_KEY=your_actual_key_here</code></pre>
 <li>Convert images to WebP before adding them to the project, not as an afterthought. Set <code>width</code> and <code>height</code> attributes at the same time you write the <code>&lt;img&gt;</code> tag.</li>
 <li>Keep <code>dist/</code> and <code>.env.local</code> in <code>.gitignore</code> from your first commit. Adding them later is harder than adding them first.</li>
 <li>After a successful Netlify or Vercel deployment, run the keyboard walkthrough and Lighthouse audit on the live URL, not just the preview. The production CDN occasionally introduces subtle differences.</li>
+<li>Keep <code>README.md</code> current as the project changes. Setup steps, data-source notes, and QA notes should describe the shipped version, not an earlier draft.</li>
+<li>If the project uses remote data, check provider attribution and terms before launch, not after publishing.</li>
 </ul>
 <h2>Common mistakes</h2>
 <ul>
@@ -159,6 +171,7 @@ VITE_WEATHER_API_KEY=your_actual_key_here</code></pre>
 <li>Find one Lighthouse Performance finding and one Accessibility finding. Read the description for each. Implement the recommended fix for each finding and re-run Lighthouse. Did your scores improve?</li>
 <li>Add one image to the project (any image). Set explicit <code>width</code> and <code>height</code> attributes. Convert it to WebP if it is not already in that format. Add <code>loading=&quot;lazy&quot;</code> if it appears below the fold. Re-run Lighthouse and note the CLS score.</li>
 <li>If you have an API key used in one of your projects, move it to <code>.env.local</code> using a <code>VITE_</code> prefix and reference it with <code>import.meta.env.VITE_YOUR_KEY_NAME</code>. Verify the application still works, then add <code>.env.local</code> to <code>.gitignore</code>.</li>
+<li>Update or create <code>README.md</code> so it includes setup steps, QA checks performed, known limitations, and any required data-source attribution.</li>
 <li>Create a free Netlify or Vercel account, connect your repository, set the build command to <code>npm run build</code> and publish directory to <code>dist</code>, and deploy. Share the live URL and run a final Lighthouse audit on it.</li>
 </ol>
 <h2>Reflection</h2>
