@@ -16,7 +16,7 @@ const items = document.querySelectorAll('.list-item');     // all matches (NodeL
 const btn = document.querySelector('#submit-btn');         // by ID
 ```
 
-`querySelectorAll` returns a `NodeList`, not an array. You can iterate it with `for...of`, but it doesn't have `.map()` or `.filter()`. Convert with `Array.from()` if you need those methods.
+`querySelectorAll` returns a `NodeList`, not an array. You can iterate it with `for...of`, but it doesn't have `.map()` or `.filter()`. Convert with `Array.from(items)` or the spread operator `[...items]` if you need those methods.
 
 **Reading and setting content**:
 
@@ -25,7 +25,7 @@ heading.textContent = 'New Heading';         // safe — treats value as text
 heading.innerHTML = '<em>New</em> Heading';  // unsafe with user input — can run scripts
 ```
 
-Prefer `textContent` for plain text. Use `innerHTML` only when you control the content entirely and need embedded HTML structure.
+Prefer `textContent` for plain text. Use `innerHTML` only when you control the content entirely and need embedded HTML structure. If you absolutely must render HTML from an untrusted or remote source, use an HTML sanitization library like DOMPurify first.
 
 **Manipulating classes**:
 

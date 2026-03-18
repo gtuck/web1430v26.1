@@ -128,6 +128,7 @@ Data flows **down** (parent to child via props) and events flow **up** (child to
 
 ## Working habits
 
+- Install the **Vue DevTools** browser extension. It allows you to visually inspect component state, props, and reactivity in the browser (vanilla DevTools cannot do this effectively).
 - Keep components focused — one component, one responsibility. If a component's template is longer than 30 lines, consider splitting it.
 - Use `ref()` for primitive values (strings, numbers, booleans). Use `reactive()` for objects when you want to avoid `.value` everywhere.
 - Do not mutate props. Props flow down from the parent; a child should not change them directly. Emit an event to the parent and let the parent update its own state.

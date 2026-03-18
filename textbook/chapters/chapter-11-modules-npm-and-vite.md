@@ -42,7 +42,7 @@ import renderProductCard from './ProductCard.js';
 **Import paths**:
 - `'./utils.js'` — relative path, same directory
 - `'../data/products.js'` — relative path, parent directory
-- `'vue'` — an installed npm package (no `./`)
+- `'vue'` — an installed npm package (no `./`). You can typically use default or named imports from these depending on the library (e.g., `import Vue from 'vue'` vs `import { ref } from 'vue'`).
 
 **NPM** (Node Package Manager) manages third-party packages. Key files and commands:
 

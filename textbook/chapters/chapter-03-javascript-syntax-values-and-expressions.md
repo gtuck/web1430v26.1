@@ -24,11 +24,12 @@ let currentPage = 1;                // will be incremented later
 
 Use `typeof` to check what type a value is: `typeof 'hello'` returns `'string'`, `typeof 42` returns `'number'`.
 
-**Template literals** (backtick strings) allow you to embed expressions directly into strings:
+**Template literals** (backtick strings) allow you to embed variables and expressions directly into strings:
 
 ```js
 const name = 'Jordan';
-const greeting = `Hello, ${name}! You have ${3 + 2} messages.`;
+const unreadCount = 3;
+const greeting = `Hello, ${name}! You have ${unreadCount + 2} messages.`;
 // "Hello, Jordan! You have 5 messages."
 ```
 

@@ -59,6 +59,8 @@ function calculateTax(price, rate) {
 
 // Arrow function expression (concise, not hoisted)
 const formatPrice = (price) => `$${price.toFixed(2)}`;
+
+Arrow functions are especially useful as short, anonymous callbacks passed to array methods (covered in the next chapter).
 ```
 
 A function should do **one thing**. Give it a verb name that describes what it does: `calculateTotal`, `renderCard`, `isValidEmail`. If you can't name it in one verb phrase, it probably does too many things.
