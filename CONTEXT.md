@@ -50,6 +50,31 @@ The build script now regenerates:
 | `reports/` | Analysis, review, and redesign reports |
 | `memory/` | Project memory / current-state notes |
 
+## Canvas export boundary
+
+These files or folders are repo-maintenance content and are **not** included in the Canvas export:
+
+- `reports/`
+- `memory/`
+- `CONTEXT.md`
+- `README.md`
+- `textbook/README.md`
+- `course/import_to_canvas.md`
+- `course/first-delivery-monitoring-guide.md`
+
+These sources **do** feed the Canvas export:
+
+- `home.md`
+- `course/syllabus.md`
+- `textbook-table-of-contents.md`
+- everything in `textbook/chapters/`
+- everything in `lectures/`
+- everything in `modules/`
+- everything in `labs/`
+- everything in `assignments/`
+- everything in `projects/`
+- published learner-support pages in `course/` that are included by `PUBLISHED_COURSE_GUIDES` in `scripts/build_canvas_package.py`
+
 ## Current course state
 
 - The course content is substantive and aligned across source docs and Canvas export.
@@ -65,6 +90,7 @@ The build script now regenerates:
 - Textbook chapters 8, 9, 10, 11, and 14 were updated to match those newer documentation, API, storage, and QA expectations.
 - The Canvas assessment package is generated from `quizzes/*.json`, so quiz JSON is the canonical assessment source.
 - Instructor-side delivery support now includes `course/import_to_canvas.md` and `course/first-delivery-monitoring-guide.md`.
+- The root `README.md` now explicitly documents which repo-maintenance files are safe to edit without affecting Canvas.
 - The reports in `reports/` are current as of March 16, 2026 and reflect the additional alignment pass that updated late-course pacing, Week 00 Git guidance, project documentation expectations, and textbook/course consistency.
 
 ## Curriculum sequence and dependency rules
@@ -133,7 +159,6 @@ Rubrics use exactly four levels:
 
 - No live Canvas import smoke test is performed from this repo; validation is package-level only.
 - Assessments are stronger than before, but they are still selected-response only.
-- There are still no standalone low-stakes applied checkpoints for DevTools or persistence.
 - Week 14 now has stronger applied QA evidence, but there are still no standalone earlier low-stakes checkpoints for DevTools or persistence.
 - Survey/feedback workflows are documented, but the live forms and follow-up announcements still require manual instructor setup and execution.
 - `course/syllabus.md` drives the Canvas syllabus export, but `syllabus.md` also exists and must stay synchronized.

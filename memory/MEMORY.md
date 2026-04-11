@@ -9,6 +9,7 @@ WEB 1430 is a complete, online-first **Client-Side Web Development** course pack
 - Markdown files drive learner-facing course pages, briefs, lectures, labs, and support guides.
 - `quizzes/*.json` drives quizzes and exams.
 - `scripts/build_canvas_package.py` regenerates the Canvas HTML, assessment XML/QTI, and the `.imscc` package.
+- Repo-maintenance files such as `reports/`, `memory/`, `CONTEXT.md`, `README.md`, `textbook/README.md`, `course/import_to_canvas.md`, and `course/first-delivery-monitoring-guide.md` do not feed the Canvas export.
 
 ## Current Course Shape
 
@@ -35,6 +36,7 @@ WEB 1430 is a complete, online-first **Client-Side Web Development** course pack
 - Major project briefs and syllabus docs now require lightweight `README.md` documentation.
 - Week 00 materials now teach `git status` and `git pull --ff-only` as baseline sync/recovery habits, and repo visibility language now supports public or instructor-shared workflows.
 - Textbook chapters 8, 9, 10, 11, and 14 were updated to align with these newer API, documentation, storage/privacy, and QA expectations.
+- The root `README.md` now explicitly records which repo-maintenance files are safe to edit without affecting Canvas.
 - Quiz/exam point totals are synchronized with question counts.
 - Canvas pages for assignments/projects now come from the source briefs instead of summary stubs.
 - Canvas assessment files are now generated from `quizzes/*.json`.
@@ -44,6 +46,7 @@ WEB 1430 is a complete, online-first **Client-Side Web Development** course pack
 
 ## Key Files to Keep in Sync
 
+- `README.md` for repo-maintenance guidance about what does and does not affect Canvas
 - `course/schedule.md`
 - `modules/week-*-overview.md`
 - `assignments/*.md`
@@ -76,7 +79,6 @@ python3 scripts/build_canvas_package.py validate
 
 - Validation is repo/package-level only; there is still no live Canvas import smoke test in the repo.
 - Assessment quality is improved, but all exported items are still selected-response.
-- There are still no standalone low-stakes applied checkpoints for DevTools or persistence.
 - Week 14 QA evidence is stronger now, but earlier low-stakes applied checkpoints still do not exist.
 - Survey/feedback workflows are documented, but live forms and follow-up announcements still require manual instructor execution.
 - The build script currently assumes the existing Canvas assessment resource structure; adding brand-new assessments may need script updates.
