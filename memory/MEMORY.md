@@ -1,65 +1,50 @@
 # WEB 1430 Project Memory
 
+Current as of July 10, 2026. `CONTEXT.md` carries the working rules; this file carries project state and history highlights.
+
 ## Project Summary
 
-WEB 1430 is a complete, online-first **Client-Side Web Development** course package for Weber State University. The repository contains the authored course source plus a generated Canvas export package.
+WEB 1430 is a complete, online-first **Client-Side Web Development** course package for Weber State University. The repository contains the authored course source plus a generated Canvas export package, verified through live Canvas imports in July 2026.
 
 ## Current Source of Truth
 
 - Markdown files drive learner-facing course pages, briefs, lectures, labs, and support guides.
 - `quizzes/*.json` drives quizzes and exams.
-- `scripts/build_canvas_package.py` regenerates the Canvas HTML, assessment XML/QTI, and the `.imscc` package.
-- Repo-maintenance files such as `reports/`, `memory/`, `CONTEXT.md`, `README.md`, `textbook/README.md`, `course/import_to_canvas.md`, and `course/first-delivery-monitoring-guide.md` do not feed the Canvas export.
+- `scripts/build_canvas_package.py` regenerates the Canvas HTML, assessment XML/QTI, and the `.imscc` package. Internal page links are emitted as `$WIKI_REFERENCE$/pages/<slug>` placeholders so Canvas resolves them on import.
+- `scripts/build_canvas_rubrics_csv.py` regenerates `course/canvas-rubrics.csv` from the rubric tables in the briefs.
+- Repo-maintenance and instructor-side files that do **not** feed the Canvas export: `reports/`, `memory/`, `CONTEXT.md`, `README.md`, `textbook/README.md`, `course/import_to_canvas.md`, `course/first-delivery-monitoring-guide.md`, `course/canvas-outcomes.csv`, `course/canvas-rubrics.csv`.
 
 ## Current Course Shape
 
-- 14 textbook chapters
+- 14 textbook chapters (Chapter 8 is the Week 08 reading; every chapter is assigned to a week)
 - 16 weekly module overviews and lecture notes (`week-00` through `week-15`)
-- 14 labs
-- 6 assignments
-- 3 projects
-- 8 quizzes, 1 midterm, 1 final
+- 14 labs, 6 assignments, 3 projects
+- 8 quizzes, 1 midterm, 1 final — all selected-response, 1 point per item, points equal question counts
 
-## Important Current State
+## Canvas Delivery Workflow (verified live, July 2026)
 
-- The repo and Canvas package have already been synchronized after a broad content review.
-- Week 5, Week 11, and Week 13 student surveys are now published and surfaced in the weekly flow.
-- Week 13 and Week 14 now explicitly show Final Project milestones in the schedule and module overviews.
-- The Final Project now uses a Week 12 planning starter and a Week 13 revised wireframe/data-plan milestone to reduce blank-page planning pressure.
-- The accessibility primer and other support guides are now published into the Canvas package.
-- The Vue transition is now supported by `course/vue-transition-guide.md`.
-- Module overviews now use week-specific checkpoint questions instead of one repeated generic prompt.
-- Harder weeks now include `What students usually struggle with` guidance.
-- `Assignment 6`, `Project 2`, and the `Final Project` now include pacing/build-order support intended to reduce late-course student overload.
-- Week 14 now treats Lab 13 as the main applied QA evidence and uses a shorter Quiz 8 readiness check.
-- API-driven assignment/project briefs now require an API viability check.
-- Major project briefs and syllabus docs now require lightweight `README.md` documentation.
-- Week 00 materials now teach `git status` and `git pull --ff-only` as baseline sync/recovery habits, and repo visibility language now supports public or instructor-shared workflows.
-- Textbook chapters 8, 9, 10, 11, and 14 were updated to align with these newer API, documentation, storage/privacy, and QA expectations.
-- The root `README.md` now explicitly records which repo-maintenance files are safe to edit without affecting Canvas.
-- Quiz/exam point totals are synchronized with question counts.
-- Canvas pages for assignments/projects now come from the source briefs instead of summary stubs.
-- Canvas assessment files are now generated from `quizzes/*.json`.
-- Quiz 4, Quizzes 6-8, the Midterm, and the Final now include stronger code-reading/debugging stems.
-- Instructor-side delivery support now includes `course/import_to_canvas.md` and `course/first-delivery-monitoring-guide.md`.
-- The 10 course learning outcomes are available for Canvas Outcomes as `course/canvas-outcomes.csv` (imported manually via Course > Outcomes > Import; not carried by the `.imscc`). Ratings use the course rubric levels with mastery at Proficient (3). Keep the CSV in sync with `course/learning_outcomes.md`.
-- Canvas rubrics come from `scripts/build_canvas_rubrics_csv.py`, which parses the rubric tables in the labs/assignments/projects briefs into `course/canvas-rubrics.csv` (24 rubrics, uploaded via Canvas's Rubrics > Import Rubrics). The CSV import is course-level only: attaching rubrics to the 9 graded assignments and adding outcome rows are manual UI steps, documented with a full rubric-to-outcome mapping table in `course/import_to_canvas.md`. If a brief's rubric table changes, regenerate the CSV, delete the affected Canvas rubric, and re-import.
-- The institution has no Canvas API access (no API tokens available), so instructor-side automation must use Canvas UI features (CSV imports, .imscc) — never propose Canvas REST API tooling.
-- The `.imscc` must be imported with Content Type "Common Cartridge 1.x Package"; the "Canvas Course Export Package" option fails on every quiz and assignment (verified July 2026, documented in `course/import_to_canvas.md`).
-- The reports in `reports/` were refreshed on March 16, 2026 and now reflect the additional alignment pass that updated textbook/course consistency and repo-level documentation.
-- A July 10, 2026 accuracy pass fixed: the Chapter 1 CSS parser-blocking claim (CSS blocks rendering, not parsing), a Chapter 4 code-fence formatting bug, the outdated five-category Lighthouse descriptions in Chapters 8 and 14 (Lighthouse now has four categories; PWA was removed), the invalid `import Vue from 'vue'` example in Chapter 11, the Week 08 lecture's midterm-format description (now matches the selected-response exam), and the Week 03 lecture's primitive-type count. Chapter 8 (previously assigned to no week) is now Week 08's chapter reading. Chapter 14 gained a short GitHub Pages `base`-path note to back Quiz 8. Labs 04/05 now include the DOM glue pattern students need before the DOM is formally taught in Week 06. Three rubric rows with empty Incomplete cells (Assignment 4, Lab 08, Lab 12) were completed.
+- Import `canvas/WEB1430-Canvas-Export.imscc` with Content Type **"Common Cartridge 1.x Package"** only. The "Canvas Course Export Package" option fails on every quiz and assignment. Leave "Convert content to New Quizzes" unchecked. Use a fresh course shell or Reset Course Content before re-importing.
+- The institution has **no Canvas API access** (no tokens). All automation must use Canvas UI channels; never propose REST API tooling.
+- Instructor-side setup after import (full checklist in `course/import_to_canvas.md`):
+  1. Import `course/canvas-outcomes.csv` (Course > Outcomes > Import) — 10 outcomes in one group, ratings Excellent 4 / Proficient 3 / Developing 2 / Incomplete 1, mastery at Proficient.
+  2. Import `course/canvas-rubrics.csv` (Course > Rubrics > Import Rubrics) — 24 rubrics from the briefs. Then manually attach the 9 assignment/project rubrics to their assignments and add outcome rows using the mapping table in the guide (CSV import cannot do either).
+  3. Create the Week 05 / 11 / 13 anonymous survey forms and set up the monitoring workflow (`course/first-delivery-monitoring-guide.md`).
+
+## Content State Highlights
+
+- Content is aligned across source docs and the Canvas export; the export imports cleanly (pages, links, quizzes, assignments, groups).
+- July 2026 accuracy pass: fixed textbook facts (CSS render-blocking vs parser-blocking; Lighthouse's four categories, PWA removed; Vue 3 named exports; JSON `null`), a Chapter 4 code-fence bug, the Week 08 lecture's midterm-format description (now matches the selected-response exam), and the Week 03 primitive-type count; added Chapter 8 to Week 08; added the DOM glue pattern to Labs 04–05 (used ahead of Week 06 by design); completed three rubric rows with empty Incomplete cells; added a GitHub Pages `base`-path note to Chapter 14; synced the course reflection prompt's rubric with the Final Project brief; corrected the Week 11 survey's Project 2 milestone reference (Milestone 2 build is due Week 12).
+- Module overviews use week-specific checkpoint questions, time estimates, and harder-week struggle guidance. Surveys run Weeks 5, 11, and 13. Final Project milestones are visible in the schedule and late-course overviews, with a Week 12 planning starter and Week 13 revision milestone.
+- Week 14 uses Lab 13 as applied QA evidence with Quiz 8 as a short readiness check. API briefs require a viability check; major projects require `README.md` documentation. Week 00 teaches `git status` / `git pull --ff-only`.
+- The reports in `reports/` are current as of March 16, 2026 and predate the July 2026 pass.
 
 ## Key Files to Keep in Sync
 
-- `README.md` for repo-maintenance guidance about what does and does not affect Canvas
-- `course/schedule.md`
-- `modules/week-*-overview.md`
-- `assignments/*.md`
-- `projects/*.md`
-- `syllabus.md`
-- `course/syllabus.md`
-- `course/quiz-alignment.md`
-- `quizzes/*.json`
+- `course/schedule.md`, `modules/week-*-overview.md`, `assignments/*.md`, `projects/*.md`
+- `syllabus.md` and `course/syllabus.md` (duplicated; must stay identical)
+- `course/quiz-alignment.md` and `quizzes/*.json`
+- `course/canvas-outcomes.csv` with `course/learning_outcomes.md`
+- `course/canvas-rubrics.csv` with the briefs' rubric tables (regenerate via the script)
 - generated Canvas outputs under `canvas/expanded_package/`
 
 ## Build / Verification Commands
@@ -68,23 +53,24 @@ WEB 1430 is a complete, online-first **Client-Side Web Development** course pack
 python3 scripts/build_canvas_package.py build
 python3 scripts/build_canvas_package.py build --check
 python3 scripts/build_canvas_package.py validate
+python3 scripts/build_canvas_rubrics_csv.py   # after any rubric-table change
 ```
 
 ## Working Assumptions
 
 - Do not hand-edit generated Canvas HTML or assessment XML as the primary change path.
 - If source content changes, rebuild the Canvas package before considering the repo synchronized.
-- Keep both syllabus copies aligned.
-- Keep assignment/project `Due:` lines aligned with `course/schedule.md`.
-- Keep quiz JSON `points` aligned with the sum of `questions[].points_possible`.
-- If you change module overviews, preserve the current student-support pattern: time estimate, tailored checkpoint question, and harder-week struggle guidance where appropriate.
-- If you change learner-facing support docs linked from modules or briefs, rebuild the Canvas package so published pages stay in sync.
+- Keep both syllabus copies aligned; keep assignment/project `Due:` lines aligned with `course/schedule.md`; keep quiz JSON `points` equal to the sum of `questions[].points_possible`.
+- Preserve the module-overview support pattern (time estimate, tailored checkpoint question, struggle guidance on hard weeks) and the four-level rubric format with every cell filled — the rubric tables are machine-parsed.
+- If learner-facing support docs linked from modules or briefs change, rebuild the Canvas package.
+- Already-imported Canvas courses do not update when the repo changes: either re-import into a fresh/reset shell or hand-edit the affected Canvas pages.
 
 ## Remaining Limitations
 
-- Validation is repo/package-level only; there is still no live Canvas import smoke test in the repo.
-- Assessment quality is improved, but all exported items are still selected-response.
-- Week 14 QA evidence is stronger now, but earlier low-stakes applied checkpoints still do not exist.
-- Survey/feedback workflows are documented, but live forms and follow-up announcements still require manual instructor execution.
-- The build script currently assumes the existing Canvas assessment resource structure; adding brand-new assessments may need script updates.
-- The main open instructional-design risk is still late-term workload compression; use first-delivery evidence before changing overlap or deadlines.
+- Import verified manually, but no automated Canvas import smoke test exists; repo validation is package-level only.
+- All exported assessment items are selected-response.
+- No standalone early low-stakes checkpoints for DevTools or persistence (Week 14's Lab 13 is the main applied QA evidence).
+- Survey forms and follow-up announcements require manual instructor execution.
+- Rubric-to-assignment attachment and outcome rows are manual Canvas UI work after each fresh import (no API access).
+- The build script assumes the existing Canvas assessment resource structure; brand-new assessments may need script updates.
+- Main open instructional-design risk: late-term workload compression. Use first-delivery evidence before changing overlap or deadlines.
