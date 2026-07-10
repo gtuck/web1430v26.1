@@ -5,7 +5,9 @@ python3 scripts/build_canvas_package.py build
 python3 scripts/build_canvas_package.py validate
 ```
 
-Then import `canvas/WEB1430-Canvas-Export.imscc` into Canvas using either **Canvas Course Export Package** or **Common Cartridge 1.x Package** in Course Settings > Import Course Content.
+Then import `canvas/WEB1430-Canvas-Export.imscc` in Course Settings > Import Course Content with Content Type set to **Common Cartridge 1.x Package**.
+
+Do **not** select "Canvas Course Export Package" — that converter expects a byte-faithful Canvas-native export and fails on every quiz and assignment in this generated package (verified July 2026). Leave "Convert content to New Quizzes" unchecked; the quizzes are authored as Classic Quiz QTI. If re-importing into a course that already received this package, run Reset Course Content (or use a fresh course shell) first so page links resolve to the new copies instead of duplicate `-2` page URLs.
 
 After import, complete these instructor-side setup steps before the term starts:
 
