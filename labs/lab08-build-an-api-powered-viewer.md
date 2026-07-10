@@ -219,7 +219,7 @@ Answer in 4–6 sentences:
 | Criterion | Excellent (4) | Proficient (3) | Developing (2) | Incomplete (1) |
 |-----------|--------------|----------------|----------------|----------------|
 | **Fetch and error handling** | `response.ok` checked; `try/catch/finally` used; all three states (loading, success, error) handled | Two states handled; response.ok checked | One state handled | No error handling |
-| **Data normalization** | `normalizeBooks` protects against missing fields; all three properties normalized | Two properties normalized | No normalization | |
+| **Data normalization** | `normalizeBooks` protects against missing fields; all three properties normalized | Two properties normalized | One property normalized | No normalization |
 | **Rendering** | Cards render all three fields; empty state shown; `createElement` used; no `innerHTML` | Cards render; one issue | Partial render | Not functional |
 | **Accessible async** | `aria-live` on results region; loading and error messages text-based and readable | `aria-live` present | Partially accessible | No accessible state management |
 | **CSS** | Responsive grid; three status states visually distinct | Responsive; two states distinct | Single column; minimal distinction | No meaningful CSS |

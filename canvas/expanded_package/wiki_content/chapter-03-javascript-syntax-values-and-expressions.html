@@ -23,9 +23,10 @@ let currentPage = 1;                // will be incremented later</code></pre>
 <li><code>null</code> — an intentional absence of a value (you set this on purpose)</li>
 </ul>
 <p>Use <code>typeof</code> to check what type a value is: <code>typeof &#x27;hello&#x27;</code> returns <code>&#x27;string&#x27;</code>, <code>typeof 42</code> returns <code>&#x27;number&#x27;</code>.</p>
-<p><strong>Template literals</strong> (backtick strings) allow you to embed expressions directly into strings:</p>
+<p><strong>Template literals</strong> (backtick strings) allow you to embed variables and expressions directly into strings:</p>
 <pre><code class="language-js">const name = &#x27;Jordan&#x27;;
-const greeting = `Hello, ${name}! You have ${3 + 2} messages.`;
+const unreadCount = 3;
+const greeting = `Hello, ${name}! You have ${unreadCount + 2} messages.`;
 // &quot;Hello, Jordan! You have 5 messages.&quot;</code></pre>
 <p><strong>Comparison operators</strong>: Always use <code>===</code> (strict equality) and <code>!==</code> (strict inequality). The <code>==</code> operator performs type coercion — it converts values to the same type before comparing, which produces results like <code>0 == false</code> being <code>true</code> and <code>&#x27;&#x27; == false</code> being <code>true</code>. Strict equality never coerces.</p>
 <p><strong>Useful string methods</strong>:</p>

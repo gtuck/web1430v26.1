@@ -42,12 +42,12 @@ import renderProductCard from './ProductCard.js';
 **Import paths**:
 - `'./utils.js'` — relative path, same directory
 - `'../data/products.js'` — relative path, parent directory
-- `'vue'` — an installed npm package (no `./`). You can typically use default or named imports from these depending on the library (e.g., `import Vue from 'vue'` vs `import { ref } from 'vue'`).
+- `'vue'` — an installed npm package (no `./`). Whether you use default or named imports depends on what the library exports (e.g., Vue 3 uses named exports like `import { ref, createApp } from 'vue'`, while some libraries provide a default export like `import confetti from 'canvas-confetti'`).
 
 **NPM** (Node Package Manager) manages third-party packages. Key files and commands:
 
 ```bash
-npm init vite@latest my-project   # scaffold a new Vite project
+npm create vite@latest my-project # scaffold a new Vite project
 cd my-project
 npm install                        # install all dependencies listed in package.json
 npm run dev                        # start the Vite development server

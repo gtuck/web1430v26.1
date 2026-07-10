@@ -149,7 +149,7 @@ Write 5–7 sentences addressing:
 | Criterion | Excellent (4) | Proficient (3) | Developing (2) | Incomplete (1) |
 |-----------|--------------|----------------|----------------|----------------|
 | **Async handling** | `response.ok` checked; `try/catch/finally` used; all three states (loading, success, error) produce distinct, appropriate UI | Two states handled; `response.ok` checked | One state handled; no `response.ok` check | No error handling |
-| **Data normalization** | Normalization function covers all rendered fields; default values for missing data; rendering code uses only normalized objects | Two of three fields normalized; some raw API fields in renderer | No normalization; raw API data passed directly to renderer | |
+| **Data normalization** | Normalization function covers all rendered fields; default values for missing data; rendering code uses only normalized objects | Two of three fields normalized; some raw API fields in renderer | Minimal normalization; several raw API fields used directly in the renderer | No normalization; raw API data passed directly to renderer |
 | **Search / filter** | User control triggers data update; empty results handled | Control works; empty results not handled | Control partially functional | No interactive control |
 | **Accessible async** | `aria-live` on results region; loading/error messages are text-based and descriptive; focus managed on detail view | `aria-live` present; text messages present; focus not managed | Partially accessible | No accessible state management |
 | **Code structure** | Named functions for fetch, normalize, and each UI state; no `innerHTML` with API data | Named functions; one minor `innerHTML` issue | Partial function separation | All logic inline |

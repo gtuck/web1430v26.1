@@ -97,6 +97,7 @@ function handleSubmit(event) {
 <p>Data flows <strong>down</strong> (parent to child via props) and events flow <strong>up</strong> (child to parent via emits). This one-way flow makes it easier to trace where data comes from and where changes originate.</p>
 <h2>Working habits</h2>
 <ul>
+<li>Install the <strong>Vue DevTools</strong> browser extension. It allows you to visually inspect component state, props, and reactivity in the browser (vanilla DevTools cannot do this effectively).</li>
 <li>Keep components focused — one component, one responsibility. If a component's template is longer than 30 lines, consider splitting it.</li>
 <li>Use <code>ref()</code> for primitive values (strings, numbers, booleans). Use <code>reactive()</code> for objects when you want to avoid <code>.value</code> everywhere.</li>
 <li>Do not mutate props. Props flow down from the parent; a child should not change them directly. Emit an event to the parent and let the parent update its own state.</li>

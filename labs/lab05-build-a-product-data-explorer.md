@@ -67,7 +67,7 @@ Returns a new sorted array. `direction` is `'asc'` (lowest first) or `'desc'` (h
 
 ## Part 3: Rendering functions
 
-Write the following DOM functions. Use `createElement` and `textContent` — **no `innerHTML`**.
+Write the following DOM functions. Use `createElement` and `textContent` — **no `innerHTML`**. (The DOM gets full coverage in Week 06; for now, reuse the "DOM preview" glue pattern from the top of Lab 04's Part 3 — select an element, create elements, set `textContent`, and `append`.)
 
 ### `renderProductCard(product)`
 

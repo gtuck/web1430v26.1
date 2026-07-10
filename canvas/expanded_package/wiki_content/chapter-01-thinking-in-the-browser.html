@@ -39,7 +39,7 @@ Content-Type: text/html</code></pre>
 <li>Reads <code>&lt;!DOCTYPE html&gt;</code> — signals HTML5 parsing mode.</li>
 <li>Reads <code>&lt;html&gt;</code> — creates the root DOM node.</li>
 <li>Reads <code>&lt;head&gt;</code> — enters the head section.</li>
-<li>Reads <code>&lt;link rel=&quot;stylesheet&quot; href=&quot;style.css&quot;&gt;</code> — <strong>pauses HTML parsing</strong>, fetches <code>style.css</code> from the server, parses it into the CSSOM, then resumes.</li>
+<li>Reads <code>&lt;link rel=&quot;stylesheet&quot; href=&quot;style.css&quot;&gt;</code> — starts fetching <code>style.css</code> in parallel while HTML parsing continues. CSS is <strong>render-blocking</strong>: nothing is painted to the screen until the stylesheet is downloaded and parsed into the CSSOM.</li>
 <li>Reads <code>&lt;title&gt;</code> — sets the page title.</li>
 <li>Reads <code>&lt;body&gt;</code> — begins the body.</li>
 <li>Reads <code>&lt;h1&gt;Hello&lt;/h1&gt;</code> and <code>&lt;p&gt;Welcome.&lt;/p&gt;</code> — creates those DOM nodes.</li>

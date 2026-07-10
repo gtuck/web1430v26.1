@@ -43,6 +43,7 @@ function calculateTax(price, rate) {
 
 // Arrow function expression (concise, not hoisted)
 const formatPrice = (price) =&gt; `$${price.toFixed(2)}`;</code></pre>
+<p>Arrow functions are especially useful as short, anonymous callbacks passed to array methods (covered in the next chapter).</p>
 <p>A function should do <strong>one thing</strong>. Give it a verb name that describes what it does: <code>calculateTotal</code>, <code>renderCard</code>, <code>isValidEmail</code>. If you can't name it in one verb phrase, it probably does too many things.</p>
 <p><strong>Pure functions</strong> return a value based solely on their inputs and have no side effects. They are easier to test, easier to reason about, and easier to reuse.</p>
 <pre><code class="language-js">// Pure: same input always gives same output, no side effects

@@ -8,7 +8,7 @@ JavaScript's type system behaves differently from most languages beginners have 
 
 ## Learning targets
 - Declare variables with `const` and `let` and explain why `var` is avoided in modern JavaScript
-- Identify and distinguish the six primitive types: `string`, `number`, `boolean`, `null`, `undefined`, `symbol` (and `bigint`)
+- Identify and distinguish the seven primitive types — `string`, `number`, `boolean`, `null`, `undefined`, `symbol`, and `bigint` — and know the five you will use constantly
 - Use `typeof` to inspect a value's type and predict its output for edge cases like `null` and functions
 - Write template literals and explain when they are preferable to string concatenation
 - Apply `===` (strict equality) instead of `==` (loose equality) and describe one case where `==` produces a surprising result

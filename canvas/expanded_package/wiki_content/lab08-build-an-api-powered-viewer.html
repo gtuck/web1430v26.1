@@ -179,7 +179,7 @@ form.addEventListener(&#x27;submit&#x27;, async (event) =&gt; {
 <thead><tr><th>Criterion</th><th>Excellent (4)</th><th>Proficient (3)</th><th>Developing (2)</th><th>Incomplete (1)</th></tr></thead>
 <tbody>
 <tr><td><strong>Fetch and error handling</strong></td><td><code>response.ok</code> checked; <code>try/catch/finally</code> used; all three states (loading, success, error) handled</td><td>Two states handled; response.ok checked</td><td>One state handled</td><td>No error handling</td></tr>
-<tr><td><strong>Data normalization</strong></td><td><code>normalizeBooks</code> protects against missing fields; all three properties normalized</td><td>Two properties normalized</td><td>No normalization</td><td></td></tr>
+<tr><td><strong>Data normalization</strong></td><td><code>normalizeBooks</code> protects against missing fields; all three properties normalized</td><td>Two properties normalized</td><td>One property normalized</td><td>No normalization</td></tr>
 <tr><td><strong>Rendering</strong></td><td>Cards render all three fields; empty state shown; <code>createElement</code> used; no <code>innerHTML</code></td><td>Cards render; one issue</td><td>Partial render</td><td>Not functional</td></tr>
 <tr><td><strong>Accessible async</strong></td><td><code>aria-live</code> on results region; loading and error messages text-based and readable</td><td><code>aria-live</code> present</td><td>Partially accessible</td><td>No accessible state management</td></tr>
 <tr><td><strong>CSS</strong></td><td>Responsive grid; three status states visually distinct</td><td>Responsive; two states distinct</td><td>Single column; minimal distinction</td><td>No meaningful CSS</td></tr>

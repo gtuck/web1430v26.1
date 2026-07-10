@@ -10,7 +10,7 @@ This chapter treats Lighthouse as your scorecard, manual testing as your quality
 
 ## Key ideas
 
-**The Lighthouse audit** is built into Chrome DevTools (DevTools → Lighthouse tab, or use the Lighthouse panel in Edge). Run it on any page — local dev server, preview deploy, or live URL — and it returns scores in five categories:
+**The Lighthouse audit** is built into Chrome DevTools (DevTools → Lighthouse tab, or use the Lighthouse panel in Edge). Run it on any page — local dev server, preview deploy, or live URL — and it returns scores in four categories:
 
 | Category | What it measures |
 |---|---|
@@ -18,9 +18,8 @@ This chapter treats Lighthouse as your scorecard, manual testing as your quality
 | **Accessibility** | Automated checks against WCAG guidelines |
 | **Best Practices** | Security, modern APIs, and common code quality signals |
 | **SEO** | Whether search engines can crawl and understand the page |
-| **PWA** | Progressive Web App compliance (offline support, installability) |
 
-For this course, Performance and Accessibility are the categories you act on most. Best Practices catches things like using deprecated APIs or loading scripts over HTTP instead of HTTPS. SEO and PWA are informational at this stage.
+For this course, Performance and Accessibility are the categories you act on most. Best Practices catches things like using deprecated APIs or loading scripts over HTTP instead of HTTPS. SEO is informational at this stage.
 
 **Lighthouse performance metrics** — the Performance score is computed from several sub-metrics. The four you will see most:
 
@@ -128,6 +127,8 @@ npm run preview   # serves dist/ locally on a different port
 3. **Set the publish directory.** For Vite, this is `dist`. This tells the platform which folder contains the files to serve.
 
 On Netlify, these settings live in Site Configuration → Build & Deploy → Build settings. On Vercel they are auto-detected from your `package.json` in most cases, but you can override them in the project settings.
+
+**GitHub Pages** is a third option, covered step by step in the Week 14 lecture notes. One gotcha to remember: GitHub Pages serves project sites from a subdirectory (`https://username.github.io/repo-name/`), so a Vite project must set `base: '/repo-name/'` in `vite.config.js`. Without it, the built asset paths start at `/` and every script and stylesheet 404s on the deployed site.
 
 **Environment variables for API keys** — never commit secret keys to git. Both platforms have a UI for setting environment variables that are injected at build time:
 
@@ -241,7 +242,7 @@ What was different about the application when you ran `npm run preview` compared
 
 ## Vocabulary
 
-- **Lighthouse** — a Chrome DevTools auditing tool that scores a page on Performance, Accessibility, Best Practices, SEO, and PWA criteria
+- **Lighthouse** — a Chrome DevTools auditing tool that scores a page on Performance, Accessibility, Best Practices, and SEO criteria
 - **FCP (First Contentful Paint)** — the time when the browser first renders any text or image to the screen
 - **LCP (Largest Contentful Paint)** — the time when the largest visible element in the viewport finishes rendering; the primary user-perceived load speed metric
 - **TBT (Total Blocking Time)** — the total time during page load when the main thread is blocked and cannot respond to user input

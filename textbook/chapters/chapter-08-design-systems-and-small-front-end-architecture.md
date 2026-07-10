@@ -152,7 +152,7 @@ The three most common culprits:
 
 **How to measure: Lighthouse**
 
-Lighthouse is built into Chrome DevTools (DevTools → Lighthouse tab). Run it on any page to get scores in five categories:
+Lighthouse is built into Chrome DevTools (DevTools → Lighthouse tab). Run it on any page to get scores in four categories:
 
 | Category | What it measures |
 |---|---|
@@ -160,7 +160,6 @@ Lighthouse is built into Chrome DevTools (DevTools → Lighthouse tab). Run it o
 | **Accessibility** | Whether the page meets WCAG guidelines |
 | **Best Practices** | Security and code quality signals |
 | **SEO** | Search engine crawlability |
-| **PWA** | Progressive Web App compliance |
 
 Each finding includes a description of the problem and a link to documentation explaining how to fix it. You will run a full Lighthouse audit in Lab 13 (Week 14) and on every project before final submission.
 

@@ -15,11 +15,11 @@
 <pre><code class="language-js">const heading = document.querySelector(&#x27;h1&#x27;);              // first match
 const items = document.querySelectorAll(&#x27;.list-item&#x27;);     // all matches (NodeList)
 const btn = document.querySelector(&#x27;#submit-btn&#x27;);         // by ID</code></pre>
-<p><code>querySelectorAll</code> returns a <code>NodeList</code>, not an array. You can iterate it with <code>for...of</code>, but it doesn't have <code>.map()</code> or <code>.filter()</code>. Convert with <code>Array.from()</code> if you need those methods.</p>
+<p><code>querySelectorAll</code> returns a <code>NodeList</code>, not an array. You can iterate it with <code>for...of</code>, but it doesn't have <code>.map()</code> or <code>.filter()</code>. Convert with <code>Array.from(items)</code> or the spread operator <code>[...items]</code> if you need those methods.</p>
 <p><strong>Reading and setting content</strong>:</p>
 <pre><code class="language-js">heading.textContent = &#x27;New Heading&#x27;;         // safe — treats value as text
 heading.innerHTML = &#x27;&lt;em&gt;New&lt;/em&gt; Heading&#x27;;  // unsafe with user input — can run scripts</code></pre>
-<p>Prefer <code>textContent</code> for plain text. Use <code>innerHTML</code> only when you control the content entirely and need embedded HTML structure.</p>
+<p>Prefer <code>textContent</code> for plain text. Use <code>innerHTML</code> only when you control the content entirely and need embedded HTML structure. If you absolutely must render HTML from an untrusted or remote source, use an HTML sanitization library like DOMPurify first.</p>
 <p><strong>Manipulating classes</strong>:</p>
 <pre><code class="language-js">element.classList.add(&#x27;active&#x27;);
 element.classList.remove(&#x27;hidden&#x27;);

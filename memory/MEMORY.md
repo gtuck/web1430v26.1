@@ -43,6 +43,7 @@ WEB 1430 is a complete, online-first **Client-Side Web Development** course pack
 - Quiz 4, Quizzes 6-8, the Midterm, and the Final now include stronger code-reading/debugging stems.
 - Instructor-side delivery support now includes `course/import_to_canvas.md` and `course/first-delivery-monitoring-guide.md`.
 - The reports in `reports/` were refreshed on March 16, 2026 and now reflect the additional alignment pass that updated textbook/course consistency and repo-level documentation.
+- A July 10, 2026 accuracy pass fixed: the Chapter 1 CSS parser-blocking claim (CSS blocks rendering, not parsing), a Chapter 4 code-fence formatting bug, the outdated five-category Lighthouse descriptions in Chapters 8 and 14 (Lighthouse now has four categories; PWA was removed), the invalid `import Vue from 'vue'` example in Chapter 11, the Week 08 lecture's midterm-format description (now matches the selected-response exam), and the Week 03 lecture's primitive-type count. Chapter 8 (previously assigned to no week) is now Week 08's chapter reading. Chapter 14 gained a short GitHub Pages `base`-path note to back Quiz 8. Labs 04/05 now include the DOM glue pattern students need before the DOM is formally taught in Week 06. Three rubric rows with empty Incomplete cells (Assignment 4, Lab 08, Lab 12) were completed.
 
 ## Key Files to Keep in Sync
 

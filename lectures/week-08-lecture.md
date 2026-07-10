@@ -78,11 +78,11 @@ Duplication appears in more than just logic. Watch for:
 - **Parallel `if/else` chains**: if you find yourself writing the same branching structure twice for two similar things, consider whether a loop or a data-driven approach would work.
 
 ### Midterm Exam format and scope
-The Midterm covers Weeks 01–07. Expect:
-- Multiple choice and short answer on HTML semantics, CSS layout, and JS fundamentals
-- Reading and tracing code to determine output
-- Identifying bugs in short code samples
-- Writing small functions (10–20 lines) given a clear specification
+The Midterm covers Weeks 01–07. It is 15 multiple-choice and true/false questions in Canvas, timed at 60 minutes, open notes. Expect:
+- Concept questions on HTML semantics, CSS layout, and JS fundamentals
+- Reading and tracing short code samples to determine output
+- Identifying the bug or the fix in short code scenarios
+- Questions about the Git/GitHub workflow habits used in this course
 
 **High-priority topics to review:**
 - Semantic HTML elements and when to use them
@@ -134,4 +134,4 @@ Take any JavaScript file from your Project 1 and apply two refactors:
 After each change, reload the page and confirm everything still works. Write a two-sentence comment at the top of the file describing what you changed and why.
 
 ## Bridge
-The Midterm Exam opens at the start of Week 08 and covers all material through Week 07 — review the high-priority topic list above and use your own past assignments as study material. Project 1 is also due this week; use the polish checklist to run a final quality pass before submitting. Starting in Week 09, the course shifts to new territory — asynchronous JavaScript — so a clean mental slate after the midterm will help.
+The Midterm Exam opens at the start of Week 08 and covers all material through Week 07 — review the high-priority topic list above and use your own past assignments as study material. This week's chapter reading, Chapter 8 (Design Systems and Small Front-End Architecture), goes deeper on the refactoring themes from this lecture: design tokens, naming conventions, and file organization — apply its patterns during Project 1 polish. Project 1 is also due this week; use the polish checklist to run a final quality pass before submitting. Starting in Week 09, the course shifts to new territory — asynchronous JavaScript — so a clean mental slate after the midterm will help.

@@ -33,10 +33,10 @@ export default function renderProductCard(product) {
 <ul>
 <li><code>&#x27;./utils.js&#x27;</code> — relative path, same directory</li>
 <li><code>&#x27;../data/products.js&#x27;</code> — relative path, parent directory</li>
-<li><code>&#x27;vue&#x27;</code> — an installed npm package (no <code>./</code>)</li>
+<li><code>&#x27;vue&#x27;</code> — an installed npm package (no <code>./</code>). Whether you use default or named imports depends on what the library exports (e.g., Vue 3 uses named exports like <code>import { ref, createApp } from &#x27;vue&#x27;</code>, while some libraries provide a default export like <code>import confetti from &#x27;canvas-confetti&#x27;</code>).</li>
 </ul>
 <p><strong>NPM</strong> (Node Package Manager) manages third-party packages. Key files and commands:</p>
-<pre><code class="language-bash">npm init vite@latest my-project   # scaffold a new Vite project
+<pre><code class="language-bash">npm create vite@latest my-project # scaffold a new Vite project
 cd my-project
 npm install                        # install all dependencies listed in package.json
 npm run dev                        # start the Vite development server

@@ -47,7 +47,7 @@ Here is what the browser does, in order:
 1. Reads `<!DOCTYPE html>` — signals HTML5 parsing mode.
 2. Reads `<html>` — creates the root DOM node.
 3. Reads `<head>` — enters the head section.
-4. Reads `<link rel="stylesheet" href="style.css">` — **pauses HTML parsing**, fetches `style.css` from the server, parses it into the CSSOM, then resumes.
+4. Reads `<link rel="stylesheet" href="style.css">` — starts fetching `style.css` in parallel while HTML parsing continues. CSS is **render-blocking**: nothing is painted to the screen until the stylesheet is downloaded and parsed into the CSSOM.
 5. Reads `<title>` — sets the page title.
 6. Reads `<body>` — begins the body.
 7. Reads `<h1>Hello</h1>` and `<p>Welcome.</p>` — creates those DOM nodes.

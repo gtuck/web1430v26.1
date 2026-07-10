@@ -69,7 +69,7 @@ const { name, price } = product;        // object destructuring
 const [first, second] = colors;         // array destructuring
 ```
 
-**JSON** (JavaScript Object Notation) is a text format for structured data. It looks like a JavaScript object literal but has strict rules: all keys must be quoted strings, values must be strings, numbers, booleans, arrays, or objects (no functions, no `undefined`).
+**JSON** (JavaScript Object Notation) is a text format for structured data. It looks like a JavaScript object literal but has strict rules: all keys must be quoted strings, values must be strings, numbers, booleans, `null`, arrays, or objects (no functions, no `undefined`).
 
 ```js
 // JavaScript object → JSON string

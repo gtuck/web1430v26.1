@@ -302,5 +302,5 @@ Answer in 4–6 sentences:
 | **Summary panel** | All five stats correct; derived from filtered data; updates with each filter change | Four stats correct; one not filtered | Stats present but use full dataset | No summary |
 | **Component structure** | Two child components with correct `defineProps`; data flows parent → child | Two components; prop type missing | One component extracted | Everything in App.vue |
 | **Accessibility** | `aria-live` on summary; table uses `scope`; empty state present | Two of three | One | None |
-| **Edge cases** | Empty filter result shows message; summary shows "N/A" when count is 0 | Empty state only | No edge case handling | |
+| **Edge cases** | Empty filter result shows message; summary shows "N/A" when count is 0 | Empty state only | Edge cases attempted but broken or inconsistent | No edge case handling |
 | **Reflection** | Specific; all three prompts addressed | Two prompts | Vague | Missing |

@@ -54,6 +54,24 @@
 ];</code></pre>
 <hr />
 <h2>Part 3: Trail recommender logic</h2>
+<blockquote>
+<p><strong>DOM preview — the glue code you need this week.</strong> The DOM and events get full coverage in Weeks 06–07; this lab only needs the small pattern below. Copy and adapt it — the logic inside your functions is what is being graded this week.</p>
+<pre><code class="language-js">// Read a form value (always a string — convert numbers with Number())
+const distance = Number(document.querySelector(&#x27;#distance&#x27;).value);
+
+// Run a function when a button is clicked
+const button = document.querySelector(&#x27;#find-trail-btn&#x27;);
+button.addEventListener(&#x27;click&#x27;, () =&gt; {
+  // read inputs, call your functions, render the result
+});
+
+// Display a result safely (no innerHTML)
+const output = document.querySelector(&#x27;#recommendation&#x27;);
+output.textContent = &#x27;&#x27;;                 // clear previous output
+const p = document.createElement(&#x27;p&#x27;);   // create an element
+p.textContent = &#x27;Your trail: Lakeside Loop&#x27;;
+output.append(p);                        // add it to the page</code></pre>
+</blockquote>
 <p>Write the following functions. Keep each function focused on one task.</p>
 <h3><code>findTrail(level, maxDistance, maxHours)</code></h3>
 <p>Accepts three arguments (strings and numbers from the form). Returns the first trail in <code>trails</code> that:</p>

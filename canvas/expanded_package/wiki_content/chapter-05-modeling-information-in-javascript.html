@@ -54,7 +54,7 @@ const keyboard = products.find(p =&gt; p.id === 1);</code></pre>
 <p><strong>Destructuring</strong> extracts properties from objects and arrays into named variables:</p>
 <pre><code class="language-js">const { name, price } = product;        // object destructuring
 const [first, second] = colors;         // array destructuring</code></pre>
-<p><strong>JSON</strong> (JavaScript Object Notation) is a text format for structured data. It looks like a JavaScript object literal but has strict rules: all keys must be quoted strings, values must be strings, numbers, booleans, arrays, or objects (no functions, no <code>undefined</code>).</p>
+<p><strong>JSON</strong> (JavaScript Object Notation) is a text format for structured data. It looks like a JavaScript object literal but has strict rules: all keys must be quoted strings, values must be strings, numbers, booleans, <code>null</code>, arrays, or objects (no functions, no <code>undefined</code>).</p>
 <pre><code class="language-js">// JavaScript object → JSON string
 const json = JSON.stringify(product);
 

@@ -70,7 +70,7 @@ async function loadAndRender() {
 
 Missing any of these leaves users confused.
 
-**CORS (Cross-Origin Resource Sharing)** — browsers block requests to a different domain unless that server explicitly allows it via CORS headers. If you get a CORS error, it is a server configuration issue, not a bug in your JavaScript. Use APIs that explicitly support public access (like JSONPlaceholder, Open Library, or The Movie Database) while learning.
+**CORS (Cross-Origin Resource Sharing)** — browsers block requests to a different domain unless that server explicitly allows it via CORS headers. If you get a CORS error, it is a server configuration issue, not a bug in your JavaScript. Use APIs that explicitly support public access (like JSONPlaceholder, Open Library, or PokéAPI) while learning.
 
 **API viability** — before you build your interface around an API, verify that it is actually usable for your project. Four checks matter most:
 

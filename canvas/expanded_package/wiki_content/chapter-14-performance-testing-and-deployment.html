@@ -12,7 +12,7 @@
 <p>Everything in the course has been building toward a moment: you push a button, your application is live on the internet, and a real person uses it. That moment requires three things to go right. First, the application must be fast enough that users do not leave before the page loads. Second, it must work correctly — keyboard navigation, screen readers, every interaction path — not just in your best-case scenario. Third, the deployed version must actually match what you built.</p>
 <p>This chapter treats Lighthouse as your scorecard, manual testing as your quality gate, and Netlify or Vercel as your publishing platform. These are not exotic tools for specialists. They are the practical minimum for shipping something you can stand behind.</p>
 <h2>Key ideas</h2>
-<p><strong>The Lighthouse audit</strong> is built into Chrome DevTools (DevTools → Lighthouse tab, or use the Lighthouse panel in Edge). Run it on any page — local dev server, preview deploy, or live URL — and it returns scores in five categories:</p>
+<p><strong>The Lighthouse audit</strong> is built into Chrome DevTools (DevTools → Lighthouse tab, or use the Lighthouse panel in Edge). Run it on any page — local dev server, preview deploy, or live URL — and it returns scores in four categories:</p>
 <table>
 <thead><tr><th>Category</th><th>What it measures</th></tr></thead>
 <tbody>
@@ -20,10 +20,9 @@
 <tr><td><strong>Accessibility</strong></td><td>Automated checks against WCAG guidelines</td></tr>
 <tr><td><strong>Best Practices</strong></td><td>Security, modern APIs, and common code quality signals</td></tr>
 <tr><td><strong>SEO</strong></td><td>Whether search engines can crawl and understand the page</td></tr>
-<tr><td><strong>PWA</strong></td><td>Progressive Web App compliance (offline support, installability)</td></tr>
 </tbody>
 </table>
-<p>For this course, Performance and Accessibility are the categories you act on most. Best Practices catches things like using deprecated APIs or loading scripts over HTTP instead of HTTPS. SEO and PWA are informational at this stage.</p>
+<p>For this course, Performance and Accessibility are the categories you act on most. Best Practices catches things like using deprecated APIs or loading scripts over HTTP instead of HTTPS. SEO is informational at this stage.</p>
 <p><strong>Lighthouse performance metrics</strong> — the Performance score is computed from several sub-metrics. The four you will see most:</p>
 <table>
 <thead><tr><th>Metric</th><th>What it measures</th><th>Target</th></tr></thead>
@@ -96,6 +95,7 @@ npm run preview   # serves dist/ locally on a different port</code></pre>
 <li><strong>Set the publish directory.</strong> For Vite, this is <code>dist</code>. This tells the platform which folder contains the files to serve.</li>
 </ol>
 <p>On Netlify, these settings live in Site Configuration → Build &amp; Deploy → Build settings. On Vercel they are auto-detected from your <code>package.json</code> in most cases, but you can override them in the project settings.</p>
+<p><strong>GitHub Pages</strong> is a third option, covered step by step in the Week 14 lecture notes. One gotcha to remember: GitHub Pages serves project sites from a subdirectory (<code>https://username.github.io/repo-name/</code>), so a Vite project must set <code>base: &#x27;/repo-name/&#x27;</code> in <code>vite.config.js</code>. Without it, the built asset paths start at <code>/</code> and every script and stylesheet 404s on the deployed site.</p>
 <p><strong>Environment variables for API keys</strong> — never commit secret keys to git. Both platforms have a UI for setting environment variables that are injected at build time:</p>
 <p>In Vite, environment variables that start with <code>VITE_</code> are exposed to your client-side code:</p>
 <pre><code class="language-js">// In your source code — references the env variable
@@ -178,7 +178,7 @@ VITE_WEATHER_API_KEY=your_actual_key_here</code></pre>
 <p>What was different about the application when you ran <code>npm run preview</code> compared to <code>npm run dev</code>? Which Lighthouse findings surprised you — were there accessibility issues you would not have found by looking at the page visually? When you did the keyboard-only walkthrough, what did you discover about the interaction model that you had not noticed before?</p>
 <h2>Vocabulary</h2>
 <ul>
-<li><strong>Lighthouse</strong> — a Chrome DevTools auditing tool that scores a page on Performance, Accessibility, Best Practices, SEO, and PWA criteria</li>
+<li><strong>Lighthouse</strong> — a Chrome DevTools auditing tool that scores a page on Performance, Accessibility, Best Practices, and SEO criteria</li>
 <li><strong>FCP (First Contentful Paint)</strong> — the time when the browser first renders any text or image to the screen</li>
 <li><strong>LCP (Largest Contentful Paint)</strong> — the time when the largest visible element in the viewport finishes rendering; the primary user-perceived load speed metric</li>
 <li><strong>TBT (Total Blocking Time)</strong> — the total time during page load when the main thread is blocked and cannot respond to user input</li>

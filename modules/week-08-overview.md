@@ -15,6 +15,7 @@
 
 ## Resources
 - [Lecture notes: Refactoring, Reuse, and Midterm Review](../lectures/week-08-lecture.md)
+- [Chapter 8: Design Systems and Small Front-End Architecture](../textbook/chapters/chapter-08-design-systems-and-small-front-end-architecture.md) — this week's chapter; its design-token, naming, and file-organization patterns are the refactoring tools you will apply during Project 1 polish
 - Review Chapters 1–7 for the Midterm Exam
 - **Time estimate:** 8–10 hours (studio, midterm exam, Project 1 final submission)
 
