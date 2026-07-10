@@ -69,7 +69,7 @@
 
 ## Section 3: Project 2
 
-**7.** How is your progress on Project 2 going into the Milestone 2 checkpoint (Week 11)?
+**7.** How is your progress on Project 2 going into the Milestone 2 build checkpoint (due end of Week 12)?
 
 - [ ] Ahead of schedule — I have more done than the milestone requires
 - [ ] On track — I expect to meet all Milestone 2 requirements

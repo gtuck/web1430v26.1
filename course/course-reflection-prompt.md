@@ -25,6 +25,6 @@ This reflection is graded separately from your project (see the Final Project ru
 
 | Criterion | Excellent (4) | Proficient (3) | Developing (2) | Incomplete (1) |
 |-----------|--------------|----------------|----------------|----------------|
-| **Specificity** | Every answer names a specific file, function, decision, or moment — no vague generalizations | Most answers are specific; one is general | Half the answers are specific | Answers are entirely vague ("I learned a lot") |
-| **Honesty and self-assessment** | Openly identifies what went wrong and what they would change; shows genuine self-evaluation | Acknowledges one real difficulty | Mostly positive; minimal self-critique | No evidence of self-reflection |
-| **Growth in accessibility** | Names a specific element, pattern, or fix that demonstrates changed understanding | Describes accessibility in general terms with one example | Mentions accessibility without connecting it to their project | No mention of accessibility growth |
+| **Depth and specificity** | All five prompts answered with specific, concrete details from the project; demonstrates genuine self-assessment | Four prompts answered specifically | Three prompts; answers somewhat vague | Two or fewer prompts; very vague |
+| **Technical honesty** | Identifies real weaknesses and specific things to change; does not claim everything went perfectly | Identifies some weaknesses | Weaknesses mentioned but not specific | Claims no weaknesses or missing |
+| **Growth evidence** | Reflection on accessibility prompt shows concrete shift in understanding from start to end of course | Some growth evident | Accessibility prompt answered generically | Not addressed |
