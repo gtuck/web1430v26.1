@@ -92,6 +92,13 @@ def heading_text(markdown_text: str) -> str:
     raise ValueError("Markdown file is missing an H1 heading.")
 
 
+def canvas_page_slug(title: str) -> str:
+    """Slugify a wiki page title the way Canvas builds page URLs on import."""
+    slug = title.lower().replace("&", " and ")
+    slug = re.sub(r"[^a-z0-9]+", "-", slug)
+    return slug.strip("-")
+
+
 @dataclass(frozen=True)
 class WikiPageSpec:
     source: Path
@@ -117,8 +124,13 @@ class AssessmentSpec:
 
 
 class MarkdownRenderer:
-    def __init__(self, published_sources: dict[Path, Path]):
+    def __init__(
+        self,
+        published_sources: dict[Path, Path],
+        page_slugs: dict[Path, str] | None = None,
+    ):
         self.published_sources = published_sources
+        self.page_slugs = page_slugs or {}
 
     def render(self, markdown_text: str, source_path: Path, output_path: Path) -> str:
         lines = normalize_text(markdown_text).split("\n")
@@ -389,6 +401,13 @@ class MarkdownRenderer:
         published = self.published_sources.get(resolved)
         if published is None:
             return None
+
+        # Canvas cannot resolve relative file links inside imported wiki/assignment
+        # HTML; it expects the $WIKI_REFERENCE$ placeholder plus the page slug that
+        # Canvas derives from the page title at import time.
+        slug = self.page_slugs.get(resolved)
+        if slug:
+            return f'<a href="$WIKI_REFERENCE$/pages/{slug}">{label_html}</a>'
 
         relative_href = os.path.relpath(published, output_path.parent).replace(os.sep, "/")
         safe_href = html.escape(relative_href, quote=True)
@@ -743,13 +762,19 @@ def ensure_wiki_resource(manifest_root: ET.Element, href: str) -> str:
     return identifier
 
 
-def build_published_source_map(manifest_root: ET.Element) -> tuple[list[WikiPageSpec], dict[Path, Path]]:
+def build_published_source_map(
+    manifest_root: ET.Element,
+) -> tuple[list[WikiPageSpec], dict[Path, Path], dict[Path, str]]:
     specs = publishable_wiki_specs()
     published: dict[Path, Path] = {}
+    page_slugs: dict[Path, str] = {}
     for spec in specs:
         ensure_wiki_resource(manifest_root, spec.href)
-        published[spec.source.resolve()] = EXPANDED_PACKAGE / spec.href
-    return specs, published
+        resolved = spec.source.resolve()
+        published[resolved] = EXPANDED_PACKAGE / spec.href
+        title = heading_text(spec.source.read_text(encoding="utf-8"))
+        page_slugs[resolved] = canvas_page_slug(title)
+    return specs, published, page_slugs
 
 
 def synchronize_module_item_order(
@@ -887,7 +912,7 @@ def create_expected_file_outputs() -> tuple[dict[Path, str], dict[Path, bytes]]:
     manifest_tree = parse_manifest(MANIFEST_PATH)
     manifest_root = manifest_tree.getroot()
 
-    wiki_specs, published_sources = build_published_source_map(manifest_root)
+    wiki_specs, published_sources, page_slugs = build_published_source_map(manifest_root)
     assessment_source_specs = assessment_specs(manifest_root)
     resource_ids = {
         spec.href: existing_manifest_resources(manifest_root)[spec.href].get("identifier", "")
@@ -904,7 +929,7 @@ def create_expected_file_outputs() -> tuple[dict[Path, str], dict[Path, bytes]]:
             expected_items=items,
         )
 
-    renderer = MarkdownRenderer(published_sources)
+    renderer = MarkdownRenderer(published_sources, page_slugs)
     expected_text_files: dict[Path, str] = {}
     expected_binary_files: dict[Path, bytes] = {}
 
