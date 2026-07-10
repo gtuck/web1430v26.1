@@ -12,19 +12,19 @@ Do **not** select "Canvas Course Export Package" — that converter expects a by
 After import, complete these instructor-side setup steps before the term starts:
 
 1. Import the course learning outcomes into Canvas Outcomes:
-   - Go to Course > Outcomes > Import and upload `course/canvas-outcomes.csv`.
+   - Go to Course > Outcomes > Import and upload `instructor/canvas-outcomes.csv`.
    - This creates a "WEB 1430: Client-Side Web Development" group containing the 10 course outcomes from `course/learning_outcomes.md`, each with the course's four rubric levels (Excellent 4 / Proficient 3 / Developing 2 / Incomplete 1) and mastery set at Proficient.
    - The `.imscc` import does not carry outcomes, so this CSV step is required each time a fresh course shell is set up. If you edit `course/learning_outcomes.md`, update the CSV to match.
    - After importing, outcomes can be attached to assignment rubrics via Manage Rubrics to track mastery while grading.
-2. Create the course rubrics in Canvas. The 24 rubrics (14 labs, 6 assignments, 3 projects, and the Final Project course reflection) are generated from the rubric tables in the course briefs into `course/canvas-rubrics.csv`.
+2. Create the course rubrics in Canvas. The 24 rubrics (14 labs, 6 assignments, 3 projects, and the Final Project course reflection) are generated from the rubric tables in the course briefs into `instructor/canvas-rubrics.csv`.
 
-   **Import:** go to Course > Rubrics > Import Rubrics and upload `course/canvas-rubrics.csv`. This creates all 24 rubrics as course-level rubrics.
+   **Import:** go to Course > Rubrics > Import Rubrics and upload `instructor/canvas-rubrics.csv`. This creates all 24 rubrics as course-level rubrics.
 
    **Manual follow-up (Canvas's CSV import cannot do these):**
 
    a. Attach each assignment/project rubric to its Canvas assignment: open the assignment, click "+ Rubric" > Find a Rubric, and pick the rubric with the same title. Nine to attach: Assignments 1–6, Project 1, Project 2, and the Final Project.
 
-   b. Add the learning outcome(s) to each rubric for mastery tracking: edit the rubric, click "Find Outcome", and add the mapped outcome(s) from the "WEB 1430: Client-Side Web Development" group. Recommended mapping (short outcome titles from `course/canvas-outcomes.csv`):
+   b. Add the learning outcome(s) to each rubric for mastery tracking: edit the rubric, click "Find Outcome", and add the mapped outcome(s) from the "WEB 1430: Client-Side Web Development" group. Recommended mapping (short outcome titles from `instructor/canvas-outcomes.csv`):
 
    | Rubric | Outcome(s) |
    |--------|-----------|
@@ -62,4 +62,4 @@ After import, complete these instructor-side setup steps before the term starts:
    - `course/student-survey-week-05.md`
    - `course/student-survey-week-11.md`
    - `course/student-survey-week-13.md`
-5. Review `course/first-delivery-monitoring-guide.md` and set up the tracking sheet before students reach Week 11.
+5. Review `instructor/first-delivery-monitoring-guide.md` and set up the tracking sheet before students reach Week 11.

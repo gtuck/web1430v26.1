@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate course/canvas-rubrics.csv for Canvas's Import Rubrics feature.
+"""Generate instructor/canvas-rubrics.csv for Canvas's Import Rubrics feature.
 
 Parses every rubric table in labs/, assignments/, and projects/ and writes a
 CSV matching the template Canvas provides under Course > Rubrics > Import
@@ -10,10 +10,10 @@ Incomplete 1).
 
 Canvas's CSV import creates course-level rubrics only. Attaching rubrics to
 assignments and adding learning-outcome rows are manual steps in the Canvas
-UI — see course/import_to_canvas.md for the checklist.
+UI — see instructor/import_to_canvas.md for the checklist.
 
 Usage:
-    python3 scripts/build_canvas_rubrics_csv.py            # writes course/canvas-rubrics.csv
+    python3 scripts/build_canvas_rubrics_csv.py            # writes instructor/canvas-rubrics.csv
     python3 scripts/build_canvas_rubrics_csv.py out.csv    # writes elsewhere
 
 Re-run whenever a rubric table in a brief changes, then delete the affected
@@ -29,7 +29,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-DEFAULT_OUTPUT = ROOT / "course" / "canvas-rubrics.csv"
+DEFAULT_OUTPUT = ROOT / "instructor" / "canvas-rubrics.csv"
 
 RATING_LEVELS = [
     (4, "Excellent"),
@@ -130,7 +130,7 @@ def main(argv: list[str]) -> int:
     criteria_count = sum(len(r.criteria) for r in rubrics)
     print(f"Wrote {len(rubrics)} rubrics ({criteria_count} criteria) to {output}")
     print("Upload via Course > Rubrics > Import Rubrics, then follow the manual "
-          "attach/outcome checklist in course/import_to_canvas.md.")
+          "attach/outcome checklist in instructor/import_to_canvas.md.")
     return 0
 
 

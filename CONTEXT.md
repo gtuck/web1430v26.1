@@ -11,7 +11,8 @@ The repository uses:
 - Markdown as the source of truth for learner-facing course pages
 - JSON in `quizzes/` as the source of truth for quizzes and exams
 - `scripts/build_canvas_package.py` to regenerate the Canvas package and `.imscc`
-- `scripts/build_canvas_rubrics_csv.py` to regenerate `course/canvas-rubrics.csv` from the rubric tables in the briefs
+- `scripts/build_canvas_rubrics_csv.py` to regenerate `instructor/canvas-rubrics.csv` from the rubric tables in the briefs
+- `scripts/lint_course.py` to mechanically enforce the synchronization rules below
 
 ## Source of truth and build workflow
 
@@ -23,6 +24,7 @@ Primary commands:
 python3 scripts/build_canvas_package.py build
 python3 scripts/build_canvas_package.py build --check
 python3 scripts/build_canvas_package.py validate
+python3 scripts/lint_course.py   # cross-file consistency checks; run before committing content changes
 ```
 
 The build script regenerates:
@@ -41,13 +43,14 @@ The build script regenerates:
 - "Convert content to New Quizzes" must stay unchecked (quizzes are Classic Quiz QTI).
 - Re-imports should target a fresh course shell or follow Reset Course Content, so page links resolve to the new copies rather than duplicate `-2` page URLs.
 - The instructor has **no Canvas API access** (no tokens available at the institution). All Canvas automation must use UI channels: the `.imscc` import, the Outcomes CSV import, and the Rubrics CSV import. Never build Canvas REST API tooling.
-- Instructor-side setup after import is documented in `course/import_to_canvas.md`: outcomes CSV, rubrics CSV plus manual rubric-to-assignment attachment and outcome rows (a full mapping table is in that guide), survey forms, and the monitoring workflow.
+- Instructor-side setup after import is documented in `instructor/import_to_canvas.md`: outcomes CSV, rubrics CSV plus manual rubric-to-assignment attachment and outcome rows (a full mapping table is in that guide), survey forms, and the monitoring workflow.
 
 ## Repository structure
 
 | Directory | Contents |
 |-----------|----------|
-| `course/` | Syllabus, schedule, outcomes, Canvas import notes, published support guides, student surveys, and the Canvas Outcomes/Rubrics import CSVs |
+| `course/` | Syllabus (single canonical copy), schedule, outcomes, quiz alignment, published support guides, and student surveys |
+| `instructor/` | Instructor-only material: Canvas import/setup guide, first-delivery monitoring guide, and the Canvas Outcomes/Rubrics import CSVs (never part of the Canvas export) |
 | `textbook/chapters/` | 14 Markdown chapters |
 | `lectures/` | Weekly lecture notes (`week-00` through `week-15`) |
 | `modules/` | Weekly module overviews (`week-00` through `week-15`) |
@@ -55,8 +58,9 @@ The build script regenerates:
 | `assignments/` | 6 assignment briefs |
 | `projects/` | Project 1, Project 2, and Final Project briefs |
 | `quizzes/` | 8 quizzes plus midterm and final exam source JSON |
+| `starters/` | Student-facing lab starter files (`lab00`–`lab10`; see its README); distributed to students, not part of the Canvas export |
 | `canvas/` | Expanded Canvas package and importable `.imscc` |
-| `scripts/` | Canvas package build/validation tool and rubrics CSV generator |
+| `scripts/` | Canvas package build/validation tool, rubrics CSV generator, and course lint |
 | `reports/` | Analysis, review, and redesign reports |
 | `memory/` | Project memory / current-state notes |
 
@@ -66,12 +70,11 @@ These files or folders are repo-maintenance or instructor-side content and are *
 
 - `reports/`
 - `memory/`
+- `instructor/` (Canvas import/setup guide, monitoring guide, and the Outcomes/Rubrics CSVs, which are uploaded to Canvas separately via the Outcomes and Rubrics import features)
+- `starters/` (distributed to students through GitHub, not Canvas)
 - `CONTEXT.md`
 - `README.md`
 - `textbook/README.md`
-- `course/import_to_canvas.md`
-- `course/first-delivery-monitoring-guide.md`
-- `course/canvas-outcomes.csv` and `course/canvas-rubrics.csv` (uploaded to Canvas separately, via the Outcomes and Rubrics import features)
 
 These sources **do** feed the Canvas export:
 
@@ -97,7 +100,8 @@ These sources **do** feed the Canvas export:
 - Quizzes and exams include code-reading and debugging stems, though all items are selected-response.
 - API-driven assignments and projects require an API viability check (browser access, rate limits/auth, attribution/terms, data reliability); major project briefs and syllabus docs require lightweight `README.md` documentation.
 - Week 00 materials teach `git status` and `git pull --ff-only` as baseline sync/recovery habits; repo policy supports public or instructor-shared workflows.
-- The 10 course learning outcomes are packaged for Canvas as `course/canvas-outcomes.csv`; the 24 rubrics (from the briefs' rubric tables) are packaged as `course/canvas-rubrics.csv`, regenerable via `scripts/build_canvas_rubrics_csv.py`.
+- The 10 course learning outcomes are packaged for Canvas as `instructor/canvas-outcomes.csv`; the 24 rubrics (from the briefs' rubric tables) are packaged as `instructor/canvas-rubrics.csv`, regenerable via `scripts/build_canvas_rubrics_csv.py`.
+- `course/syllabus.md` is the single canonical syllabus (the duplicated root copy was retired in July 2026; the lint guards against its reintroduction).
 - The reports in `reports/` are current as of March 16, 2026 and predate the July 2026 accuracy/import pass; `memory/MEMORY.md` carries the newer state.
 
 ## Curriculum sequence and dependency rules
@@ -122,14 +126,13 @@ When changing major course content, check these related files together:
 - `assignments/*.md`
 - `projects/*.md`
 - `course/*.md` support docs when linked from modules or briefs
-- `syllabus.md`
 - `course/syllabus.md`
 - `course/quiz-alignment.md`
 - `quizzes/*.json`
-- `course/canvas-outcomes.csv` when `course/learning_outcomes.md` changes
-- `course/canvas-rubrics.csv` (regenerate with `scripts/build_canvas_rubrics_csv.py`) when any rubric table in a brief changes
+- `instructor/canvas-outcomes.csv` when `course/learning_outcomes.md` changes
+- `instructor/canvas-rubrics.csv` (regenerate with `scripts/build_canvas_rubrics_csv.py`) when any rubric table in a brief changes
 
-If you change any source content that feeds Canvas, rebuild and validate the package before finishing.
+Most of these rules are enforced mechanically by `scripts/lint_course.py` (links, fences, rubric-table shape, quiz points/alignment, due weeks vs schedule, outcomes/rubrics CSV freshness, module format, single syllabus). Run it plus `build --check` and `validate` before finishing; if you change any source content that feeds Canvas, rebuild the package first.
 
 ## Content conventions
 
@@ -168,11 +171,10 @@ Every rubric row must have all four cells filled (4/3/2/1 points). These tables 
 
 ## Current known limitations
 
-- Canvas import has been verified manually (July 2026), but there is still no automated import smoke test; repo validation is package-level only.
+- Canvas import has been verified manually (July 2026), but there is still no automated import smoke test; repo validation is package- and lint-level only.
 - Assessments are all selected-response.
 - Week 14 has applied QA evidence via Lab 13, but there are no standalone earlier low-stakes checkpoints for DevTools or persistence.
 - Survey/feedback workflows are documented, but the live forms and follow-up announcements require manual instructor setup and execution.
-- `course/syllabus.md` drives the Canvas syllabus export, but `syllabus.md` also exists and must stay synchronized.
 - The build script relies on the existing Canvas manifest/resource structure for the current assessment set; adding brand-new assessments may require extending that mapping.
 - Rubric and outcome attachment in Canvas (rubrics to assignments, outcome rows on rubrics) is manual UI work after each fresh import — no API access exists to automate it.
 - The main open instructional-design question is late-term workload compression; use first-delivery evidence before changing deadlines or milestone overlap.
