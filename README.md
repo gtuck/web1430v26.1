@@ -68,6 +68,38 @@ The build regenerates both learner-facing Canvas pages and assessment export fil
 
 `lint_course.py` mechanically enforces the cross-file consistency rules: link and code-fence integrity, rubric-table format, quiz points/alignment counts, assignment due weeks vs the schedule, Outcomes/Rubrics CSV freshness, module-overview format, and the single-syllabus rule. Run it before committing content changes.
 
+## Editing workflow
+
+Follow these steps for any content change, before committing:
+
+1. **Edit the source files** (never the generated files under `canvas/`).
+2. **Run the lint:** `python3 scripts/lint_course.py`
+   - Each failure names the file (usually the line) and the problem. Common cases:
+     - *rubric row has missing or empty cells* → fill the cell in that brief's rubric table
+     - *'Assignment N' is due Week X but is not in that week's schedule deliverables* → fix whichever is wrong: the brief's `**Due:**` line or `course/schedule.md`
+     - *instructor/canvas-rubrics.csv is stale* → run `python3 scripts/build_canvas_rubrics_csv.py`
+     - *broken link* → fix the path in the named file
+   - Re-run until it passes.
+3. **Run the package check:** `python3 scripts/build_canvas_package.py build --check`
+   - "Canvas package is already up to date" → your edits do not feed Canvas; skip to step 5.
+   - A list of files → your edits feed the export; go to step 4.
+4. **Rebuild and validate:**
+   `python3 scripts/build_canvas_package.py build` then `python3 scripts/build_canvas_package.py validate`
+5. **Commit everything together** (source edits plus any regenerated `canvas/` files and CSVs) so the repo stays in the "sources and package agree" state.
+
+When to run what:
+
+| You changed… | Run |
+|---|---|
+| Lectures, chapters, modules, labs, assignments, projects, `home.md`, published `course/` guides or surveys | lint → build --check → rebuild + validate |
+| A rubric table in any brief | `build_canvas_rubrics_csv.py` first, then the row above |
+| `course/learning_outcomes.md` | update `instructor/canvas-outcomes.csv` to match (lint verifies), then the row above |
+| `course/schedule.md` or a `**Due:**` line | lint → build --check |
+| `quizzes/*.json` | lint → rebuild + validate |
+| Only `instructor/`, `reports/`, `memory/`, `README.md`, `CONTEXT.md` | lint alone (build --check will confirm "up to date") |
+
+**Note:** passing checks keeps the repo and `.imscc` correct — it does not update an already-imported Canvas course. To publish changes to Canvas, re-import the new `.imscc` into a fresh or reset course shell (as Common Cartridge 1.x, per `instructor/import_to_canvas.md`), or hand-edit the affected Canvas pages.
+
 ## Canvas import
 
 In Canvas, go to **Settings → Import Course Content** and import `canvas/WEB1430-Canvas-Export.imscc` with Content Type set to **Common Cartridge 1.x Package**. Do not choose "Canvas Course Export Package" — that converter fails on every quiz and assignment in this generated package. Use a fresh course shell (or Reset Course Content) so page links resolve cleanly.

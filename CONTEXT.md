@@ -132,7 +132,7 @@ When changing major course content, check these related files together:
 - `instructor/canvas-outcomes.csv` when `course/learning_outcomes.md` changes
 - `instructor/canvas-rubrics.csv` (regenerate with `scripts/build_canvas_rubrics_csv.py`) when any rubric table in a brief changes
 
-Most of these rules are enforced mechanically by `scripts/lint_course.py` (links, fences, rubric-table shape, quiz points/alignment, due weeks vs schedule, outcomes/rubrics CSV freshness, module format, single syllabus). Run it plus `build --check` and `validate` before finishing; if you change any source content that feeds Canvas, rebuild the package first.
+Most of these rules are enforced mechanically by `scripts/lint_course.py` (links, fences, rubric-table shape, quiz points/alignment, due weeks vs schedule, outcomes/rubrics CSV freshness, module format, single syllabus). Run it plus `build --check` and `validate` before finishing; if you change any source content that feeds Canvas, rebuild the package first. The step-by-step editing workflow (order of commands, failure handling, and a when-to-run-what table) is documented in `README.md` under "Editing workflow".
 
 ## Content conventions
 
