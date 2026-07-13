@@ -66,7 +66,7 @@ The build script regenerates:
 | `lectures/` | Weekly lecture notes (`week-00` through `week-15`) |
 | `modules/` | Weekly module overviews (`week-00` through `week-15`) |
 | `labs/` | 14 lab handouts (`lab00` through `lab13`) |
-| `assignments/` | 6 assignment briefs |
+| `assignments/` | 6 assignment briefs plus 2 Week 00 orientation briefs (Welcome Survey, GitHub Repo Setup) |
 | `projects/` | Project 1, Project 2, and Final Project briefs |
 | `quizzes/` | 8 quizzes plus midterm and final exam source JSON |
 | `starters/` | Student-facing lab starter files (`lab00`–`lab10`; see its README); distributed to students, not part of the Canvas export |
@@ -104,6 +104,7 @@ These sources **do** feed the Canvas export:
 ## Current course state
 
 - The course content is substantive and aligned across source docs and Canvas export, and both exports (online and virtual) have been verified through live Canvas imports (July 2026): pages, internal links, quizzes, assignments, and assignment groups all import cleanly under the Common Cartridge 1.x content type.
+- All 14 labs and the two Week 00 orientation items are generated as real Canvas assignments by the build (July 2026): labs live in the Labs assignment group with points equal to 4 × their rubric criteria and URL+text submission; the orientation items fill the Orientation group. Each is placed in its module directly after the corresponding handout page. The Week 00 "Canvas Orientation Quiz" deliverable still has no quiz JSON and must be authored or created manually.
 - A July 2026 accuracy pass corrected textbook facts (CSS is render-blocking rather than parser-blocking; Lighthouse has four categories, PWA removed; Vue 3 has no default export; JSON values include `null`), assigned previously-orphaned Chapter 8 as the Week 08 reading, aligned the Week 08 lecture's exam-format description with the selected-response midterm, added the DOM starter pattern Labs 04–05 need before the DOM is formally taught in Week 06, and completed three rubric rows that had empty Incomplete cells.
 - Module overviews include resource links, time estimates, week-specific checkpoint questions, and harder-week `What students usually struggle with` guidance.
 - Published support pages include the accessibility primer, API troubleshooting guide, screen reader testing guide, course reflection prompt, Week 5 / Week 11 / Week 13 surveys, and the Vue transition guide. The course reflection prompt's rubric matches the Final Project brief's reflection rubric verbatim.

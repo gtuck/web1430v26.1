@@ -105,6 +105,23 @@ PUBLISHED_COURSE_GUIDES = (
 
 FIXED_ZIP_TIMESTAMP = (2026, 3, 13, 0, 0, 0)
 
+# Assignment group identifiers from course_settings/assignment_groups.xml.
+ASSIGNMENT_GROUP_IDS = {
+    "Orientation": "ifff54b9152f5239d3b273f052adb84df",
+    "Labs": "i3c9928e4698375c8e12137d18671b3b1",
+    "Assignments": "id0623c8e51f0c88d097d5f511a228b7b",
+    "Projects": "i79c3bf79fc71f56e1a0be2ac6e394a7f",
+}
+
+# Generated gradebook assignments beyond the nine originally hand-authored in
+# the manifest. Labs earn 4 points per rubric criterion (matching the attached
+# rubric's maximum); orientation items use fixed completion-scaled points.
+ORIENTATION_ASSIGNMENTS = (
+    # (source path, points, submission_types)
+    (ROOT / "assignments" / "welcome-survey.md", 5, "online_text_entry"),
+    (ROOT / "assignments" / "github-repo-setup.md", 10, "online_url,online_text_entry"),
+)
+
 
 def qname(namespace: str, tag: str) -> str:
     return f"{{{namespace}}}{tag}"
@@ -123,6 +140,7 @@ def write_text_if_changed(path: Path, content: str, dry_run: bool) -> bool:
     if existing == content:
         return False
     if not dry_run:
+        path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(content, encoding="utf-8")
     return True
 
@@ -132,6 +150,7 @@ def write_bytes_if_changed(path: Path, content: bytes, dry_run: bool) -> bool:
     if existing == content:
         return False
     if not dry_run:
+        path.parent.mkdir(parents=True, exist_ok=True)
         path.write_bytes(content)
     return True
 
@@ -761,6 +780,202 @@ def publishable_wiki_specs() -> list[WikiPageSpec]:
     return specs
 
 
+@dataclass(frozen=True)
+class GeneratedAssignmentSpec:
+    source: Path
+    resource_id: str
+    title: str
+    group_ref: str
+    points: int
+    position: int
+    submission_types: str
+    insert_after_title: str  # module item (WikiPage title) this assignment follows
+
+
+def count_rubric_criteria(markdown_text: str) -> int:
+    """Count criterion rows in the brief's four-level rubric table."""
+    lines = markdown_text.splitlines()
+    count = 0
+    in_table = False
+    for line in lines:
+        stripped = line.strip()
+        if stripped.startswith("|") and not in_table:
+            first_cell = stripped.strip("|").split("|")[0].strip()
+            if first_cell == "Criterion":
+                in_table = True
+                continue
+        elif in_table:
+            if re.match(r"^\|?[\s:|-]+\|?$", stripped):
+                continue
+            if stripped.startswith("|"):
+                count += 1
+            else:
+                break
+    return count
+
+
+def generated_assignment_specs() -> list[GeneratedAssignmentSpec]:
+    specs: list[GeneratedAssignmentSpec] = []
+    for position, (source, points, submission_types) in enumerate(ORIENTATION_ASSIGNMENTS, 1):
+        text = read_source(source)
+        title = heading_text(text)
+        specs.append(GeneratedAssignmentSpec(
+            source=source,
+            resource_id=stable_id(f"orientation-assignment:{source.stem}"),
+            title=title,
+            group_ref=ASSIGNMENT_GROUP_IDS["Orientation"],
+            points=points,
+            position=position,
+            submission_types=submission_types,
+            insert_after_title="Lab 00 – Local Setup and GitHub Workflow"
+            if position == 1 else heading_text(read_source(ORIENTATION_ASSIGNMENTS[0][0])),
+        ))
+    for position, source in enumerate(sorted((ROOT / "labs").glob("*.md")), 1):
+        text = read_source(source)
+        title = heading_text(text)
+        criteria = count_rubric_criteria(text)
+        if criteria == 0:
+            raise ValueError(f"{source} has no rubric table; cannot derive lab points")
+        specs.append(GeneratedAssignmentSpec(
+            source=source,
+            resource_id=stable_id(f"lab-assignment:{source.stem}"),
+            title=title,
+            group_ref=ASSIGNMENT_GROUP_IDS["Labs"],
+            points=4 * criteria,
+            position=position,
+            submission_types="online_url,online_text_entry",
+            insert_after_title=title,  # follows the lab's own wiki (handout) page
+        ))
+    return specs
+
+
+def build_assignment_settings(spec: GeneratedAssignmentSpec) -> ET.Element:
+    root = ET.Element(qname(CANVAS_NS, "assignment"), {"identifier": spec.resource_id})
+    root.set(
+        qname(XSI_NS, "schemaLocation"),
+        "http://canvas.instructure.com/xsd/cccv1p0 "
+        "https://canvas.instructure.com/xsd/cccv1p0.xsd",
+    )
+    fields = (
+        ("title", spec.title),
+        ("assignment_group_identifierref", spec.group_ref),
+        ("workflow_state", "published"),
+        ("points_possible", str(spec.points)),
+        ("grading_type", "points"),
+        ("submission_types", spec.submission_types),
+        ("position", str(spec.position)),
+        ("peer_reviews", "false"),
+        ("automatic_peer_reviews", "false"),
+        ("anonymous_peer_reviews", "false"),
+        ("grade_group_students_individually", "false"),
+        ("freeze_on_copy", "false"),
+        ("omit_from_final_grade", "false"),
+        ("hide_in_gradebook", "false"),
+        ("only_visible_to_overrides", "false"),
+    )
+    for tag, value in fields:
+        ET.SubElement(root, qname(CANVAS_NS, tag)).text = value
+    return root
+
+
+def ensure_assignment_resource(manifest_root: ET.Element, spec: GeneratedAssignmentSpec) -> str:
+    """Ensure a learning-application-resource exists for a generated assignment."""
+    resources = manifest_root.find("im:resources", NS)
+    assert resources is not None
+    body_href = f"{spec.resource_id}/{spec.source.stem}.html"
+    settings_href = f"{spec.resource_id}/assignment_settings.xml"
+
+    for resource in resources.findall("im:resource", NS):
+        if resource.get("identifier") == spec.resource_id:
+            return body_href
+
+    resource = ET.SubElement(
+        resources,
+        qname(IMS_NS, "resource"),
+        {
+            "identifier": spec.resource_id,
+            "type": "associatedcontent/imscc_xmlv1p1/learning-application-resource",
+            "href": body_href,
+        },
+    )
+    ET.SubElement(resource, qname(IMS_NS, "file"), {"href": body_href})
+    ET.SubElement(resource, qname(IMS_NS, "file"), {"href": settings_href})
+    return body_href
+
+
+def insert_assignment_module_items(
+    manifest_root: ET.Element,
+    module_meta_root: ET.Element,
+    specs: list[GeneratedAssignmentSpec],
+) -> None:
+    """Place each generated assignment in its module directly after the wiki
+    page named by insert_after_title, in both module_meta.xml and the manifest
+    organization. Runs after synchronize_module_item_order, which only manages
+    the hand-listed items, so these insertions are re-applied on every build
+    (idempotent for module_meta, reconstructed for the synced modules)."""
+    meta_ns = {"c": CANVAS_NS}
+
+    for spec in specs:
+        # --- module_meta.xml ---
+        for module in module_meta_root.findall("c:module", meta_ns):
+            items_el = module.find("c:items", meta_ns)
+            if items_el is None:
+                continue
+            items = items_el.findall("c:item", meta_ns)
+            titles = [item.findtext("c:title", default="", namespaces=meta_ns)
+                      for item in items]
+            if spec.insert_after_title not in titles:
+                continue
+            if spec.title in [t for i, t in enumerate(titles)
+                              if items[i].findtext("c:content_type", default="",
+                                                   namespaces=meta_ns) == "Assignment"]:
+                break  # already inserted on a previous build
+            anchor_index = titles.index(spec.insert_after_title)
+            new_item = ET.Element(qname(CANVAS_NS, "item"),
+                                  {"identifier": stable_id(f"module-item:{spec.resource_id}")})
+            for tag, value in (
+                ("content_type", "Assignment"),
+                ("title", spec.title),
+                ("identifierref", spec.resource_id),
+                ("position", "0"),
+                ("new_tab", "false"),
+                ("indent", "0"),
+            ):
+                ET.SubElement(new_item, qname(CANVAS_NS, tag)).text = value
+            items_el.insert(anchor_index + 1, new_item)
+            for pos, item in enumerate(items_el.findall("c:item", meta_ns), 1):
+                position_el = item.find("c:position", meta_ns)
+                if position_el is not None:
+                    position_el.text = str(pos)
+            break
+
+        # --- imsmanifest.xml organization ---
+        learning_modules = manifest_root.find(
+            "im:organizations/im:organization/im:item[@identifier='LearningModules']",
+            NS,
+        )
+        assert learning_modules is not None
+        for module in learning_modules.findall("im:item", NS):
+            children = module.findall("im:item", NS)
+            child_titles = [child.findtext("im:title", default="", namespaces=NS)
+                            for child in children]
+            if spec.insert_after_title not in child_titles:
+                continue
+            if any(child.get("identifierref") == spec.resource_id for child in children):
+                break
+            anchor = children[child_titles.index(spec.insert_after_title)]
+            org_item = ET.Element(
+                qname(IMS_NS, "item"),
+                {
+                    "identifier": stable_id(f"org-item:{spec.resource_id}"),
+                    "identifierref": spec.resource_id,
+                },
+            )
+            ET.SubElement(org_item, qname(IMS_NS, "title")).text = spec.title
+            module.insert(list(module).index(anchor) + 1, org_item)
+            break
+
+
 def parse_manifest(manifest_path: Path) -> ET.ElementTree:
     return ET.parse(manifest_path)
 
@@ -856,16 +1071,18 @@ def synchronize_module_item_order(
     if manifest_module is None:
         raise ValueError(f"Module '{module_title}' not found in imsmanifest.xml")
 
+    # Key by identifierref: titles are not unique once a lab has both a wiki
+    # (handout) item and a generated Assignment item with the same name.
     existing_org_items = {
-        item.find("im:title", NS).text: item
+        item.get("identifierref"): item
         for item in manifest_module.findall("im:item", NS)
-        if item.find("im:title", NS) is not None
+        if item.get("identifierref")
     }
     title_el = manifest_module.find("im:title", NS)
     assert title_el is not None
     manifest_module[:] = [title_el]
     for content_type, title, identifierref in expected_items:
-        existing = existing_org_items.get(title)
+        existing = existing_org_items.get(identifierref)
         identifier = (
             existing.get("identifier")
             if existing is not None and existing.get("identifier")
@@ -892,13 +1109,13 @@ def synchronize_module_item_order(
         raise ValueError(f"Module '{module_title}' is missing its items container")
 
     existing_canvas_items = {
-        item.find("c:title", NS).text: item
+        item.findtext("c:identifierref", namespaces=NS): item
         for item in items_el.findall("c:item", NS)
-        if item.find("c:title", NS) is not None
+        if item.findtext("c:identifierref", namespaces=NS)
     }
     items_el[:] = []
     for position, (content_type, title, identifierref) in enumerate(expected_items, start=1):
-        existing = existing_canvas_items.get(title)
+        existing = existing_canvas_items.get(identifierref)
         identifier = (
             existing.get("identifier")
             if existing is not None and existing.get("identifier")
@@ -970,6 +1187,9 @@ def create_expected_file_outputs() -> tuple[dict[Path, str], dict[Path, bytes]]:
 
     wiki_specs, published_sources, page_slugs = build_published_source_map(manifest_root)
     assessment_source_specs = assessment_specs(manifest_root)
+    generated_assignments = generated_assignment_specs()
+    for gen_spec in generated_assignments:
+        ensure_assignment_resource(manifest_root, gen_spec)
     resource_ids = {
         spec.href: existing_manifest_resources(manifest_root)[spec.href].get("identifier", "")
         for spec in wiki_specs
@@ -984,6 +1204,7 @@ def create_expected_file_outputs() -> tuple[dict[Path, str], dict[Path, bytes]]:
             module_title=module_title,
             expected_items=items,
         )
+    insert_assignment_module_items(manifest_root, module_meta_root, generated_assignments)
 
     renderer = MarkdownRenderer(published_sources, page_slugs)
     expected_text_files: dict[Path, str] = {}
@@ -1022,6 +1243,11 @@ def create_expected_file_outputs() -> tuple[dict[Path, str], dict[Path, bytes]]:
         syllabus_body,
         include_workflow_state=False,
     )
+
+    for gen_spec in generated_assignments:
+        expected_binary_files[
+            EXPANDED_PACKAGE / gen_spec.resource_id / "assignment_settings.xml"
+        ] = xml_bytes(build_assignment_settings(gen_spec), CANVAS_NS)
 
     for spec in assessment_source_specs:
         data = json.loads(spec.source.read_text(encoding="utf-8"))
@@ -1131,7 +1357,7 @@ def validate_due_dates() -> list[str]:
             continue
         week = int(due_match.group(1))
         short_label_match = re.match(r"^(Assignment \d+|Project \d+|Final Project)", title)
-        short_label = short_label_match.group(1) if short_label_match else title
+        short_label = short_label_match.group(1) if short_label_match else title.split(" – ")[0]
         expected = schedule.get(week, [])
         if not any(item.startswith(short_label) for item in expected):
             issues.append(

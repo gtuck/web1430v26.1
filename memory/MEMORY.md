@@ -28,8 +28,9 @@ WEB 1430 is a complete **Client-Side Web Development** course package for Weber 
 
 - 14 textbook chapters (Chapter 8 is the Week 08 reading; every chapter is assigned to a week)
 - 16 weekly module overviews and lecture notes (`week-00` through `week-15`)
-- 14 labs, 6 assignments, 3 projects
+- 14 labs, 6 assignments, 3 projects, plus 2 Week 00 orientation briefs (Welcome Survey 5 pts, GitHub Repo Setup 10 pts)
 - 8 quizzes, 1 midterm, 1 final — all selected-response, 1 point per item, points equal question counts
+- Labs and orientation items are generated Canvas assignments (added July 13, 2026, after the Labs assignment group imported empty): labs carry 4 × rubric-criteria points (20–24), URL+text submission, placed after their handout page in each module. Generation is driven by `generated_assignment_specs()` in the build script; module items are keyed by `identifierref` so same-titled handout pages and assignments coexist. The Week 00 "Canvas Orientation Quiz" deliverable still has no quiz JSON — author it or create it manually in Canvas.
 
 ## Canvas Delivery Workflow (verified live, July 2026)
 
@@ -37,7 +38,7 @@ WEB 1430 is a complete **Client-Side Web Development** course package for Weber 
 - The institution has **no Canvas API access** (no tokens). All automation must use Canvas UI channels; never propose REST API tooling.
 - Instructor-side setup after import (full checklist in `instructor/import_to_canvas.md`):
   1. Import `instructor/canvas-outcomes.csv` (Course > Outcomes > Import) — 10 outcomes in one group, ratings Excellent 4 / Proficient 3 / Developing 2 / Incomplete 1, mastery at Proficient.
-  2. Import `instructor/canvas-rubrics.csv` (Course > Rubrics > Import Rubrics) — 24 rubrics from the briefs. Then manually attach the 9 assignment/project rubrics to their assignments and add outcome rows using the mapping table in the guide (CSV import cannot do either).
+  2. Import `instructor/canvas-rubrics.csv` (Course > Rubrics > Import Rubrics) — 24 rubrics from the briefs. Then manually attach 23 rubrics to their assignments (Labs 00–13, Assignments 1–6, Projects 1–2, Final Project) and add outcome rows using the mapping table in the guide (CSV import cannot do either).
   3. Create the Week 05 / 11 / 13 anonymous survey forms and set up the monitoring workflow (`instructor/first-delivery-monitoring-guide.md`).
 
 ## Content State Highlights
