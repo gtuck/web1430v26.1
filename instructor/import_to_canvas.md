@@ -17,6 +17,13 @@ After import, complete these instructor-side setup steps before the term starts:
    - Go to Course > Outcomes > Import and upload `instructor/canvas-outcomes.csv`.
    - This creates a "WEB 1430: Client-Side Web Development" group containing the 10 course outcomes from `course/learning_outcomes.md`, each with the course's four rubric levels (Excellent 4 / Proficient 3 / Developing 2 / Incomplete 1) and mastery set at Proficient.
    - The `.imscc` import does not carry outcomes, so this CSV step is required each time a fresh course shell is set up. If you edit `course/learning_outcomes.md`, update the CSV to match.
+   - **Known warning — "Outcome with ID web1430-lo-NN already exists in another unrelated course or account":** Canvas requires the CSV's `vendor_guid` values to be unique across the whole institution, not just within a course. This warning appears when the same CSV has already been imported into another course shell (an earlier section, or a shell that was later reset). Canvas skips the conflicting rows instead of failing. Check Course > Outcomes: if the group and all 10 outcomes are present, no action is needed. If they are missing, import a section-unique copy instead (verified against the Fall 2026 virtual section):
+
+     ```bash
+     sed 's/web1430-/web1430-<section-tag>-/g' instructor/canvas-outcomes.csv > canvas-outcomes-<section-tag>.csv
+     ```
+
+     Use a short tag like `vtlf26`. The suffix applies to the group GUID and its `parent_guids` references too, so the file imports cleanly; titles and descriptions are unchanged, so the rubric outcome-mapping table below still applies as written. Do not commit the generated per-section file.
    - After importing, outcomes can be attached to assignment rubrics via Manage Rubrics to track mastery while grading.
 2. Create the course rubrics in Canvas. The 24 rubrics (14 labs, 6 assignments, 3 projects, and the Final Project course reflection) are generated from the rubric tables in the course briefs into `instructor/canvas-rubrics.csv`.
 
