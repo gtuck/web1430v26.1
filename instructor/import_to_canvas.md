@@ -7,6 +7,8 @@ python3 scripts/build_canvas_package.py validate
 
 Then import `canvas/WEB1430-Canvas-Export.imscc` in Course Settings > Import Course Content with Content Type set to **Common Cartridge 1.x Package**.
 
+**Virtual sections:** import `canvas/WEB1430-Virtual-Canvas-Export.imscc` instead (build/validate it with `--modality virtual`). Everything else on this page — content type, New Quizzes setting, reset rules, outcomes/rubrics CSVs, and all post-import steps — applies identically to both packages. Virtual-section logistics (Zoom, sessions, office hours) are in `virtual-delivery-guide.md`.
+
 Do **not** select "Canvas Course Export Package" — that converter expects a byte-faithful Canvas-native export and fails on every quiz and assignment in this generated package (verified July 2026). Leave "Convert content to New Quizzes" unchecked; the quizzes are authored as Classic Quiz QTI. If re-importing into a course that already received this package, run Reset Course Content (or use a fresh course shell) first so page links resolve to the new copies instead of duplicate `-2` page URLs.
 
 After import, complete these instructor-side setup steps before the term starts:

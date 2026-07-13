@@ -9,6 +9,7 @@ import html
 import json
 import os
 import re
+import shutil
 import sys
 import zipfile
 from dataclasses import dataclass
@@ -23,6 +24,61 @@ IMSCC_PATH = ROOT / "canvas" / "WEB1430-Canvas-Export.imscc"
 MANIFEST_PATH = EXPANDED_PACKAGE / "imsmanifest.xml"
 MODULE_META_PATH = EXPANDED_PACKAGE / "course_settings" / "module_meta.xml"
 COURSE_SYLLABUS_PATH = EXPANDED_PACKAGE / "course_settings" / "syllabus.html"
+
+# Modality support: "online" (default) builds the original asynchronous package;
+# "virtual" builds a synchronous-delivery package. Virtual source overrides live
+# in virtual/<same relative path>; any source without an override is shared.
+MODALITY = "online"
+VIRTUAL_ROOT = ROOT / "virtual"
+ONLINE_EXPANDED_PACKAGE = ROOT / "canvas" / "expanded_package"
+
+
+def configure_modality(modality: str) -> None:
+    """Point the module-level output paths at the requested modality's package."""
+    global MODALITY, EXPANDED_PACKAGE, IMSCC_PATH, MANIFEST_PATH
+    global MODULE_META_PATH, COURSE_SYLLABUS_PATH
+    MODALITY = modality
+    if modality == "virtual":
+        EXPANDED_PACKAGE = ROOT / "canvas" / "virtual" / "expanded_package"
+        IMSCC_PATH = ROOT / "canvas" / "WEB1430-Virtual-Canvas-Export.imscc"
+    else:
+        EXPANDED_PACKAGE = ROOT / "canvas" / "expanded_package"
+        IMSCC_PATH = ROOT / "canvas" / "WEB1430-Canvas-Export.imscc"
+    MANIFEST_PATH = EXPANDED_PACKAGE / "imsmanifest.xml"
+    MODULE_META_PATH = EXPANDED_PACKAGE / "course_settings" / "module_meta.xml"
+    COURSE_SYLLABUS_PATH = EXPANDED_PACKAGE / "course_settings" / "syllabus.html"
+
+
+def resolve_source(path: Path) -> Path:
+    """Return the virtual override for a source file when building the virtual
+    modality, or the shared base file otherwise. Link resolution always uses the
+    base path so relative links behave identically in overrides."""
+    if MODALITY != "virtual":
+        return path
+    try:
+        rel = path.resolve().relative_to(ROOT)
+    except ValueError:
+        return path
+    override = VIRTUAL_ROOT / rel
+    return override if override.exists() else path
+
+
+def read_source(path: Path) -> str:
+    return resolve_source(path).read_text(encoding="utf-8")
+
+
+def ensure_virtual_package_seeded() -> None:
+    """First virtual build: seed canvas/virtual/expanded_package from the online
+    package so the manifest/resource structure (shared by both modalities) exists."""
+    if MODALITY != "virtual" or MANIFEST_PATH.exists():
+        return
+    if not (ONLINE_EXPANDED_PACKAGE / "imsmanifest.xml").exists():
+        raise SystemExit(
+            "Cannot seed the virtual package: canvas/expanded_package is missing. "
+            "Build the online package first."
+        )
+    EXPANDED_PACKAGE.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copytree(ONLINE_EXPANDED_PACKAGE, EXPANDED_PACKAGE, dirs_exist_ok=True)
 
 IMS_NS = "http://www.imsglobal.org/xsd/imsccv1p1/imscp_v1p1"
 LOM_NS = "http://ltsc.ieee.org/xsd/imsccv1p1/LOM/manifest"
@@ -772,7 +828,7 @@ def build_published_source_map(
         ensure_wiki_resource(manifest_root, spec.href)
         resolved = spec.source.resolve()
         published[resolved] = EXPANDED_PACKAGE / spec.href
-        title = heading_text(spec.source.read_text(encoding="utf-8"))
+        title = heading_text(read_source(spec.source))
         page_slugs[resolved] = canvas_page_slug(title)
     return specs, published, page_slugs
 
@@ -934,7 +990,7 @@ def create_expected_file_outputs() -> tuple[dict[Path, str], dict[Path, bytes]]:
     expected_binary_files: dict[Path, bytes] = {}
 
     for spec in wiki_specs:
-        source_text = spec.source.read_text(encoding="utf-8")
+        source_text = read_source(spec.source)
         title = heading_text(source_text)
         body = renderer.render(source_text, spec.source.resolve(), EXPANDED_PACKAGE / spec.href)
         html_page = wrap_html_page(
@@ -946,7 +1002,7 @@ def create_expected_file_outputs() -> tuple[dict[Path, str], dict[Path, bytes]]:
         expected_text_files[EXPANDED_PACKAGE / spec.href] = html_page
 
     for spec in assignment_body_specs(manifest_root):
-        source_text = spec.source.read_text(encoding="utf-8")
+        source_text = read_source(spec.source)
         title = heading_text(source_text)
         body = renderer.render(source_text, spec.source.resolve(), spec.output_path)
         html_page = wrap_html_page(
@@ -958,7 +1014,7 @@ def create_expected_file_outputs() -> tuple[dict[Path, str], dict[Path, bytes]]:
         expected_text_files[spec.output_path] = html_page
 
     syllabus_source = ROOT / "course" / "syllabus.md"
-    syllabus_text = syllabus_source.read_text(encoding="utf-8")
+    syllabus_text = read_source(syllabus_source)
     syllabus_title = heading_text(syllabus_text)
     syllabus_body = renderer.render(syllabus_text, syllabus_source.resolve(), COURSE_SYLLABUS_PATH)
     expected_text_files[COURSE_SYLLABUS_PATH] = wrap_html_page(
@@ -1031,7 +1087,7 @@ def parse_schedule() -> dict[int, list[str]]:
     schedule = ROOT / "course" / "schedule.md"
     week = None
     deliverables: dict[int, list[str]] = {}
-    for line in schedule.read_text(encoding="utf-8").splitlines():
+    for line in read_source(schedule).splitlines():
         week_match = re.match(r"^## Week (\d+):", line)
         if week_match:
             week = int(week_match.group(1))
@@ -1056,7 +1112,7 @@ def validate_due_dates() -> list[str]:
         week = int(week_match.group(1))
         expected = schedule.get(week, [])
         actual = None
-        for line in overview.read_text(encoding="utf-8").splitlines():
+        for line in read_source(overview).splitlines():
             match = re.match(r"^- Deliverables:\s*(.+)$", line)
             if match:
                 actual = [part.strip() for part in match.group(1).split(",")]
@@ -1114,7 +1170,7 @@ def validate_outputs() -> list[str]:
             issues.append(f"Out-of-sync file: {path.relative_to(ROOT)}")
 
     if not IMSCC_PATH.exists():
-        issues.append("Missing canvas/WEB1430-Canvas-Export.imscc")
+        issues.append(f"Missing {IMSCC_PATH.relative_to(ROOT)}")
 
     issues.extend(validate_due_dates())
     issues.extend(validate_quiz_points())
@@ -1133,13 +1189,38 @@ def parse_args(argv: Iterable[str]) -> argparse.Namespace:
         action="store_true",
         help="Report which files would change without writing them.",
     )
+    build_parser.add_argument(
+        "--modality",
+        choices=("online", "virtual"),
+        default="online",
+        help="Which delivery modality to build (default: online).",
+    )
 
-    subparsers.add_parser("validate", help="Fail if the expanded package is out of sync.")
+    validate_parser = subparsers.add_parser(
+        "validate", help="Fail if the expanded package is out of sync."
+    )
+    validate_parser.add_argument(
+        "--modality",
+        choices=("online", "virtual"),
+        default="online",
+        help="Which delivery modality to validate (default: online).",
+    )
     return parser.parse_args(list(argv))
 
 
 def main(argv: Iterable[str]) -> int:
     args = parse_args(argv)
+    configure_modality(getattr(args, "modality", "online"))
+
+    if MODALITY == "virtual" and not MANIFEST_PATH.exists():
+        if args.command == "build" and not args.check:
+            ensure_virtual_package_seeded()
+        else:
+            print(
+                "Virtual package has not been seeded yet. "
+                "Run: python3 scripts/build_canvas_package.py build --modality virtual"
+            )
+            return 1
 
     if args.command == "build":
         changes = apply_build(dry_run=args.check)

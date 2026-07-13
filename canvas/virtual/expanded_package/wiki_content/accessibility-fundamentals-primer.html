@@ -1,0 +1,124 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>Accessibility Fundamentals Primer</title>
+<meta name="identifier" content="if8bf60c0aa4c907512d31d21e8d23fe2"/>
+<meta name="workflow_state" content="active"/>
+</head>
+<body>
+<h1>Accessibility Fundamentals Primer</h1>
+<p><strong>Read this before Week 2.</strong> Accessibility is a foundational professional practice in web development — not an optional add-on addressed at the end of a project. This primer establishes the vocabulary and mindset you will use throughout this course.</p>
+<hr />
+<h2>Why accessibility matters</h2>
+<p>The web is used by people with a wide range of abilities:</p>
+<ul>
+<li>People who are blind or have low vision use <strong>screen readers</strong> (software that reads page content aloud and responds to keyboard navigation)</li>
+<li>People with motor disabilities may use a <strong>keyboard only</strong> and cannot use a mouse</li>
+<li>People with color blindness or low contrast sensitivity need sufficient <strong>color contrast</strong> to distinguish text from backgrounds</li>
+<li>People with cognitive disabilities benefit from clear, predictable <strong>language and structure</strong></li>
+</ul>
+<p>Approximately 15–20% of the global population has some form of disability. Beyond the moral and ethical case, there is a legal one: in the United States, the Americans with Disabilities Act (ADA) and Section 508 of the Rehabilitation Act apply to web content; similar legislation exists in the EU, Canada, and Australia. Inaccessible websites have resulted in successful lawsuits against major companies.</p>
+<p>Making something accessible usually improves it for everyone. Clear labels help all users. Good keyboard support helps power users who prefer not to use a mouse. High color contrast helps anyone viewing a screen in bright sunlight.</p>
+<hr />
+<h2>The four WCAG principles</h2>
+<p>The <strong>Web Content Accessibility Guidelines (WCAG)</strong> are the international standard for web accessibility. They organize requirements under four principles — a useful mental checklist for any feature you build:</p>
+<table>
+<thead><tr><th>Principle</th><th>Question to ask yourself</th></tr></thead>
+<tbody>
+<tr><td><strong>Perceivable</strong></td><td>Can every user perceive the content, regardless of their sensory abilities? (Images have alt text; videos have captions; color is not the only indicator of meaning)</td></tr>
+<tr><td><strong>Operable</strong></td><td>Can every user operate all controls, regardless of input device? (Everything keyboard-reachable; no timed interactions that cannot be extended; no flashing content)</td></tr>
+<tr><td><strong>Understandable</strong></td><td>Is the content and behavior predictable and clear? (Labels on forms; error messages that explain the problem; consistent navigation)</td></tr>
+<tr><td><strong>Robust</strong></td><td>Does the content work with current and future assistive technologies? (Valid HTML; ARIA attributes used correctly; no assumptions about the user's device or software)</td></tr>
+</tbody>
+</table>
+<p>WCAG defines three conformance levels: <strong>A</strong> (minimum), <strong>AA</strong> (the legal and professional standard), and <strong>AAA</strong> (enhanced). This course targets WCAG 2.1 Level AA.</p>
+<hr />
+<h2>Common failures — and how to avoid them</h2>
+<p>These are the most frequently cited accessibility failures on the web. Every one of them can be avoided with small, intentional choices:</p>
+<h3>1. Missing or unhelpful image alt text</h3>
+<p>Every <code>&lt;img&gt;</code> must have an <code>alt</code> attribute. The value should describe what the image communicates, not just what it depicts:</p>
+<pre><code class="language-html">&lt;!-- Bad: empty or generic --&gt;
+&lt;img src=&quot;chart.png&quot; alt=&quot;image&quot;&gt;
+
+&lt;!-- Good: describes the content and meaning --&gt;
+&lt;img src=&quot;chart.png&quot; alt=&quot;Bar chart showing enrollment growth from 1,200 students in 2020 to 2,400 in 2025&quot;&gt;
+
+&lt;!-- Decorative images: empty alt tells screen readers to skip it --&gt;
+&lt;img src=&quot;divider.svg&quot; alt=&quot;&quot;&gt;</code></pre>
+<h3>2. Unlabeled form inputs</h3>
+<p>Every input must have a visible <code>&lt;label&gt;</code> element connected via <code>for</code>/<code>id</code>. A placeholder is not a label — it disappears when the user starts typing.</p>
+<pre><code class="language-html">&lt;!-- Bad: label missing --&gt;
+&lt;input type=&quot;email&quot; placeholder=&quot;Email&quot;&gt;
+
+&lt;!-- Good: visible label, connected by for/id --&gt;
+&lt;label for=&quot;email&quot;&gt;Email address&lt;/label&gt;
+&lt;input type=&quot;email&quot; id=&quot;email&quot; placeholder=&quot;you@example.com&quot;&gt;</code></pre>
+<h3>3. Insufficient color contrast</h3>
+<p>Text must have a contrast ratio of at least <strong>4.5:1</strong> against its background for normal text, and <strong>3:1</strong> for large text (18pt / 24px or bold 14pt / ~19px). Use the <a href="https://webaim.org/resources/contrastchecker/">WebAIM Contrast Checker</a> to verify.</p>
+<pre><code class="language-css">/* Brand blue on white — check this! */
+/* #2563eb on #ffffff = 5.9:1 — passes AA */
+color: #2563eb;
+background-color: #ffffff;
+
+/* Light grey on white — common failure */
+/* #aaaaaa on #ffffff = 2.3:1 — fails AA */
+color: #aaaaaa;</code></pre>
+<h3>4. No keyboard access for interactive elements</h3>
+<p>Every control a mouse user can click, a keyboard user must be able to reach with <strong>Tab</strong> and activate with <strong>Enter</strong> or <strong>Space</strong>. Custom interactive elements (dropdowns, carousels, dialogs) require careful implementation. Use native HTML elements (<code>&lt;button&gt;</code>, <code>&lt;a&gt;</code>, <code>&lt;input&gt;</code>, <code>&lt;select&gt;</code>) wherever possible — they have keyboard support built in.</p>
+<pre><code class="language-html">&lt;!-- Bad: div used as button — not keyboard-reachable --&gt;
+&lt;div onclick=&quot;submit()&quot;&gt;Submit&lt;/div&gt;
+
+&lt;!-- Good: native button --&gt;
+&lt;button type=&quot;button&quot; onclick=&quot;submit()&quot;&gt;Submit&lt;/button&gt;</code></pre>
+<h3>5. Missing focus styles</h3>
+<p>Keyboard users need to see which element is focused. Browsers provide a default outline, but many designs remove it with <code>outline: none</code> without providing an alternative. Always provide a visible <code>:focus-visible</code> style.</p>
+<pre><code class="language-css">/* Bad: removes focus without replacement */
+button:focus { outline: none; }
+
+/* Good: custom focus style that is visible */
+button:focus-visible {
+  outline: 3px solid var(--color-brand);
+  outline-offset: 2px;
+}</code></pre>
+<hr />
+<h2>ARIA: when and why</h2>
+<p><strong>ARIA (Accessible Rich Internet Applications)</strong> is a set of HTML attributes that communicate widget roles, states, and properties to assistive technologies. ARIA fills the gap for patterns that have no native HTML equivalent.</p>
+<p><strong>The first rule of ARIA:</strong> If a native HTML element already conveys the meaning you need, use it. ARIA is for cases where you must build a custom widget.</p>
+<p>Common ARIA attributes you will use in this course:</p>
+<table>
+<thead><tr><th>Attribute</th><th>Purpose</th><th>Example</th></tr></thead>
+<tbody>
+<tr><td><code>aria-label</code></td><td>Labels an element when no visible text label is possible</td><td><code>&lt;button aria-label=&quot;Close dialog&quot;&gt;✕&lt;/button&gt;</code></td></tr>
+<tr><td><code>aria-expanded</code></td><td>Indicates whether a collapsible element is open or closed</td><td><code>&lt;button aria-expanded=&quot;false&quot;&gt;Menu&lt;/button&gt;</code></td></tr>
+<tr><td><code>aria-controls</code></td><td>Points to the element controlled by a button</td><td><code>&lt;button aria-controls=&quot;menu-panel&quot;&gt;</code></td></tr>
+<tr><td><code>aria-live</code></td><td>Makes a region announce updates to screen readers</td><td><code>&lt;div aria-live=&quot;polite&quot; id=&quot;results&quot;&gt;</code></td></tr>
+<tr><td><code>aria-invalid</code></td><td>Marks an input as having an invalid value</td><td><code>&lt;input aria-invalid=&quot;true&quot;&gt;</code></td></tr>
+<tr><td><code>aria-describedby</code></td><td>Points to an element that describes the current element</td><td><code>&lt;input aria-describedby=&quot;email-error&quot;&gt;</code></td></tr>
+</tbody>
+</table>
+<hr />
+<h2>Accessibility throughout this course</h2>
+<p>You will encounter accessibility requirements in every major assessment:</p>
+<ul>
+<li><strong>Labs 02–13:</strong> Semantic HTML, form labels, ARIA states, keyboard navigation, screen reader announcements</li>
+<li><strong>Assignment 2:</strong> <code>aria-invalid</code>, <code>aria-describedby</code>, <code>aria-live</code> on a form</li>
+<li><strong>Assignment 3:</strong> Full ARIA roles on accordion, tabs, and live filter patterns</li>
+<li><strong>Lab 13:</strong> Full Lighthouse accessibility audit and screen reader testing</li>
+<li><strong>All projects:</strong> Rubric criteria for keyboard operability, ARIA correctness, and color contrast</li>
+</ul>
+<p>The screen reader testing guide (<code>course/screen-reader-testing-guide.md</code>) gives step-by-step instructions for testing with VoiceOver (macOS) and NVDA (Windows).</p>
+<hr />
+<h2>Quick reference checklist</h2>
+<p>Use this before submitting any lab or assignment:</p>
+<ul>
+<li>[ ] Every <code>&lt;img&gt;</code> has an <code>alt</code> attribute (empty <code>&quot;&quot;</code> for decorative images)</li>
+<li>[ ] Every form input has a connected <code>&lt;label&gt;</code> element</li>
+<li>[ ] Color contrast is at least 4.5:1 for body text (verified with a checker)</li>
+<li>[ ] All interactive elements are reachable and operable by keyboard</li>
+<li>[ ] Focus styles are visible on all interactive elements</li>
+<li>[ ] No <code>&lt;div&gt;</code> or <code>&lt;span&gt;</code> used as a button or link</li>
+<li>[ ] Dynamic regions that update have <code>aria-live=&quot;polite&quot;</code></li>
+<li>[ ] Error messages are connected to their inputs with <code>aria-describedby</code></li>
+</ul>
+</body>
+</html>

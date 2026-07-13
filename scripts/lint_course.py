@@ -15,6 +15,11 @@ Encodes the cross-file consistency rules from CONTEXT.md as automated checks:
  9. Module overviews contain the required sections
 10. The retired root syllabus.md has not been reintroduced (course/syllabus.md
     is the single canonical syllabus)
+11. Virtual-modality overrides in virtual/ are consistent: every override has a
+    base counterpart, keeps the base H1 title (Canvas slug stability), resolves
+    links, balances fences, keeps overview deliverables and schedule deliverables
+    identical to the base, and virtual module overviews include the Live sessions
+    section
 
 Usage:
     python3 scripts/lint_course.py
@@ -35,6 +40,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import build_canvas_rubrics_csv as rubrics_gen
 
 ROOT = Path(__file__).resolve().parent.parent
+VIRTUAL_ROOT = ROOT / "virtual"
 
 SOURCE_DIRS = ("course", "instructor", "textbook", "lectures", "modules",
                "labs", "assignments", "projects")
@@ -224,6 +230,68 @@ def check_module_overviews() -> None:
                 fail(f"{rel}: missing required section '{section}'")
 
 
+def first_heading(text: str) -> str | None:
+    for line in text.splitlines():
+        if line.startswith("# "):
+            return line[2:].strip()
+    return None
+
+
+def deliverable_lines(text: str) -> list[str]:
+    return [line.strip() for line in text.splitlines()
+            if line.strip().startswith("- Deliverables:")]
+
+
+def check_virtual_overrides() -> None:
+    if not VIRTUAL_ROOT.exists():
+        return
+    for path in sorted(VIRTUAL_ROOT.rglob("*.md")):
+        rel = path.relative_to(ROOT)
+        base_rel = path.relative_to(VIRTUAL_ROOT)
+        base = ROOT / base_rel
+        text = path.read_text(encoding="utf-8")
+
+        # 1. Every override must shadow a real base source file.
+        if not base.exists():
+            fail(f"{rel}: orphan override — no base file at {base_rel}")
+            continue
+
+        # 2. H1 must match the base so Canvas page slugs and module item titles
+        #    stay identical across modalities.
+        base_text = base.read_text(encoding="utf-8")
+        if first_heading(text) != first_heading(base_text):
+            fail(f"{rel}: H1 differs from base {base_rel} — page titles must match "
+                 f"across modalities (Canvas slug stability)")
+
+        # 3. Fences balanced; relative links resolve as if the file sat at its
+        #    base location (the build resolves override links against the base path).
+        fence_count = sum(1 for line in text.splitlines() if line.strip().startswith("```"))
+        if fence_count % 2:
+            fail(f"{rel}: unbalanced code fences ({fence_count} fence lines)")
+        for match in re.finditer(r"\[([^\]]*)\]\(([^)]+)\)", text):
+            href = match.group(2).split("#")[0].strip()
+            if not href or href.startswith(("http://", "https://", "mailto:")):
+                continue
+            if not (base.parent / href).resolve().exists():
+                fail(f"{rel}: broken link [{match.group(1)}]({match.group(2)}) "
+                     f"(resolved from the base location {base_rel})")
+
+        # 4. Deliverables must not drift between modalities.
+        if deliverable_lines(text) != deliverable_lines(base_text):
+            fail(f"{rel}: '- Deliverables:' lines differ from base {base_rel} — "
+                 f"both modalities share due dates")
+
+    # 5. Virtual module overviews keep the required format plus Live sessions.
+    virtual_modules = VIRTUAL_ROOT / "modules"
+    if virtual_modules.exists():
+        for path in sorted(virtual_modules.glob("week-*-overview.md")):
+            rel = path.relative_to(ROOT)
+            text = path.read_text(encoding="utf-8")
+            for section in MODULE_REQUIRED_SECTIONS + ("## Live sessions",):
+                if section not in text:
+                    fail(f"{rel}: missing required section '{section}'")
+
+
 def check_single_syllabus() -> None:
     if (ROOT / "syllabus.md").exists():
         fail("root syllabus.md exists — course/syllabus.md is the single canonical "
@@ -243,6 +311,7 @@ def main() -> int:
         check_rubrics_csv_fresh,
         check_module_overviews,
         check_single_syllabus,
+        check_virtual_overrides,
     ]
     for check in checks:
         check()
@@ -252,7 +321,7 @@ def main() -> int:
             print(f"  ✗ {error}")
         return 1
     print("Lint passed: links, fences, rubrics, quizzes, alignment, due weeks, "
-          "outcomes CSV, rubrics CSV, module format, syllabus.")
+          "outcomes CSV, rubrics CSV, module format, syllabus, virtual overrides.")
     return 0
 
 

@@ -1,0 +1,453 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>Chapter 13: Accessibility Synthesis</title>
+<meta name="identifier" content="id93752e06b6abeb9c7155b69ea6f0066"/>
+<meta name="workflow_state" content="active"/>
+</head>
+<body>
+<h1>Chapter 13: Accessibility Synthesis</h1>
+<p>You have been applying accessibility practices throughout this course — semantic HTML, ARIA attributes, screen reader testing, Lighthouse audits. This chapter pulls those threads together into a unified reference for building interfaces that work for everyone.</p>
+<h2>What this chapter is really about</h2>
+<p>Accessibility is not a checklist you run at the end of a project. It is a design constraint you apply continuously, the same way you apply performance or security constraints. Every decision — which HTML element to use, how to show an error message, what happens when a modal opens — has an accessibility consequence. The goal of this chapter is to give you a mental framework for making those decisions correctly the first time, and a testing habit that catches failures before submission.</p>
+<p>At this point in the course, you have the full toolkit: semantic HTML, ARIA attributes, async JavaScript, and component-based architecture. The patterns here are advanced — modals with focus trapping, accessible tab widgets, keyboard contracts for custom controls — but they follow from principles you already know. If you understand why <code>aria-live</code> works, you can apply it to any situation where dynamic content needs to be announced. If you understand the keyboard contract for a dialog, you can implement it in vanilla JavaScript today and in a Vue component tomorrow.</p>
+<h2>Key ideas</h2>
+<h3>WCAG 2.1 conformance levels</h3>
+<p>The Web Content Accessibility Guidelines (WCAG) define three conformance levels:</p>
+<ul>
+<li><strong>Level A</strong> — the minimum. Failures at this level block access entirely for some users (e.g., an image with no <code>alt</code> attribute, a video with no alternative). Every page must meet Level A.</li>
+<li><strong>Level AA</strong> — the professional and legal standard. This is what courts, employers, and government contracts require. WCAG 2.1 AA adds requirements like color contrast ratios, resizable text, and consistent navigation. This course targets AA.</li>
+<li><strong>Level AAA</strong> — the enhanced level. Some criteria are impossible to meet for all content (WCAG acknowledges this), so AAA is a goal for specific pages or features rather than an entire site requirement.</li>
+</ul>
+<p>What AA means in day-to-day practice: every page you build should have sufficient color contrast (4.5:1 for body text), keyboard-accessible controls, text alternatives for non-text content, error identification and correction guidance, and no content that relies on sensory characteristics (color, shape, location, sound) alone to convey meaning.</p>
+<h3>The keyboard navigation contract</h3>
+<p>Every interactive element in a web page has an implicit <strong>keyboard contract</strong> — a set of expected behaviors users have learned from years of using software. Violating the contract breaks assistive technology and frustrates power users.</p>
+<p><strong>Tab order</strong> — pressing Tab moves focus forward through focusable elements (links, buttons, inputs, elements with <code>tabindex=&quot;0&quot;</code>). Focus order must match the visual reading order. Elements that appear first in the layout should appear first in the tab sequence.</p>
+<pre><code class="language-js">// Making a custom element focusable — only do this when a native element cannot work
+el.setAttribute(&#x27;tabindex&#x27;, &#x27;0&#x27;);
+
+// Never use tabindex &gt; 0 — it creates an unnatural tab order that confuses users
+// Bad:
+el.setAttribute(&#x27;tabindex&#x27;, &#x27;3&#x27;);</code></pre>
+<p><strong>Widget keyboard patterns</strong> — custom widgets have their own expected keyboard behavior:</p>
+<table>
+<thead><tr><th>Widget</th><th>Keys users expect</th></tr></thead>
+<tbody>
+<tr><td>Tabs</td><td>Tab to reach the tab list, Arrow keys to move between tabs, Enter/Space to activate</td></tr>
+<tr><td>Accordion</td><td>Tab to reach each header, Enter/Space to expand/collapse</td></tr>
+<tr><td>Dialog/Modal</td><td>Tab and Shift+Tab cycle through focusable elements inside, Escape closes</td></tr>
+<tr><td>Dropdown menu</td><td>Enter/Space to open, Arrow keys to navigate items, Escape to close</td></tr>
+<tr><td>Listbox</td><td>Arrow keys to navigate options, Space to select, Enter to confirm</td></tr>
+</tbody>
+</table>
+<p>The keyboard contract means: once you build a custom widget, you own its keyboard behavior. A <code>&lt;div role=&quot;tablist&quot;&gt;</code> does nothing without JavaScript implementing the arrow-key navigation.</p>
+<p><strong>Focus trapping in modals</strong> — when a dialog is open, Tab must cycle only through elements inside the dialog. If focus can escape to the page behind the modal, keyboard users lose their place and screen reader users hear content that is visually hidden.</p>
+<pre><code class="language-js">function trapFocus(dialogEl) {
+  const focusable = dialogEl.querySelectorAll(
+    &#x27;a[href], button:not([disabled]), input:not([disabled]), &#x27; +
+    &#x27;select:not([disabled]), textarea:not([disabled]), [tabindex=&quot;0&quot;]&#x27;
+  );
+  const first = focusable[0];
+  const last = focusable[focusable.length - 1];
+
+  dialogEl.addEventListener(&#x27;keydown&#x27;, (event) =&gt; {
+    if (event.key !== &#x27;Tab&#x27;) return;
+
+    if (event.shiftKey) {
+      // Shift+Tab from first element → wrap to last
+      if (document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      }
+    } else {
+      // Tab from last element → wrap to first
+      if (document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    }
+  });
+}</code></pre>
+<h3>Focus management</h3>
+<p><strong>Programmatic focus</strong> — moving focus with <code>.focus()</code> — is necessary in four situations:</p>
+<ol>
+<li><strong>Modal opens</strong>: move focus to the first focusable element inside the dialog (or the dialog container itself if it has <code>tabindex=&quot;-1&quot;</code>).</li>
+<li><strong>Modal closes</strong>: return focus to the trigger that opened it, so the user's position in the page is restored.</li>
+<li><strong>Async content loads</strong>: after a fetch completes and new content renders, move focus to a heading or the results container so screen reader users know something changed.</li>
+<li><strong>Route changes</strong> (in single-page apps): move focus to the page's main heading so users are not left at the bottom of the previous page's content.</li>
+</ol>
+<pre><code class="language-js">// Pattern 1: Opening a modal
+function openModal(triggerEl) {
+  const modal = document.querySelector(&#x27;#modal&#x27;);
+  modal.removeAttribute(&#x27;hidden&#x27;);
+  modal.setAttribute(&#x27;aria-modal&#x27;, &#x27;true&#x27;);
+
+  // Move focus into the dialog
+  const firstFocusable = modal.querySelector(&#x27;button, [href], input, [tabindex=&quot;0&quot;]&#x27;);
+  firstFocusable?.focus();
+
+  // Remember who opened it so we can restore focus on close
+  modal._opener = triggerEl;
+  trapFocus(modal);
+
+  // Close on Escape
+  modal.addEventListener(&#x27;keydown&#x27;, (event) =&gt; {
+    if (event.key === &#x27;Escape&#x27;) closeModal();
+  });
+}
+
+// Pattern 2: Closing a modal — return focus to the trigger
+function closeModal() {
+  const modal = document.querySelector(&#x27;#modal&#x27;);
+  const opener = modal._opener;
+  modal.setAttribute(&#x27;hidden&#x27;, &#x27;&#x27;);
+  opener?.focus();
+}</code></pre>
+<pre><code class="language-js">// Pattern 3: Focus after async content loads
+async function loadResults(query) {
+  showLoading();
+  try {
+    const data = await fetchResults(query);
+    renderResults(data);
+
+    // Move focus to the results heading so screen reader users are oriented
+    const heading = document.querySelector(&#x27;#results-heading&#x27;);
+    heading.setAttribute(&#x27;tabindex&#x27;, &#x27;-1&#x27;);
+    heading.focus();
+  } catch (error) {
+    showError(error.message);
+  } finally {
+    hideLoading();
+  }
+}</code></pre>
+<p><code>tabindex=&quot;-1&quot;</code> on a non-interactive element makes it programmatically focusable without adding it to the natural tab order.</p>
+<h3>Modal / dialog pattern</h3>
+<p>A fully accessible dialog requires the right HTML roles and ARIA attributes, focus management, and keyboard handling.</p>
+<pre><code class="language-html">&lt;!-- Trigger button --&gt;
+&lt;button type=&quot;button&quot; id=&quot;open-btn&quot; aria-controls=&quot;confirm-dialog&quot;&gt;
+  Delete item
+&lt;/button&gt;
+
+&lt;!-- Dialog — hidden by default --&gt;
+&lt;div
+  id=&quot;confirm-dialog&quot;
+  role=&quot;dialog&quot;
+  aria-modal=&quot;true&quot;
+  aria-labelledby=&quot;dialog-title&quot;
+  aria-describedby=&quot;dialog-desc&quot;
+  hidden
+&gt;
+  &lt;h2 id=&quot;dialog-title&quot;&gt;Confirm deletion&lt;/h2&gt;
+  &lt;p id=&quot;dialog-desc&quot;&gt;
+    This will permanently delete the item. This action cannot be undone.
+  &lt;/p&gt;
+  &lt;button type=&quot;button&quot; id=&quot;confirm-btn&quot;&gt;Delete&lt;/button&gt;
+  &lt;button type=&quot;button&quot; id=&quot;cancel-btn&quot;&gt;Cancel&lt;/button&gt;
+&lt;/div&gt;</code></pre>
+<pre><code class="language-js">const openBtn = document.querySelector(&#x27;#open-btn&#x27;);
+const dialog = document.querySelector(&#x27;#confirm-dialog&#x27;);
+const confirmBtn = dialog.querySelector(&#x27;#confirm-btn&#x27;);
+const cancelBtn = dialog.querySelector(&#x27;#cancel-btn&#x27;);
+
+openBtn.addEventListener(&#x27;click&#x27;, () =&gt; openModal(openBtn));
+cancelBtn.addEventListener(&#x27;click&#x27;, closeModal);
+confirmBtn.addEventListener(&#x27;click&#x27;, () =&gt; {
+  deleteItem();
+  closeModal();
+});
+
+function openModal(trigger) {
+  dialog.removeAttribute(&#x27;hidden&#x27;);
+  dialog._opener = trigger;
+  confirmBtn.focus();
+  trapFocus(dialog);
+  dialog.addEventListener(&#x27;keydown&#x27;, handleDialogKey);
+}
+
+function closeModal() {
+  dialog.setAttribute(&#x27;hidden&#x27;, &#x27;&#x27;);
+  dialog._opener?.focus();
+  dialog.removeEventListener(&#x27;keydown&#x27;, handleDialogKey);
+}
+
+function handleDialogKey(event) {
+  if (event.key === &#x27;Escape&#x27;) closeModal();
+}</code></pre>
+<p>What <code>role=&quot;dialog&quot;</code> does: tells screen readers this is a dialog region. Screen readers announce "dialog" when focus enters, and many restrict their virtual cursor to the dialog content.</p>
+<p>What <code>aria-modal=&quot;true&quot;</code> does: tells screen readers to treat the rest of the page as inert. Some screen readers honor this; some do not — which is why you must also implement focus trapping in JavaScript.</p>
+<h3>Live regions</h3>
+<p><code>aria-live</code> tells screen readers to watch a region and announce changes without the user explicitly navigating there. Use it for status messages, error notifications, search results, and loading announcements.</p>
+<pre><code class="language-html">&lt;!-- Polite: waits for the user to finish what they are doing before announcing --&gt;
+&lt;div aria-live=&quot;polite&quot; id=&quot;status-msg&quot;&gt;&lt;/div&gt;
+
+&lt;!-- Assertive: interrupts immediately — use for time-sensitive errors only --&gt;
+&lt;div aria-live=&quot;assertive&quot; role=&quot;alert&quot; id=&quot;error-msg&quot;&gt;&lt;/div&gt;</code></pre>
+<pre><code class="language-js">// Polite announcement — use for: search results count, save confirmation, progress
+function announceStatus(message) {
+  const status = document.querySelector(&#x27;#status-msg&#x27;);
+  // Clear first, then set — ensures re-announcement if the message is the same text
+  status.textContent = &#x27;&#x27;;
+  requestAnimationFrame(() =&gt; {
+    status.textContent = message;
+  });
+}
+
+// Assertive announcement — use for: session timeout, critical form errors, destructive action confirmations
+function announceError(message) {
+  const errorEl = document.querySelector(&#x27;#error-msg&#x27;);
+  errorEl.textContent = message;
+}</code></pre>
+<p><strong><code>aria-live=&quot;polite&quot;</code></strong> is almost always the right choice. It waits for the user to finish speaking before announcing the update. Use <code>aria-live=&quot;assertive&quot;</code> only when the message is genuinely urgent and interrupting is appropriate — not for every error message.</p>
+<p><strong><code>role=&quot;alert&quot;</code></strong> is a shorthand for <code>aria-live=&quot;assertive&quot;</code> with some additional implied semantics. Use it for critical errors. For routine status messages (e.g., "3 results found"), use <code>aria-live=&quot;polite&quot;</code> on a plain <code>div</code>.</p>
+<p><strong>The empty-then-fill trick</strong> — the <code>requestAnimationFrame</code> pattern above forces a DOM update cycle between clearing and setting the text. Without it, if you set the same text twice in a row, some screen readers do not re-announce because the DOM did not change.</p>
+<p>The live region container must be in the DOM when the page loads — not inserted dynamically. Screen readers register live regions on page load and watch for changes. If you inject the container later, the watching never starts.</p>
+<h3>Tab and accordion patterns</h3>
+<p><strong>Tabs</strong> display one panel at a time. The accessible pattern requires <code>role=&quot;tablist&quot;</code>, <code>role=&quot;tab&quot;</code>, and <code>role=&quot;tabpanel&quot;</code> with coordinated ARIA states.</p>
+<pre><code class="language-html">&lt;div role=&quot;tablist&quot; aria-label=&quot;Product details&quot;&gt;
+  &lt;button role=&quot;tab&quot; aria-selected=&quot;true&quot;  aria-controls=&quot;panel-desc&quot; id=&quot;tab-desc&quot;&gt;Description&lt;/button&gt;
+  &lt;button role=&quot;tab&quot; aria-selected=&quot;false&quot; aria-controls=&quot;panel-specs&quot; id=&quot;tab-specs&quot; tabindex=&quot;-1&quot;&gt;Specifications&lt;/button&gt;
+  &lt;button role=&quot;tab&quot; aria-selected=&quot;false&quot; aria-controls=&quot;panel-reviews&quot; id=&quot;tab-reviews&quot; tabindex=&quot;-1&quot;&gt;Reviews&lt;/button&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;panel-desc&quot;    role=&quot;tabpanel&quot; aria-labelledby=&quot;tab-desc&quot;&gt;   &lt;!-- visible --&gt; &lt;/div&gt;
+&lt;div id=&quot;panel-specs&quot;   role=&quot;tabpanel&quot; aria-labelledby=&quot;tab-specs&quot;   hidden&gt; &lt;/div&gt;
+&lt;div id=&quot;panel-reviews&quot; role=&quot;tabpanel&quot; aria-labelledby=&quot;tab-reviews&quot; hidden&gt; &lt;/div&gt;</code></pre>
+<pre><code class="language-js">const tabs = document.querySelectorAll(&#x27;[role=&quot;tab&quot;]&#x27;);
+
+function activateTab(tab) {
+  // Deactivate all tabs
+  tabs.forEach(t =&gt; {
+    t.setAttribute(&#x27;aria-selected&#x27;, &#x27;false&#x27;);
+    t.setAttribute(&#x27;tabindex&#x27;, &#x27;-1&#x27;);
+    document.querySelector(`#${t.getAttribute(&#x27;aria-controls&#x27;)}`).hidden = true;
+  });
+
+  // Activate selected tab
+  tab.setAttribute(&#x27;aria-selected&#x27;, &#x27;true&#x27;);
+  tab.removeAttribute(&#x27;tabindex&#x27;);
+  document.querySelector(`#${tab.getAttribute(&#x27;aria-controls&#x27;)}`).hidden = false;
+  tab.focus();
+}
+
+// Arrow keys move between tabs — Tab moves out of the tablist entirely
+document.querySelector(&#x27;[role=&quot;tablist&quot;]&#x27;).addEventListener(&#x27;keydown&#x27;, (event) =&gt; {
+  const current = document.activeElement;
+  const tabsArray = [...tabs];
+  const index = tabsArray.indexOf(current);
+
+  if (event.key === &#x27;ArrowRight&#x27;) {
+    event.preventDefault();
+    activateTab(tabsArray[(index + 1) % tabsArray.length]);
+  } else if (event.key === &#x27;ArrowLeft&#x27;) {
+    event.preventDefault();
+    activateTab(tabsArray[(index - 1 + tabsArray.length) % tabsArray.length]);
+  }
+});
+
+tabs.forEach(tab =&gt; {
+  tab.addEventListener(&#x27;click&#x27;, () =&gt; activateTab(tab));
+});</code></pre>
+<p>Key details in this pattern:</p>
+<ul>
+<li>Only the active tab is in the natural tab order (<code>tabindex=&quot;-1&quot;</code> on inactive tabs). This means one Tab keystroke reaches the tablist; arrow keys navigate within it.</li>
+<li><code>aria-selected=&quot;true&quot;</code> is on the active tab; <code>aria-selected=&quot;false&quot;</code> is on all others.</li>
+<li>Each tab panel has <code>aria-labelledby</code> pointing to its tab, so screen readers announce the panel's name when focus enters.</li>
+</ul>
+<p><strong>Accordions</strong> use a similar pattern with <code>aria-expanded</code> instead of <code>aria-selected</code>, since each section can exist independently without mutual exclusion.</p>
+<pre><code class="language-html">&lt;button
+  type=&quot;button&quot;
+  aria-expanded=&quot;false&quot;
+  aria-controls=&quot;section-1-panel&quot;
+  id=&quot;section-1-btn&quot;
+&gt;
+  Shipping information
+&lt;/button&gt;
+&lt;div id=&quot;section-1-panel&quot; aria-labelledby=&quot;section-1-btn&quot; hidden&gt;
+  &lt;p&gt;Ships within 3–5 business days...&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+<pre><code class="language-js">document.querySelectorAll(&#x27;.accordion-btn&#x27;).forEach(btn =&gt; {
+  btn.addEventListener(&#x27;click&#x27;, () =&gt; {
+    const expanded = btn.getAttribute(&#x27;aria-expanded&#x27;) === &#x27;true&#x27;;
+    const panel = document.querySelector(`#${btn.getAttribute(&#x27;aria-controls&#x27;)}`);
+
+    btn.setAttribute(&#x27;aria-expanded&#x27;, String(!expanded));
+    panel.hidden = expanded;
+  });
+});</code></pre>
+<h3>Form error patterns</h3>
+<p>Accessible form errors require three simultaneous changes: visual feedback, ARIA state on the input, and a live announcement.</p>
+<pre><code class="language-html">&lt;label for=&quot;email&quot;&gt;Email address&lt;/label&gt;
+&lt;input
+  type=&quot;email&quot;
+  id=&quot;email&quot;
+  name=&quot;email&quot;
+  aria-describedby=&quot;email-hint email-error&quot;
+  autocomplete=&quot;email&quot;
+&gt;
+&lt;span id=&quot;email-hint&quot; class=&quot;hint&quot;&gt;We will not share your email.&lt;/span&gt;
+&lt;span id=&quot;email-error&quot; class=&quot;error-msg&quot; aria-live=&quot;polite&quot;&gt;&lt;/span&gt;</code></pre>
+<pre><code class="language-js">function showFieldError(inputEl, message) {
+  const errorId = `${inputEl.id}-error`;
+  const errorEl = document.querySelector(`#${errorId}`);
+
+  inputEl.setAttribute(&#x27;aria-invalid&#x27;, &#x27;true&#x27;);
+  errorEl.textContent = message;
+  inputEl.classList.add(&#x27;input--error&#x27;);
+}
+
+function clearFieldError(inputEl) {
+  const errorId = `${inputEl.id}-error`;
+  const errorEl = document.querySelector(`#${errorId}`);
+
+  inputEl.removeAttribute(&#x27;aria-invalid&#x27;);
+  errorEl.textContent = &#x27;&#x27;;
+  inputEl.classList.remove(&#x27;input--error&#x27;);
+}</code></pre>
+<p><code>aria-describedby</code> accepts a space-separated list of IDs. The browser concatenates the text content of all referenced elements and delivers them to the screen reader when the input is focused. This means the hint text and the error message are both read — in order.</p>
+<p><strong>After form submission with errors</strong>, move focus to the first invalid field or to a summary heading at the top of the form:</p>
+<pre><code class="language-js">function handleSubmit(event) {
+  event.preventDefault();
+  const errors = validateForm(event.target);
+
+  if (errors.length &gt; 0) {
+    errors.forEach(({ input, message }) =&gt; showFieldError(input, message));
+
+    // Move focus to the first error so keyboard users know where to correct
+    errors[0].input.focus();
+  } else {
+    submitForm(event.target);
+  }
+}</code></pre>
+<h3>Contrast and visual accessibility</h3>
+<p><strong>Color contrast</strong> — the 4.5:1 ratio for body text is the floor, not the target. Aim higher (7:1 or more) for text on colored backgrounds, small print, and text over images.</p>
+<p>For UI components (button borders, focus rings, form field borders), the required ratio is 3:1 against adjacent colors. This applies to non-text elements that convey information.</p>
+<p><strong>Do not rely on color alone</strong> to convey meaning. An error field shown only with a red border fails users with color blindness. Always pair color with a second indicator: an icon, a text label, a pattern, or a shape change.</p>
+<pre><code class="language-css">/* Bad: color is the only indicator of an error */
+.input--error {
+  border-color: red;
+}
+
+/* Good: color + icon-equivalent through text label + border style change */
+.input--error {
+  border-color: #c00;
+  border-width: 2px;
+}
+/* The visible error message text is the second indicator — not just color */</code></pre>
+<p><strong>Motion sensitivity</strong> — the <code>prefers-reduced-motion</code> media query lets users opt out of animations. Some users experience nausea, vertigo, or seizures from motion. Always check this query before running transitions or animations.</p>
+<pre><code class="language-css">/* Default: animation enabled */
+.modal-overlay {
+  animation: fade-in 200ms ease;
+}
+
+/* Respect the user&#x27;s preference */
+@media (prefers-reduced-motion: reduce) {
+  .modal-overlay {
+    animation: none;
+  }
+
+  /* Or: replace with an instant state change instead of removing entirely */
+  .modal-overlay {
+    transition: none;
+  }
+}</code></pre>
+<p>In JavaScript, you can read the preference before launching animations:</p>
+<pre><code class="language-js">const prefersReduced = window.matchMedia(&#x27;(prefers-reduced-motion: reduce)&#x27;).matches;
+
+function openModalWithAnimation(modal) {
+  if (prefersReduced) {
+    modal.removeAttribute(&#x27;hidden&#x27;);
+  } else {
+    modal.classList.add(&#x27;modal--entering&#x27;);
+    modal.removeAttribute(&#x27;hidden&#x27;);
+    modal.addEventListener(&#x27;animationend&#x27;, () =&gt; {
+      modal.classList.remove(&#x27;modal--entering&#x27;);
+    }, { once: true });
+  }
+}</code></pre>
+<p><strong>Text resizing</strong> — users may increase their browser's default font size to 200% or more. Use relative units (<code>rem</code>, <code>em</code>, <code>%</code>) instead of <code>px</code> for font sizes. Ensure layouts do not break at larger text sizes: test by setting your browser's default font size to 20px or 24px and checking for overflow or obscured content.</p>
+<p><strong>Focus visibility</strong> — every focusable element must show a visible focus indicator. The CSS <code>outline: none</code> reset without a replacement is a WCAG 2.1 AA failure. Use <code>:focus-visible</code> to show focus only during keyboard navigation, so mouse users are not distracted by outlines they do not need:</p>
+<pre><code class="language-css">/* Never just remove the focus outline */
+/* button:focus { outline: none; } — do not do this */
+
+/* Correct pattern: visible ring on keyboard focus, hidden on click */
+button:focus-visible {
+  outline: 3px solid var(--color-brand);
+  outline-offset: 3px;
+}</code></pre>
+<h3>Testing strategy: the 3-minute audit</h3>
+<p>Run this audit before submitting any lab, assignment, or project. It catches the most common failures without requiring a full automated scan.</p>
+<p><strong>Step 1 — Tab through the page (60 seconds).</strong> Starting from the browser address bar, press Tab repeatedly until you have reached every interactive element. Verify: every element is reachable, focus is visible at each stop, the order matches the visual layout, and nothing traps focus unexpectedly outside a modal.</p>
+<p><strong>Step 2 — Test with a screen reader (60 seconds).</strong> Enable VoiceOver (Cmd+F5) or NVDA (Ctrl+Alt+N). Navigate by headings (VoiceOver: VO+Cmd+H; NVDA: H). Verify: there is a logical heading structure, form labels are announced when inputs are focused, buttons announce their purpose, and error messages are read when triggered.</p>
+<p><strong>Step 3 — Run Lighthouse (30 seconds).</strong> Open DevTools → Lighthouse → check Accessibility → Generate report. Aim for 95 or higher. Read each flagged item — Lighthouse flags are specific and actionable.</p>
+<p><strong>Step 4 — Check contrast (30 seconds).</strong> Use the WebAIM Contrast Checker or the DevTools color picker's built-in contrast ratio to verify your primary text, secondary text, and any colored UI components.</p>
+<p>The audit does not replace thorough testing — it is a minimum bar before submission. Real user testing with people who use assistive technology is the gold standard.</p>
+<h2>Mental model</h2>
+<p>Think of accessibility as a contract between your code and the browser's accessibility tree. The accessibility tree is a parallel representation of the DOM that assistive technologies read instead of the visual page. Every semantic HTML element you use, every ARIA attribute you set, every label you connect — all of it populates that tree. When the tree accurately reflects the page's structure, state, and relationships, assistive technologies can convey it faithfully to their users.</p>
+<p>Your job is to keep three things synchronized: the <strong>visual state</strong> (what sighted users see), the <strong>DOM state</strong> (the HTML), and the <strong>accessibility tree state</strong> (what assistive technologies read). When a modal opens visually, the DOM must change (remove <code>hidden</code>), and the ARIA state must change (<code>aria-expanded</code>, <code>aria-modal</code>). When a field has an error, the visual style changes, the DOM content changes (error text), and the ARIA state changes (<code>aria-invalid</code>). All three must move together, every time.</p>
+<h2>Working habits</h2>
+<ul>
+<li>Write semantic HTML first. <code>&lt;button&gt;</code>, <code>&lt;nav&gt;</code>, <code>&lt;main&gt;</code>, <code>&lt;fieldset&gt;</code>, <code>&lt;label&gt;</code> — these give you accessibility for free. Reach for ARIA only when a native element cannot express the pattern you need.</li>
+<li>Place <code>aria-live</code> regions in the HTML at page load — not in JavaScript. The browser registers live regions on load; dynamically inserted containers are not watched.</li>
+<li>Test keyboard behavior as you build a feature, not after. Adding keyboard support retroactively is harder than building it in from the start.</li>
+<li>Every programmatic <code>focus()</code> call should have a paired return — if you move focus somewhere, plan where it goes when the user is done there.</li>
+<li>Use the Accessibility tab in DevTools (or the full accessibility tree view in Chrome's Elements panel) to inspect computed roles, names, and states as you work.</li>
+<li>Respect system preferences: <code>prefers-reduced-motion</code>, <code>prefers-color-scheme</code>. These are user choices, not hints.</li>
+<li>Write error messages that explain the problem and the fix: "Email address is required" is better than "Invalid input." "Password must be at least 8 characters" is better than "Password too short."</li>
+</ul>
+<h2>Common mistakes</h2>
+<ul>
+<li><strong>Removing focus styles without replacement</strong>: <code>button:focus { outline: none; }</code> is a WCAG failure. Always provide a <code>:focus-visible</code> replacement.</li>
+<li><strong>Using <code>aria-live</code> on dynamically injected containers</strong>: the container must be in the DOM at page load. Inserting <code>&lt;div aria-live=&quot;polite&quot;&gt;</code> via JavaScript and then populating it does not work reliably.</li>
+<li><strong>Setting <code>aria-hidden=&quot;true&quot;</code> on a focused element</strong>: if a user focuses an element and you then hide it from the accessibility tree with <code>aria-hidden</code>, screen readers receive contradictory information. Never <code>aria-hidden</code> an element that can receive focus.</li>
+<li><strong>Forgetting to return focus when a modal closes</strong>: after closing a dialog, focus is lost to the document body. The user has to Tab from the beginning. Always return focus to <code>modal._opener</code>.</li>
+<li><strong>Using <code>tabindex</code> values greater than 0</strong>: positive <code>tabindex</code> values override the natural document order and create a confusing tab sequence. Only use <code>tabindex=&quot;0&quot;</code> (add to natural order) or <code>tabindex=&quot;-1&quot;</code> (programmatically focusable only).</li>
+<li><strong>Relying on <code>aria-label</code> to fix non-semantic markup</strong>: if you have <code>&lt;div class=&quot;btn&quot; aria-label=&quot;Submit&quot;&gt;Submit&lt;/div&gt;</code>, the right fix is <code>&lt;button type=&quot;button&quot;&gt;Submit&lt;/button&gt;</code> — not adding more ARIA to a non-interactive element. ARIA cannot add keyboard behavior or native form association.</li>
+<li><strong>Assertive live regions for routine updates</strong>: <code>aria-live=&quot;assertive&quot;</code> interrupts whatever the screen reader is currently saying. Using it for search results, status updates, or loading messages is disruptive. Reserve it for genuinely urgent announcements.</li>
+<li><strong>Missing <code>aria-selected</code> on inactive tabs</strong>: both the active tab (<code>aria-selected=&quot;true&quot;</code>) and inactive tabs (<code>aria-selected=&quot;false&quot;</code>) must have the attribute. Omitting it from inactive tabs leaves screen reader users uncertain about the current state.</li>
+<li><strong>Animating without checking <code>prefers-reduced-motion</code></strong>: animations that play regardless of user settings can cause physical symptoms for some users. Always include a <code>prefers-reduced-motion: reduce</code> override in your CSS.</li>
+</ul>
+<h2>Practice prompt</h2>
+<p>Build a small accessible product detail page with three interactive components: a tab widget, a modal confirmation dialog, and a contact form with validation.</p>
+<ol>
+<li>Create the tab widget with three panels ("Description", "Specifications", "Reviews"). Implement <code>role=&quot;tablist&quot;</code>, <code>role=&quot;tab&quot;</code>, <code>role=&quot;tabpanel&quot;</code>, <code>aria-selected</code>, and arrow-key navigation. Verify that Tab enters the tablist, arrow keys move between tabs, and Tab again moves focus out of the tablist into the first panel.</li>
+<li>Add a "Request a quote" button that opens a modal dialog. The modal must have <code>role=&quot;dialog&quot;</code>, <code>aria-modal=&quot;true&quot;</code>, <code>aria-labelledby</code> pointing to the dialog heading, and an Escape key listener that closes it. Implement focus trapping so Tab and Shift+Tab cycle only inside the dialog. When the modal closes, return focus to the trigger button.</li>
+<li>Add a contact form with Name, Email, and Message fields. Each field must have a <code>&lt;label&gt;</code>, an <code>aria-describedby</code> pointing to an error <code>&lt;span&gt;</code>. Validate on submit: show errors via <code>showFieldError()</code>, set <code>aria-invalid=&quot;true&quot;</code>, and move focus to the first invalid field. On success, display a confirmation message in an <code>aria-live=&quot;polite&quot;</code> container.</li>
+<li>Add a <code>prefers-reduced-motion</code> CSS block that disables all transitions and animations.</li>
+<li>Run the 3-minute audit: tab through the page, test a heading and form with VoiceOver or NVDA, run Lighthouse, and check contrast on your primary text color.</li>
+</ol>
+<h2>Reflection</h2>
+<p>When you implemented focus trapping, what did you discover about the tab order of elements inside your dialog? Were there any elements you expected to be focusable that were not, or vice versa? What happened in the screen reader when you triggered a form validation error — was the error announced immediately, or did you have to navigate to it? What changed in the Lighthouse score between your first implementation and after you added all the ARIA attributes and labels?</p>
+<h2>Vocabulary</h2>
+<ul>
+<li><strong>WCAG</strong> — Web Content Accessibility Guidelines; the international standard for web accessibility, organized around the four principles: Perceivable, Operable, Understandable, Robust</li>
+<li><strong>conformance level</strong> — a tier of WCAG requirements: A (minimum), AA (professional standard), AAA (enhanced)</li>
+<li><strong>accessibility tree</strong> — the browser's parallel representation of the DOM that assistive technologies read; populated by semantic HTML and ARIA attributes</li>
+<li><strong>focus management</strong> — the practice of programmatically moving keyboard focus to the correct element when UI state changes (modal opens, content loads, route changes)</li>
+<li><strong>focus trap</strong> — a keyboard behavior that constrains Tab navigation to a defined region (required inside open modals)</li>
+<li><strong>tabindex</strong> — an HTML attribute controlling whether and how an element participates in keyboard focus: <code>0</code> adds it to the natural order; <code>-1</code> makes it programmatically focusable only; positive values should never be used</li>
+<li><strong>aria-live</strong> — an ARIA attribute that causes a region's content changes to be announced by screen readers; <code>&quot;polite&quot;</code> waits for the user to finish; <code>&quot;assertive&quot;</code> interrupts immediately</li>
+<li><strong>role="dialog"</strong> — an ARIA role that identifies an element as a dialog region; paired with <code>aria-modal</code>, <code>aria-labelledby</code>, and focus management</li>
+<li><strong>aria-modal</strong> — an ARIA attribute that tells assistive technologies to treat the rest of the page as inert while the dialog is open</li>
+<li><strong>aria-selected</strong> — an ARIA attribute indicating which option in a selection widget (tabs, listbox) is currently active</li>
+<li><strong>aria-expanded</strong> — an ARIA attribute indicating whether a collapsible region (accordion, dropdown, disclosure) is currently open</li>
+<li><strong>aria-invalid</strong> — an ARIA attribute indicating that an input's current value does not pass validation</li>
+<li><strong>aria-describedby</strong> — an ARIA attribute that points to one or more elements whose text content describes the current element (used to connect inputs to their hint text and error messages)</li>
+<li><strong>role="tablist" / role="tab" / role="tabpanel"</strong> — the ARIA role triad for a tab widget; establishes the semantic relationship between the tab navigation and the associated content panels</li>
+<li><strong>prefers-reduced-motion</strong> — a CSS media query that reflects the user's operating system preference to minimize motion; use it to disable or simplify animations</li>
+<li><strong>contrast ratio</strong> — a numeric measure of luminance difference between a foreground color and its background; WCAG AA requires 4.5:1 for normal text and 3:1 for large text and UI components</li>
+</ul>
+<h2>Mini checklist</h2>
+<ul>
+<li>I can explain the difference between WCAG conformance levels A, AA, and AAA and describe what AA requires in practice.</li>
+<li>I can implement a focus trap in JavaScript that constrains Tab and Shift+Tab navigation to the contents of an open modal dialog.</li>
+<li>I can open and close a modal dialog with correct focus management: focus moves into the dialog on open and returns to the trigger on close.</li>
+<li>I can build an accessible tab widget using <code>role=&quot;tablist&quot;</code>, <code>role=&quot;tab&quot;</code>, <code>role=&quot;tabpanel&quot;</code>, <code>aria-selected</code>, and arrow-key keyboard navigation.</li>
+<li>I can build an accessible accordion using <code>aria-expanded</code>, <code>aria-controls</code>, and <code>hidden</code> panel toggling.</li>
+<li>I can implement accessible form error patterns with <code>aria-invalid</code>, <code>aria-describedby</code>, and <code>aria-live</code> so errors are announced to screen readers.</li>
+<li>I can explain the difference between <code>aria-live=&quot;polite&quot;</code> and <code>aria-live=&quot;assertive&quot;</code> and choose the correct one for a given situation.</li>
+<li>I can write a <code>prefers-reduced-motion</code> media query that disables animations for users who have requested reduced motion.</li>
+<li>I can perform a 3-minute manual accessibility audit: keyboard tab test, basic screen reader test, Lighthouse scan, and contrast check.</li>
+<li>I can explain why positive <code>tabindex</code> values, <code>aria-hidden</code> on focused elements, and dynamically injected live regions are accessibility anti-patterns.</li>
+</ul>
+</body>
+</html>

@@ -16,7 +16,7 @@ The repository uses:
 
 ## Source of truth and build workflow
 
-Do not hand-edit generated files under `canvas/expanded_package/` unless you are explicitly debugging the export format. The normal workflow is to edit source files and rebuild.
+Do not hand-edit generated files under `canvas/expanded_package/` or `canvas/virtual/expanded_package/` unless you are explicitly debugging the export format. The normal workflow is to edit source files and rebuild.
 
 Primary commands:
 
@@ -24,8 +24,19 @@ Primary commands:
 python3 scripts/build_canvas_package.py build
 python3 scripts/build_canvas_package.py build --check
 python3 scripts/build_canvas_package.py validate
+python3 scripts/build_canvas_package.py build --modality virtual      # virtual-section package
+python3 scripts/build_canvas_package.py validate --modality virtual
 python3 scripts/lint_course.py   # cross-file consistency checks; run before committing content changes
 ```
+
+### Delivery modalities
+
+The course builds in two modalities from the same sources:
+
+- **online** (default): the original fully asynchronous section → `canvas/WEB1430-Canvas-Export.imscc`
+- **virtual**: synchronous section meeting live over Zoom (Mon/Wed 9:30–10:45 AM MT, Fall 2026) → `canvas/WEB1430-Virtual-Canvas-Export.imscc` and `canvas/virtual/expanded_package/`
+
+Virtual overrides live at `virtual/<same relative path as the base file>`; any source without an override is shared. Current overrides: `virtual/home.md`, `virtual/course/syllabus.md`, `virtual/course/schedule.md`, `virtual/lectures/week-00-lecture.md`, and all 16 `virtual/modules/week-*-overview.md`. Rules enforced by lint: every override must shadow a real base file, keep the base H1 title (Canvas slug stability), and keep `- Deliverables:` lines identical to the base (due dates never differ by modality). Editing a shared file requires rebuilding both packages; editing an override requires rebuilding only the virtual one. Instructor-side virtual logistics are in `instructor/virtual-delivery-guide.md`.
 
 The build script regenerates:
 
@@ -59,7 +70,8 @@ The build script regenerates:
 | `projects/` | Project 1, Project 2, and Final Project briefs |
 | `quizzes/` | 8 quizzes plus midterm and final exam source JSON |
 | `starters/` | Student-facing lab starter files (`lab00`–`lab10`; see its README); distributed to students, not part of the Canvas export |
-| `canvas/` | Expanded Canvas package and importable `.imscc` |
+| `virtual/` | Virtual-modality source overrides (mirror layout; non-overridden sources are shared) |
+| `canvas/` | Expanded Canvas packages (online and `canvas/virtual/`) and both importable `.imscc` files |
 | `scripts/` | Canvas package build/validation tool, rubrics CSV generator, and course lint |
 | `reports/` | Analysis, review, and redesign reports |
 | `memory/` | Project memory / current-state notes |
@@ -132,7 +144,9 @@ When changing major course content, check these related files together:
 - `instructor/canvas-outcomes.csv` when `course/learning_outcomes.md` changes
 - `instructor/canvas-rubrics.csv` (regenerate with `scripts/build_canvas_rubrics_csv.py`) when any rubric table in a brief changes
 
-Most of these rules are enforced mechanically by `scripts/lint_course.py` (links, fences, rubric-table shape, quiz points/alignment, due weeks vs schedule, outcomes/rubrics CSV freshness, module format, single syllabus). Run it plus `build --check` and `validate` before finishing; if you change any source content that feeds Canvas, rebuild the package first. The step-by-step editing workflow (order of commands, failure handling, and a when-to-run-what table) is documented in `README.md` under "Editing workflow".
+When changing files that have virtual overrides (`home.md`, `course/syllabus.md`, `course/schedule.md`, `lectures/week-00-lecture.md`, `modules/week-*-overview.md`), check whether the corresponding `virtual/` override needs the same edit.
+
+Most of these rules are enforced mechanically by `scripts/lint_course.py` (links, fences, rubric-table shape, quiz points/alignment, due weeks vs schedule, outcomes/rubrics CSV freshness, module format, single syllabus, virtual-override consistency). Run it plus `build --check` and `validate` before finishing; if you change any source content that feeds Canvas, rebuild the package first. The step-by-step editing workflow (order of commands, failure handling, and a when-to-run-what table) is documented in `README.md` under "Editing workflow".
 
 ## Content conventions
 

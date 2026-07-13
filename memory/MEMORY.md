@@ -1,10 +1,19 @@
 # WEB 1430 Project Memory
 
-Current as of July 10, 2026. `CONTEXT.md` carries the working rules; this file carries project state and history highlights.
+Current as of July 13, 2026. `CONTEXT.md` carries the working rules; this file carries project state and history highlights.
 
 ## Project Summary
 
-WEB 1430 is a complete, online-first **Client-Side Web Development** course package for Weber State University. The repository contains the authored course source plus a generated Canvas export package, verified through live Canvas imports in July 2026.
+WEB 1430 is a complete **Client-Side Web Development** course package for Weber State University, buildable in two delivery modalities from the same sources: the original **online** (asynchronous) section and a **virtual** (synchronous, Zoom-based) section added July 2026. The repository contains the authored course source plus generated Canvas export packages; the online export was verified through live Canvas imports in July 2026.
+
+## Virtual Modality (added July 13, 2026)
+
+- Fall 2026 virtual section: live sessions Mon/Wed 9:30–10:45 AM MT, Aug 24 – Dec 4, 2026; Zoom room https://weber.zoom.us/j/8013088825; office hours Mon/Wed 8:00–9:00 AM and 12:30–2:00 PM by appointment (https://calendar.app.google/5iHL7QJQDYRb2jeb8).
+- Overrides live at `virtual/<same relative path>`: `home.md`, `course/syllabus.md`, `course/schedule.md`, `lectures/week-00-lecture.md`, and all 16 module overviews (which add a `## Live sessions` Mon/Wed agenda section and a session-oriented success plan). Everything else — textbook, labs, assignments, projects, quizzes, starters, support guides, surveys, outcomes/rubrics CSVs — is shared.
+- Build with `--modality virtual` → `canvas/WEB1430-Virtual-Canvas-Export.imscc` + `canvas/virtual/expanded_package/` (seeded from the online package on first build). Online commands and outputs are unchanged.
+- Lint enforces override consistency: no orphan overrides, base H1 titles preserved (Canvas slug stability), identical `- Deliverables:` lines (due dates shared — deliverables stay in the Sunday window in both modalities), links resolved from the base location, and the Live sessions section present.
+- Weekly pattern: Monday session = concepts + live demo (lecture notes remain as shared reference reading); Wednesday session = guided lab/studio, code review, Q&A. Exams stay in Canvas windows, not session time. Instructor logistics: `instructor/virtual-delivery-guide.md`.
+- The virtual `.imscc` has NOT yet been verified through a live Canvas import (the online one has).
 
 ## Current Source of Truth
 
@@ -12,7 +21,7 @@ WEB 1430 is a complete, online-first **Client-Side Web Development** course pack
 - `quizzes/*.json` drives quizzes and exams.
 - `scripts/build_canvas_package.py` regenerates the Canvas HTML, assessment XML/QTI, and the `.imscc` package. Internal page links are emitted as `$WIKI_REFERENCE$/pages/<slug>` placeholders so Canvas resolves them on import.
 - `scripts/build_canvas_rubrics_csv.py` regenerates `instructor/canvas-rubrics.csv` from the rubric tables in the briefs.
-- `scripts/lint_course.py` mechanically enforces the cross-file consistency rules (links, fences, rubric tables, quiz points/alignment, due weeks, CSV freshness, module format, single syllabus).
+- `scripts/lint_course.py` mechanically enforces the cross-file consistency rules (links, fences, rubric tables, quiz points/alignment, due weeks, CSV freshness, module format, single syllabus, virtual-override consistency).
 - Not part of the Canvas export: `reports/`, `memory/`, `instructor/` (import/setup guide, monitoring guide, Outcomes/Rubrics CSVs), `starters/` (student lab starter files, distributed via GitHub), `CONTEXT.md`, `README.md`, `textbook/README.md`.
 
 ## Current Course Shape

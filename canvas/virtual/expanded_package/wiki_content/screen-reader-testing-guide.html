@@ -1,0 +1,135 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>Introduction to Screen Reader Testing</title>
+<meta name="identifier" content="i5552cf774ca6220caccd2dad09a0526c"/>
+<meta name="workflow_state" content="active"/>
+</head>
+<body>
+<h1>Introduction to Screen Reader Testing</h1>
+<p>Screen readers are software tools that convert on-screen content to synthesized speech or Braille output, allowing people with visual impairments to navigate and use websites. Testing your work with a screen reader is the most direct way to experience what your HTML structure communicates — or fails to communicate — to users who cannot see the page.</p>
+<p>This guide covers how to enable a screen reader, navigate with it, and evaluate whether your web pages pass a basic accessibility check.</p>
+<hr />
+<h2>VoiceOver (Mac)</h2>
+<p>VoiceOver is built into every Mac. No installation is required.</p>
+<h3>Enable and disable</h3>
+<table>
+<thead><tr><th>Action</th><th>Shortcut</th></tr></thead>
+<tbody>
+<tr><td>Turn VoiceOver on/off</td><td><strong>Cmd + F5</strong></td></tr>
+<tr><td>Open VoiceOver Utility (settings)</td><td><strong>Cmd + F5</strong> (hold for 3 seconds, or go to System Settings → Accessibility → VoiceOver)</td></tr>
+</tbody>
+</table>
+<p>When VoiceOver is on, your Mac will announce everything you interact with. Don't be alarmed — you can turn it off instantly with Cmd+F5.</p>
+<h3>Basic navigation in the browser</h3>
+<p>VoiceOver uses a <strong>cursor</strong> that moves independently of the mouse. The primary modifier key is <strong>Ctrl+Option</strong> (abbreviated VO).</p>
+<table>
+<thead><tr><th>What you want to do</th><th>Keys</th></tr></thead>
+<tbody>
+<tr><td>Move to next element</td><td><strong>VO + Right Arrow</strong></td></tr>
+<tr><td>Move to previous element</td><td><strong>VO + Left Arrow</strong></td></tr>
+<tr><td>Activate a link or button</td><td><strong>VO + Space</strong></td></tr>
+<tr><td>Navigate by headings</td><td><strong>VO + Command + H</strong> (next heading)</td></tr>
+<tr><td>Open the rotor (landmark/heading navigator)</td><td><strong>VO + U</strong>, then arrow keys to choose category</td></tr>
+<tr><td>Stop reading</td><td><strong>Ctrl</strong></td></tr>
+<tr><td>Read from current position</td><td><strong>VO + A</strong></td></tr>
+</tbody>
+</table>
+<p><strong>The rotor</strong> is the most useful tool for evaluating page structure. Press <strong>VO + U</strong>, then use the left/right arrow keys to select "Headings", "Links", "Form Controls", or "Landmarks". VoiceOver will list all items of that type on the page — letting you quickly check whether your heading structure is logical and your links have descriptive text.</p>
+<h3>What to listen for on your own projects</h3>
+<ol>
+<li><strong>Page title</strong> — VoiceOver announces the page title when you load a page. Is it descriptive?</li>
+<li><strong>Headings</strong> — Navigate by headings (VO+Cmd+H). Do the headings describe the sections? Are they in logical order (h1 → h2 → h3)?</li>
+<li><strong>Links</strong> — Are link labels descriptive? "Read more" fails; "Read more about Lab 07 requirements" passes.</li>
+<li><strong>Buttons</strong> — Does VoiceOver announce the button's purpose? A <code>&lt;button&gt;</code> with only an icon needs <code>aria-label</code>.</li>
+<li><strong>Form fields</strong> — Does VoiceOver announce the label when you focus each input? Inputs need associated <code>&lt;label&gt;</code> elements.</li>
+<li><strong>Error messages</strong> — After triggering a validation error, does VoiceOver announce the error? Check that <code>aria-live</code> regions are present and that <code>aria-describedby</code> connects inputs to their error elements.</li>
+<li><strong>Live regions</strong> — After an async data load, does VoiceOver announce the new content? <code>aria-live=&quot;polite&quot;</code> on the results container handles this.</li>
+</ol>
+<hr />
+<h2>NVDA (Windows)</h2>
+<p>NVDA (NonVisual Desktop Access) is a free, open-source screen reader for Windows.</p>
+<h3>Install</h3>
+<ol>
+<li>Go to <a href="https://www.nvaccess.org/download/">nvaccess.org/download</a></li>
+<li>Download and run the installer (it takes about 1 minute)</li>
+<li>You can run NVDA from the system tray or start it from the Start menu</li>
+</ol>
+<h3>Enable and disable</h3>
+<table>
+<thead><tr><th>Action</th><th>Method</th></tr></thead>
+<tbody>
+<tr><td>Start NVDA</td><td>Ctrl+Alt+N (after install) or from Start menu</td></tr>
+<tr><td>Quit NVDA</td><td>NVDA+Q, then Enter to confirm (NVDA key is Insert by default)</td></tr>
+</tbody>
+</table>
+<h3>Basic navigation in the browser (Chrome/Edge recommended)</h3>
+<p>The primary modifier key is <strong>Insert</strong> (abbreviated NVDA).</p>
+<table>
+<thead><tr><th>What you want to do</th><th>Keys</th></tr></thead>
+<tbody>
+<tr><td>Move to next element</td><td><strong>Tab</strong></td></tr>
+<tr><td>Navigate by headings</td><td><strong>H</strong></td></tr>
+<tr><td>Navigate to next landmark</td><td><strong>D</strong></td></tr>
+<tr><td>Navigate by form controls</td><td><strong>F</strong></td></tr>
+<tr><td>Navigate by links</td><td><strong>K</strong></td></tr>
+<tr><td>Activate a link or button</td><td><strong>Enter</strong></td></tr>
+<tr><td>Read current line</td><td><strong>NVDA + Up Arrow</strong></td></tr>
+<tr><td>Stop reading</td><td><strong>Ctrl</strong></td></tr>
+</tbody>
+</table>
+<p>In NVDA, pressing <strong>H</strong> in browse mode jumps to the next heading. This is the fastest way to evaluate your heading structure. Press <strong>Shift+H</strong> to go backward.</p>
+<hr />
+<h2>What "passing" looks like</h2>
+<p>Use this checklist when testing any lab, assignment, or project with a screen reader:</p>
+<h3>Structure</h3>
+<ul>
+<li>[ ] The page title (visible in the browser tab) is descriptive and unique</li>
+<li>[ ] There is exactly one <code>&lt;h1&gt;</code> that describes the page's main topic</li>
+<li>[ ] Heading levels are hierarchical (no skipping from h1 to h4)</li>
+<li>[ ] Landmark regions are present: <code>&lt;header&gt;</code>, <code>&lt;nav&gt;</code>, <code>&lt;main&gt;</code>, <code>&lt;footer&gt;</code></li>
+</ul>
+<h3>Navigation</h3>
+<ul>
+<li>[ ] All interactive elements (links, buttons, inputs) are reachable by Tab key</li>
+<li>[ ] Focus order matches the visual reading order</li>
+<li>[ ] Links have descriptive text (not "click here" or "read more")</li>
+<li>[ ] Buttons announce their purpose (have visible text or <code>aria-label</code>)</li>
+</ul>
+<h3>Forms</h3>
+<ul>
+<li>[ ] Every <code>&lt;input&gt;</code> has an associated <code>&lt;label&gt;</code> (announced when the field is focused)</li>
+<li>[ ] Required fields are communicated (via <code>required</code> attribute or <code>aria-required</code>)</li>
+<li>[ ] Error messages are associated with their fields via <code>aria-describedby</code></li>
+<li>[ ] <code>aria-invalid=&quot;true&quot;</code> is set on fields that fail validation</li>
+<li>[ ] Error containers have <code>aria-live=&quot;polite&quot;</code> or <code>role=&quot;alert&quot;</code> so errors are announced automatically</li>
+</ul>
+<h3>Dynamic content</h3>
+<ul>
+<li>[ ] After a fetch/async operation, new content is announced (via <code>aria-live</code> on the results container)</li>
+<li>[ ] Loading states are communicated (a visually hidden "Loading…" message in an <code>aria-live</code> region)</li>
+<li>[ ] Empty states are announced when a search returns no results</li>
+</ul>
+<hr />
+<h2>Quick reference: common failures and fixes</h2>
+<table>
+<thead><tr><th>What screen reader says</th><th>Likely problem</th><th>Fix</th></tr></thead>
+<tbody>
+<tr><td>"button" (nothing else)</td><td>Button has no label</td><td>Add text content or <code>aria-label=&quot;Describe action&quot;</code></td></tr>
+<tr><td>"link" (nothing else)</td><td>Link has no text</td><td>Add descriptive text; if icon-only, add <code>aria-label</code></td></tr>
+<tr><td>Field name not announced</td><td>Input has no <code>&lt;label&gt;</code></td><td>Add <code>&lt;label for=&quot;inputId&quot;&gt;</code> or <code>aria-label</code></td></tr>
+<tr><td>Error not announced</td><td>Error element has no <code>aria-live</code></td><td>Add <code>aria-live=&quot;polite&quot;</code> to the error container</td></tr>
+<tr><td>New content not announced</td><td>Dynamic content lacks live region</td><td>Add <code>aria-live=&quot;polite&quot;</code> to the container before content is inserted</td></tr>
+<tr><td>Heading levels skip</td><td>h1 jumps to h3</td><td>Fill in the missing level (h2)</td></tr>
+</tbody>
+</table>
+<hr />
+<h2>Further resources</h2>
+<ul>
+<li><strong>WebAIM Screen Reader User Survey</strong> — real data on how screen reader users navigate the web: <a href="https://webaim.org/projects/screenreadersurvey/">webaim.org/projects/screenreadersurvey</a></li>
+<li><strong>WebAIM VoiceOver Guide</strong> — detailed VoiceOver commands: <a href="https://webaim.org/articles/voiceover/">webaim.org/articles/voiceover</a></li>
+<li><strong>WebAIM NVDA Guide</strong> — detailed NVDA commands: <a href="https://webaim.org/articles/nvda/">webaim.org/articles/nvda</a></li>
+<li><strong>ARIA Authoring Practices Guide (APG)</strong> — patterns for accessible widgets: <a href="https://www.w3.org/WAI/ARIA/apg/">w3.org/WAI/ARIA/apg</a></li>
+</ul>
+</body>
+</html>

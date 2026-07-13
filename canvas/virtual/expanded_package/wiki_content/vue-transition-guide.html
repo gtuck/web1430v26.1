@@ -1,0 +1,96 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>Vue Transition Guide</title>
+<meta name="identifier" content="id50be8f008d4f38d309d12549fd025bb"/>
+<meta name="workflow_state" content="active"/>
+</head>
+<body>
+<h1>Vue Transition Guide</h1>
+<p><strong>Purpose:</strong> Use this guide in Weeks 12 and 13 if Vue feels like a sharp jump from vanilla JavaScript. The goal is to shrink the transition into a few repeatable patterns instead of treating Vue like a brand-new programming language.</p>
+<hr />
+<h2>What stays the same from vanilla JavaScript</h2>
+<p>Vue changes the syntax around your UI, but it does not change the core reasoning you already know:</p>
+<ul>
+<li>data still lives somewhere and changes over time</li>
+<li>the interface still reflects the current state</li>
+<li>events still tell the app that the user did something</li>
+<li>smaller pieces are still easier to test than one giant file</li>
+</ul>
+<p>If you already understand variables, functions, objects, DOM events, and state, you are not starting from zero. You are learning a new way to organize the same ideas.</p>
+<hr />
+<h2>Minimum viable Vue ramp</h2>
+<p>Build in this order. Do not skip ahead.</p>
+<ol>
+<li><strong>Render one component with hard-coded content.</strong> Prove that the app runs and the template renders before you add state.</li>
+<li><strong>Add one <code>ref()</code> value and show it in the template.</strong> Change the value once and confirm the UI updates.</li>
+<li><strong>Pass one prop from a parent to a child.</strong> This is the first pattern to master before you build a larger interface.</li>
+<li><strong>Emit one event from the child back to the parent.</strong> Treat this like the Vue version of a controlled interaction.</li>
+<li><strong>Only then add forms, validation, derived state, or multiple components.</strong> If the first four steps are not clear yet, more complexity will not help.</li>
+</ol>
+<hr />
+<h2>Parent or child? Use this rule</h2>
+<ul>
+<li>If only one component needs the data temporarily, it can stay local to that component.</li>
+<li>If multiple components need the data, or if the parent decides what to show next, the data should live in the parent.</li>
+<li>Children should receive data through props and communicate changes upward with emits.</li>
+</ul>
+<p>If you are unsure, ask: "Who needs to know this value?" The broadest owner usually holds the state.</p>
+<hr />
+<h2>Common transition mistakes</h2>
+<ul>
+<li>Building three components before one prop and one emit already work</li>
+<li>Mutating a prop directly instead of emitting an update request upward</li>
+<li>Forgetting that <code>ref</code> values use <code>.value</code> in script code</li>
+<li>Mixing display logic, validation logic, and layout changes into one debugging session</li>
+<li>Treating Vue as "magic" instead of checking the data flow one step at a time</li>
+</ul>
+<hr />
+<h2>Debug in this order</h2>
+<ol>
+<li>Is the component rendering at all?</li>
+<li>Is the parent holding the data you think it is holding?</li>
+<li>Is the child receiving the expected prop value?</li>
+<li>Is the child emitting the event you expect?</li>
+<li>Is the parent handling that event and updating state?</li>
+<li>After the state changes, does the template reflect the new state?</li>
+</ol>
+<p>If you cannot answer one of these clearly, stop there and fix that step before moving on.</p>
+<hr />
+<h2>Week 12 survival plan</h2>
+<ul>
+<li>Finish one small parent/child example before you scale up your app.</li>
+<li>Keep <code>Project 2</code> moving forward; do not let Vue work erase the progress you already made.</li>
+<li>Spend 20 to 30 minutes previewing the Final Project:</li>
+<li>choose one audience</li>
+<li>test one API or local JSON source</li>
+<li>write down 3 to 5 realistic features</li>
+</ul>
+<p>That preview work makes Week 13 milestones feel like continuation instead of a cold start.</p>
+<hr />
+<h2>Week 13 survival plan</h2>
+<ul>
+<li>For <code>Assignment 6</code>, get Step 1 working before you build Steps 2 and 3.</li>
+<li>Make the parent manage workflow state; let each step own only its temporary inputs.</li>
+<li>Add focus management and <code>aria-live</code> only after the basic step transitions work.</li>
+<li>Treat stretch goals as optional. Baseline correctness and accessibility matter more than extra effects.</li>
+</ul>
+<hr />
+<h2>If you are behind</h2>
+<p>Reduce the scope of your interface before you reduce the quality of the fundamentals.</p>
+<p>Keep these first:</p>
+<ul>
+<li>one clear parent/child data flow</li>
+<li>correct validation on required fields</li>
+<li>accessible labels, errors, and focus movement</li>
+<li>a working review or summary step</li>
+</ul>
+<p>Cut these first:</p>
+<ul>
+<li>extra styling flourishes</li>
+<li>animations</li>
+<li>optional persistence features</li>
+<li>extra component variations</li>
+</ul>
+</body>
+</html>

@@ -29,6 +29,7 @@ Recent alignment work also updated:
 - `course/` – syllabus (single canonical copy), schedule, outcomes, quiz alignment, published support guides, and survey question banks
 - `instructor/` – instructor-only material: Canvas import/setup guide, first-delivery monitoring guide, and the `canvas-outcomes.csv` / `canvas-rubrics.csv` files for Canvas's Outcomes and Rubrics import features
 - `starters/` – student-facing lab starter files (see its README for the lab-by-lab list)
+- `virtual/` – virtual-modality (synchronous Zoom section) source overrides; mirrors the base layout, everything not overridden is shared
 - `textbook/` – original textbook chapters
 - `lectures/` – weekly lecture notes
 - `modules/` – weekly overview pages
@@ -64,6 +65,15 @@ python3 scripts/build_canvas_package.py validate
 python3 scripts/lint_course.py
 ```
 
+The course builds in two delivery modalities from the same sources. The commands above build the **online** (asynchronous) package. The **virtual** (synchronous, Zoom-based) package uses `--modality virtual` and reads overrides from `virtual/<same relative path>` — any source without an override is shared:
+
+```bash
+python3 scripts/build_canvas_package.py build --modality virtual
+python3 scripts/build_canvas_package.py validate --modality virtual
+```
+
+This produces `canvas/WEB1430-Virtual-Canvas-Export.imscc` and `canvas/virtual/expanded_package/`. See `instructor/virtual-delivery-guide.md` for running the virtual section.
+
 The build regenerates both learner-facing Canvas pages and assessment export files. Markdown is the source of truth for course pages, and `quizzes/*.json` is the source of truth for quizzes and exams.
 
 `lint_course.py` mechanically enforces the cross-file consistency rules: link and code-fence integrity, rubric-table format, quiz points/alignment counts, assignment due weeks vs the schedule, Outcomes/Rubrics CSV freshness, module-overview format, and the single-syllabus rule. Run it before committing content changes.
@@ -85,6 +95,8 @@ Follow these steps for any content change, before committing:
    - A list of files → your edits feed the export; go to step 4.
 4. **Rebuild and validate:**
    `python3 scripts/build_canvas_package.py build` then `python3 scripts/build_canvas_package.py validate`
+   - If you changed a **shared** source file (anything outside `virtual/`), also rebuild the virtual package: `build --modality virtual` then `validate --modality virtual`.
+   - If you changed only a `virtual/` override, rebuild only the virtual package.
 5. **Commit everything together** (source edits plus any regenerated `canvas/` files and CSVs) so the repo stays in the "sources and package agree" state.
 
 When to run what:
@@ -96,7 +108,10 @@ When to run what:
 | `course/learning_outcomes.md` | update `instructor/canvas-outcomes.csv` to match (lint verifies), then the row above |
 | `course/schedule.md` or a `**Due:**` line | lint → build --check |
 | `quizzes/*.json` | lint → rebuild + validate |
+| A `virtual/` override | lint → rebuild + validate with `--modality virtual` only |
 | Only `instructor/`, `reports/`, `memory/`, `README.md`, `CONTEXT.md` | lint alone (build --check will confirm "up to date") |
+
+Shared-file changes feed **both** packages; run the rebuild + validate step for each modality.
 
 **Note:** passing checks keeps the repo and `.imscc` correct — it does not update an already-imported Canvas course. To publish changes to Canvas, re-import the new `.imscc` into a fresh or reset course shell (as Common Cartridge 1.x, per `instructor/import_to_canvas.md`), or hand-edit the affected Canvas pages.
 
