@@ -4,7 +4,7 @@ Current as of July 13, 2026. `CONTEXT.md` carries the working rules; this file c
 
 ## Project Summary
 
-WEB 1430 is a complete **Client-Side Web Development** course package for Weber State University, buildable in two delivery modalities from the same sources: the original **online** (asynchronous) section and a **virtual** (synchronous, Zoom-based) section added July 2026. The repository contains the authored course source plus generated Canvas export packages; the online export was verified through live Canvas imports in July 2026.
+WEB 1430 is a complete **Client-Side Web Development** course package for Weber State University, buildable in two delivery modalities from the same sources: the original **online** (asynchronous) section and a **virtual** (synchronous, Zoom-based) section added July 2026. The repository contains the authored course source plus generated Canvas export packages; both exports were verified through live Canvas imports in July 2026.
 
 ## Virtual Modality (added July 13, 2026)
 
@@ -13,7 +13,7 @@ WEB 1430 is a complete **Client-Side Web Development** course package for Weber 
 - Build with `--modality virtual` → `canvas/WEB1430-Virtual-Canvas-Export.imscc` + `canvas/virtual/expanded_package/` (seeded from the online package on first build). Online commands and outputs are unchanged.
 - Lint enforces override consistency: no orphan overrides, base H1 titles preserved (Canvas slug stability), identical `- Deliverables:` lines (due dates shared — deliverables stay in the Sunday window in both modalities), links resolved from the base location, and the Live sessions section present.
 - Weekly pattern: Monday session = concepts + live demo (lecture notes remain as shared reference reading); Wednesday session = guided lab/studio, code review, Q&A. Exams stay in Canvas windows, not session time. Instructor logistics: `instructor/virtual-delivery-guide.md`.
-- The virtual `.imscc` has NOT yet been verified through a live Canvas import (the online one has).
+- The virtual `.imscc` was verified through a live Canvas import on July 13, 2026, with no issues (same import settings as the online package).
 
 ## Current Source of Truth
 

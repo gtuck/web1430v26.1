@@ -103,7 +103,7 @@ These sources **do** feed the Canvas export:
 
 ## Current course state
 
-- The course content is substantive and aligned across source docs and Canvas export, and the export has been verified through live Canvas imports (July 2026): pages, internal links, quizzes, assignments, and assignment groups all import cleanly under the Common Cartridge 1.x content type.
+- The course content is substantive and aligned across source docs and Canvas export, and both exports (online and virtual) have been verified through live Canvas imports (July 2026): pages, internal links, quizzes, assignments, and assignment groups all import cleanly under the Common Cartridge 1.x content type.
 - A July 2026 accuracy pass corrected textbook facts (CSS is render-blocking rather than parser-blocking; Lighthouse has four categories, PWA removed; Vue 3 has no default export; JSON values include `null`), assigned previously-orphaned Chapter 8 as the Week 08 reading, aligned the Week 08 lecture's exam-format description with the selected-response midterm, added the DOM starter pattern Labs 04–05 need before the DOM is formally taught in Week 06, and completed three rubric rows that had empty Incomplete cells.
 - Module overviews include resource links, time estimates, week-specific checkpoint questions, and harder-week `What students usually struggle with` guidance.
 - Published support pages include the accessibility primer, API troubleshooting guide, screen reader testing guide, course reflection prompt, Week 5 / Week 11 / Week 13 surveys, and the Vue transition guide. The course reflection prompt's rubric matches the Final Project brief's reflection rubric verbatim.
@@ -185,7 +185,7 @@ Every rubric row must have all four cells filled (4/3/2/1 points). These tables 
 
 ## Current known limitations
 
-- Canvas import has been verified manually (July 2026), but there is still no automated import smoke test; repo validation is package- and lint-level only.
+- Canvas import has been verified manually for both modalities (July 2026), but there is still no automated import smoke test; repo validation is package- and lint-level only.
 - Assessments are all selected-response.
 - Week 14 has applied QA evidence via Lab 13, but there are no standalone earlier low-stakes checkpoints for DevTools or persistence.
 - Survey/feedback workflows are documented, but the live forms and follow-up announcements require manual instructor setup and execution.
