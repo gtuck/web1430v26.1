@@ -122,6 +122,20 @@ ORIENTATION_ASSIGNMENTS = (
     (ROOT / "assignments" / "github-repo-setup.md", 10, "online_url,online_text_entry"),
 )
 
+# Assessments generated from quizzes/*.json that have no hand-authored resource
+# in the original manifest. Keyed by quiz title. The build creates the manifest
+# resources (QTI + learning-application-resource) with stable identifiers and
+# places a Quizzes::Quiz module item after the named module item, so re-imports
+# keep the same Canvas identifiers.
+GENERATED_ASSESSMENTS = {
+    "Canvas Orientation Quiz": {
+        "source_stem": "quiz-0-canvas-orientation",
+        "group": "Orientation",
+        "position": "3",
+        "insert_after_title": "GitHub Repo Setup – Course Repository and First Push",
+    },
+}
+
 
 def qname(namespace: str, tag: str) -> str:
     return f"{{{namespace}}}{tag}"
@@ -573,7 +587,10 @@ def assessment_specs(manifest_root: ET.Element) -> list[AssessmentSpec]:
         data = json.loads(source.read_text(encoding="utf-8"))
         title = data.get("title")
         if title not in existing_by_title:
-            raise ValueError(f"Assessment resource missing for quiz source {source.relative_to(ROOT)}")
+            generated = GENERATED_ASSESSMENTS.get(title)
+            if generated is None:
+                raise ValueError(f"Assessment resource missing for quiz source {source.relative_to(ROOT)}")
+            existing_by_title[title] = create_assessment_resource(resources, title, generated)
         existing = existing_by_title[title]
         specs.append(
             AssessmentSpec(
@@ -587,6 +604,56 @@ def assessment_specs(manifest_root: ET.Element) -> list[AssessmentSpec]:
         )
 
     return specs
+
+
+def create_assessment_resource(
+    resources: ET.Element, title: str, generated: dict
+) -> AssessmentSpec:
+    """Create the manifest resources for a generated assessment (a quiz whose
+    resource was never hand-authored in the original manifest): the QTI
+    assessment resource plus its learning-application-resource dependency.
+    Identifiers are stable across builds. Idempotent: only called when no
+    assessment resource with this title exists in the manifest yet."""
+    stem = generated["source_stem"]
+    qti_id = stable_id(f"generated-assessment:{stem}")
+    meta_id = stable_id(f"generated-assessment-meta:{stem}")
+    qti_href = f"{qti_id}/assessment_qti.xml"
+    meta_href = f"{qti_id}/assessment_meta.xml"
+
+    qti_resource = ET.SubElement(
+        resources,
+        qname(IMS_NS, "resource"),
+        {
+            "identifier": qti_id,
+            "type": "imsqti_xmlv1p2/imscc_xmlv1p1/assessment",
+            "href": qti_href,
+        },
+    )
+    ET.SubElement(qti_resource, qname(IMS_NS, "file"), {"href": qti_href})
+    ET.SubElement(qti_resource, qname(IMS_NS, "dependency"), {"identifierref": meta_id})
+
+    meta_resource = ET.SubElement(
+        resources,
+        qname(IMS_NS, "resource"),
+        {
+            "identifier": meta_id,
+            "type": "associatedcontent/imscc_xmlv1p1/learning-application-resource",
+            "href": meta_href,
+        },
+    )
+    ET.SubElement(meta_resource, qname(IMS_NS, "file"), {"href": meta_href})
+    ET.SubElement(
+        meta_resource, qname(IMS_NS, "file"), {"href": f"non_cc_assessments/{qti_id}.xml.qti"}
+    )
+
+    return AssessmentSpec(
+        source=Path(),
+        title=title,
+        resource_id=qti_id,
+        assignment_id=stable_id(f"generated-assessment-assignment:{stem}"),
+        assignment_group_id=ASSIGNMENT_GROUP_IDS[generated["group"]],
+        position=generated["position"],
+    )
 
 
 def qti_item_profile(question_type: str) -> str:
@@ -792,6 +859,16 @@ class GeneratedAssignmentSpec:
     insert_after_title: str  # module item (WikiPage title) this assignment follows
 
 
+@dataclass(frozen=True)
+class GeneratedModuleItem:
+    """Minimal module-item placement spec for generated non-assignment items
+    (e.g. generated quizzes). Consumed by insert_assignment_module_items."""
+    title: str
+    resource_id: str
+    insert_after_title: str
+    content_type: str = "Assignment"
+
+
 def count_rubric_criteria(markdown_text: str) -> int:
     """Count criterion rows in the brief's four-level rubric table."""
     lines = markdown_text.splitlines()
@@ -916,6 +993,7 @@ def insert_assignment_module_items(
     meta_ns = {"c": CANVAS_NS}
 
     for spec in specs:
+        content_type = getattr(spec, "content_type", "Assignment")
         # --- module_meta.xml ---
         for module in module_meta_root.findall("c:module", meta_ns):
             items_el = module.find("c:items", meta_ns)
@@ -928,13 +1006,13 @@ def insert_assignment_module_items(
                 continue
             if spec.title in [t for i, t in enumerate(titles)
                               if items[i].findtext("c:content_type", default="",
-                                                   namespaces=meta_ns) == "Assignment"]:
+                                                   namespaces=meta_ns) == content_type]:
                 break  # already inserted on a previous build
             anchor_index = titles.index(spec.insert_after_title)
             new_item = ET.Element(qname(CANVAS_NS, "item"),
                                   {"identifier": stable_id(f"module-item:{spec.resource_id}")})
             for tag, value in (
-                ("content_type", "Assignment"),
+                ("content_type", content_type),
                 ("title", spec.title),
                 ("identifierref", spec.resource_id),
                 ("position", "0"),
@@ -1205,6 +1283,18 @@ def create_expected_file_outputs() -> tuple[dict[Path, str], dict[Path, bytes]]:
             expected_items=items,
         )
     insert_assignment_module_items(manifest_root, module_meta_root, generated_assignments)
+
+    generated_assessment_items = [
+        GeneratedModuleItem(
+            title=spec.title,
+            resource_id=spec.resource_id,
+            insert_after_title=GENERATED_ASSESSMENTS[spec.title]["insert_after_title"],
+            content_type="Quizzes::Quiz",
+        )
+        for spec in assessment_source_specs
+        if spec.title in GENERATED_ASSESSMENTS
+    ]
+    insert_assignment_module_items(manifest_root, module_meta_root, generated_assessment_items)
 
     renderer = MarkdownRenderer(published_sources, page_slugs)
     expected_text_files: dict[Path, str] = {}

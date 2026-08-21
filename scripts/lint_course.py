@@ -49,6 +49,7 @@ ROOT_SOURCES = ("home.md", "README.md", "CONTEXT.md", "textbook-table-of-content
 RUBRIC_HEADER = ["Criterion", "Excellent (4)", "Proficient (3)", "Developing (2)", "Incomplete (1)"]
 
 QUIZ_ALIGNMENT_FILES = {
+    "Canvas Orientation Quiz": "quiz-0-canvas-orientation.json",
     "Quiz 1": "quiz-1-browser-foundations.json",
     "Quiz 2": "quiz-2-javascript-fundamentals.json",
     "Quiz 3": "quiz-3-arrays-objects-and-json.json",

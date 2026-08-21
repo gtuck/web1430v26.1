@@ -1,0 +1,252 @@
+{
+  "slug": "quiz-0-canvas-orientation",
+  "title": "Canvas Orientation Quiz",
+  "group": "Orientation",
+  "points": 8,
+  "questions": [
+    {
+      "name": "Authoritative weekly list",
+      "question_type": "multiple_choice_question",
+      "question_text": "<p>Which Canvas page is the authoritative list of what to do each week, and in what order?</p>",
+      "points_possible": 1,
+      "answers": [
+        {
+          "id": "authoritative-weekly-list_a1",
+          "text": "Modules",
+          "html": "<p>Modules</p>",
+          "weight": 100
+        },
+        {
+          "id": "authoritative-weekly-list_a2",
+          "text": "The dashboard tiles",
+          "html": "<p>The dashboard tiles</p>",
+          "weight": 0
+        },
+        {
+          "id": "authoritative-weekly-list_a3",
+          "text": "Grades",
+          "html": "<p>Grades</p>",
+          "weight": 0
+        },
+        {
+          "id": "authoritative-weekly-list_a4",
+          "text": "The course calendar",
+          "html": "<p>The course calendar</p>",
+          "weight": 0
+        }
+      ]
+    },
+    {
+      "name": "Weekly deadline",
+      "question_type": "multiple_choice_question",
+      "question_text": "<p>When are weekly deliverables (labs, quizzes, and assignments) due in this course?</p>",
+      "points_possible": 1,
+      "answers": [
+        {
+          "id": "weekly-deadline_a1",
+          "text": "Sunday at 11:59 PM",
+          "html": "<p>Sunday at 11:59 PM</p>",
+          "weight": 100
+        },
+        {
+          "id": "weekly-deadline_a2",
+          "text": "Friday at 5:00 PM",
+          "html": "<p>Friday at 5:00 PM</p>",
+          "weight": 0
+        },
+        {
+          "id": "weekly-deadline_a3",
+          "text": "Monday morning, when the next module opens",
+          "html": "<p>Monday morning, when the next module opens</p>",
+          "weight": 0
+        },
+        {
+          "id": "weekly-deadline_a4",
+          "text": "Whenever the module is marked complete",
+          "html": "<p>Whenever the module is marked complete</p>",
+          "weight": 0
+        }
+      ]
+    },
+    {
+      "name": "Where to submit",
+      "question_type": "multiple_choice_question",
+      "question_text": "<p>Where in Canvas do you submit your work and see your rubric scores?</p>",
+      "points_possible": 1,
+      "answers": [
+        {
+          "id": "where-to-submit_a1",
+          "text": "Assignments",
+          "html": "<p>Assignments</p>",
+          "weight": 100
+        },
+        {
+          "id": "where-to-submit_a2",
+          "text": "Announcements",
+          "html": "<p>Announcements</p>",
+          "weight": 0
+        },
+        {
+          "id": "where-to-submit_a3",
+          "text": "The Help &amp; Questions discussion board",
+          "html": "<p>The Help &amp; Questions discussion board</p>",
+          "weight": 0
+        },
+        {
+          "id": "where-to-submit_a4",
+          "text": "The syllabus page",
+          "html": "<p>The syllabus page</p>",
+          "weight": 0
+        }
+      ]
+    },
+    {
+      "name": "Instructor updates",
+      "question_type": "multiple_choice_question",
+      "question_text": "<p>The instructor posts corrections, tips, and reminders during the semester. Where should you look for them?</p>",
+      "points_possible": 1,
+      "answers": [
+        {
+          "id": "instructor-updates_a1",
+          "text": "Announcements",
+          "html": "<p>Announcements</p>",
+          "weight": 100
+        },
+        {
+          "id": "instructor-updates_a2",
+          "text": "Grades",
+          "html": "<p>Grades</p>",
+          "weight": 0
+        },
+        {
+          "id": "instructor-updates_a3",
+          "text": "The GitHub starter repository",
+          "html": "<p>The GitHub starter repository</p>",
+          "weight": 0
+        },
+        {
+          "id": "instructor-updates_a4",
+          "text": "The dashboard tiles",
+          "html": "<p>The dashboard tiles</p>",
+          "weight": 0
+        }
+      ]
+    },
+    {
+      "name": "Git vs GitHub",
+      "question_type": "multiple_choice_question",
+      "question_text": "<p>Which statement best describes the difference between Git and GitHub?</p>",
+      "points_possible": 1,
+      "answers": [
+        {
+          "id": "git-vs-github_a1",
+          "text": "Git is version-control software on your computer; GitHub is a website that hosts a remote copy of your repository",
+          "html": "<p>Git is version-control software on your computer; GitHub is a website that hosts a remote copy of your repository</p>",
+          "weight": 100
+        },
+        {
+          "id": "git-vs-github_a2",
+          "text": "Git is the online service and GitHub is the local software",
+          "html": "<p>Git is the online service and GitHub is the local software</p>",
+          "weight": 0
+        },
+        {
+          "id": "git-vs-github_a3",
+          "text": "They are two names for the same tool",
+          "html": "<p>They are two names for the same tool</p>",
+          "weight": 0
+        },
+        {
+          "id": "git-vs-github_a4",
+          "text": "Git edits code; GitHub runs it in the browser",
+          "html": "<p>Git edits code; GitHub runs it in the browser</p>",
+          "weight": 0
+        }
+      ]
+    },
+    {
+      "name": "First recovery command",
+      "question_type": "multiple_choice_question",
+      "question_text": "<p>Something feels off in your local repository &mdash; you are not sure whether your work is committed or in sync with GitHub. Which command should you run first?</p>",
+      "points_possible": 1,
+      "answers": [
+        {
+          "id": "first-recovery-command_a1",
+          "text": "git status",
+          "html": "<p><code>git status</code></p>",
+          "weight": 100
+        },
+        {
+          "id": "first-recovery-command_a2",
+          "text": "git push",
+          "html": "<p><code>git push</code></p>",
+          "weight": 0
+        },
+        {
+          "id": "first-recovery-command_a3",
+          "text": "git commit -m \"fix\"",
+          "html": "<p><code>git commit -m \"fix\"</code></p>",
+          "weight": 0
+        },
+        {
+          "id": "first-recovery-command_a4",
+          "text": "Delete the folder and clone again",
+          "html": "<p>Delete the folder and clone again</p>",
+          "weight": 0
+        }
+      ]
+    },
+    {
+      "name": "Asking for help",
+      "question_type": "multiple_choice_question",
+      "question_text": "<p>You are stuck on a setup step and a command keeps failing. According to the course help workflow, what should you do first?</p>",
+      "points_possible": 1,
+      "answers": [
+        {
+          "id": "asking-for-help_a1",
+          "text": "Post in the Help &amp; Questions board with what you tried and the exact error message",
+          "html": "<p>Post in the Help &amp; Questions board with what you tried and the exact error message</p>",
+          "weight": 100
+        },
+        {
+          "id": "asking-for-help_a2",
+          "text": "Email the instructor a screenshot with no other details",
+          "html": "<p>Email the instructor a screenshot with no other details</p>",
+          "weight": 0
+        },
+        {
+          "id": "asking-for-help_a3",
+          "text": "Wait until the deadline and request an extension",
+          "html": "<p>Wait until the deadline and request an extension</p>",
+          "weight": 0
+        },
+        {
+          "id": "asking-for-help_a4",
+          "text": "Try random Git commands until one works",
+          "html": "<p>Try random Git commands until one works</p>",
+          "weight": 0
+        }
+      ]
+    },
+    {
+      "name": "Dashboard due dates",
+      "question_type": "true_false_question",
+      "question_text": "<p>True or false: the Canvas dashboard tiles are a reliable way to confirm everything that is required this week.</p>",
+      "points_possible": 1,
+      "answers": [
+        {
+          "id": "dashboard-due-dates_a1",
+          "text": "True",
+          "html": "<p>True</p>",
+          "weight": 0
+        },
+        {
+          "id": "dashboard-due-dates_a2",
+          "text": "False",
+          "html": "<p>False</p>",
+          "weight": 100
+        }
+      ]
+    }
+  ]
+}

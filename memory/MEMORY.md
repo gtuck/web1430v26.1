@@ -30,7 +30,7 @@ WEB 1430 is a complete **Client-Side Web Development** course package for Weber 
 - 16 weekly module overviews and lecture notes (`week-00` through `week-15`)
 - 14 labs, 6 assignments, 3 projects, plus 2 Week 00 orientation briefs (Welcome Survey 5 pts, GitHub Repo Setup 10 pts)
 - 8 quizzes, 1 midterm, 1 final — all selected-response, 1 point per item, points equal question counts
-- Labs and orientation items are generated Canvas assignments (added July 13, 2026, after the Labs assignment group imported empty): labs carry 4 × rubric-criteria points (20–24), URL+text submission, placed after their handout page in each module. Generation is driven by `generated_assignment_specs()` in the build script; module items are keyed by `identifierref` so same-titled handout pages and assignments coexist. The Week 00 "Canvas Orientation Quiz" deliverable still has no quiz JSON — author it or create it manually in Canvas.
+- Labs and orientation items are generated Canvas assignments (added July 13, 2026, after the Labs assignment group imported empty): labs carry 4 × rubric-criteria points (20–24), URL+text submission, placed after their handout page in each module. Generation is driven by `generated_assignment_specs()` in the build script; module items are keyed by `identifierref` so same-titled handout pages and assignments coexist. The Week 00 Canvas Orientation Quiz was authored August 21, 2026 as `quizzes/quiz-0-canvas-orientation.json` (8 modality-neutral selected-response items on Canvas navigation, the weekly rhythm, Git vs GitHub, `git status`, and the help workflow): the build's `GENERATED_ASSESSMENTS` mapping creates its manifest resources with stable ids, places it in the Orientation group (position 3), and inserts its `Quizzes::Quiz` module item after GitHub Repo Setup in Week 00. It is covered by lint's alignment check and appears in `course/quiz-alignment.md`.
 
 ## Canvas Delivery Workflow (verified live, July 2026)
 
@@ -84,5 +84,5 @@ python3 scripts/build_canvas_rubrics_csv.py   # after any rubric-table change
 - No standalone early low-stakes checkpoints for DevTools or persistence (Week 14's Lab 13 is the main applied QA evidence).
 - Survey forms and follow-up announcements require manual instructor execution.
 - Rubric-to-assignment attachment and outcome rows are manual Canvas UI work after each fresh import (no API access).
-- The build script assumes the existing Canvas assessment resource structure; brand-new assessments may need script updates.
+- Brand-new assessments must be registered in the build script's `GENERATED_ASSESSMENTS` mapping so the build can generate their manifest resources (the Canvas Orientation Quiz is the first example).
 - Main open instructional-design risk: late-term workload compression. Use first-delivery evidence before changing overlap or deadlines.

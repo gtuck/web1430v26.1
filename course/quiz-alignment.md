@@ -11,6 +11,7 @@ The Canvas assessment package is now regenerated directly from these JSON source
 
 | Assessment | Week | Chapter(s) | Questions / Points | Primary Topics |
 |-----------|------|-----------|--------------------|----------------|
+| Canvas Orientation Quiz | 00 | — | 8 / 8 | Canvas navigation, weekly rhythm, Git vs GitHub, sync/recovery habits, help workflow |
 | Quiz 1 | 01 | Ch 1 | 7 / 7 | Browser layers, progressive enhancement, DevTools, render-blocking scripts |
 | Quiz 2 | 03 | Ch 3 | 8 / 8 | Variables, equality, template literals, coercion, debugging |
 | Quiz 3 | 05 | Ch 4–5 | 7 / 7 | Objects, JSON, array methods, property access, `map()` / `filter()` |
@@ -21,6 +22,29 @@ The Canvas assessment package is now regenerated directly from these JSON source
 | Quiz 7 | 12 | Ch 11–12 | 7 / 7 | ES modules, Vite, Vue components, props, refs, imports |
 | Quiz 8 | 14 | Ch 13–14 | 4 / 4 | Lighthouse categories, accessibility failures, production verification, GitHub Pages base path |
 | Final Exam | 15 | Ch 1–14 | 17 / 17 | Cumulative; stronger emphasis on async/state, modules/Vue, accessibility, deployment |
+
+---
+
+## Canvas Orientation Quiz — Week 00
+
+**Covers:** Week 00 lecture notes (no textbook chapter)  
+**Administered:** End of Week 00  
+**Current format:** 8 selected-response questions, 8 points
+
+**Learning outcomes addressed:**
+- Use version control and standard development workflows to manage and publish project code (orientation-level: Git vs GitHub, `git status`, sync habits)
+
+**Purpose:** A low-stakes orientation check (Orientation assignment group) confirming students can find key course resources in Canvas — Modules, Assignments, Announcements, the Help & Questions board — and know the weekly rhythm and first-response Git habits before Week 01 opens.
+
+**Topic checklist:**
+- [ ] Modules as the authoritative weekly list
+- [ ] Sunday 11:59 PM deliverable window
+- [ ] Where to submit and see rubric scores
+- [ ] Where instructor updates appear
+- [ ] Git (local) vs GitHub (remote hosting)
+- [ ] `git status` as the first recovery move
+- [ ] Help-board posting workflow
+- [ ] Dashboard tiles vs Modules for due dates
 
 ---
 
