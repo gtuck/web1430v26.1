@@ -1,5 +1,13 @@
 # Syllabus
 
+## Instructor information
+
+- **Name:** Garth Tuck
+- **Department:** School of Computing
+- **Office location:** Elizabeth Hall 371
+- **Virtual office:** [https://weber.zoom.us/j/8013088825](https://weber.zoom.us/j/8013088825)
+- **Virtual office hours:** Monday & Wednesday, 8:00–9:00 AM and 12:30–2:00 PM ([book a time](https://calendar.app.google/grXYvRYJeMUtz9si7))
+
 ## Catalog alignment
 
 This course is designed around Weber State's current catalog description for **WEB 1430 Client Side Web Development**: introduction to client-side programming and web page development, with attention to responsive design, dynamic development, HTML5, CSS3, JavaScript, and an introduction to a JavaScript framework.
@@ -19,7 +27,7 @@ This course is designed around Weber State's current catalog description for **W
 
 ## Virtual office hours
 
-Monday and Wednesday, 8:00–9:00 AM and 12:30–2:00 PM (Mountain Time). Appointment required: [book a time](https://calendar.app.google/5iHL7QJQDYRb2jeb8). Office hours meet in the same Zoom room as class sessions.
+Monday and Wednesday, 8:00–9:00 AM and 12:30–2:00 PM (Mountain Time). Appointment required: [book a time](https://calendar.app.google/grXYvRYJeMUtz9si7). Office hours meet in the same Zoom room as class sessions.
 
 ## Learning outcomes
 
