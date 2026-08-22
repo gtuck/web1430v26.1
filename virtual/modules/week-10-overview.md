@@ -9,7 +9,7 @@
 ## Live sessions
 - **Monday 9:30–10:45 AM:** localStorage, sessionStorage, and UI state, with a live first-visit-versus-returning-visit demo.
 - **Wednesday 9:30–10:45 AM:** Lab 09 preference-panel studio and a Project 2 proposal workshop: bring your candidate idea and data source.
-- Sessions meet in the [class Zoom room](https://weber.zoom.us/j/8013088825); recordings are posted to Canvas.
+- Sessions meet in the [class Zoom room](https://weber.zoom.us/j/82982068432); recordings are posted to Canvas.
 
 ## Success plan
 1. Before Monday: skim the module overview and read the chapter

@@ -9,7 +9,7 @@
 ## Live sessions
 - **Monday 9:30–10:45 AM:** Props, state, templates, and simple components: building a first parent/child Vue pair live.
 - **Wednesday 9:30–10:45 AM:** Lab 11 card-system studio, Project 2 build check-ins, and a Final Project pitch workshop — leave with a real audience and a draft data model.
-- Sessions meet in the [class Zoom room](https://weber.zoom.us/j/8013088825); recordings are posted to Canvas.
+- Sessions meet in the [class Zoom room](https://weber.zoom.us/j/82982068432); recordings are posted to Canvas.
 
 ## Success plan
 1. Before Monday: skim the module overview and read the chapter

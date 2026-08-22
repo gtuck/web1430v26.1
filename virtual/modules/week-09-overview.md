@@ -9,7 +9,7 @@
 ## Live sessions
 - **Monday 9:30–10:45 AM:** Promises, fetch, async/await, and failure states, with a live API request demo covering loading, error, empty, and success states.
 - **Wednesday 9:30–10:45 AM:** Lab 08 API-viewer studio and a response-shape debugging clinic; run your Assignment 4 API viability check live if you're unsure.
-- Sessions meet in the [class Zoom room](https://weber.zoom.us/j/8013088825); recordings are posted to Canvas.
+- Sessions meet in the [class Zoom room](https://weber.zoom.us/j/82982068432); recordings are posted to Canvas.
 
 ## Success plan
 1. Before Monday: skim the module overview and read the chapter

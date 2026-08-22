@@ -1,6 +1,6 @@
 # Weekly Schedule
 
-**Class meetings:** Monday and Wednesday, 9:30–10:45 AM (Mountain Time), August 24 – December 4, 2026, in the [class Zoom room](https://weber.zoom.us/j/8013088825).
+**Class meetings:** Monday and Wednesday, 9:30–10:45 AM (Mountain Time), August 24 – December 4, 2026, in the [class Zoom room](https://weber.zoom.us/j/82982068432).
 
 Each week, the Monday session introduces the week's lecture topic with a live demo, and the Wednesday session is guided lab/studio work, code review, and Q&A. Deliverables are due in the Sunday window unless a brief says otherwise; Week 15's final exam and presentations follow the university final-exam schedule.
 

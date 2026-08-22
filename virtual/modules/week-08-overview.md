@@ -9,7 +9,7 @@
 ## Live sessions
 - **Monday 9:30–10:45 AM:** Refactoring and reuse patterns, followed by a structured midterm review of Weeks 01–07.
 - **Wednesday 9:30–10:45 AM:** Project 1 polish studio and final midterm Q&A. Exam logistics: the midterm is taken in Canvas within the Week 8 window, not during class.
-- Sessions meet in the [class Zoom room](https://weber.zoom.us/j/8013088825); recordings are posted to Canvas.
+- Sessions meet in the [class Zoom room](https://weber.zoom.us/j/82982068432); recordings are posted to Canvas.
 
 ## Success plan
 1. Before Monday: skim the module overview and read the chapter

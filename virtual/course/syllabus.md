@@ -14,7 +14,7 @@ This course is designed around Weber State's current catalog description for **W
 
 ## Credits and format
 
-- 4 credit hours
+- 3 credit hours
 - Virtual (synchronous) delivery: live class sessions held over Zoom, with course materials, assignments, and assessments in Canvas
 - GitHub repository workflow (public or instructor-shared, depending on section requirements)
 
@@ -22,12 +22,12 @@ This course is designed around Weber State's current catalog description for **W
 
 - **Semester dates:** August 24 – December 4, 2026
 - **Live sessions:** Monday and Wednesday, 9:30–10:45 AM (Mountain Time)
-- **Zoom meeting room:** [https://weber.zoom.us/j/8013088825](https://weber.zoom.us/j/8013088825)
+- **Zoom meeting room:** [https://weber.zoom.us/j/82982068432](https://weber.zoom.us/j/82982068432)
 - Final exam and project presentations follow the university final-exam schedule for Week 15.
 
 ## Virtual office hours
 
-Monday and Wednesday, 8:00–9:00 AM and 12:30–2:00 PM (Mountain Time). Appointment required: [book a time](https://calendar.app.google/grXYvRYJeMUtz9si7). Office hours meet in the same Zoom room as class sessions.
+Monday and Wednesday, 8:00–9:00 AM and 12:30–2:00 PM (Mountain Time). Appointment required: [book a time](https://calendar.app.google/grXYvRYJeMUtz9si7). Office hours meet in the instructor's virtual office Zoom room (linked under Instructor information), not the class meeting room.
 
 ## Learning outcomes
 

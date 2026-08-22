@@ -9,7 +9,7 @@
 ## Live sessions
 - **Monday 9:30–10:45 AM:** Semantic HTML, CSS architecture, and a live mobile-first layout demo.
 - **Wednesday 9:30–10:45 AM:** Lab 02 layout studio, then an Assignment 1 kickoff: requirements walkthrough and the accessibility quick-reference checklist.
-- Sessions meet in the [class Zoom room](https://weber.zoom.us/j/8013088825); recordings are posted to Canvas.
+- Sessions meet in the [class Zoom room](https://weber.zoom.us/j/82982068432); recordings are posted to Canvas.
 
 ## Success plan
 1. Before Monday: skim the module overview and read the chapter

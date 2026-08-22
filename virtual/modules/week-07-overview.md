@@ -9,7 +9,7 @@
 ## Live sessions
 - **Monday 9:30–10:45 AM:** Event listeners, validation, and UX feedback, with a live accessible-form demo including keyboard and screen-reader behavior.
 - **Wednesday 9:30–10:45 AM:** Lab 07 validation studio and Project 1 build check-ins: bring your in-progress build for quick live feedback.
-- Sessions meet in the [class Zoom room](https://weber.zoom.us/j/8013088825); recordings are posted to Canvas.
+- Sessions meet in the [class Zoom room](https://weber.zoom.us/j/82982068432); recordings are posted to Canvas.
 
 ## Success plan
 1. Before Monday: skim the module overview and read the chapter

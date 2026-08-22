@@ -9,7 +9,7 @@
 ## Live sessions
 - **Monday 9:30–10:45 AM:** File organization, ES modules, and build tooling, with a live script-to-modules conversion and Vite introduction.
 - **Wednesday 9:30–10:45 AM:** Lab 10 modularization studio and Assignment 5 check-ins. Complete the late-course check-in survey after class.
-- Sessions meet in the [class Zoom room](https://weber.zoom.us/j/8013088825); recordings are posted to Canvas.
+- Sessions meet in the [class Zoom room](https://weber.zoom.us/j/82982068432); recordings are posted to Canvas.
 
 ## Success plan
 1. Before Monday: skim the module overview and read the chapter

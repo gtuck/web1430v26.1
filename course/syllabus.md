@@ -6,7 +6,7 @@ This course is designed around Weber State's current catalog description for **W
 
 ## Credits and format
 
-- 4 credit hours
+- 3 credit hours
 - Fully online, asynchronous delivery in Canvas
 - GitHub repository workflow (public or instructor-shared, depending on section requirements)
 

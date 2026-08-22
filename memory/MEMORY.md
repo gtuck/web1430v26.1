@@ -8,7 +8,7 @@ WEB 1430 is a complete **Client-Side Web Development** course package for Weber 
 
 ## Virtual Modality (added July 13, 2026)
 
-- Fall 2026 virtual section: live sessions Mon/Wed 9:30–10:45 AM MT, Aug 24 – Dec 4, 2026; Zoom room https://weber.zoom.us/j/8013088825; office hours Mon/Wed 8:00–9:00 AM and 12:30–2:00 PM by appointment (https://calendar.app.google/5iHL7QJQDYRb2jeb8).
+- Fall 2026 virtual section: live sessions Mon/Wed 9:30–10:45 AM MT, Aug 24 – Dec 4, 2026; Zoom room https://weber.zoom.us/j/82982068432; office hours (in the instructor's virtual office room https://weber.zoom.us/j/8013088825) Mon/Wed 8:00–9:00 AM and 12:30–2:00 PM by appointment (https://calendar.app.google/grXYvRYJeMUtz9si7).
 - Overrides live at `virtual/<same relative path>`: `home.md`, `course/syllabus.md`, `course/schedule.md`, `lectures/week-00-lecture.md`, and all 16 module overviews (which add a `## Live sessions` Mon/Wed agenda section and a session-oriented success plan). Everything else — textbook, labs, assignments, projects, quizzes, starters, support guides, surveys, outcomes/rubrics CSVs — is shared.
 - Build with `--modality virtual` → `canvas/WEB1430-Virtual-Canvas-Export.imscc` + `canvas/virtual/expanded_package/` (seeded from the online package on first build). Online commands and outputs are unchanged.
 - Lint enforces override consistency: no orphan overrides, base H1 titles preserved (Canvas slug stability), identical `- Deliverables:` lines (due dates shared — deliverables stay in the Sunday window in both modalities), links resolved from the base location, and the Live sessions section present.

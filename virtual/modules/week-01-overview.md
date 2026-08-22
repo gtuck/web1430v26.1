@@ -9,7 +9,7 @@
 ## Live sessions
 - **Monday 9:30–10:45 AM:** How the browser parses, paints, and executes, with a live DevTools tour of a real page.
 - **Wednesday 9:30–10:45 AM:** Lab 01 guided inspection studio: share what you found in DevTools, connect it to the rendering pipeline, and prep for Quiz 1.
-- Sessions meet in the [class Zoom room](https://weber.zoom.us/j/8013088825); recordings are posted to Canvas.
+- Sessions meet in the [class Zoom room](https://weber.zoom.us/j/82982068432); recordings are posted to Canvas.
 
 ## Success plan
 1. Before Monday: skim the module overview and read the chapter

@@ -9,7 +9,7 @@
 ## Live sessions
 - **Monday 9:30–10:45 AM:** Quality checks, accessibility audits, and shipping to the web: a live Lighthouse run and deployment demo.
 - **Wednesday 9:30–10:45 AM:** Lab 13 QA studio and a triage workshop: use your QA notes to prioritize fixes for Project 2 and the Final Project beta. Quiz 8 readiness check-in.
-- Sessions meet in the [class Zoom room](https://weber.zoom.us/j/8013088825); recordings are posted to Canvas.
+- Sessions meet in the [class Zoom room](https://weber.zoom.us/j/82982068432); recordings are posted to Canvas.
 
 ## Success plan
 1. Before Monday: skim the module overview and read the chapter

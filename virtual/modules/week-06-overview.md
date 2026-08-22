@@ -9,7 +9,7 @@
 ## Live sessions
 - **Monday 9:30–10:45 AM:** Selecting, creating, updating, and removing elements — the DOM lifecycle demonstrated live on a working page.
 - **Wednesday 9:30–10:45 AM:** Lab 06 FAQ-and-tabs studio and Assignment 3 patterns: which element to select, which node to create, what to update.
-- Sessions meet in the [class Zoom room](https://weber.zoom.us/j/8013088825); recordings are posted to Canvas.
+- Sessions meet in the [class Zoom room](https://weber.zoom.us/j/82982068432); recordings are posted to Canvas.
 
 ## Success plan
 1. Before Monday: skim the module overview and read the chapter

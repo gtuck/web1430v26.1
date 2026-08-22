@@ -9,7 +9,7 @@
 ## Live sessions
 - **Monday 9:30–10:45 AM:** Course tour: how the virtual section runs, Canvas layout, and the GitHub workflow. Live walkthrough of clone, edit, commit, and push.
 - **Wednesday 9:30–10:45 AM:** Lab 00 setup clinic: install troubleshooting, first pushes verified live, and a recovery demo of `git status` and `git pull --ff-only`.
-- Sessions meet in the [class Zoom room](https://weber.zoom.us/j/8013088825); recordings are posted to Canvas.
+- Sessions meet in the [class Zoom room](https://weber.zoom.us/j/82982068432); recordings are posted to Canvas.
 
 ## Success plan
 1. Before Monday: skim the module overview and read the chapter

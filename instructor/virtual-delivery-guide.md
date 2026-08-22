@@ -6,7 +6,8 @@ Instructor-side guide for running WEB 1430 as a **virtual (synchronous)** sectio
 
 - **Semester:** August 24 – December 4, 2026; final exam and presentations in the Week 15 finals window
 - **Live sessions:** Monday and Wednesday, 9:30–10:45 AM (Mountain Time)
-- **Zoom room:** https://weber.zoom.us/j/8013088825 (same room for class and office hours)
+- **Class Zoom room:** https://weber.zoom.us/j/82982068432
+- **Virtual office (office hours):** https://weber.zoom.us/j/8013088825
 - **Virtual office hours:** Monday and Wednesday, 8:00–9:00 AM and 12:30–2:00 PM, appointment required via https://calendar.app.google/5iHL7QJQDYRb2jeb8
 
 ## How the virtual variant works in this repo

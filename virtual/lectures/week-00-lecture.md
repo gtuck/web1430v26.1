@@ -30,7 +30,7 @@ WEB 1430 runs on a Monday–Sunday weekly cycle anchored by two live Zoom sessio
 Sessions are recorded and posted to Canvas, but recordings are a recovery tool, not a substitute for attending. Instructor feedback comes live in session, via Canvas comments, and through GitHub pull-request reviews. Check Canvas at least three times per week: Monday before class to see what opened, midweek to track your progress, and Saturday to catch anything before the deadline.
 
 ### Zoom setup
-Class meets in the same Zoom room all semester: [https://weber.zoom.us/j/8013088825](https://weber.zoom.us/j/8013088825) — bookmark it. Before the first session:
+Class meets in the same Zoom room all semester: [https://weber.zoom.us/j/82982068432](https://weber.zoom.us/j/82982068432) — bookmark it. Before the first session:
 1. Install the Zoom desktop client (the browser version limits screen sharing) and sign in with your Weber State account.
 2. Test your microphone and speakers in Zoom's audio settings. A working microphone is expected; camera use is encouraged but not required.
 3. Practice sharing your screen — you will share your editor and browser during lab debugging.

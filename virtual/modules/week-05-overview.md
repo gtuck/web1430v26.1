@@ -9,7 +9,7 @@
 ## Live sessions
 - **Monday 9:30–10:45 AM:** Collections, objects, methods, and JSON thinking, with a live data-modeling demo.
 - **Wednesday 9:30–10:45 AM:** Lab 05 data-explorer studio plus a Project 1 proposal workshop: bring a draft idea to test its scope. Complete the check-in survey after class.
-- Sessions meet in the [class Zoom room](https://weber.zoom.us/j/8013088825); recordings are posted to Canvas.
+- Sessions meet in the [class Zoom room](https://weber.zoom.us/j/82982068432); recordings are posted to Canvas.
 
 ## Success plan
 1. Before Monday: skim the module overview and read the chapter

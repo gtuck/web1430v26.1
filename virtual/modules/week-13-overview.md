@@ -9,7 +9,7 @@
 ## Live sessions
 - **Monday 9:30–10:45 AM:** Component communication, reactive forms, and derived state, demonstrated one workflow step at a time.
 - **Wednesday 9:30–10:45 AM:** Lab 12 dashboard studio, an Assignment 6 build-order clinic, and a Milestone 2 revision workshop for the Final Project.
-- Sessions meet in the [class Zoom room](https://weber.zoom.us/j/8013088825); recordings are posted to Canvas.
+- Sessions meet in the [class Zoom room](https://weber.zoom.us/j/82982068432); recordings are posted to Canvas.
 
 ## Success plan
 1. Before Monday: skim the module overview and read the chapter

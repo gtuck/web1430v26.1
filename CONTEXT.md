@@ -4,7 +4,7 @@ This file provides project context for Claude Code and similar coding agents wor
 
 ## What this repository is
 
-A source-driven course package for **WEB 1430: Client-Side Web Development** at Weber State University. The course is 4-credit, fully online, and asynchronous.
+A source-driven course package for **WEB 1430: Client-Side Web Development** at Weber State University. The course is 3-credit, fully online, and asynchronous.
 
 The repository uses:
 
