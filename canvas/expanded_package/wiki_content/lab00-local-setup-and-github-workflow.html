@@ -8,18 +8,18 @@
 <body>
 <h1>Lab 00 – Local Setup and GitHub Workflow</h1>
 <h2>Purpose</h2>
-<p>Before any code can be written, you need a working development environment. This lab walks you through installing the tools you will use every week, configuring Git, creating your course repository on GitHub, and making your first commit. Getting this right in Week 0 prevents the most common source of early-semester frustration.</p>
+<p>Before any code can be written, you need a working development environment. This lab walks you through installing the tools you will use every week, configuring Git, requesting your course repository, and making your first commit. Getting this right in Week 0 prevents the most common source of early-semester frustration.</p>
 <h2>Skills practiced</h2>
 <ul>
 <li>Installing and verifying VS Code and Node.js</li>
 <li>Configuring Git with your name and email</li>
-<li>Creating and cloning a GitHub repository</li>
+<li>Requesting and cloning your course GitHub repository</li>
 <li>Making commits with meaningful messages</li>
 <li>Pushing changes and verifying them on GitHub</li>
 <li>Checking repository status and safely syncing with GitHub</li>
 </ul>
 <h2>What you're building</h2>
-<p>A course repository on GitHub that will hold all your labs, assignments, and projects this semester. By the end of this lab your repo will be live, your tools will be verified, and you will have made your first real commit.</p>
+<p>A course repository on GitHub that will hold all your labs, assignments, and projects this semester. The repository is created for you in the course's <code>web1430-fall26</code> GitHub organization, pre-loaded with the semester's folder structure and starter files. By the end of this lab your repo will be live, your tools will be verified, and you will have made your first real commit.</p>
 <hr />
 <h2>Part 1: Install tools</h2>
 <h3>1.1 Visual Studio Code</h3>
@@ -45,52 +45,40 @@ npm --version     # should print 9.x.x or higher</code></pre>
 git config --global user.email &quot;you@example.com&quot;</code></pre>
 <p>Verify: <code>git config --list</code> should show your name and email.</p>
 <hr />
-<h2>Part 3: Create your course GitHub repository</h2>
+<h2>Part 3: Request your course GitHub repository</h2>
+<p>Your course repository is created for you — with the starter files already in it — through the course repo request page:</p>
 <ol>
-<li>Log in to github.com. Create an account if you don't have one — use your school email.</li>
-<li>Click <strong>New repository</strong> (the + icon, top right).</li>
-<li>Name it <code>web1430-[yourname]</code> (e.g., <code>web1430-jordan-smith</code>). Make it public if your section uses public repos; otherwise a private or instructor-shared repo is acceptable as long as your instructor can access it.</li>
-<li>Check <strong>Add a README file</strong>.</li>
-<li>Click <strong>Create repository</strong>.</li>
+<li>Don't have a GitHub account? Create one first at <code>https://github.com/join</code> using your <code>@mail.weber.edu</code> email address — you'll use the same username in the next step.</li>
+<li>Go to &lt;https://crsapps.netlify.app/gh?instructor=gt&amp;course=WEB1430&amp;task=CourseTemplate&gt;</li>
+<li>Enter your GitHub username exactly as it appears on GitHub (typos will block submission).</li>
+<li>Enter this passcode: <code>MrC0der2shoe$</code></li>
+<li>Click <strong>Create Repo</strong>. You'll get an invitation link — accept it (sign in to GitHub first), and your repository is ready to clone from the <code>web1430-fall26</code> organization.</li>
 </ol>
 <hr />
 <h2>Part 4: Clone the repository to your machine</h2>
-<p>On your repository page, click the green <strong>Code</strong> button and copy the HTTPS URL.</p>
+<p>Open your new repository in the <code>web1430-fall26</code> organization (the invitation you accepted takes you there), click the green <strong>Code</strong> button, and copy the HTTPS URL.</p>
 <p>In your terminal, navigate to where you keep your projects (e.g., <code>~/Documents/GitHub</code>), then clone:</p>
-<pre><code class="language-bash">git clone https://github.com/YOUR-USERNAME/web1430-yourname.git
-cd web1430-yourname</code></pre>
+<pre><code class="language-bash">git clone https://github.com/web1430-fall26/YOUR-REPO-NAME.git
+cd YOUR-REPO-NAME</code></pre>
 <p>Open the folder in VS Code: <code>code .</code></p>
 <hr />
-<h2>Part 5: Set up your folder structure</h2>
-<p>Inside the cloned repository, create the following folders. You can do this in VS Code's Explorer panel or in the terminal:</p>
-<pre><code>web1430-yourname/
+<h2>Part 5: Explore the folder structure</h2>
+<p>Your repository comes pre-built with the folder structure and starter files for the whole semester:</p>
+<pre><code>your-repo/
   labs/
-    lab00/
+    lab00/ … lab13/    # starter files already included where a lab has them
   assignments/
   projects/</code></pre>
-<p>Inside <code>labs/lab00/</code>, create a file called <code>index.html</code> with the following starter content:</p>
-<pre><code class="language-html">&lt;!DOCTYPE html&gt;
-&lt;html lang=&quot;en&quot;&gt;
-&lt;head&gt;
-  &lt;meta charset=&quot;UTF-8&quot;&gt;
-  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
-  &lt;title&gt;Lab 00 – Setup&lt;/title&gt;
-&lt;/head&gt;
-&lt;body&gt;
-  &lt;main&gt;
-    &lt;h1&gt;WEB 1430 – Lab 00&lt;/h1&gt;
-    &lt;p&gt;Tools installed. Environment ready.&lt;/p&gt;
-  &lt;/main&gt;
-&lt;/body&gt;
-&lt;/html&gt;</code></pre>
-<p>Open it in Live Server (right-click the file → Open with Live Server) and verify you see the page in your browser.</p>
+<p>Every lab, assignment, and project you submit this semester lives in one of these folders. Do not rename or move them.</p>
+<p>Open <code>labs/lab00/index.html</code> in Live Server (right-click the file → Open with Live Server) and verify you see the Lab 00 page in your browser.</p>
 <hr />
 <h2>Part 6: Make your first commit and push</h2>
+<p>Open <code>README.md</code> at the root of your repository and personalize it: add your name and one short sentence about what you want to get out of this course.</p>
 <p>In the terminal (inside your repo folder):</p>
-<pre><code class="language-bash">git add labs/lab00/index.html
-git commit -m &quot;lab00: initial setup and folder structure&quot;
+<pre><code class="language-bash">git add README.md
+git commit -m &quot;lab00: add name and course goal to README&quot;
 git push</code></pre>
-<p>Visit your repository on GitHub and verify the file appears there.</p>
+<p>Visit your repository on GitHub and verify your change appears there.</p>
 <hr />
 <h2>Part 7: Sync and recovery check</h2>
 <p>After your first push, run these commands:</p>
@@ -111,14 +99,15 @@ git pull --ff-only</code></pre>
 <li>[ ] <code>npm --version</code> prints a version number</li>
 <li>[ ] <code>git --version</code> prints a version number</li>
 <li>[ ] <code>git config user.name</code> and <code>git config user.email</code> show your details</li>
-<li>[ ] Your GitHub repository is visible at its URL and accessible to your instructor</li>
-<li>[ ] <code>labs/lab00/index.html</code> is committed and visible on GitHub</li>
+<li>[ ] Your GitHub repository exists in the <code>web1430-fall26</code> organization and you accepted the invitation</li>
+<li>[ ] Your personalized <code>README.md</code> is committed and visible on GitHub, and <code>labs/lab00/index.html</code> opens in Live Server</li>
 <li>[ ] The page opens correctly in Live Server</li>
 <li>[ ] <code>git status</code> shows a clean working tree after your first push</li>
 <li>[ ] <code>git pull --ff-only</code> runs successfully after your first push</li>
 </ul>
 <hr />
 <h2>Troubleshooting</h2>
+<p><strong>No invitation, or a 404 when opening your repository</strong>: Make sure you accepted the invitation link shown after clicking <strong>Create Repo</strong> (an email invitation also goes to the address on your GitHub account, so check there). If the link expired or you entered the wrong username, post in the Help &amp; Questions board with your exact GitHub username so the repo can be re-issued.</p>
 <p><strong>"git: command not found" on Mac</strong>: Run <code>xcode-select --install</code> in the terminal.</p>
 <p><strong>"Permission denied" when pushing</strong>: You may need to authenticate. GitHub now requires a Personal Access Token instead of a password. Go to GitHub → Settings → Developer Settings → Personal Access Tokens → Generate new token. Use that token as your password when Git prompts for credentials.</p>
 <p><strong>"rejected — fetch first" or "Updates were rejected" when pushing</strong>: Your GitHub copy changed and your local copy is behind. Run <code>git status</code>, then <code>git pull --ff-only</code>. If Git says you have local changes, commit them first. If you see conflict markers in a file, stop and fix them before your next push.</p>
@@ -128,7 +117,7 @@ git pull --ff-only</code></pre>
 <h2>Deliverable</h2>
 <p>Submit to Canvas:</p>
 <ul>
-<li>The URL of your GitHub repository (e.g., <code>https://github.com/username/web1430-yourname</code>)</li>
+<li>The URL of your GitHub repository (it will look like <code>https://github.com/web1430-fall26/your-repo-name</code>)</li>
 <li>A screenshot showing your terminal with <code>node --version</code>, <code>npm --version</code>, <code>git --version</code>, and <code>git status</code> output</li>
 </ul>
 <h2>Process reflection</h2>
@@ -139,7 +128,7 @@ git pull --ff-only</code></pre>
 <thead><tr><th>Criterion</th><th>Excellent (4)</th><th>Proficient (3)</th><th>Developing (2)</th><th>Incomplete (1)</th></tr></thead>
 <tbody>
 <tr><td><strong>Tools installed and verified</strong></td><td>All three tools verified in terminal with correct versions</td><td>Two of three verified</td><td>One verified, others attempted</td><td>No verification shown</td></tr>
-<tr><td><strong>Repository setup</strong></td><td>Repo accessible to instructor, correct name, proper folder structure committed</td><td>Repo exists, some structure present</td><td>Repo exists but access/setup incomplete</td><td>No repo found</td></tr>
+<tr><td><strong>Repository setup</strong></td><td>Repo created in the course organization, invitation accepted, starter structure intact</td><td>Repo exists, some structure present</td><td>Repo exists but access/setup incomplete</td><td>No repo found</td></tr>
 <tr><td><strong>First commit and push</strong></td><td>Meaningful commit message, file visible on GitHub</td><td>File on GitHub, generic message</td><td>Pushed but incomplete</td><td>Not pushed</td></tr>
 <tr><td><strong>Smoke test</strong></td><td>All checklist items confirmed, including status and sync check</td><td>Most items confirmed</td><td>Some items confirmed</td><td>Few or none confirmed</td></tr>
 <tr><td><strong>Reflection</strong></td><td>Specific, honest account of what worked and what broke</td><td>Addresses the prompts briefly</td><td>Vague or one sentence</td><td>Missing</td></tr>

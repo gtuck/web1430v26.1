@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lab 07 – Workshop Registration</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main>
+    <form id="registration-form" novalidate>
+      <h1>Workshop Registration</h1>
+      <p class="required-note">Fields marked <span aria-hidden="true">*</span><span class="sr-only">with an asterisk</span> are required.</p>
+
+      <div class="field-group">
+        <label for="full-name">Full Name <span aria-hidden="true">*</span></label>
+        <input type="text" id="full-name" name="full-name"
+               aria-describedby="full-name-error" autocomplete="name">
+        <span id="full-name-error" class="error-msg" aria-live="polite"></span>
+      </div>
+
+      <div class="field-group">
+        <label for="email">Email Address <span aria-hidden="true">*</span></label>
+        <input type="email" id="email" name="email"
+               aria-describedby="email-error" autocomplete="email">
+        <span id="email-error" class="error-msg" aria-live="polite"></span>
+      </div>
+
+      <div class="field-group">
+        <label for="phone">Phone Number <span class="optional">(optional)</span></label>
+        <input type="tel" id="phone" name="phone"
+               aria-describedby="phone-error" autocomplete="tel">
+        <span id="phone-error" class="error-msg" aria-live="polite"></span>
+      </div>
+
+      <div class="field-group">
+        <label for="student-id">Student ID <span aria-hidden="true">*</span></label>
+        <input type="text" id="student-id" name="student-id"
+               aria-describedby="student-id-error student-id-hint">
+        <span id="student-id-hint" class="field-hint">7–9 digits</span>
+        <span id="student-id-error" class="error-msg" aria-live="polite"></span>
+      </div>
+
+      <div class="field-group">
+        <label for="event-select">Select Workshop <span aria-hidden="true">*</span></label>
+        <select id="event-select" name="event-select"
+                aria-describedby="event-select-error">
+          <option value="">-- Choose a workshop --</option>
+          <option value="web-basics">Web Basics</option>
+          <option value="intro-python">Intro to Python</option>
+          <option value="ux-design">UX Design Fundamentals</option>
+        </select>
+        <span id="event-select-error" class="error-msg" aria-live="polite"></span>
+      </div>
+
+      <div class="field-group">
+        <label for="dietary">Dietary Restrictions <span class="optional">(optional)</span></label>
+        <textarea id="dietary" name="dietary" rows="3"
+                  aria-describedby="dietary-error"></textarea>
+        <span id="dietary-error" class="error-msg" aria-live="polite"></span>
+      </div>
+
+      <button type="submit">Register</button>
+    </form>
+
+    <div id="confirmation" hidden tabindex="-1">
+      <h2>You're registered!</h2>
+      <p id="confirmation-details"></p>
+      <a href="index.html">Register another person</a>
+    </div>
+  </main>
+
+  <script src="lab07.js" defer></script>
+</body>
+</html>

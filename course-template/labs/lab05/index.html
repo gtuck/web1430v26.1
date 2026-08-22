@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lab 05 – Campus Store</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main>
+    <h1>Campus Store</h1>
+
+    <div class="controls">
+      <div id="filter-bar" aria-label="Filter by category"></div>
+      <div class="field-group">
+        <label for="sort-order">Sort by price</label>
+        <select id="sort-order">
+          <option value="asc">Price: Low to High</option>
+          <option value="desc">Price: High to Low</option>
+        </select>
+      </div>
+    </div>
+
+    <div id="product-grid" aria-live="polite"></div>
+  </main>
+
+  <script src="lab05.js" defer></script>
+</body>
+</html>

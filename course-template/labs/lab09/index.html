@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lab 09 – Reading Preferences</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="layout">
+
+    <!-- ─── Article ─────────────────────────────────────────────── -->
+    <!-- JavaScript will add theme/font/spacing classes to this element -->
+    <main id="article" class="theme-light font-medium spacing-normal">
+      <article>
+        <h1>The Long Road to Readable Text</h1>
+
+        <p>Typography on the web has a long history that predates the modern browser by centuries.
+        When the first web pages appeared in the early 1990s, designers had almost no control
+        over how text would render — the browser, the operating system, and the user's own
+        preferences all shaped the reading experience in ways the author could not predict.</p>
+
+        <p>The introduction of CSS in 1996 gave designers their first reliable tools for controlling
+        font size, line height, and letter spacing. But CSS typography was limited by the fonts
+        available on users' machines. If you specified "Garamond" and the user didn't have it,
+        the browser fell back to a generic serif — often Times New Roman — which could completely
+        undermine a carefully considered typographic system.</p>
+
+        <p>Web fonts changed this. Starting around 2010, services like Google Fonts made it possible
+        to specify fonts that would be downloaded alongside the page. Suddenly designers could use
+        expressive typefaces with confidence. The trade-off was performance: loading an additional
+        font file adds network weight, and a poorly configured font can cause a flash of unstyled
+        text as the font loads.</p>
+
+        <p>Today's best practice balances expressiveness with performance. System font stacks — lists
+        of fonts that leverage whatever is already installed on the user's device — have made a
+        comeback precisely because they load instantly. The Inter typeface, for example, is now
+        pre-installed on many systems, making it a reasonable default for interface text that
+        doesn't require a network request.</p>
+
+        <p>The future of web typography is variable fonts: single font files that contain an entire
+        range of weights and widths, controlled through CSS properties. A single variable font file
+        can replace a dozen static font files, dramatically reducing network overhead while giving
+        designers far finer control over typographic expression. Reading preferences, once a luxury,
+        are now an accessibility expectation.</p>
+      </article>
+    </main>
+
+    <!-- ─── Preferences panel ────────────────────────────────────── -->
+    <aside id="preferences-panel">
+      <h2>Reading Preferences</h2>
+
+      <fieldset>
+        <legend>Color Theme</legend>
+        <label><input type="radio" name="theme" value="light"> Light</label>
+        <label><input type="radio" name="theme" value="dark"> Dark</label>
+        <label><input type="radio" name="theme" value="sepia"> Sepia</label>
+      </fieldset>
+
+      <fieldset>
+        <legend>Font Size</legend>
+        <label><input type="radio" name="font-size" value="small"> Small</label>
+        <label><input type="radio" name="font-size" value="medium"> Medium</label>
+        <label><input type="radio" name="font-size" value="large"> Large</label>
+      </fieldset>
+
+      <fieldset>
+        <legend>Line Spacing</legend>
+        <label><input type="radio" name="spacing" value="compact"> Compact</label>
+        <label><input type="radio" name="spacing" value="normal"> Normal</label>
+        <label><input type="radio" name="spacing" value="relaxed"> Relaxed</label>
+      </fieldset>
+
+      <button id="reset-btn" type="button">Reset to Defaults</button>
+    </aside>
+
+  </div>
+
+  <script src="lab09.js" defer></script>
+</body>
+</html>

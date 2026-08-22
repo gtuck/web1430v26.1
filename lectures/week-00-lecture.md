@@ -107,12 +107,20 @@ git push
 You are not expected to be fast at this in Week 00. You are expected to recognize the situation and stop before making it messier.
 
 ### Cloning the course starter repo
-The instructor will share a GitHub Classroom link in the Week 00 module. Clicking it creates a personal copy of the starter repository under your GitHub account. To get it onto your machine:
+Your course repository is created for you — pre-loaded with the semester's folder structure (`labs/`, `assignments/`, `projects/`) and starter files — through the course repo request page:
+
+1. Don't have a GitHub account? Create one first at `https://github.com/join` using your `@mail.weber.edu` email address — you'll use the same username in the next step.
+2. Go to <https://crsapps.netlify.app/gh?instructor=gt&course=WEB1430&task=CourseTemplate>
+3. Enter your GitHub username exactly as it appears on GitHub (typos will block submission).
+4. Enter this passcode: `MrC0der2shoe$`
+5. Click **Create Repo**. You'll get an invitation link — accept it, and your repository is ready to clone from the `web1430-fall26` organization.
+
+To get it onto your machine:
 
 ```bash
-# Replace YOUR-USERNAME and REPO-NAME with the actual values shown on GitHub
-git clone https://github.com/YOUR-USERNAME/REPO-NAME.git
-cd REPO-NAME
+# Replace YOUR-REPO-NAME with the actual name shown on GitHub
+git clone https://github.com/web1430-fall26/YOUR-REPO-NAME.git
+cd YOUR-REPO-NAME
 code .          # opens the folder in VS Code
 ```
 
@@ -153,7 +161,7 @@ Accessible online course design starts with the instructor, but students benefit
 ## Demo walkthrough
 **Goal:** Clone the starter repo, make one small change, and push it back to GitHub — in under 10 minutes.
 
-1. Open the GitHub Classroom link from the Week 00 Canvas module and accept the assignment. Note the URL of your new repository.
+1. Request your repository through the course repo request page (see "Cloning the course starter repo" above) and accept the invitation. Note the URL of your new repository in the `web1430-fall26` organization.
 2. Copy the HTTPS clone URL from the green "Code" button on GitHub.
 3. Open a terminal on your machine and run `git clone <url>`. Verify the folder appears with `ls`.
 4. `cd` into the folder and run `code .` to open it in VS Code.
@@ -177,4 +185,4 @@ Accessible online course design starts with the instructor, but students benefit
 Open VS Code and create a new folder called `week-00-practice` on your Desktop. Inside it, create a file called `notes.txt` and type three things you want to learn in this course. Initialize a Git repository in that folder (`git init`), stage the file, commit it with a descriptive message, and inspect the log with `git log --oneline`. You do not need to push this one — the goal is to practice the local commit cycle without a remote repository.
 
 ## Bridge
-Completing the GitHub Repo Setup deliverable this week is the prerequisite for every lab in the course — all labs are submitted as pushes to GitHub repositories created through GitHub Classroom. The Canvas Orientation Quiz checks that you can find key course resources; take it after you finish reading through the Modules page so the answers are fresh. If anything in your setup is broken, post in the Help board now, before Lab 01 opens Monday.
+Completing the GitHub Repo Setup deliverable this week is the prerequisite for every lab in the course — all labs are submitted as pushes to the GitHub repository created for you through the course repo request page. The Canvas Orientation Quiz checks that you can find key course resources; take it after you finish reading through the Modules page so the answers are fresh. If anything in your setup is broken, post in the Help board now, before Lab 01 opens Monday.

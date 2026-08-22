@@ -101,10 +101,18 @@ git commit -m &quot;Resolve merge conflict in &lt;file&gt;&quot;
 git push</code></pre>
 <p>You are not expected to be fast at this in Week 00. You are expected to recognize the situation and stop before making it messier.</p>
 <h3>Cloning the course starter repo</h3>
-<p>The instructor will share a GitHub Classroom link in the Week 00 module. Clicking it creates a personal copy of the starter repository under your GitHub account. To get it onto your machine:</p>
-<pre><code class="language-bash"># Replace YOUR-USERNAME and REPO-NAME with the actual values shown on GitHub
-git clone https://github.com/YOUR-USERNAME/REPO-NAME.git
-cd REPO-NAME
+<p>Your course repository is created for you — pre-loaded with the semester's folder structure (<code>labs/</code>, <code>assignments/</code>, <code>projects/</code>) and starter files — through the course repo request page:</p>
+<ol>
+<li>Don't have a GitHub account? Create one first at <code>https://github.com/join</code> using your <code>@mail.weber.edu</code> email address — you'll use the same username in the next step.</li>
+<li>Go to &lt;https://crsapps.netlify.app/gh?instructor=gt&amp;course=WEB1430&amp;task=CourseTemplate&gt;</li>
+<li>Enter your GitHub username exactly as it appears on GitHub (typos will block submission).</li>
+<li>Enter this passcode: <code>MrC0der2shoe$</code></li>
+<li>Click <strong>Create Repo</strong>. You'll get an invitation link — accept it, and your repository is ready to clone from the <code>web1430-fall26</code> organization.</li>
+</ol>
+<p>To get it onto your machine:</p>
+<pre><code class="language-bash"># Replace YOUR-REPO-NAME with the actual name shown on GitHub
+git clone https://github.com/web1430-fall26/YOUR-REPO-NAME.git
+cd YOUR-REPO-NAME
 code .          # opens the folder in VS Code</code></pre>
 <p>After cloning, open the integrated terminal in VS Code (<code>Ctrl+</code><code> </code> `<code>/ </code>Cmd+`<code> </code> ``) — you will run all Git commands there.</p>
 <h3>The terminal basics you need right now</h3>
@@ -137,7 +145,7 @@ cd ..      # go up one level</code></pre>
 <h2>Demo walkthrough</h2>
 <p><strong>Goal:</strong> Clone the starter repo, make one small change, and push it back to GitHub — in under 10 minutes.</p>
 <ol>
-<li>Open the GitHub Classroom link from the Week 00 Canvas module and accept the assignment. Note the URL of your new repository.</li>
+<li>Request your repository through the course repo request page (see "Cloning the course starter repo" above) and accept the invitation. Note the URL of your new repository in the <code>web1430-fall26</code> organization.</li>
 <li>Copy the HTTPS clone URL from the green "Code" button on GitHub.</li>
 <li>Open a terminal on your machine and run <code>git clone &lt;url&gt;</code>. Verify the folder appears with <code>ls</code>.</li>
 <li><code>cd</code> into the folder and run <code>code .</code> to open it in VS Code.</li>
@@ -158,6 +166,6 @@ cd ..      # go up one level</code></pre>
 <h2>Practice prompt</h2>
 <p>Open VS Code and create a new folder called <code>week-00-practice</code> on your Desktop. Inside it, create a file called <code>notes.txt</code> and type three things you want to learn in this course. Initialize a Git repository in that folder (<code>git init</code>), stage the file, commit it with a descriptive message, and inspect the log with <code>git log --oneline</code>. You do not need to push this one — the goal is to practice the local commit cycle without a remote repository.</p>
 <h2>Bridge</h2>
-<p>Completing the GitHub Repo Setup deliverable this week is the prerequisite for every lab in the course — all labs are submitted as pushes to GitHub repositories created through GitHub Classroom. The Canvas Orientation Quiz checks that you can find key course resources; take it after you finish reading through the Modules page so the answers are fresh. If anything in your setup is broken, bring it to Wednesday's setup clinic or post in the Help board now, before Week 01 begins.</p>
+<p>Completing the GitHub Repo Setup deliverable this week is the prerequisite for every lab in the course — all labs are submitted as pushes to the GitHub repository created for you through the course repo request page. The Canvas Orientation Quiz checks that you can find key course resources; take it after you finish reading through the Modules page so the answers are fresh. If anything in your setup is broken, bring it to Wednesday's setup clinic or post in the Help board now, before Week 01 begins.</p>
 </body>
 </html>

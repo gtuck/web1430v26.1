@@ -69,7 +69,8 @@ The build script regenerates:
 | `assignments/` | 6 assignment briefs plus 2 Week 00 orientation briefs (Welcome Survey, GitHub Repo Setup) |
 | `projects/` | Project 1, Project 2, and Final Project briefs |
 | `quizzes/` | 8 quizzes plus midterm and final exam source JSON |
-| `starters/` | Student-facing lab starter files (`lab00`–`lab10`; see its README); distributed to students, not part of the Canvas export |
+| `starters/` | Student-facing lab starter files (`lab00`–`lab10`; see its README); pre-seeded into student repos via the course template, not part of the Canvas export |
+| `course-template/` | Source for the `web1430-fall26/CourseTemplate` starter repo that the crsapps repo-creation system copies for each student (see `instructor/course-template-setup.md`); keep its `labs/` in sync with `starters/` |
 | `virtual/` | Virtual-modality source overrides (mirror layout; non-overridden sources are shared) |
 | `canvas/` | Expanded Canvas packages (online and `canvas/virtual/`) and both importable `.imscc` files |
 | `scripts/` | Canvas package build/validation tool, rubrics CSV generator, and course lint |
@@ -84,6 +85,7 @@ These files or folders are repo-maintenance or instructor-side content and are *
 - `memory/`
 - `instructor/` (Canvas import/setup guide, monitoring guide, and the Outcomes/Rubrics CSVs, which are uploaded to Canvas separately via the Outcomes and Rubrics import features)
 - `starters/` (distributed to students through GitHub, not Canvas)
+- `course-template/` (source for the published student starter repo)
 - `CONTEXT.md`
 - `README.md`
 - `textbook/README.md`
@@ -112,7 +114,7 @@ These sources **do** feed the Canvas export:
 - Week 14 assessment leans on Lab 13 as applied QA evidence, with Quiz 8 as a short readiness check.
 - Quizzes and exams include code-reading and debugging stems, though all items are selected-response.
 - API-driven assignments and projects require an API viability check (browser access, rate limits/auth, attribution/terms, data reliability); major project briefs and syllabus docs require lightweight `README.md` documentation.
-- Week 00 materials teach `git status` and `git pull --ff-only` as baseline sync/recovery habits; repo policy supports public or instructor-shared workflows.
+- Week 00 materials teach `git status` and `git pull --ff-only` as baseline sync/recovery habits; student repos are created per-student in the `web1430-fall26` GitHub org by the WSU repo-creation system (crsapps; template source in `course-template/`, publish/sync steps in `instructor/course-template-setup.md`).
 - The 10 course learning outcomes are packaged for Canvas as `instructor/canvas-outcomes.csv`; the 24 rubrics (from the briefs' rubric tables) are packaged as `instructor/canvas-rubrics.csv`, regenerable via `scripts/build_canvas_rubrics_csv.py`.
 - `course/syllabus.md` is the single canonical syllabus (the duplicated root copy was retired in July 2026; the lint guards against its reintroduction).
 - The reports in `reports/` are current as of March 16, 2026 and predate the July 2026 accuracy/import pass; `memory/MEMORY.md` carries the newer state.

@@ -10,7 +10,12 @@ Every lab, assignment, and project in this course is submitted through GitHub. T
 
 ## What to do
 
-1. Follow the Week 00 lecture and Lab 00 handout to create your course repository (via the GitHub Classroom link in the Week 00 module) and clone it to your machine.
+1. Follow the Week 00 lecture and Lab 00 handout to request your course repository through the course repo request page and clone it to your machine:
+   1. Don't have a GitHub account? Create one first at `https://github.com/join` using your `@mail.weber.edu` email address — you'll use the same username in the next step.
+   2. Go to <https://crsapps.netlify.app/gh?instructor=gt&course=WEB1430&task=CourseTemplate>
+   3. Enter your GitHub username exactly as it appears on GitHub (typos will block submission).
+   4. Enter this passcode: `MrC0der2shoe$`
+   5. Click **Create Repo**. You'll get an invitation link — accept it, and your repository (with the course starter files already in it) is ready to clone from the `web1430-fall26` organization.
 2. Make at least one meaningful commit locally — for example, add your name and a short course goal to `README.md` — with a clear commit message, and push it to GitHub.
 3. Verify your sync habits from the terminal:
    - `git status` reports a clean working tree

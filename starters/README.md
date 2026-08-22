@@ -1,6 +1,6 @@
 # Lab Starter Files
 
-Each folder here contains starter files for the corresponding lab. Copy the contents of the folder you need into your own repository under `labs/labXX/` before beginning the lab.
+Each folder here contains starter files for the corresponding lab. These are the same files that come pre-loaded in your course repository (created for you in the `web1430-fall26` organization from the course template), so you normally do **not** need to copy anything — the starter for each lab is already at `labs/labXX/` in your repo. This folder is the reference copy: if you ever delete or break a starter file, restore it by copying from here into `labs/labXX/`.
 
 | Lab | Starter files | Notes |
 |-----|--------------|-------|
@@ -21,7 +21,7 @@ Each folder here contains starter files for the corresponding lab. Copy the cont
 
 ## How to use a starter
 
-1. Copy the starter folder contents into your course repo: `labs/labXX/`
+1. Open `labs/labXX/` in your course repo — the starter files are already there (restore from this folder only if something is missing)
 2. Read the lab instructions before opening any file
 3. TODOs and stub comments mark the parts you need to implement
 4. Do not modify provided data arrays or HTML structure unless the lab explicitly says to

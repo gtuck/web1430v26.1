@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lab 06 – Campus Services</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main>
+    <h1>Campus Services</h1>
+
+    <!-- ─── Accordion FAQ ──────────────────────────────────────── -->
+    <section class="faq">
+      <h2>Frequently Asked Questions</h2>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false" aria-controls="faq-answer-1">
+          How do I register for classes?
+        </button>
+        <div class="faq-answer" id="faq-answer-1" hidden>
+          <p>Log in to the student portal at my.weber.edu and navigate to the Registration tab. Search for courses by subject, instructor, or CRN number.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false" aria-controls="faq-answer-2">
+          Where is the financial aid office?
+        </button>
+        <div class="faq-answer" id="faq-answer-2" hidden>
+          <p>The financial aid office is located in the Shepherd Union building, room 175. Hours are Monday–Friday, 8am–5pm.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false" aria-controls="faq-answer-3">
+          How do I get a parking permit?
+        </button>
+        <div class="faq-answer" id="faq-answer-3" hidden>
+          <p>Parking permits are purchased online through the campus parking portal. Annual permits go on sale in July; semester permits are available year-round.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false" aria-controls="faq-answer-4">
+          What tutoring services are available?
+        </button>
+        <div class="faq-answer" id="faq-answer-4" hidden>
+          <p>Free tutoring is available through the Student Success Center in the Stewart Library. Book appointments online or walk in during drop-in hours.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false" aria-controls="faq-answer-5">
+          How do I access the campus Wi-Fi?
+        </button>
+        <div class="faq-answer" id="faq-answer-5" hidden>
+          <p>Connect to the "WildcatWireless" network and sign in with your W number and password. Visit IT Support in the library if you have trouble connecting.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false" aria-controls="faq-answer-6">
+          Where can I print on campus?
+        </button>
+        <div class="faq-answer" id="faq-answer-6" hidden>
+          <p>Printing is available in the library, the Shepherd Union computer labs, and most academic buildings. Each student receives a $10 print credit per semester.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── Tabbed panel ─────────────────────────────────────────── -->
+    <section class="tabs-section">
+      <h2>Campus Resources</h2>
+
+      <div class="tab-list" role="tablist" aria-label="Campus resource tabs">
+        <button role="tab" aria-selected="true"  aria-controls="panel-library" id="tab-library">Library</button>
+        <button role="tab" aria-selected="false" aria-controls="panel-gym"     id="tab-gym">Recreation Center</button>
+        <button role="tab" aria-selected="false" aria-controls="panel-dining"  id="tab-dining">Dining</button>
+      </div>
+
+      <div role="tabpanel" id="panel-library" aria-labelledby="tab-library">
+        <h3>Stewart Library</h3>
+        <p><strong>Hours:</strong> Monday–Thursday 7am–10pm · Friday 7am–6pm · Saturday 9am–6pm · Sunday 1pm–9pm</p>
+        <p>Services include printing, scanning, study rooms (book online), research consultations, and a 24-hour computer lab.</p>
+      </div>
+
+      <div role="tabpanel" id="panel-gym" aria-labelledby="tab-gym" hidden>
+        <h3>Student Recreation Center</h3>
+        <p><strong>Hours:</strong> Monday–Friday 6am–11pm · Saturday–Sunday 8am–8pm</p>
+        <p>Includes a fitness floor, indoor track, pool, climbing wall, and group fitness classes. Free with a valid student ID.</p>
+      </div>
+
+      <div role="tabpanel" id="panel-dining" aria-labelledby="tab-dining" hidden>
+        <h3>Campus Dining</h3>
+        <p><strong>The Marketplace (Shepherd Union):</strong> Monday–Friday 7am–8pm · Weekends 10am–6pm</p>
+        <p><strong>The Grill (Student Services Building):</strong> Monday–Friday 8am–3pm</p>
+        <p>Meal plans are available through Student Services. Dining dollars can be added to your Wildcat Card at any time.</p>
+      </div>
+    </section>
+  </main>
+
+  <script src="lab06.js" defer></script>
+</body>
+</html>

@@ -8,7 +8,7 @@ This course is designed around Weber State's current catalog description for **W
 
 - 3 credit hours
 - Fully online, asynchronous delivery in Canvas
-- GitHub repository workflow (public or instructor-shared, depending on section requirements)
+- GitHub repository workflow (a personal repository is created for each student in the course's `web1430-fall26` GitHub organization and shared with the instructor)
 
 ## Learning outcomes
 
@@ -25,7 +25,7 @@ This course is designed around Weber State's current catalog description for **W
 
 ## Required workflow
 
-Students maintain a public or instructor-shared GitHub repository for labs, assignments, and projects. Each major submission includes:
+Students maintain a course GitHub repository — created for them in the course's `web1430-fall26` GitHub organization during Week 00 — for labs, assignments, and projects. Each major submission includes:
 - source code
 - a live deployment link
 - a short design or technical rationale
