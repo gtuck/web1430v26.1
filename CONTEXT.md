@@ -70,7 +70,7 @@ The build script regenerates:
 | `projects/` | Project 1, Project 2, and Final Project briefs |
 | `quizzes/` | 8 quizzes plus midterm and final exam source JSON |
 | `starters/` | Student-facing lab starter files (`lab00`–`lab10`; see its README); pre-seeded into student repos via the course template, not part of the Canvas export |
-| `course-template/` | Source for the `web1430-fall26/CourseTemplate` starter repo that the crsapps repo-creation system copies for each student (see `instructor/course-template-setup.md`); keep its `labs/` in sync with `starters/` |
+| `course-template/` | Source for the `web1430-fall26/course-template` starter repo that the crsapps repo-creation system copies for each student (see `instructor/course-template-setup.md`); keep its `labs/` in sync with `starters/` |
 | `virtual/` | Virtual-modality source overrides (mirror layout; non-overridden sources are shared) |
 | `canvas/` | Expanded Canvas packages (online and `canvas/virtual/`) and both importable `.imscc` files |
 | `scripts/` | Canvas package build/validation tool, rubrics CSV generator, and course lint |
