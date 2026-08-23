@@ -1,0 +1,38 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>Week 10 Studio Notes: Preference Panel Studio and Proposal Workshop</title>
+<meta name="identifier" content="ia3027b3838b4ac7c62a6b11c45ab48e5"/>
+<meta name="workflow_state" content="active"/>
+</head>
+<body>
+<h1>Week 10 Studio Notes: Preference Panel Studio and Proposal Workshop</h1>
+<h2>Session focus</h2>
+<p>Session 1 covered <code>localStorage</code>, <code>sessionStorage</code>, and keeping UI state in one place. Session 2 builds a preference panel that survives a reload, then workshops Project 2 proposals with particular attention to where the data comes from.</p>
+<h2>Before class</h2>
+<ul>
+<li>Decide which two or three preferences Lab 09 will persist. Fewer, done properly, beats a long list half-wired.</li>
+<li>Bring a Project 2 idea and a candidate data source.</li>
+</ul>
+<h2>Studio plan</h2>
+<ol>
+<li><strong>First visit versus returning visit (10 min).</strong> The same page in a fresh browser profile and in a returning one. Everything you store has to have a sensible default for the visit where it is absent.</li>
+<li><strong>Lab 09 preference studio (25 min).</strong> One state object, <code>JSON.stringify</code> on save, <code>JSON.parse</code> with a fallback on load. Skip the fallback once on purpose and watch what a corrupted value does to the page.</li>
+<li><strong>Project 2 proposal workshop (25 min).</strong> Pitch, then name the data: where it comes from, what shape it arrives in, and what the interface does when it is unavailable.</li>
+<li><strong>Scope check and milestone logistics (15 min).</strong> What Milestone 1 asks for and how it is graded. A scope you can finish is worth more than a scope you can describe.</li>
+</ol>
+<p>The virtual section runs this plan live, Wednesday 9:30–10:45 AM (75 minutes). The online section works the same sequence self-paced; where the plan says "the room" or "a volunteer," use the Help &amp; Questions discussion board.</p>
+<h2>Accessibility connection</h2>
+<p>Persisting preferences like font size, contrast, and reduced motion settings has direct accessibility value. If a user increases the text size for readability, that setting should survive a page reload — forcing them to re-apply it every visit is a usability barrier. When restoring state on page load, apply it before the page renders visible content (or as early as possible) to avoid a visible "flash" from default to preferred settings.</p>
+<h2>Practice prompt</h2>
+<p>Build a "reading preferences" panel with three controls:</p>
+<ul>
+<li>A <code>&lt;select&gt;</code> for font size (small, medium, large)</li>
+<li>A toggle for dark mode</li>
+<li>A toggle for hiding images</li>
+</ul>
+<p>When any control changes, save the full preferences object to <code>localStorage</code> using <code>JSON.stringify</code>. On page load, read the saved preferences and apply them immediately. Write a <code>render(prefs)</code> function that takes the preferences object and applies all three settings to the page — do not reach into the DOM from individual event handlers.</p>
+<h2>Bridge</h2>
+<p>Lab 09 builds a full preference panel using exactly this pattern — you will save and restore a preferences object across reloads. Project 2 Proposal is also due this week; the project will use both the Fetch API from Week 09 and storage from this week, so your proposal should describe what data you will fetch and what preferences or state you will persist. Quiz 6 will ask you to trace a JSON round-trip and identify what type <code>getItem</code> returns.</p>
+</body>
+</html>

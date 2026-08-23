@@ -1,12 +1,15 @@
 # Week 02 Lecture Notes: Semantic HTML, CSS Architecture, and Mobile-First Layout
 
 ## Weekly focus
+
 Writing HTML that means something and CSS that scales — starting from the smallest screen.
 
 ## Why this matters
+
 Semantic HTML is the difference between a page that works for everyone and one that only works for sighted mouse users. When you use `<nav>`, `<main>`, and `<article>` instead of nested `<div>` tags, you give browsers, search engines, and assistive technologies the information they need to do their jobs. CSS custom properties and a mobile-first approach are not just best practices — they are how production teams keep stylesheets maintainable across large projects and diverse devices.
 
 ## Learning targets
+
 - Identify and correctly apply the HTML5 landmark elements: `header`, `nav`, `main`, `section`, `article`, `aside`, `footer`, `figure`, and `figcaption`
 - Declare and use CSS custom properties (design tokens) to centralize color, spacing, and typography values
 - Write mobile-first media queries using `min-width` and explain why `min-width` is preferred over `max-width`
@@ -170,16 +173,15 @@ Quick checks:
 A common mistake is designing on a bright monitor and assuming the contrast is fine. Always verify with a tool — do not eyeball it.
 
 ## Common mistakes
+
 1. **Wrapping everything in `<section>` or `<div>`.** `<section>` is not a semantic replacement for `<div>` — it implies a distinct, titled region. If the content has no heading, use `<div>`.
 2. **Forgetting `alt` text on `<img>` inside `<figure>`.** `<figure>` and `<figcaption>` do not substitute for `alt`. The `alt` attribute on `<img>` is required for screen reader users and for when the image fails to load.
 3. **Writing `max-width` media queries when the design brief says "mobile-first."** These work, but they train you to think desktop-first. Force yourself to write base styles for small screens and layer up.
 4. **Hardcoding hex colors instead of custom properties.** When colors repeat across a stylesheet without a variable, a brand update becomes a find-and-replace hazard. Define tokens at `:root` from the start.
 5. **Using `<b>` and `<i>` for emphasis.** These are presentational. Use `<strong>` for strong importance and `<em>` for stress emphasis. Screen readers adjust their vocal tone for `<strong>` and `<em>`; they ignore `<b>` and `<i>`.
 
-## Accessibility connection
-The HTML5 landmark elements — `<header>`, `<nav>`, `<main>`, `<footer>` — expose implicit ARIA landmark roles to the browser's accessibility tree. Screen reader users can navigate directly to any landmark by pressing a shortcut key (e.g., pressing `M` in NVDA jumps to `<main>`). A page built entirely from `<div>` elements forces screen reader users to read linearly through every element to find the content they want. Using semantic elements is therefore a significant navigational aid, not just a stylistic choice.
-
 ## Demo walkthrough
+
 **Goal:** Convert a `<div>`-based page layout to semantic HTML, add CSS custom properties, and make it responsive with a single media query.
 
 1. Start with a provided `starter.html` file containing a layout built entirely from `<div class="header">`, `<div class="nav">`, `<div class="main">`, etc.
@@ -193,8 +195,8 @@ The HTML5 landmark elements — `<header>`, `<nav>`, `<main>`, `<footer>` — ex
 5. Resize the browser window. Show the layout collapsing to one column below 48rem.
 6. Open DevTools, click on the main heading's color swatch. Show the contrast ratio. If it is below 4.5:1, adjust `--color-text` until it passes.
 
-## Practice prompt
-Build a single HTML page for a fictional blog post. The page must include: a `<header>` with a site name and `<nav>`, a `<main>` containing one `<article>` with at least two paragraphs and one `<figure>` with `alt` text and a `<figcaption>`, and a `<footer>` with a copyright line. Style it with at least four CSS custom properties defined at `:root`. Add one `min-width` media query that changes the layout in a meaningful way. Verify your heading color passes WCAG AA contrast using DevTools or WebAIM.
+## Session 2: the studio
 
-## Bridge
-Assignment 1 asks you to rebuild a provided design comp as a responsive, semantic HTML/CSS page — you will apply everything in this lecture directly. Pay particular attention to the landmark structure and the mobile-first breakpoint; both are explicitly checked in the rubric. The Chapter 2 reading covers progressive enhancement in more depth, which gives the conceptual grounding behind the mobile-first rule. Read it before starting the assignment so the "why" is clear.
+The rest of this week's material lives in the studio notes — Wednesday's live session for the virtual section, and the second half of the week's work for the online section: [Week 02 Studio Notes: Layout Studio and Assignment 1 Kickoff](week-02-studio.md).
+
+Read the *Before class* list there before you start, and bring what it asks for.

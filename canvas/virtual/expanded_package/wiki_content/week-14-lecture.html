@@ -87,8 +87,6 @@ netlify deploy --dir=dist --prod</code></pre>
 <li><strong>Treating a Lighthouse score of 100 as a guarantee of accessibility.</strong> Automated tools check for detectable structural errors. They cannot tell whether alt text is meaningful, whether focus order makes logical sense, or whether a custom widget is usable with a screen reader. Manual testing is required.</li>
 <li><strong>Committing <code>node_modules/</code> to the repository.</strong> This is a common mistake on first deployments. It bloats the repository, slows clones, and can cause version conflicts. Verify <code>.gitignore</code> includes <code>node_modules/</code> before the first <code>git add</code>.</li>
 </ol>
-<h2>Accessibility connection</h2>
-<p>Lighthouse accessibility scores measure automated rule compliance, not lived experience. The goal of this week's audit is not a number — it is building the habit of checking your work against the needs of real users. Keyboard-only navigation is used by people with motor disabilities, power users, and people with broken pointing devices. Screen readers are used by people who are blind or have low vision. Both groups are part of your audience on any public web project, and building with them in mind from the start is far less work than retrofitting accessibility at the end.</p>
 <h2>Demo walkthrough</h2>
 <ol>
 <li>Open the completed Project 2 build (or the Week 12/13 card project) in Chrome.</li>
@@ -99,9 +97,8 @@ netlify deploy --dir=dist --prod</code></pre>
 <li>Run <code>npm run build</code>. Show the <code>dist/</code> folder in the file system. Serve it locally: <code>npx serve dist</code>.</li>
 <li>Add <code>gh-pages</code> to the project, add a <code>deploy</code> script, set <code>base</code> in <code>vite.config.js</code>, and run <code>npm run deploy</code>. Open the live URL.</li>
 </ol>
-<h2>Practice prompt</h2>
-<p>Run a Lighthouse audit on your Project 2. Document every Accessibility failure in a short list. Fix at least three failures. Re-run Lighthouse and screenshot the before and after scores. Then deploy the fixed build to GitHub Pages or Netlify and submit the live URL alongside your fix list.</p>
-<h2>Bridge</h2>
-<p>Lab 13 — Lighthouse, Accessibility, and Deployment walks you through this exact sequence: audit, fix, deploy, and document what changed. Quiz 8 is now a short readiness check on the core concepts behind that work: Lighthouse categories, common accessibility failures, and deployment verification steps. Project 2 final submission requires a live deployed URL, and Final Project Beta asks you to carry those same QA habits forward.</p>
+<h2>Session 2: the studio</h2>
+<p>The rest of this week's material lives in the studio notes — Wednesday's live session for the virtual section, and the second half of the week's work for the online section: <a href="$WIKI_REFERENCE$/pages/week-14-studio-notes-qa-audit-studio-and-fix-triage">Week 14 Studio Notes: QA Audit Studio and Fix Triage</a>.</p>
+<p>Read the <em>Before class</em> list there before you start, and bring what it asks for.</p>
 </body>
 </html>

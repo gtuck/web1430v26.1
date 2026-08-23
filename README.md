@@ -31,7 +31,7 @@ Recent alignment work also updated:
 - `starters/` – student-facing lab starter files (see its README for the lab-by-lab list)
 - `virtual/` – virtual-modality (synchronous Zoom section) source overrides; mirrors the base layout, everything not overridden is shared
 - `textbook/` – original textbook chapters
-- `lectures/` – weekly lecture notes
+- `lectures/` – weekly session notes: `week-NN-lecture.md` (session 1, Monday) and `week-NN-studio.md` (session 2, Wednesday)
 - `modules/` – weekly overview pages
 - `labs/` – lab handouts
 - `assignments/` – assignment briefs

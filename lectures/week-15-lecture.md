@@ -1,12 +1,15 @@
 # Week 15 Lecture Notes: Project Storytelling, Portfolio Readiness, and Next Steps
 
 ## Weekly focus
+
 How to present your project work, what makes a portfolio visible to employers, and where to go from here.
 
 ## Why this matters
+
 Technical skill without communication is invisible. Employers reviewing front-end portfolios spend less than two minutes on each project before deciding whether to read further. A clear README, a coherent commit history, and the ability to explain your technical decisions out loud are what separate candidates who get interviews from candidates who do not. This week is about translating the work you have already done into evidence of capability.
 
 ## Learning targets
+
 - Articulate what problem a project solves, what technical decisions were made, and what trade-offs were accepted
 - Write a project README that communicates purpose, setup instructions, and design decisions to a technical reader
 - Evaluate a GitHub repository's commit history as a professional signal and identify what makes it strong or weak
@@ -129,10 +132,8 @@ The web platform changes continuously. Some practices that stay relevant:
 
 5. **Waiting until you feel "ready" to apply or share work.** Entry-level portfolios are not expected to look like senior work. Apply early, share work in progress, and treat rejections as data rather than verdicts.
 
-## Accessibility connection
-Accessibility is not a feature you add to a project before you ship it — it is a lens you apply throughout. If your portfolio itself is inaccessible (low contrast, missing alt text on project screenshots, no keyboard navigation), it undercuts any claim that you value accessible development. Audit your portfolio site with Lighthouse and fix the failures. It takes less than an hour and sends a clear signal to any employer who notices.
-
 ## Demo walkthrough
+
 This week's demo is a portfolio review exercise rather than a code demonstration. Walk through the following:
 
 1. Open a student project (with permission) or a sample repository on GitHub.
@@ -142,8 +143,8 @@ This week's demo is a portfolio review exercise rather than a code demonstration
 5. Run Lighthouse on the live URL. Look at the Accessibility score. Click into the failures.
 6. Write a two-sentence project description that leads with the problem, not the technology.
 
-## Practice prompt
-Write a README for your Final Project using the template structure from this week's notes. Include a live URL, a feature list written from the user's perspective, a brief explanation of two technical decisions you made and why, and one thing you would do differently with more time. Bring the README to the Final Studio session for peer feedback, or post it in **Help & Questions** if you would like written comments before the deadline.
+## Session 2: the studio
 
-## Bridge
-The Final Studio session is unstructured work time — bring your project, your README draft, and specific questions. The Final Exam covers concepts from the full semester; review the learning targets from each week's lecture notes. The Course Reflection asks five questions: what you built, the hardest technical problem you solved, what you would do differently, what "accessible" means to you now that it didn't in Week 1, and what you are most proud of. Connecting each answer to specific decisions and specific code is what separates a strong reflection from a generic one.
+The rest of this week's material lives in the studio notes — Wednesday's live session for the virtual section, and the second half of the week's work for the online section: [Week 15 Studio Notes: Final Studio — Demos, Reflection, and Next Steps](week-15-studio.md).
+
+Read the *Before class* list there before you start, and bring what it asks for.

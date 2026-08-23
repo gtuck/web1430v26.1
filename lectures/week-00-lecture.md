@@ -1,12 +1,15 @@
 # Week 00 Lecture Notes: Online Learning, Canvas, GitHub, and the Course Toolchain
 
 ## Weekly focus
+
 Getting every student to the same starting line: tools installed, accounts connected, and the weekly rhythm understood before a single line of code is written.
 
 ## Why this matters
+
 In a fully online course, the toolchain *is* the classroom. If your editor, terminal, and GitHub account are not working together from day one, every subsequent lab becomes a debugging session about setup rather than about web development. This week removes that friction so the rest of the semester can move quickly. The habits you build now — committing early, reading Canvas announcements, checking due dates on Sunday — compound over 16 weeks.
 
 ## Learning targets
+
 - Navigate Canvas to find weekly modules, the syllabus, assignment rubrics, and the discussion board
 - Install and configure VS Code with the recommended extensions for this course
 - Create a GitHub account and explain the difference between Git (local version control) and GitHub (remote hosting)
@@ -148,6 +151,7 @@ This course has a **Help & Questions** discussion board in Canvas. Post there be
 Other students can answer, which benefits everyone. The instructor checks the board at least once per business day.
 
 ## Common mistakes
+
 1. **Skipping the Modules view.** Students who navigate Canvas by clicking dashboard tiles miss hidden links and submission instructions buried in module pages.
 2. **Committing without a message.** Running `git commit` without `-m "..."` drops you into a terminal text editor (Vim). If this happens, type `:q!` and press Enter to exit, then re-run with the `-m` flag.
 3. **Editing files directly on GitHub.com instead of locally.** This can create a diverged history. If it happens, stop, run `git status`, then `git pull --ff-only` before making more changes locally.
@@ -155,10 +159,8 @@ Other students can answer, which benefits everyone. The instructor checks the bo
 5. **Confusing the repo URL formats.** GitHub shows both HTTPS and SSH clone URLs. Use HTTPS unless you have set up an SSH key — the HTTPS URL starts with `https://github.com/`.
 6. **Trying random Git commands after a rejected push.** In this course, your first recovery move should usually be `git status`, not guessing.
 
-## Accessibility connection
-Accessible online course design starts with the instructor, but students benefit from understanding it too. Canvas pages use heading structure, alt text on images, and sufficient color contrast — pay attention to how well-structured documents help you navigate faster, because you will apply the same principles to your own HTML pages starting in Week 02. Screen reader users and keyboard-only users depend on that structure.
-
 ## Demo walkthrough
+
 **Goal:** Clone the starter repo, make one small change, and push it back to GitHub — in under 10 minutes.
 
 1. Request your repository through the course repo request page (see "Cloning the course starter repo" above) and accept the invitation. Note the URL of your new repository in the `web1430-fall26` organization.
@@ -181,8 +183,8 @@ Accessible online course design starts with the instructor, but students benefit
    ```
    Confirm that the working tree is clean and your local repo is in sync with GitHub.
 
-## Practice prompt
-Open VS Code and create a new folder called `week-00-practice` on your Desktop. Inside it, create a file called `notes.txt` and type three things you want to learn in this course. Initialize a Git repository in that folder (`git init`), stage the file, commit it with a descriptive message, and inspect the log with `git log --oneline`. You do not need to push this one — the goal is to practice the local commit cycle without a remote repository.
+## Session 2: the studio
 
-## Bridge
-Completing the GitHub Repo Setup deliverable this week is the prerequisite for every lab in the course — all labs are submitted as pushes to the GitHub repository created for you through the course repo request page. The Canvas Orientation Quiz checks that you can find key course resources; take it after you finish reading through the Modules page so the answers are fresh. If anything in your setup is broken, post in the Help board now, before Lab 01 opens Monday.
+The rest of this week's material lives in the studio notes — Wednesday's live session for the virtual section, and the second half of the week's work for the online section: [Week 00 Studio Notes: Setup Clinic and First Push](week-00-studio.md).
+
+Read the *Before class* list there before you start, and bring what it asks for.

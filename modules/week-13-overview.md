@@ -4,17 +4,19 @@
 - Theme: Framework Forms and Data Flow
 - Lecture: Component Communication, Reactive Forms, and Derived State
 - Lab: Lab 12 – Small Data Dashboard
+- Studio: Dashboard Studio and Milestone Revision
 - Deliverables: Assignment 6, Final Project Revised Wireframe and Data Plan, Vue and Workload Pulse Check
 
 ## Success plan
 1. Read the module overview and chapter
-2. Work through lecture notes
-3. Complete the lab or studio activity
+2. Work through the Session 1 lecture notes
+3. Complete the lab, then work the Session 2 studio plan
 4. Finish the weekly assessment or milestone
 5. Commit and deploy your work
 
 ## Resources
 - [Lecture notes: Component Communication, Reactive Forms, and Derived State](../lectures/week-13-lecture.md)
+- [Studio notes: Dashboard Studio and Milestone Revision](../lectures/week-13-studio.md)
 - [Chapter 12: Introductory Component-Based Development](../textbook/chapters/chapter-12-introductory-component-based-development.md) (continued)
 - [Chapter 13: Accessibility Synthesis](../textbook/chapters/chapter-13-accessibility-synthesis.md) — **finish the second half** (focus management, `prefers-reduced-motion`, and the 3-minute manual audit checklist); you read the WCAG and ARIA-pattern sections in Week 12
 - [Vue Transition Guide](../course/vue-transition-guide.md) — Use the parent/child event checklist before debugging your entire app.

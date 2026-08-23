@@ -82,8 +82,6 @@ document.querySelectorAll(&#x27;p&#x27;).length  // counts paragraph elements</c
 <li><strong>Ignoring the Console.</strong> Many students open DevTools to inspect elements but never look at the Console. Any JavaScript error — including errors from browser extensions — appears there. Clear it before debugging your own code.</li>
 <li><strong>Conflating HTTP status 200 with "the page works."</strong> A 200 response means the server returned something — but it could be an error page served as HTML. Always read the response body in the Network tab, not just the status code.</li>
 </ol>
-<h2>Accessibility connection</h2>
-<p>The DOM tree that the browser builds from your HTML is the same structure that screen readers traverse to announce page content to users who cannot see the screen. If your HTML is not semantic — for example, if you build a navigation list out of <code>&lt;div&gt;</code> tags instead of <code>&lt;nav&gt;</code> and <code>&lt;ul&gt;</code> — the DOM still exists but carries no meaning for assistive technologies. Understanding the DOM as a tree (not just a visual layout) is the foundation for writing accessible markup starting next week.</p>
 <h2>Demo walkthrough</h2>
 <p><strong>Goal:</strong> Use DevTools to watch a page load and trace exactly what happens.</p>
 <ol>
@@ -96,15 +94,8 @@ document.querySelectorAll(&#x27;p&#x27;).length  // counts paragraph elements</c
 <li>Double-click the text inside <code>&lt;h1&gt;</code> in the Elements panel and change it. Show that the page updates but refreshing reverts it ("this is DOM editing, not file editing").</li>
 <li>Open a new tab, navigate to any page with a <code>&lt;script&gt;</code> tag in <code>&lt;head&gt;</code>. View page source (<code>Ctrl+U</code>) and find the script tag. Return to DevTools, Network tab, and show the script request in the waterfall — point out if it appears before CSS finishes loading.</li>
 </ol>
-<h2>Practice prompt</h2>
-<p>Pick any public website you visit regularly. Open DevTools and go to the Network tab. Reload the page. Answer these questions in writing (a text file or Canvas journal entry):</p>
-<ul>
-<li>How many total requests were made?</li>
-<li>What was the size of the initial HTML document?</li>
-<li>Did any requests return a non-200 status code? If so, what were they?</li>
-<li>Can you find a <code>&lt;script&gt;</code> tag in the Elements panel? Does it have <code>defer</code> or <code>async</code>?</li>
-</ul>
-<h2>Bridge</h2>
-<p>Lab 01 – Inspecting the Web asks you to use the Network and Elements tabs to document the load behavior of an assigned page — exactly the skills practiced in the demo and practice prompt above. Quiz 1 covers the request/response cycle, render-blocking, and the difference between <code>defer</code> and <code>async</code>; re-read the script placement section before taking it. Bring any DevTools questions to the Help board before the Sunday deadline.</p>
+<h2>Session 2: the studio</h2>
+<p>The rest of this week's material lives in the studio notes — Wednesday's live session for the virtual section, and the second half of the week's work for the online section: <a href="$WIKI_REFERENCE$/pages/week-01-studio-notes-devtools-inspection-studio">Week 01 Studio Notes: DevTools Inspection Studio</a>.</p>
+<p>Read the <em>Before class</em> list there before you start, and bring what it asks for.</p>
 </body>
 </html>

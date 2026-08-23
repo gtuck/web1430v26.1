@@ -203,10 +203,6 @@ Traversal is useful inside event handlers when `event.target` gives you a child 
 5. **Giving buttons `role="tab"` without adding arrow-key navigation.** ARIA roles are a promise about behaviour. If you claim `role="tablist"` you owe the user roving tabindex and arrow keys; if you are not going to implement that, use plain buttons with no roles and the widget is honest about what it is.
 6. **Reading `dataset` values as numbers without converting.** `dataset.productId === 42` is always `false` because `dataset` returns strings. Always convert: `Number(btn.dataset.productId) === 42`.
 
-## Accessibility connection
-
-`classList.toggle` is the right tool for show/hide patterns (accordions, modals, navigation menus), but toggling a CSS class is invisible to screen readers unless you also update ARIA state. When you toggle `is-open` on a nav, pair it with `setAttribute("aria-expanded", true/false)` on the button that controls it. Similarly, when you use `createElement` to render dynamic content, apply semantic elements (`<article>`, `<ul>`, `<button>`) rather than generic `<div>` tags — screen readers use those semantics to describe the page structure to non-visual users.
-
 ## Demo walkthrough
 
 **Demo: Render and Filter a Product List**
@@ -219,10 +215,8 @@ Traversal is useful inside event handlers when `event.target` gives you a child 
 6. In DevTools, show the Elements panel updating live as the filter runs. Point out the `data-product-id` attributes.
 7. Deliberately set `el.innerHTML = "<img src=x onerror=alert('XSS')>"` in the console to demonstrate why `textContent` is safer.
 
-## Practice prompt
+## Session 2: the studio
 
-Build a page with a `<ul id="task-list"></ul>` and an `<input>`/`<button>` for adding tasks. Write an `addTask(text)` function that creates a `<li>` with the task text and a "Done" button. When "Done" is clicked, toggle a `.completed` CSS class on the `<li>` (style it with strikethrough in your CSS). Add a `data-created` attribute to each `<li>` storing the timestamp of when it was added (`Date.now()`). Log the timestamp to the console when the "Done" button is clicked.
+The rest of this week's material lives in the studio notes — Wednesday's live session for the virtual section, and the second half of the week's work for the online section: [Week 06 Studio Notes: FAQ, Tabs, and Keyboard Testing Studio](week-06-studio.md).
 
-## Bridge
-
-Lab 06 asks you to build an interactive FAQ and tabs interface — both require `classList.toggle` for show/hide and `querySelector` for finding the right panel to reveal, and the tabs need the roving-tabindex pattern from this lecture. Assignment 3 grades that arrow-key behaviour directly, so get it working in the lab first. Assignment 3 will have you render a data array into the DOM, which is exactly the `renderProducts` pattern from the demo. As you work, keep rendering and data logic in separate functions — that separation will make Assignment 3 much easier to debug and extend.
+Read the *Before class* list there before you start, and bring what it asks for.

@@ -1,0 +1,35 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>Week 00 Studio Notes: Setup Clinic and First Push</title>
+<meta name="identifier" content="i2c0a31ed313d1af435d2f55dc56f67fe"/>
+<meta name="workflow_state" content="active"/>
+</head>
+<body>
+<h1>Week 00 Studio Notes: Setup Clinic and First Push</h1>
+<h2>Session focus</h2>
+<p>Session 1 explained how the course runs and what the toolchain is for. Session 2 makes it run on your machine. Nobody should leave this session without a working editor, a working terminal, and a commit they can see on github.com.</p>
+<h2>Before class</h2>
+<ul>
+<li>Attempt Lab 00 steps 1–4 on your own first. Getting stuck is fine — getting stuck <em>before</em> the studio is what makes the clinic useful.</li>
+<li>Copy the exact text of any error you hit into a note. "It didn't work" cannot be debugged; an error message can.</li>
+<li>Have VS Code and a terminal open and ready to share.</li>
+</ul>
+<h2>Studio plan</h2>
+<ol>
+<li><strong>Version check (10 min).</strong> Run <code>node -v</code>, <code>npm -v</code>, <code>git --version</code>, and confirm each meets the Lab 00 minimums. Comparing version strings across the room finds the outliers in two minutes instead of two days.</li>
+<li><strong>Install triage (15 min).</strong> Work the three failure clusters that account for most setup problems: Windows not finding <code>node</code> on the PATH, macOS prompting for the Xcode command line tools, and Git missing <code>user.name</code> or <code>user.email</code>.</li>
+<li><strong>Clone and open (10 min).</strong> Clone the course starter repository and open the folder in VS Code. Confirm your file tree matches everyone else's before going further.</li>
+<li><strong>First push, verified (20 min).</strong> Edit one file, then <code>git add</code>, <code>git commit -m</code>, <code>git push</code>. Reload your repository page on github.com and see the change. The verification step is the point: a commit you cannot see on the web has not been submitted.</li>
+<li><strong>Recovery drill (10 min).</strong> Deliberately create a "your branch is behind" state, read what <code>git status</code> says about it, and fix it with <code>git pull --ff-only</code>. You will hit this again; recognizing it costs a minute, guessing at it costs an evening.</li>
+<li><strong>Submission walkthrough (10 min).</strong> Where the Lab 00 screenshot goes, how the Welcome Survey and Canvas Orientation Quiz are submitted, and where the Help &amp; Questions board lives.</li>
+</ol>
+<p>The virtual section runs this plan live, Wednesday 9:30–10:45 AM (75 minutes). The online section works the same sequence self-paced; where the plan says "the room" or "a volunteer," use the Help &amp; Questions discussion board.</p>
+<h2>Accessibility connection</h2>
+<p>Accessible online course design starts with the instructor, but students benefit from understanding it too. Canvas pages use heading structure, alt text on images, and sufficient color contrast — pay attention to how well-structured documents help you navigate faster, because you will apply the same principles to your own HTML pages starting in Week 02. Screen reader users and keyboard-only users depend on that structure.</p>
+<h2>Practice prompt</h2>
+<p>Open VS Code and create a new folder called <code>week-00-practice</code> on your Desktop. Inside it, create a file called <code>notes.txt</code> and type three things you want to learn in this course. Initialize a Git repository in that folder (<code>git init</code>), stage the file, commit it with a descriptive message, and inspect the log with <code>git log --oneline</code>. You do not need to push this one — the goal is to practice the local commit cycle without a remote repository.</p>
+<h2>Bridge</h2>
+<p>Completing the GitHub Repo Setup deliverable this week is the prerequisite for every lab in the course — all labs are submitted as pushes to the GitHub repository created for you through the course repo request page. The Canvas Orientation Quiz checks that you can find key course resources; take it after you finish reading through the Modules page so the answers are fresh. If anything in your setup is broken, post in the Help board now, before Lab 01 opens Monday.</p>
+</body>
+</html>

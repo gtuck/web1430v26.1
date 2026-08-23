@@ -1,12 +1,15 @@
 # Week 13 Lecture Notes: Component Communication, Reactive Forms, and Derived State
 
 ## Weekly focus
+
 Making components talk to each other: passing data down with props, sending events up with `defineEmits`, and managing form state with `v-model`.
 
 ## Why this matters
+
 A component that cannot communicate with other components is an island. Real applications are networks of components that share state and respond to each other's actions. Understanding the props-down/events-up pattern is the mental model that transfers directly to React (props + callbacks), Svelte (props + dispatched events), and every other component framework you will encounter. Getting this pattern right also keeps components testable and reusable.
 
 ## Learning targets
+
 - Use `defineEmits` in a child component to declare and emit a named event to a parent
 - Apply the props-down/events-up pattern to move data up the component tree
 - Bind form inputs with `v-model` and explain how it differs from manually wiring `:value` and `@input`
@@ -189,10 +192,8 @@ A component that does too much becomes hard to debug and impossible to reuse. A 
 
 5. **Skipping `nextTick` when programmatically focusing an element.** The DOM is not updated synchronously after reactive state changes. Always await `nextTick()` before querying or manipulating a DOM element that depends on that state change.
 
-## Accessibility connection
-Form labels are not optional. Every `<input>` needs an associated `<label>` — either wrapping the input or connected via matching `for` and `id` attributes. `v-model` handles the binding of data but does nothing for label association. When you disable a submit button with `:disabled="!isValid"`, some screen readers will not announce why the button is disabled; consider adding a visible or visually-hidden explanation near the form. Focus management with `nextTick` is not just a convenience — it is essential for users navigating a multi-step form by keyboard, because they need focus to land in the right place after each step transition.
-
 ## Demo walkthrough
+
 1. Start from the card project built in Week 12.
 2. Add a `SearchBar.vue` component with a single text `<input>`. Wire it as a controlled component: accept `modelValue` as a prop and emit `update:modelValue` on input so the parent can use `v-model` on it.
 3. In `App.vue`, add `const searchQuery = ref('')` and bind `v-model="searchQuery"` to `SearchBar`.
@@ -201,8 +202,8 @@ Form labels are not optional. Every `<input>` needs an associated `<label>` — 
 6. Add a "Delete" button inside `CardItem.vue`. Use `defineEmits(['delete'])` and emit the card's `id`. In the parent, handle `@delete` and splice the item from the array.
 7. Add a small form (two fields, submit button) that pushes a new card object onto `cards`. Use `reactive()` for the form fields. Show the computed list reactively includes the new item after submission and the filtered list updates immediately.
 
-## Practice prompt
-Build a `CommentForm.vue` component with `reactive()` fields for `author` and `body`. Use a `computed()` to determine form validity (both fields non-empty, body at least 10 characters). Display a live character count below the body field derived from `form.body.length`. Emit a `submit` event to the parent with the form data when the user submits. In the parent, push each submitted comment onto an array and render the list below the form.
+## Session 2: the studio
 
-## Bridge
-Lab 12 — Small Data Dashboard has you build a filterable, sortable list with components communicating through props and events — the exact pattern from today's demo. Assignment 6 — Reactive Form Workflow applies the same pattern at a larger scale: a parent that owns the workflow state, three input steps that validate locally and emit upward, and a review step that receives everything as props. Before you write any of it, sketch which component owns which piece of state and what each step emits. That diagram takes five minutes and saves hours of debugging.
+The rest of this week's material lives in the studio notes — Wednesday's live session for the virtual section, and the second half of the week's work for the online section: [Week 13 Studio Notes: Dashboard Studio and Milestone Revision](week-13-studio.md).
+
+Read the *Before class* list there before you start, and bring what it asks for.

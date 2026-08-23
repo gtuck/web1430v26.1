@@ -1,0 +1,32 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>Week 12 Studio Notes: Card System Studio and Pitch Workshop</title>
+<meta name="identifier" content="iacd8003f384bd8285b34bb7de113964a"/>
+<meta name="workflow_state" content="active"/>
+</head>
+<body>
+<h1>Week 12 Studio Notes: Card System Studio and Pitch Workshop</h1>
+<h2>Session focus</h2>
+<p>Session 1 built a first parent and child Vue pair. Session 2 builds the Lab 11 card system, checks in on Project 2 builds, and workshops Final Project pitches — you should leave with a real audience in mind and a draft data model.</p>
+<h2>Before class</h2>
+<ul>
+<li>Have the Lab 11 starter running with <code>npm run dev</code>.</li>
+<li>Write one sentence naming who your Final Project is for. Not "students" — a specific person with a specific problem.</li>
+</ul>
+<h2>Studio plan</h2>
+<ol>
+<li><strong>Props flowing down (10 min).</strong> One component, three different prop sets, rendered side by side. <code>defineProps</code> is the entire contract between parent and child; read it as documentation.</li>
+<li><strong>Lab 11 card studio (25 min).</strong> <code>v-for</code> a data array into card components, keyed correctly, with <code>computed()</code> doing the formatting rather than the template.</li>
+<li><strong>Project 2 build check-ins (15 min).</strong> Short reviews of running builds. Deployed or <code>localhost</code> is fine; screenshots are not.</li>
+<li><strong>Final Project pitch workshop (25 min).</strong> Pitch in one sentence: who it is for, what they can do with it, what data it needs. The room asks the questions the rubric will ask later, while there is still time to answer them.</li>
+</ol>
+<p>The virtual section runs this plan live, Wednesday 9:30–10:45 AM (75 minutes). The online section works the same sequence self-paced; where the plan says "the room" or "a volunteer," use the Help &amp; Questions discussion board.</p>
+<h2>Accessibility connection</h2>
+<p>The <code>&lt;style scoped&gt;</code> feature does not affect the semantic structure of your HTML. A card component that uses a <code>&lt;div&gt;</code> for its container is still a <code>&lt;div&gt;</code> after scoping. Choose semantic elements — <code>&lt;article&gt;</code>, <code>&lt;section&gt;</code>, <code>&lt;h2&gt;</code> — inside each component, because the compiled output is what assistive technology reads. When using <code>v-for</code> to render images, the <code>:alt</code> binding must be dynamic so each image gets a meaningful, unique description rather than a repeated empty or placeholder value.</p>
+<h2>Practice prompt</h2>
+<p>Create a <code>TagBadge.vue</code> component that accepts a <code>label</code> prop (String) and a <code>color</code> prop (String, default <code>&#x27;blue&#x27;</code>). In <code>App.vue</code>, declare an array of five tag objects and render them with <code>v-for</code>. Add a button that appends a new tag to the array and confirm that Vue re-renders the list without a page reload.</p>
+<h2>Bridge</h2>
+<p>Lab 11 — Vue UI Card System asks you to build a card display driven by a data array, which is exactly the <code>v-for</code> + component pattern from today. Quiz 7 covers <code>ref()</code>, <code>computed()</code>, <code>v-for</code>, and <code>defineProps</code>. Project 2 Build begins this week; the card system you build in the lab is a direct starting point for the project's component layer.</p>
+</body>
+</html>

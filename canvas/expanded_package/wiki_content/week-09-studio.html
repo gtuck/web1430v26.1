@@ -1,0 +1,39 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>Week 09 Studio Notes: API Viewer Studio and Response-Shape Clinic</title>
+<meta name="identifier" content="i1ca0b7bdd317660fda6283c95f812768"/>
+<meta name="workflow_state" content="active"/>
+</head>
+<body>
+<h1>Week 09 Studio Notes: API Viewer Studio and Response-Shape Clinic</h1>
+<h2>Session focus</h2>
+<p>Session 1 covered promises, <code>async</code>/<code>await</code>, and the four states every network request puts an interface through. Session 2 builds against a real API in the Lab 08 studio and runs a clinic on what actually goes wrong: the response is not shaped the way you assumed it would be.</p>
+<h2>Before class</h2>
+<ul>
+<li>Pick the API you plan to use for Assignment 4 and fetch one response in the browser address bar.</li>
+<li>Skim that JSON. You do not need to understand all of it — you need to know how deep the data you want is buried.</li>
+</ul>
+<h2>Studio plan</h2>
+<ol>
+<li><strong>Four states, drawn (10 min).</strong> Loading, error, empty, success. Sketch what your interface shows in each one before writing the fetch. Code that starts from four states rarely forgets one.</li>
+<li><strong>Lab 08 viewer studio (25 min).</strong> <code>await fetch</code>, check <code>response.ok</code>, <code>try</code>/<code>catch</code>/<code>finally</code>, then render. In that order — the check before the render is what turns a blank page into a message.</li>
+<li><strong>Response-shape clinic (25 min).</strong> Bring a response you cannot get at. We log it, walk the nesting together, and find the path. Most "the API is broken" bugs are one array index deep.</li>
+<li><strong>Assignment 4 viability check (15 min).</strong> Run the check live: does it return JSON, does it work without a key or with one you can safely use, and does it carry enough data to tell a story?</li>
+</ol>
+<p>The virtual section runs this plan live, Wednesday 9:30–10:45 AM (75 minutes). The online section works the same sequence self-paced; where the plan says "the room" or "a volunteer," use the Help &amp; Questions discussion board.</p>
+<h2>Accessibility connection</h2>
+<p>Asynchronous content updates are one of the most common accessibility failures in modern web apps. When a fetch completes and new content appears, sighted users see it instantly — but screen reader users receive no notification unless you explicitly mark regions with <code>aria-live</code>. Error messages are equally important: an error that appears visually but is never announced leaves keyboard-only and screen reader users unable to understand why their action failed.</p>
+<h2>Practice prompt</h2>
+<p>Using the <a href="https://dog.ceo/api/breeds/image/random">Dog CEO API</a> or the <a href="https://jsonplaceholder.typicode.com/posts">JSONPlaceholder API</a>, build a small page with:</p>
+<ul>
+<li>A button that triggers a <code>fetch()</code> call</li>
+<li>A loading state displayed while the request is in flight</li>
+<li>The result rendered to the DOM on success</li>
+<li>An error message rendered to the DOM on failure (test it by mistyping the URL)</li>
+<li>An <code>aria-live</code> region that announces status changes</li>
+</ul>
+<h2>Bridge</h2>
+<p>Lab 08 has you build a full API-powered viewer using this week's patterns — you will need the four-state UI model and the <code>aria-live</code> region. Quiz 5 will test whether you can read async code and trace its execution order, and whether you know what happens when <code>response.ok</code> is false. Assignment 4 extends the lab into a more complete feature; the cleaner you keep your state-management functions, the easier that extension will be.</p>
+</body>
+</html>

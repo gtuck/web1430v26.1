@@ -4,6 +4,7 @@
 - Theme: Arrays, Objects, and Data Modeling
 - Lecture: Collections, Objects, Methods, and JSON Thinking
 - Lab: Lab 05 – Build a Product Data Explorer
+- Studio: Data Explorer Studio and Proposal Workshop
 - Deliverables: Quiz 3, Project 1 Proposal, Mid-Course Check-In Survey
 
 ## Live sessions
@@ -14,12 +15,13 @@
 ## Success plan
 1. Before Monday: skim the module overview and read the chapter
 2. Attend Monday's live session for the week's core concepts and demo
-3. Start the lab or studio activity; bring blockers to Wednesday's session
+3. Start the lab and read the studio notes; bring blockers to Wednesday's session
 4. Attend Wednesday's live session for guided lab work, code review, and Q&A
 5. Finish the weekly assessment or milestone, then commit and deploy your work
 
 ## Resources
 - [Lecture notes: Collections, Objects, Methods, and JSON Thinking](../lectures/week-05-lecture.md)
+- [Studio notes: Data Explorer Studio and Proposal Workshop](../lectures/week-05-studio.md)
 - [Chapter 5: Modeling Information in JavaScript](../textbook/chapters/chapter-05-modeling-information-in-javascript.md)
 - [Project 1 brief](../projects/project-1-interactive-style-guide.md) — the **Milestone 1 — Proposal** section is this week's deliverable; read it before you start the lab so the data sketch does double duty.
 - [Mid-Course Check-In Survey](../course/student-survey-week-05.md) — Complete this after your Week 05 work so the course can be adjusted before the midterm stretch.

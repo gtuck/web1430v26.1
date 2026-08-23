@@ -4,17 +4,19 @@
 - Theme: Start Here: Orientation and Workflow
 - Lecture: Online Learning, Canvas, GitHub, and the Course Toolchain
 - Lab: Lab 00 – Local Setup and GitHub Workflow
+- Studio: Setup Clinic and First Push
 - Deliverables: Welcome Survey, GitHub Repo Setup, Canvas Orientation Quiz
 
 ## Success plan
 1. Read the module overview (no textbook chapter this week)
-2. Work through lecture notes
-3. Complete the lab or studio activity
+2. Work through the Session 1 lecture notes
+3. Complete the lab, then work the Session 2 studio plan
 4. Finish the weekly assessment or milestone
 5. Commit and deploy your work
 
 ## Resources
 - [Lecture notes: Online Learning, Canvas, GitHub, and the Course Toolchain](../lectures/week-00-lecture.md)
+- [Studio notes: Setup Clinic and First Push](../lectures/week-00-studio.md)
 - [Lab 00 – Local Setup and GitHub Workflow](../labs/lab00-local-setup-and-github-workflow.md) — Do the status and `git pull --ff-only` check at the end; Week 00 is not finished when the first push works once.
 - No textbook chapter this week — focus is on tool setup
 - **Time estimate:** 5–7 hours (setup, orientation, and Git sync check)

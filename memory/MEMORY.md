@@ -1,6 +1,6 @@
 # WEB 1430 Project Memory
 
-Current as of July 13, 2026. `CONTEXT.md` carries the working rules; this file carries project state and history highlights.
+Current as of August 23, 2026. `CONTEXT.md` carries the working rules; this file carries project state and history highlights.
 
 ## Project Summary
 
@@ -14,6 +14,19 @@ WEB 1430 is a complete **Client-Side Web Development** course package for Weber 
 - Lint enforces override consistency: no orphan overrides, base H1 titles preserved (Canvas slug stability), identical `- Deliverables:` lines (due dates shared — deliverables stay in the Sunday window in both modalities), links resolved from the base location, and the Live sessions section present.
 - Weekly pattern: Monday session = concepts + live demo (lecture notes remain as shared reference reading); Wednesday session = guided lab/studio, code review, Q&A. Exams stay in Canvas windows, not session time. Instructor logistics: `instructor/virtual-delivery-guide.md`.
 - The virtual `.imscc` was verified through a live Canvas import on July 13, 2026, with no issues (same import settings as the online package).
+
+## Weekly Session Split (August 23, 2026)
+
+Each week is now delivered as two session-sized units matching the Mon/Wed meeting pattern:
+
+- **Session 1** — `lectures/week-NN-lecture.md`, unchanged filename/H1/slug (Weekly focus, Why this matters, Learning targets, Core concepts, Common mistakes, Demo walkthrough, plus a closing `## Session 2: the studio` pointer).
+- **Session 2** — new `lectures/week-NN-studio.md`, H1 `Week NN Studio Notes: <subtitle>` (Session focus, Before class, a 75-minute timed Studio plan, then the Accessibility connection / Practice prompt / Bridge sections moved out of the lecture).
+
+Studio notes serve both modalities: a closing line tells online students to work the plan self-paced and to use the Help & Questions board where the plan says "the room". `virtual/lectures/week-00-studio.md` is the only studio override (Zoom screen-sharing instructions), matching the existing Week 00 lecture override.
+
+Build wiring: `publishable_wiki_specs()` already globs `lectures/*.md`, so studio pages become Canvas pages automatically; `studio_module_items` in `create_expected_file_outputs()` inserts a `Week NN Studio Notes` item directly after `Week NN Lecture Notes` in all 16 modules. `- Studio:` lines were added to `course/schedule.md`, `virtual/course/schedule.md`, and every module overview, plus a studio link under Resources.
+
+Live course 631246 (virtual, Fall 2026) was synced the same day via browser session auth: 16 pages created, 16 lecture pages trimmed and given the Session 2 pointer, 16 overviews updated, 16 module items inserted after their lecture item. Live page count is now 96. Note: live page slugs for imported pages are file basenames (`week-05-lecture`), while API-created pages get title slugs (`week-05-studio-notes-...`); both resolve.
 
 ## Current Source of Truth
 

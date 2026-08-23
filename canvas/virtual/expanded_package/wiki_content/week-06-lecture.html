@@ -154,8 +154,6 @@ const prev = item.previousElementSibling; // previous sibling element</code></pr
 <li><strong>Giving buttons <code>role=&quot;tab&quot;</code> without adding arrow-key navigation.</strong> ARIA roles are a promise about behaviour. If you claim <code>role=&quot;tablist&quot;</code> you owe the user roving tabindex and arrow keys; if you are not going to implement that, use plain buttons with no roles and the widget is honest about what it is.</li>
 <li><strong>Reading <code>dataset</code> values as numbers without converting.</strong> <code>dataset.productId === 42</code> is always <code>false</code> because <code>dataset</code> returns strings. Always convert: <code>Number(btn.dataset.productId) === 42</code>.</li>
 </ol>
-<h2>Accessibility connection</h2>
-<p><code>classList.toggle</code> is the right tool for show/hide patterns (accordions, modals, navigation menus), but toggling a CSS class is invisible to screen readers unless you also update ARIA state. When you toggle <code>is-open</code> on a nav, pair it with <code>setAttribute(&quot;aria-expanded&quot;, true/false)</code> on the button that controls it. Similarly, when you use <code>createElement</code> to render dynamic content, apply semantic elements (<code>&lt;article&gt;</code>, <code>&lt;ul&gt;</code>, <code>&lt;button&gt;</code>) rather than generic <code>&lt;div&gt;</code> tags — screen readers use those semantics to describe the page structure to non-visual users.</p>
 <h2>Demo walkthrough</h2>
 <p><strong>Demo: Render and Filter a Product List</strong></p>
 <ol>
@@ -167,9 +165,8 @@ const prev = item.previousElementSibling; // previous sibling element</code></pr
 <li>In DevTools, show the Elements panel updating live as the filter runs. Point out the <code>data-product-id</code> attributes.</li>
 <li>Deliberately set <code>el.innerHTML = &quot;&lt;img src=x onerror=alert(&#x27;XSS&#x27;)&gt;&quot;</code> in the console to demonstrate why <code>textContent</code> is safer.</li>
 </ol>
-<h2>Practice prompt</h2>
-<p>Build a page with a <code>&lt;ul id=&quot;task-list&quot;&gt;&lt;/ul&gt;</code> and an <code>&lt;input&gt;</code>/<code>&lt;button&gt;</code> for adding tasks. Write an <code>addTask(text)</code> function that creates a <code>&lt;li&gt;</code> with the task text and a "Done" button. When "Done" is clicked, toggle a <code>.completed</code> CSS class on the <code>&lt;li&gt;</code> (style it with strikethrough in your CSS). Add a <code>data-created</code> attribute to each <code>&lt;li&gt;</code> storing the timestamp of when it was added (<code>Date.now()</code>). Log the timestamp to the console when the "Done" button is clicked.</p>
-<h2>Bridge</h2>
-<p>Lab 06 asks you to build an interactive FAQ and tabs interface — both require <code>classList.toggle</code> for show/hide and <code>querySelector</code> for finding the right panel to reveal, and the tabs need the roving-tabindex pattern from this lecture. Assignment 3 grades that arrow-key behaviour directly, so get it working in the lab first. Assignment 3 will have you render a data array into the DOM, which is exactly the <code>renderProducts</code> pattern from the demo. As you work, keep rendering and data logic in separate functions — that separation will make Assignment 3 much easier to debug and extend.</p>
+<h2>Session 2: the studio</h2>
+<p>The rest of this week's material lives in the studio notes — Wednesday's live session for the virtual section, and the second half of the week's work for the online section: <a href="$WIKI_REFERENCE$/pages/week-06-studio-notes-faq-tabs-and-keyboard-testing-studio">Week 06 Studio Notes: FAQ, Tabs, and Keyboard Testing Studio</a>.</p>
+<p>Read the <em>Before class</em> list there before you start, and bring what it asks for.</p>
 </body>
 </html>

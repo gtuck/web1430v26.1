@@ -4,17 +4,19 @@
 - Theme: Testing, Performance, and Deployment
 - Lecture: Quality Checks, Accessibility Audits, and Shipping to the Web
 - Lab: Lab 13 – Lighthouse, Accessibility, and Deployment
+- Studio: QA Audit Studio and Fix Triage
 - Deliverables: Quiz 8 Readiness Check, Lab 13 QA Report, Project 2, Final Project Beta Review
 
 ## Success plan
 1. Read the module overview and chapter
-2. Work through lecture notes
-3. Complete the lab or studio activity
+2. Work through the Session 1 lecture notes
+3. Complete the lab, then work the Session 2 studio plan
 4. Finish the weekly assessment or milestone
 5. Commit and deploy your work
 
 ## Resources
 - [Lecture notes: Quality Checks, Accessibility Audits, and Shipping to the Web](../lectures/week-14-lecture.md)
+- [Studio notes: QA Audit Studio and Fix Triage](../lectures/week-14-studio.md)
 - [Lab 13 handout](../labs/lab13-lighthouse-accessibility-and-deployment.md) — Treat the `notes.md` file as a short QA memo you can reuse while revising Project 2 and your Final Project beta.
 - [Chapter 14: Performance, Testing, and Deployment](../textbook/chapters/chapter-14-performance-testing-and-deployment.md) — Lighthouse metrics, tree-shaking, image optimization, manual testing checklist, Netlify/Vercel deployment
 - [Chapter 13: Accessibility Synthesis](../textbook/chapters/chapter-13-accessibility-synthesis.md) — Reference for Lab 13 accessibility audit work

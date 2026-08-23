@@ -144,8 +144,6 @@ function hideLoading() {
 <li><strong>Not showing any UI feedback during loading.</strong> If the request takes 2 seconds and the page shows nothing, users assume it is broken. Always set a loading state before <code>await</code>.</li>
 <li><strong>Using <code>async</code> on a function and then not <code>await</code>-ing it at the call site.</strong> Calling <code>loadData()</code> without <code>await</code> starts it immediately and returns a Promise. If it fails later, the failure becomes a rejected Promise and may surface as an unhandled rejection. Either <code>await</code> the call or attach a <code>.catch()</code> handler.</li>
 </ol>
-<h2>Accessibility connection</h2>
-<p>Asynchronous content updates are one of the most common accessibility failures in modern web apps. When a fetch completes and new content appears, sighted users see it instantly — but screen reader users receive no notification unless you explicitly mark regions with <code>aria-live</code>. Error messages are equally important: an error that appears visually but is never announced leaves keyboard-only and screen reader users unable to understand why their action failed.</p>
 <h2>Demo walkthrough</h2>
 <ol>
 <li>Start with a static HTML page: a search input, a button, an empty <code>&lt;div id=&quot;results&quot;&gt;</code>, and a <code>&lt;div id=&quot;status&quot; aria-live=&quot;polite&quot;&gt;</code>.</li>
@@ -156,16 +154,8 @@ function hideLoading() {
 <li>Wire up the button to call the async function; show the four UI states in sequence by temporarily adding <code>throw new Error()</code> lines.</li>
 <li>Add <code>aria-live=&quot;polite&quot;</code> to the status div; use a screen reader or accessibility tree to verify the announcement fires.</li>
 </ol>
-<h2>Practice prompt</h2>
-<p>Using the <a href="https://dog.ceo/api/breeds/image/random">Dog CEO API</a> or the <a href="https://jsonplaceholder.typicode.com/posts">JSONPlaceholder API</a>, build a small page with:</p>
-<ul>
-<li>A button that triggers a <code>fetch()</code> call</li>
-<li>A loading state displayed while the request is in flight</li>
-<li>The result rendered to the DOM on success</li>
-<li>An error message rendered to the DOM on failure (test it by mistyping the URL)</li>
-<li>An <code>aria-live</code> region that announces status changes</li>
-</ul>
-<h2>Bridge</h2>
-<p>Lab 08 has you build a full API-powered viewer using the patterns from this lecture — you will need the four-state UI model and the <code>aria-live</code> region. Quiz 5 will test whether you can read async code and trace its execution order, and whether you know what happens when <code>response.ok</code> is false. Assignment 4 extends the lab into a more complete feature; the cleaner you keep your state-management functions, the easier that extension will be.</p>
+<h2>Session 2: the studio</h2>
+<p>The rest of this week's material lives in the studio notes — Wednesday's live session for the virtual section, and the second half of the week's work for the online section: <a href="$WIKI_REFERENCE$/pages/week-09-studio-notes-api-viewer-studio-and-response-shape-clinic">Week 09 Studio Notes: API Viewer Studio and Response-Shape Clinic</a>.</p>
+<p>Read the <em>Before class</em> list there before you start, and bring what it asks for.</p>
 </body>
 </html>

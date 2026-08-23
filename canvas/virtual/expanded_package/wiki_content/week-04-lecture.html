@@ -124,8 +124,6 @@ function getDiscount(price) {
 <li><strong>Scope confusion with <code>var</code>.</strong> <code>var</code> leaks out of <code>if</code> blocks and <code>for</code> loops. Use <code>const</code> or <code>let</code> exclusively and never declare the same variable twice with <code>let</code> in the same scope.</li>
 <li><strong>Writing one giant function that does too much.</strong> If a function is longer than about 15 lines, it is probably doing more than one job. Break it into smaller, named functions — your future self will thank you.</li>
 </ol>
-<h2>Accessibility connection</h2>
-<p>Well-named functions make code more maintainable, and maintainable code is more likely to stay accessible over time. When functions handle one thing — like <code>validateEmailInput()</code> rather than a 50-line anonymous blob — future developers can update validation logic without accidentally breaking the ARIA attributes or error messages attached to that form field. Descriptive function names also serve as inline documentation that helps teams with diverse experience levels contribute to accessibility improvements.</p>
 <h2>Demo walkthrough</h2>
 <p><strong>Demo: Grade Classifier with Guard Clauses</strong></p>
 <ol>
@@ -136,9 +134,8 @@ function getDiscount(price) {
 <li>Update <code>document.getElementById(&quot;output&quot;).textContent</code> with the result of one call to show the connection to the DOM (a preview of Week 06).</li>
 <li>Introduce a deliberate bug — change <code>===</code> to <code>=</code> in a condition — and show how the console reveals the problem.</li>
 </ol>
-<h2>Practice prompt</h2>
-<p>Write a function called <code>shippingCost(weightLbs, expedited)</code> that returns a shipping price. Rules: under 1 lb is $3.99, 1–5 lbs is $6.99, over 5 lbs is $12.99. If <code>expedited</code> is <code>true</code>, add $5.00 to any tier. Use guard clauses to return <code>null</code> if <code>weightLbs</code> is not a positive number. Test it with at least five calls in the console.</p>
-<h2>Bridge</h2>
-<p>The logic patterns from this lecture — conditionals, loops, and functions with return values — are exactly what you need for Lab 04's form decision tree. Assignment 2 will ask you to build a multi-step calculator, so practice writing functions that accept parameters and return values rather than hardcoding answers. As you work through the lab, keep your functions short and pure so they are easy to test piece by piece.</p>
+<h2>Session 2: the studio</h2>
+<p>The rest of this week's material lives in the studio notes — Wednesday's live session for the virtual section, and the second half of the week's work for the online section: <a href="$WIKI_REFERENCE$/pages/week-04-studio-notes-decision-tree-studio-and-build-order">Week 04 Studio Notes: Decision-Tree Studio and Build Order</a>.</p>
+<p>Read the <em>Before class</em> list there before you start, and bring what it asks for.</p>
 </body>
 </html>

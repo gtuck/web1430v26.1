@@ -1332,6 +1332,20 @@ def create_expected_file_outputs() -> tuple[dict[Path, str], dict[Path, bytes]]:
     ]
     insert_assignment_module_items(manifest_root, module_meta_root, generated_assessment_items)
 
+    # Each week's Wednesday studio page sits directly after its lecture page.
+    # The page itself is titled "Week NN Studio Notes: <subtitle>"; the module
+    # item uses the short form to match the existing "Week NN Lecture Notes" items.
+    studio_module_items = [
+        GeneratedModuleItem(
+            title=f"Week {week:02d} Studio Notes",
+            resource_id=resource_ids[f"wiki_content/week-{week:02d}-studio.html"],
+            insert_after_title=f"Week {week:02d} Lecture Notes",
+            content_type="WikiPage",
+        )
+        for week in range(16)
+    ]
+    insert_assignment_module_items(manifest_root, module_meta_root, studio_module_items)
+
     renderer = MarkdownRenderer(published_sources, page_slugs)
     expected_text_files: dict[Path, str] = {}
     expected_binary_files: dict[Path, bytes] = {}

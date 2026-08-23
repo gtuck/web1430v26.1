@@ -1,0 +1,32 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>Week 06 Studio Notes: FAQ, Tabs, and Keyboard Testing Studio</title>
+<meta name="identifier" content="ia25055eeb302d4d118d1ab76b37e664b"/>
+<meta name="workflow_state" content="active"/>
+</head>
+<body>
+<h1>Week 06 Studio Notes: FAQ, Tabs, and Keyboard Testing Studio</h1>
+<h2>Session focus</h2>
+<p>Session 1 walked the DOM lifecycle: select, create, update, remove. Session 2 builds two composite widgets with it — an accessible FAQ and a tab set — which together are the core of the pattern library Assignment 3 asks for.</p>
+<h2>Before class</h2>
+<ul>
+<li>Read the Lab 06 brief.</li>
+<li>Re-read the roving tabindex section of the lecture notes. It is the part of this lab that is hard to invent on the spot.</li>
+</ul>
+<h2>Studio plan</h2>
+<ol>
+<li><strong>Which method, and why (10 min).</strong> A rapid sequence of small changes. For each one, call out <code>querySelector</code> versus <code>querySelectorAll</code>, <code>textContent</code> versus <code>innerHTML</code>, and <code>classList.toggle</code> versus rebuilding a class string by hand.</li>
+<li><strong>FAQ disclosure studio (20 min).</strong> Build the disclosure pattern with real <code>aria-expanded</code> state rather than a CSS class alone. The class controls the pixels; the attribute controls what a screen reader announces.</li>
+<li><strong>Tabs and roving tabindex (25 min).</strong> Implement <code>setActiveTab</code> and the arrow-key handler live, then test with the keyboard only. Mouse-only testing hides every bug this pattern has.</li>
+<li><strong>Assignment 3 patterns (20 min).</strong> Which of this week's patterns belongs in your library, and what a pattern entry has to document — markup, behavior, and keyboard contract — to be useful to someone else.</li>
+</ol>
+<p>The virtual section runs this plan live, Wednesday 9:30–10:45 AM (75 minutes). The online section works the same sequence self-paced; where the plan says "the room" or "a volunteer," use the Help &amp; Questions discussion board.</p>
+<h2>Accessibility connection</h2>
+<p><code>classList.toggle</code> is the right tool for show/hide patterns (accordions, modals, navigation menus), but toggling a CSS class is invisible to screen readers unless you also update ARIA state. When you toggle <code>is-open</code> on a nav, pair it with <code>setAttribute(&quot;aria-expanded&quot;, true/false)</code> on the button that controls it. Similarly, when you use <code>createElement</code> to render dynamic content, apply semantic elements (<code>&lt;article&gt;</code>, <code>&lt;ul&gt;</code>, <code>&lt;button&gt;</code>) rather than generic <code>&lt;div&gt;</code> tags — screen readers use those semantics to describe the page structure to non-visual users.</p>
+<h2>Practice prompt</h2>
+<p>Build a page with a <code>&lt;ul id=&quot;task-list&quot;&gt;&lt;/ul&gt;</code> and an <code>&lt;input&gt;</code>/<code>&lt;button&gt;</code> for adding tasks. Write an <code>addTask(text)</code> function that creates a <code>&lt;li&gt;</code> with the task text and a "Done" button. When "Done" is clicked, toggle a <code>.completed</code> CSS class on the <code>&lt;li&gt;</code> (style it with strikethrough in your CSS). Add a <code>data-created</code> attribute to each <code>&lt;li&gt;</code> storing the timestamp of when it was added (<code>Date.now()</code>). Log the timestamp to the console when the "Done" button is clicked.</p>
+<h2>Bridge</h2>
+<p>Lab 06 asks you to build an interactive FAQ and tabs interface — both require <code>classList.toggle</code> for show/hide and <code>querySelector</code> for finding the right panel to reveal, and the tabs need the roving-tabindex pattern from the Session 1 notes. Assignment 3 grades that arrow-key behaviour directly, so get it working in the lab first. Assignment 3 will have you render a data array into the DOM, which is exactly the <code>renderProducts</code> pattern from the Session 1 demo. As you work, keep rendering and data logic in separate functions — that separation will make Assignment 3 much easier to debug and extend.</p>
+</body>
+</html>

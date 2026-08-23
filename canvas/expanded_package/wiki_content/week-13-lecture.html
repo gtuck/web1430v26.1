@@ -157,8 +157,6 @@ async function revealAndFocus() {
 <li><strong>Putting a side effect inside <code>computed()</code>.</strong> Computed properties must be pure — no <code>fetch()</code>, no <code>localStorage.setItem()</code>, no <code>emit()</code> inside a computed getter. Use <code>watch()</code> or <code>watchEffect()</code> for side effects.</li>
 <li><strong>Skipping <code>nextTick</code> when programmatically focusing an element.</strong> The DOM is not updated synchronously after reactive state changes. Always await <code>nextTick()</code> before querying or manipulating a DOM element that depends on that state change.</li>
 </ol>
-<h2>Accessibility connection</h2>
-<p>Form labels are not optional. Every <code>&lt;input&gt;</code> needs an associated <code>&lt;label&gt;</code> — either wrapping the input or connected via matching <code>for</code> and <code>id</code> attributes. <code>v-model</code> handles the binding of data but does nothing for label association. When you disable a submit button with <code>:disabled=&quot;!isValid&quot;</code>, some screen readers will not announce why the button is disabled; consider adding a visible or visually-hidden explanation near the form. Focus management with <code>nextTick</code> is not just a convenience — it is essential for users navigating a multi-step form by keyboard, because they need focus to land in the right place after each step transition.</p>
 <h2>Demo walkthrough</h2>
 <ol>
 <li>Start from the card project built in Week 12.</li>
@@ -169,9 +167,8 @@ async function revealAndFocus() {
 <li>Add a "Delete" button inside <code>CardItem.vue</code>. Use <code>defineEmits([&#x27;delete&#x27;])</code> and emit the card's <code>id</code>. In the parent, handle <code>@delete</code> and splice the item from the array.</li>
 <li>Add a small form (two fields, submit button) that pushes a new card object onto <code>cards</code>. Use <code>reactive()</code> for the form fields. Show the computed list reactively includes the new item after submission and the filtered list updates immediately.</li>
 </ol>
-<h2>Practice prompt</h2>
-<p>Build a <code>CommentForm.vue</code> component with <code>reactive()</code> fields for <code>author</code> and <code>body</code>. Use a <code>computed()</code> to determine form validity (both fields non-empty, body at least 10 characters). Display a live character count below the body field derived from <code>form.body.length</code>. Emit a <code>submit</code> event to the parent with the form data when the user submits. In the parent, push each submitted comment onto an array and render the list below the form.</p>
-<h2>Bridge</h2>
-<p>Lab 12 — Small Data Dashboard has you build a filterable, sortable list with components communicating through props and events — the exact pattern from today's demo. Assignment 6 — Reactive Form Workflow applies the same pattern at a larger scale: a parent that owns the workflow state, three input steps that validate locally and emit upward, and a review step that receives everything as props. Before you write any of it, sketch which component owns which piece of state and what each step emits. That diagram takes five minutes and saves hours of debugging.</p>
+<h2>Session 2: the studio</h2>
+<p>The rest of this week's material lives in the studio notes — Wednesday's live session for the virtual section, and the second half of the week's work for the online section: <a href="$WIKI_REFERENCE$/pages/week-13-studio-notes-dashboard-studio-and-milestone-revision">Week 13 Studio Notes: Dashboard Studio and Milestone Revision</a>.</p>
+<p>Read the <em>Before class</em> list there before you start, and bring what it asks for.</p>
 </body>
 </html>

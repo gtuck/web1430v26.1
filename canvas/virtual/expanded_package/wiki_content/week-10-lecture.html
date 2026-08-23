@@ -133,8 +133,6 @@ loadState();</code></pre>
 <li><strong>Assuming storage is always available.</strong> In private/incognito mode, some browsers throw a <code>SecurityError</code> when you call <code>setItem</code>. Wrap storage calls in a try/catch if you need resilience, or at minimum do not let a storage error crash your whole app.</li>
 <li><strong>Updating the DOM directly instead of updating state.</strong> When you mix "update DOM here, save to storage there" across multiple event handlers, the DOM and storage drift out of sync. Centralize updates through one function so the DOM and storage are always updated together.</li>
 </ol>
-<h2>Accessibility connection</h2>
-<p>Persisting preferences like font size, contrast, and reduced motion settings has direct accessibility value. If a user increases the text size for readability, that setting should survive a page reload — forcing them to re-apply it every visit is a usability barrier. When restoring state on page load, apply it before the page renders visible content (or as early as possible) to avoid a visible "flash" from default to preferred settings.</p>
 <h2>Demo walkthrough</h2>
 <ol>
 <li>Build a settings panel with a theme toggle (light/dark), a font size selector (small/medium/large), and a checkbox for showing hints.</li>
@@ -146,15 +144,8 @@ loadState();</code></pre>
 <li>Open a new tab to the same page — settings are there (localStorage). Open a new tab to a different origin — storage is not shared.</li>
 <li>Demonstrate <code>sessionStorage</code> by switching the calls and showing the value disappears when the tab closes.</li>
 </ol>
-<h2>Practice prompt</h2>
-<p>Build a "reading preferences" panel with three controls:</p>
-<ul>
-<li>A <code>&lt;select&gt;</code> for font size (small, medium, large)</li>
-<li>A toggle for dark mode</li>
-<li>A toggle for hiding images</li>
-</ul>
-<p>When any control changes, save the full preferences object to <code>localStorage</code> using <code>JSON.stringify</code>. On page load, read the saved preferences and apply them immediately. Write a <code>render(prefs)</code> function that takes the preferences object and applies all three settings to the page — do not reach into the DOM from individual event handlers.</p>
-<h2>Bridge</h2>
-<p>Lab 09 builds a full preference panel using exactly this pattern — you will save and restore a preferences object across reloads. Project 2 Proposal is also due this week; the project will use both the Fetch API from Week 09 and storage from this week, so your proposal should describe what data you will fetch and what preferences or state you will persist. Quiz 6 will ask you to trace a JSON round-trip and identify what type <code>getItem</code> returns.</p>
+<h2>Session 2: the studio</h2>
+<p>The rest of this week's material lives in the studio notes — Wednesday's live session for the virtual section, and the second half of the week's work for the online section: <a href="$WIKI_REFERENCE$/pages/week-10-studio-notes-preference-panel-studio-and-proposal-workshop">Week 10 Studio Notes: Preference Panel Studio and Proposal Workshop</a>.</p>
+<p>Read the <em>Before class</em> list there before you start, and bring what it asks for.</p>
 </body>
 </html>

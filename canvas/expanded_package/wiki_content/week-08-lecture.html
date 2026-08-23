@@ -110,8 +110,6 @@ if (!requireField(&quot;name-b&quot;, &quot;error-b&quot;, &quot;Name&quot;)) re
 <li><strong>Confusing refactoring with cleaning up style.</strong> Adding comments, reformatting indentation, and deleting dead code are worthwhile, but they are not refactoring. Refactoring changes the structure of the logic itself.</li>
 <li><strong>Not testing after each small change.</strong> Refactor in tiny increments and reload the browser after each one. Trying to do five refactors at once makes it impossible to tell which one introduced a bug.</li>
 </ol>
-<h2>Accessibility connection</h2>
-<p>Refactoring is an ideal time to fix accessibility issues you rushed past earlier. When you extract a function that renders a card or a list item, you can ensure the markup it generates includes proper roles, labels, and keyboard-accessible controls once — rather than patching each copy individually. Consistent structure also makes it easier for screen reader users, since repeated components behave predictably.</p>
 <h2>Demo walkthrough</h2>
 <ol>
 <li>Open a working Project 1 submission (or a prepared example) with obvious duplication — three nearly identical event listener callbacks.</li>
@@ -122,14 +120,8 @@ if (!requireField(&quot;name-b&quot;, &quot;error-b&quot;, &quot;Name&quot;)) re
 <li>Reload the browser and verify behavior is unchanged.</li>
 <li>Point out: the three callbacks are now each 3–4 lines instead of 12–15 lines, and a change to validation logic only needs to happen in one place.</li>
 </ol>
-<h2>Practice prompt</h2>
-<p>Take any JavaScript file from your Project 1 and apply two refactors:</p>
-<ol>
-<li>Extract at least one repeated block into a named function.</li>
-<li>Replace at least one magic string or number with a named <code>const</code>.</li>
-</ol>
-<p>After each change, reload the page and confirm everything still works. Write a two-sentence comment at the top of the file describing what you changed and why.</p>
-<h2>Bridge</h2>
-<p>The Midterm Exam opens at the start of Week 08 and covers all material through Week 07 — review the high-priority topic list above and use your own past assignments as study material. This week's chapter reading, Chapter 8 (Design Systems and Small Front-End Architecture), goes deeper on the refactoring themes from this lecture: design tokens, naming conventions, and file organization — apply its patterns during Project 1 polish. Project 1 is also due this week; use the polish checklist to run a final quality pass before submitting. Starting in Week 09, the course shifts to new territory — asynchronous JavaScript — so a clean mental slate after the midterm will help.</p>
+<h2>Session 2: the studio</h2>
+<p>The rest of this week's material lives in the studio notes — Wednesday's live session for the virtual section, and the second half of the week's work for the online section: <a href="$WIKI_REFERENCE$/pages/week-08-studio-notes-project-1-polish-studio-and-midterm-review">Week 08 Studio Notes: Project 1 Polish Studio and Midterm Review</a>.</p>
+<p>Read the <em>Before class</em> list there before you start, and bring what it asks for.</p>
 </body>
 </html>

@@ -1,12 +1,15 @@
 # Week 10 Lecture Notes: localStorage, sessionStorage, and UI State
 
 ## Weekly focus
+
 Persist user preferences and UI state across page loads using the Web Storage API, and build a centralized state pattern that keeps the DOM in sync with your data.
 
 ## Why this matters
+
 Without client-side storage, every page reload wipes out everything the user has done — their preferences, their progress, their settings. The Web Storage API gives you a simple key-value store that lives in the browser with no server required. Learning to store and restore state is also the foundation for understanding how larger frameworks (React, Vue) think about data: the UI is a function of state, not a pile of direct DOM mutations.
 
 ## Learning targets
+
 - Explain the difference between `localStorage` and `sessionStorage` in terms of persistence and scope
 - Use `setItem`, `getItem`, `removeItem`, and `clear` correctly
 - Serialize and deserialize a JavaScript object using `JSON.stringify` and `JSON.parse`
@@ -156,10 +159,8 @@ Browsers typically allow 5–10 MB per origin for Web Storage. This is enough fo
 
 5. **Updating the DOM directly instead of updating state.** When you mix "update DOM here, save to storage there" across multiple event handlers, the DOM and storage drift out of sync. Centralize updates through one function so the DOM and storage are always updated together.
 
-## Accessibility connection
-Persisting preferences like font size, contrast, and reduced motion settings has direct accessibility value. If a user increases the text size for readability, that setting should survive a page reload — forcing them to re-apply it every visit is a usability barrier. When restoring state on page load, apply it before the page renders visible content (or as early as possible) to avoid a visible "flash" from default to preferred settings.
-
 ## Demo walkthrough
+
 1. Build a settings panel with a theme toggle (light/dark), a font size selector (small/medium/large), and a checkbox for showing hints.
 2. Show the Application tab in Chrome DevTools > Local Storage — currently empty.
 3. Wire up each control to call `updateState()` with the changed value.
@@ -169,13 +170,8 @@ Persisting preferences like font size, contrast, and reduced motion settings has
 7. Open a new tab to the same page — settings are there (localStorage). Open a new tab to a different origin — storage is not shared.
 8. Demonstrate `sessionStorage` by switching the calls and showing the value disappears when the tab closes.
 
-## Practice prompt
-Build a "reading preferences" panel with three controls:
-- A `<select>` for font size (small, medium, large)
-- A toggle for dark mode
-- A toggle for hiding images
+## Session 2: the studio
 
-When any control changes, save the full preferences object to `localStorage` using `JSON.stringify`. On page load, read the saved preferences and apply them immediately. Write a `render(prefs)` function that takes the preferences object and applies all three settings to the page — do not reach into the DOM from individual event handlers.
+The rest of this week's material lives in the studio notes — Wednesday's live session for the virtual section, and the second half of the week's work for the online section: [Week 10 Studio Notes: Preference Panel Studio and Proposal Workshop](week-10-studio.md).
 
-## Bridge
-Lab 09 builds a full preference panel using exactly this pattern — you will save and restore a preferences object across reloads. Project 2 Proposal is also due this week; the project will use both the Fetch API from Week 09 and storage from this week, so your proposal should describe what data you will fetch and what preferences or state you will persist. Quiz 6 will ask you to trace a JSON round-trip and identify what type `getItem` returns.
+Read the *Before class* list there before you start, and bring what it asks for.

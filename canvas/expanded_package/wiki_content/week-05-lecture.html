@@ -119,8 +119,6 @@ const products = [
 <li><strong>Using dot notation with a dynamic key.</strong> <code>obj.key</code> always looks for a property literally named <code>&quot;key&quot;</code>. If you have a variable called <code>key</code>, you must use <code>obj[key]</code>.</li>
 <li><strong>Editing the JSON string directly instead of the object.</strong> JSON is a serialization format for transport or storage — not a working data structure. Parse it back to an object before modifying it.</li>
 </ol>
-<h2>Accessibility connection</h2>
-<p>Structuring data as arrays of objects — rather than scraping values directly out of the DOM — keeps your accessible markup clean and authoritative. When you build the DOM from a data array, every element is created deliberately: you can ensure that <code>alt</code> text, <code>aria-label</code> values, and semantic roles are set from the data rather than inferred or forgotten. It also makes it straightforward to regenerate or update the page without inadvertently stripping ARIA attributes that were added by hand.</p>
 <h2>Demo walkthrough</h2>
 <p><strong>Demo: Product Data Explorer (Data Layer)</strong></p>
 <ol>
@@ -132,9 +130,8 @@ const products = [
 <li>Use <code>JSON.stringify(products, null, 2)</code> and paste the output into a <code>&lt;pre&gt;</code> tag to show how the data looks as JSON — the same format a real API would return.</li>
 <li>Ask students: "If we needed to add a <code>rating</code> property, where in this code would we change it? Would we need to touch the display code?" (Answer: no — that is the benefit of data-first design.)</li>
 </ol>
-<h2>Practice prompt</h2>
-<p>Create a <code>students</code> array with at least five objects. Each object should have <code>name</code>, <code>grade</code> (a number 0–100), and <code>enrolled</code> (boolean) properties. Then write three things: (1) use <code>.filter()</code> to get only enrolled students, (2) use <code>.map()</code> to produce an array of strings in the format <code>&quot;Alice: B&quot;</code> using a helper function that converts the grade number to a letter, and (3) use <code>.find()</code> to locate a student by name. Log all three results to the console.</p>
-<h2>Bridge</h2>
-<p>The data structures you build this week are exactly what Lab 05's Product Data Explorer will render to the page. For Quiz 3, you should be able to trace through a chain like <code>products.filter(...).map(...)</code> and predict its output. Your Project 1 Proposal should include a rough data sketch — an array of objects showing what properties your project's main data will have. That sketch will save you significant time when you start building in Week 06.</p>
+<h2>Session 2: the studio</h2>
+<p>The rest of this week's material lives in the studio notes — Wednesday's live session for the virtual section, and the second half of the week's work for the online section: <a href="$WIKI_REFERENCE$/pages/week-05-studio-notes-data-explorer-studio-and-proposal-workshop">Week 05 Studio Notes: Data Explorer Studio and Proposal Workshop</a>.</p>
+<p>Read the <em>Before class</em> list there before you start, and bring what it asks for.</p>
 </body>
 </html>

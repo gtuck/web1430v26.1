@@ -1,12 +1,15 @@
 # Week 08 Lecture Notes: Refactoring, Reuse, and Midterm Review
 
 ## Weekly focus
+
 Consolidate Weeks 01–07 by improving existing code quality through refactoring, then prepare for the Midterm Exam and finalize Project 1.
 
 ## Why this matters
+
 Every professional codebase is maintained and improved over time — rarely rewritten from scratch. Refactoring teaches you to read code critically, spot duplication, and make structural improvements without breaking what already works. The habits you build this week (extracting functions, naming things well, removing copy-paste) are what separate code that is easy to maintain from code that becomes a liability.
 
 ## Learning targets
+
 - Define refactoring and explain why it does not change observable behavior
 - Extract repeated logic into a named function and call it from multiple places
 - Choose function names that describe what the function does, not how it does it
@@ -117,10 +120,8 @@ Before submitting, verify:
 
 5. **Not testing after each small change.** Refactor in tiny increments and reload the browser after each one. Trying to do five refactors at once makes it impossible to tell which one introduced a bug.
 
-## Accessibility connection
-Refactoring is an ideal time to fix accessibility issues you rushed past earlier. When you extract a function that renders a card or a list item, you can ensure the markup it generates includes proper roles, labels, and keyboard-accessible controls once — rather than patching each copy individually. Consistent structure also makes it easier for screen reader users, since repeated components behave predictably.
-
 ## Demo walkthrough
+
 1. Open a working Project 1 submission (or a prepared example) with obvious duplication — three nearly identical event listener callbacks.
 2. Identify what is shared: all three read a value, validate it, and display a result.
 3. Extract the validation into `validateField(value)` returning `{ valid: boolean, message: string }`.
@@ -129,12 +130,8 @@ Refactoring is an ideal time to fix accessibility issues you rushed past earlier
 6. Reload the browser and verify behavior is unchanged.
 7. Point out: the three callbacks are now each 3–4 lines instead of 12–15 lines, and a change to validation logic only needs to happen in one place.
 
-## Practice prompt
-Take any JavaScript file from your Project 1 and apply two refactors:
-1. Extract at least one repeated block into a named function.
-2. Replace at least one magic string or number with a named `const`.
+## Session 2: the studio
 
-After each change, reload the page and confirm everything still works. Write a two-sentence comment at the top of the file describing what you changed and why.
+The rest of this week's material lives in the studio notes — Wednesday's live session for the virtual section, and the second half of the week's work for the online section: [Week 08 Studio Notes: Project 1 Polish Studio and Midterm Review](week-08-studio.md).
 
-## Bridge
-The Midterm Exam opens at the start of Week 08 and covers all material through Week 07 — review the high-priority topic list above and use your own past assignments as study material. This week's chapter reading, Chapter 8 (Design Systems and Small Front-End Architecture), goes deeper on the refactoring themes from this lecture: design tokens, naming conventions, and file organization — apply its patterns during Project 1 polish. Project 1 is also due this week; use the polish checklist to run a final quality pass before submitting. Starting in Week 09, the course shifts to new territory — asynchronous JavaScript — so a clean mental slate after the midterm will help.
+Read the *Before class* list there before you start, and bring what it asks for.

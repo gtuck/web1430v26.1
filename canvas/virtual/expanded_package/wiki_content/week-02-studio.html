@@ -1,0 +1,33 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>Week 02 Studio Notes: Layout Studio and Assignment 1 Kickoff</title>
+<meta name="identifier" content="i56ad8dd7df046f1b54e73a5c84859c8a"/>
+<meta name="workflow_state" content="active"/>
+</head>
+<body>
+<h1>Week 02 Studio Notes: Layout Studio and Assignment 1 Kickoff</h1>
+<h2>Session focus</h2>
+<p>There is no Session 1 meeting this week — Labor Day, Monday September 7, is a university holiday, and the Week 02 lecture notes stand in for it. This session therefore does double duty: a condensed live version of the mobile-first demo and Q&amp;A on the reading, then the Lab 02 layout studio and the Assignment 1 kickoff.</p>
+<h2>Before class</h2>
+<ul>
+<li>Read the Week 02 lecture notes end to end. They cover everything the first session would have covered.</li>
+<li>Write down the two things that were least clear. The condensed demo is built around what you bring.</li>
+<li>Have the Lab 02 starter files open.</li>
+</ul>
+<h2>Studio plan</h2>
+<ol>
+<li><strong>Reading Q&amp;A (15 min).</strong> Work the questions you brought from the lecture notes. Semantic element choice and <code>min-width</code> breakpoint direction are the two that usually need a second pass.</li>
+<li><strong>Condensed mobile-first demo (20 min).</strong> Build the layout from the notes live: custom properties first, single-column base second, then one <code>min-width</code> breakpoint. Watch where Flexbox is the right tool and where Grid is.</li>
+<li><strong>Lab 02 layout studio (25 min).</strong> Rebuild with support available. Check contrast as you go rather than at the end — retrofitting a palette is far more work than choosing one.</li>
+<li><strong>Assignment 1 kickoff (15 min).</strong> Requirements walkthrough, the rubric read aloud, and the accessibility quick-reference checklist you will use on every assignment from here on.</li>
+</ol>
+<p>The virtual section runs this plan live, Wednesday 9:30–10:45 AM (75 minutes). The online section works the same sequence self-paced; where the plan says "the room" or "a volunteer," use the Help &amp; Questions discussion board.</p>
+<h2>Accessibility connection</h2>
+<p>The HTML5 landmark elements — <code>&lt;header&gt;</code>, <code>&lt;nav&gt;</code>, <code>&lt;main&gt;</code>, <code>&lt;footer&gt;</code> — expose implicit ARIA landmark roles to the browser's accessibility tree. Screen reader users can navigate directly to any landmark by pressing a shortcut key (e.g., pressing <code>M</code> in NVDA jumps to <code>&lt;main&gt;</code>). A page built entirely from <code>&lt;div&gt;</code> elements forces screen reader users to read linearly through every element to find the content they want. Using semantic elements is therefore a significant navigational aid, not just a stylistic choice.</p>
+<h2>Practice prompt</h2>
+<p>Build a single HTML page for a fictional blog post. The page must include: a <code>&lt;header&gt;</code> with a site name and <code>&lt;nav&gt;</code>, a <code>&lt;main&gt;</code> containing one <code>&lt;article&gt;</code> with at least two paragraphs and one <code>&lt;figure&gt;</code> with <code>alt</code> text and a <code>&lt;figcaption&gt;</code>, and a <code>&lt;footer&gt;</code> with a copyright line. Style it with at least four CSS custom properties defined at <code>:root</code>. Add one <code>min-width</code> media query that changes the layout in a meaningful way. Verify your heading color passes WCAG AA contrast using DevTools or WebAIM.</p>
+<h2>Bridge</h2>
+<p>Assignment 1 asks you to rebuild a provided design comp as a responsive, semantic HTML/CSS page — you will apply everything from this week's notes directly. Pay particular attention to the landmark structure and the mobile-first breakpoint; both are explicitly checked in the rubric. The Chapter 2 reading covers progressive enhancement in more depth, which gives the conceptual grounding behind the mobile-first rule. Read it before starting the assignment so the "why" is clear.</p>
+</body>
+</html>

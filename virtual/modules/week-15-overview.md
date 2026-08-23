@@ -4,6 +4,7 @@
 - Theme: Final Project Sprint and Reflection
 - Lecture: Project Storytelling, Portfolio Readiness, and Next Steps
 - Lab: Final Studio
+- Studio: Final Studio — Demos, Reflection, and Next Steps
 - Deliverables: Final Exam, Final Project, Course Reflection
 
 ## Live sessions
@@ -14,12 +15,13 @@
 ## Success plan
 1. Before Monday: re-read the module overview and your Week 14 beta notes (no new chapter this week)
 2. Attend Monday's live session for the week's core concepts and demo
-3. Start the lab or studio activity; bring blockers to Wednesday's session
+3. Start the lab and read the studio notes; bring blockers to Wednesday's session
 4. Attend Wednesday's live session for guided lab work, code review, and Q&A
 5. Finish the weekly assessment or milestone, then commit and deploy your work
 
 ## Resources
 - [Lecture notes: Project Storytelling, Portfolio Readiness, and Next Steps](../lectures/week-15-lecture.md)
+- [Studio notes: Final Studio — Demos, Reflection, and Next Steps](../lectures/week-15-studio.md)
 - [Final Project brief](../projects/final-project-campus-or-community-tool.md) — Review Milestones 4 and 5 and carry forward the Week 14 beta notes and rationale draft so the deployment, rationale, and reflection submissions stay aligned.
 - [Course Reflection Prompt](../course/course-reflection-prompt.md) — read this before your Final Studio session
 - No new chapter this week — focus is on final project and reflection

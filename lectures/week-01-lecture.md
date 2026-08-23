@@ -1,12 +1,15 @@
 # Week 01 Lecture Notes: How the Browser Parses, Paints, and Executes
 
 ## Weekly focus
+
 Understanding the browser as a runtime environment, not just a display window.
 
 ## Why this matters
+
 Most beginners think of the browser as something that "shows" a web page. In reality it is a complex program that fetches resources over a network, builds in-memory data structures, and runs JavaScript — all before anything appears on screen. Knowing this model helps you make intentional decisions: where to place scripts, why a layout shift happens, and how to measure what is actually slow. DevTools stops being a mystery and becomes your primary debugging instrument starting this week.
 
 ## Learning targets
+
 - Describe the HTTP request/response cycle: what the browser sends, what the server returns, and what status codes mean
 - Explain how the browser converts HTML bytes into a DOM tree and CSS bytes into a CSSOM tree
 - Define the render tree and describe why elements hidden with `display: none` are excluded from it
@@ -94,16 +97,15 @@ document.querySelectorAll('p').length  // counts paragraph elements
 Errors from your scripts appear here in red with a file name and line number. This is your first stop when something does not work.
 
 ## Common mistakes
+
 1. **Thinking DevTools shows the HTML file.** The Elements tab shows the live DOM. If the browser repaired malformed HTML, or if JavaScript modified the page, the Elements view will differ from the source. Use `View Page Source` (`Ctrl+U`) to see the actual HTML that was delivered.
 2. **Placing scripts in `<head>` without `defer`.** This blocks rendering. Students often wonder why their page is slow to appear — the Network tab will show the script request completing before any painting occurs.
 3. **Confusing `async` and `defer`.** Using `async` on a script that manipulates the DOM can cause "cannot read properties of null" errors because the DOM may not be ready when the script executes.
 4. **Ignoring the Console.** Many students open DevTools to inspect elements but never look at the Console. Any JavaScript error — including errors from browser extensions — appears there. Clear it before debugging your own code.
 5. **Conflating HTTP status 200 with "the page works."** A 200 response means the server returned something — but it could be an error page served as HTML. Always read the response body in the Network tab, not just the status code.
 
-## Accessibility connection
-The DOM tree that the browser builds from your HTML is the same structure that screen readers traverse to announce page content to users who cannot see the screen. If your HTML is not semantic — for example, if you build a navigation list out of `<div>` tags instead of `<nav>` and `<ul>` — the DOM still exists but carries no meaning for assistive technologies. Understanding the DOM as a tree (not just a visual layout) is the foundation for writing accessible markup starting next week.
-
 ## Demo walkthrough
+
 **Goal:** Use DevTools to watch a page load and trace exactly what happens.
 
 1. Open a browser and navigate to `https://example.com` (a simple, fast page).
@@ -115,12 +117,8 @@ The DOM tree that the browser builds from your HTML is the same structure that s
 7. Double-click the text inside `<h1>` in the Elements panel and change it. Show that the page updates but refreshing reverts it ("this is DOM editing, not file editing").
 8. Open a new tab, navigate to any page with a `<script>` tag in `<head>`. View page source (`Ctrl+U`) and find the script tag. Return to DevTools, Network tab, and show the script request in the waterfall — point out if it appears before CSS finishes loading.
 
-## Practice prompt
-Pick any public website you visit regularly. Open DevTools and go to the Network tab. Reload the page. Answer these questions in writing (a text file or Canvas journal entry):
-- How many total requests were made?
-- What was the size of the initial HTML document?
-- Did any requests return a non-200 status code? If so, what were they?
-- Can you find a `<script>` tag in the Elements panel? Does it have `defer` or `async`?
+## Session 2: the studio
 
-## Bridge
-Lab 01 – Inspecting the Web asks you to use the Network and Elements tabs to document the load behavior of an assigned page — exactly the skills practiced in the demo and practice prompt above. Quiz 1 covers the request/response cycle, render-blocking, and the difference between `defer` and `async`; re-read the script placement section before taking it. Bring any DevTools questions to the Help board before the Sunday deadline.
+The rest of this week's material lives in the studio notes — Wednesday's live session for the virtual section, and the second half of the week's work for the online section: [Week 01 Studio Notes: DevTools Inspection Studio](week-01-studio.md).
+
+Read the *Before class* list there before you start, and bring what it asks for.

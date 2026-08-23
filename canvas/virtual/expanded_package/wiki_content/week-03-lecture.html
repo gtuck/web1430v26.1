@@ -139,8 +139,6 @@ Number.isNaN(NaN)     // true   ← use this to check for NaN</code></pre>
 <li><strong>Forgetting that <code>const</code> objects are still mutable.</strong> <code>const user = { name: &#x27;Alex&#x27; }</code> — you cannot reassign <code>user</code>, but <code>user.name = &#x27;Sam&#x27;</code> works fine. Students sometimes expect <code>const</code> to freeze the object.</li>
 <li><strong>Ignoring <code>typeof</code> output when debugging.</strong> When a value behaves unexpectedly, the first question is always "what type is this?" Log <code>typeof</code> alongside the value to confirm your assumption.</li>
 </ol>
-<h2>Accessibility connection</h2>
-<p>JavaScript that runs in the browser can add, remove, or modify DOM content dynamically. When your scripts change content without updating the accessibility tree — for example, toggling a section visible without updating an associated <code>aria-expanded</code> attribute — screen reader users may not know the change occurred. This week's debugging skills apply directly: use the Console to verify that JavaScript is executing and that the DOM changes you intend are actually happening before worrying about accessibility attributes. Correct behavior is a prerequisite for accessible behavior.</p>
 <h2>Demo walkthrough</h2>
 <p><strong>Goal:</strong> Demonstrate type coercion causing a real bug, then fix it using strict equality and explicit type conversion.</p>
 <ol>
@@ -167,17 +165,8 @@ Number.isNaN(NaN)     // true   ← use this to check for NaN</code></pre>
 <ol>
 <li>Show a <code>ReferenceError</code> deliberately: type <code>console.log(undeclaredVar)</code>. Point to the file/line indicator in the Console and explain how to read it.</li>
 </ol>
-<h2>Practice prompt</h2>
-<p>Open the browser Console and work through these exercises, logging each result and writing down whether it matches your prediction before you run it:</p>
-<ol>
-<li><code>typeof null</code> — predict, then check</li>
-<li><code>&#x27;3&#x27; * &#x27;4&#x27;</code> — predict the type and value</li>
-<li><code>null == undefined</code> vs <code>null === undefined</code></li>
-<li>`<code> </code>${2 + 2} is ${2 + 2 === 4 ? 'correct' : 'wrong'}<code> </code>`</li>
-<li>Declare <code>const colors = [&#x27;red&#x27;, &#x27;green&#x27;]</code> then run <code>colors.push(&#x27;blue&#x27;)</code> — does <code>const</code> prevent this?</li>
-</ol>
-<p>Document your predictions and the actual results. Note which ones surprised you and why.</p>
-<h2>Bridge</h2>
-<p>Lab 03 – Console Exercises and Small Programs consists of small JavaScript problems solved entirely in the browser Console and in a <code>.js</code> file — the same environment used in today's demo. Quiz 2 will include questions on <code>typeof</code> output, the result of specific coercion expressions, and when to use <code>const</code> vs <code>let</code>; review the type table and the <code>==</code> vs <code>===</code> examples before taking it. The Chapter 3 reading goes deeper on expressions and operator precedence, which will fill in the gaps between what was covered here and what you encounter in the lab.</p>
+<h2>Session 2: the studio</h2>
+<p>The rest of this week's material lives in the studio notes — Wednesday's live session for the virtual section, and the second half of the week's work for the online section: <a href="$WIKI_REFERENCE$/pages/week-03-studio-notes-console-studio-and-type-coercion-clinic">Week 03 Studio Notes: Console Studio and Type-Coercion Clinic</a>.</p>
+<p>Read the <em>Before class</em> list there before you start, and bring what it asks for.</p>
 </body>
 </html>

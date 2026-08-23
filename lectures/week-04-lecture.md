@@ -162,10 +162,6 @@ function getDiscount(price) {
 4. **Scope confusion with `var`.** `var` leaks out of `if` blocks and `for` loops. Use `const` or `let` exclusively and never declare the same variable twice with `let` in the same scope.
 5. **Writing one giant function that does too much.** If a function is longer than about 15 lines, it is probably doing more than one job. Break it into smaller, named functions — your future self will thank you.
 
-## Accessibility connection
-
-Well-named functions make code more maintainable, and maintainable code is more likely to stay accessible over time. When functions handle one thing — like `validateEmailInput()` rather than a 50-line anonymous blob — future developers can update validation logic without accidentally breaking the ARIA attributes or error messages attached to that form field. Descriptive function names also serve as inline documentation that helps teams with diverse experience levels contribute to accessibility improvements.
-
 ## Demo walkthrough
 
 **Demo: Grade Classifier with Guard Clauses**
@@ -177,10 +173,8 @@ Well-named functions make code more maintainable, and maintainable code is more 
 5. Update `document.getElementById("output").textContent` with the result of one call to show the connection to the DOM (a preview of Week 06).
 6. Introduce a deliberate bug — change `===` to `=` in a condition — and show how the console reveals the problem.
 
-## Practice prompt
+## Session 2: the studio
 
-Write a function called `shippingCost(weightLbs, expedited)` that returns a shipping price. Rules: under 1 lb is $3.99, 1–5 lbs is $6.99, over 5 lbs is $12.99. If `expedited` is `true`, add $5.00 to any tier. Use guard clauses to return `null` if `weightLbs` is not a positive number. Test it with at least five calls in the console.
+The rest of this week's material lives in the studio notes — Wednesday's live session for the virtual section, and the second half of the week's work for the online section: [Week 04 Studio Notes: Decision-Tree Studio and Build Order](week-04-studio.md).
 
-## Bridge
-
-The logic patterns from this lecture — conditionals, loops, and functions with return values — are exactly what you need for Lab 04's form decision tree. Assignment 2 will ask you to build a multi-step calculator, so practice writing functions that accept parameters and return values rather than hardcoding answers. As you work through the lab, keep your functions short and pure so they are easy to test piece by piece.
+Read the *Before class* list there before you start, and bring what it asks for.

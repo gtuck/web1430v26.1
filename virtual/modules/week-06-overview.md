@@ -4,6 +4,7 @@
 - Theme: DOM Fundamentals
 - Lecture: Selecting, Creating, Updating, and Removing Elements
 - Lab: Lab 06 – Interactive FAQ and Tabs
+- Studio: FAQ, Tabs, and Keyboard Testing Studio
 - Deliverables: Assignment 3
 
 ## Live sessions
@@ -14,12 +15,13 @@
 ## Success plan
 1. Before Monday: skim the module overview and read the chapter
 2. Attend Monday's live session for the week's core concepts and demo
-3. Start the lab or studio activity; bring blockers to Wednesday's session
+3. Start the lab and read the studio notes; bring blockers to Wednesday's session
 4. Attend Wednesday's live session for guided lab work, code review, and Q&A
 5. Finish the weekly assessment or milestone, then commit and deploy your work
 
 ## Resources
 - [Lecture notes: Selecting, Creating, Updating, and Removing Elements](../lectures/week-06-lecture.md)
+- [Studio notes: FAQ, Tabs, and Keyboard Testing Studio](../lectures/week-06-studio.md)
 - [Chapter 6: The Document Object Model](../textbook/chapters/chapter-06-the-document-object-model.md)
 - **Time estimate:** 10–12 hours (reading, lab, Assignment 3)
 

@@ -1,12 +1,15 @@
 # Week 12 Lecture Notes: Props, State, Templates, and Simple Components
 
 ## Weekly focus
+
 What a Vue 3 component is and how to build one using the Composition API with `<script setup>`.
 
 ## Why this matters
+
 Every major front-end codebase you will encounter — whether it is Vue, React, or Svelte — is organized around the component model. Learning Vue's Composition API teaches you the underlying pattern (encapsulate state, expose a template, scope styles) so that moving to any other framework later requires learning syntax, not new ideas. Starting with Vite means you are already using the same toolchain professional teams use.
 
 ## Learning targets
+
 - Describe what a single-file component (SFC) is and identify its three sections: `<template>`, `<script setup>`, and `<style scoped>`
 - Create a reactive variable with `ref()` and bind it to the template using `{{ }}` and `:`
 - Use `v-if`, `v-for`, and `@click` in a template to conditionally render and respond to user interaction
@@ -185,10 +188,8 @@ const cards = ref([
 
 5. **Importing a component but forgetting to use it.** In `<script setup>`, imported components are automatically available in the template — you do not need to register them. But the import line still must be present.
 
-## Accessibility connection
-The `<style scoped>` feature does not affect the semantic structure of your HTML. A card component that uses a `<div>` for its container is still a `<div>` after scoping. Choose semantic elements — `<article>`, `<section>`, `<h2>` — inside each component, because the compiled output is what assistive technology reads. When using `v-for` to render images, the `:alt` binding must be dynamic so each image gets a meaningful, unique description rather than a repeated empty or placeholder value.
-
 ## Demo walkthrough
+
 1. Scaffold a new project: `npm create vite@latest ui-cards -- --template vue`, then `cd ui-cards && npm install && npm run dev`.
 2. Open `src/App.vue`. Delete the default content in `<script setup>` and `<template>`.
 3. Create `src/components/CardItem.vue` with `defineProps` for `title` and `description`. Add a template that renders them inside an `<article>`.
@@ -197,8 +198,8 @@ The `<style scoped>` feature does not affect the semantic structure of your HTML
 6. Open the browser. Show Vue DevTools: click a component in the tree and inspect its props in the right panel.
 7. Add a `ref(true)` called `showCards` and a button that toggles it. Wrap the list in `v-if="showCards"`. Show it disappear and reappear.
 
-## Practice prompt
-Create a `TagBadge.vue` component that accepts a `label` prop (String) and a `color` prop (String, default `'blue'`). In `App.vue`, declare an array of five tag objects and render them with `v-for`. Add a button that appends a new tag to the array and confirm that Vue re-renders the list without a page reload.
+## Session 2: the studio
 
-## Bridge
-Lab 11 — Vue UI Card System asks you to build a card display driven by a data array, which is exactly the `v-for` + component pattern from today. Quiz 7 covers `ref()`, `computed()`, `v-for`, and `defineProps`. Project 2 Build begins this week; the card system you build in the lab is a direct starting point for the project's component layer.
+The rest of this week's material lives in the studio notes — Wednesday's live session for the virtual section, and the second half of the week's work for the online section: [Week 12 Studio Notes: Card System Studio and Pitch Workshop](week-12-studio.md).
+
+Read the *Before class* list there before you start, and bring what it asks for.

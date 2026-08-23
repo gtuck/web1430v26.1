@@ -1,0 +1,32 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>Week 13 Studio Notes: Dashboard Studio and Milestone Revision</title>
+<meta name="identifier" content="i0289c6a6831f2ce18d6f468d100874e2"/>
+<meta name="workflow_state" content="active"/>
+</head>
+<body>
+<h1>Week 13 Studio Notes: Dashboard Studio and Milestone Revision</h1>
+<h2>Session focus</h2>
+<p>Session 1 covered props down and events up, reactive forms, and derived state. Session 2 assembles those into the Lab 12 dashboard, works an Assignment 6 build-order clinic, and revises Final Project wireframes against their data plans. Both sessions meet as normal this week — Thanksgiving falls on the Thursday.</p>
+<h2>Before class</h2>
+<ul>
+<li>Have your Lab 12 data ready as a plain array of objects. Get the data right and the dashboard is mostly <code>computed()</code>.</li>
+<li>Bring your Milestone 1 wireframe, however rough.</li>
+</ul>
+<h2>Studio plan</h2>
+<ol>
+<li><strong>Events up, live (10 min).</strong> A child emits, a parent handles, and the data changes in exactly one place. Trace the round trip on screen until the direction is obvious.</li>
+<li><strong>Lab 12 dashboard studio (25 min).</strong> <code>computed()</code> for every derived number. If you find yourself recalculating a total in two places, that is not a style problem, that is the bug.</li>
+<li><strong>Assignment 6 build order (15 min).</strong> Form state first, validation second, submit handler last, and <code>nextTick</code> when focus has to land on something that does not exist yet.</li>
+<li><strong>Milestone 2 revision workshop (25 min).</strong> Swap wireframes with someone else. Mark every element the data plan cannot actually supply, then revise the plan rather than redrawing the picture.</li>
+</ol>
+<p>The virtual section runs this plan live, Wednesday 9:30–10:45 AM (75 minutes). The online section works the same sequence self-paced; where the plan says "the room" or "a volunteer," use the Help &amp; Questions discussion board.</p>
+<h2>Accessibility connection</h2>
+<p>Form labels are not optional. Every <code>&lt;input&gt;</code> needs an associated <code>&lt;label&gt;</code> — either wrapping the input or connected via matching <code>for</code> and <code>id</code> attributes. <code>v-model</code> handles the binding of data but does nothing for label association. When you disable a submit button with <code>:disabled=&quot;!isValid&quot;</code>, some screen readers will not announce why the button is disabled; consider adding a visible or visually-hidden explanation near the form. Focus management with <code>nextTick</code> is not just a convenience — it is essential for users navigating a multi-step form by keyboard, because they need focus to land in the right place after each step transition.</p>
+<h2>Practice prompt</h2>
+<p>Build a <code>CommentForm.vue</code> component with <code>reactive()</code> fields for <code>author</code> and <code>body</code>. Use a <code>computed()</code> to determine form validity (both fields non-empty, body at least 10 characters). Display a live character count below the body field derived from <code>form.body.length</code>. Emit a <code>submit</code> event to the parent with the form data when the user submits. In the parent, push each submitted comment onto an array and render the list below the form.</p>
+<h2>Bridge</h2>
+<p>Lab 12 — Small Data Dashboard has you build a filterable, sortable list with components communicating through props and events — the exact pattern from today's demo. Assignment 6 — Reactive Form Workflow applies the same pattern at a larger scale: a parent that owns the workflow state, three input steps that validate locally and emit upward, and a review step that receives everything as props. Before you write any of it, sketch which component owns which piece of state and what each step emits. That diagram takes five minutes and saves hours of debugging.</p>
+</body>
+</html>

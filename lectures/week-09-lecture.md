@@ -1,12 +1,15 @@
 # Week 09 Lecture Notes: Promises, Fetch, Async/Await, and Failure States
 
 ## Weekly focus
+
 Write JavaScript that requests data from a remote API, handles loading and error states, and updates the DOM without blocking the page.
 
 ## Why this matters
+
 Every modern web application that displays live data — weather, search results, social feeds, maps — uses asynchronous code. Without async patterns, a single slow network request would freeze the browser tab entirely. Understanding how JavaScript handles time and waiting is what makes it possible to build UIs that stay responsive while work happens in the background. This is one of the most important conceptual shifts in the course.
 
 ## Learning targets
+
 - Explain why JavaScript uses an asynchronous model and what the event loop does at a high level
 - Describe the three states of a Promise: pending, fulfilled, and rejected
 - Write a `fetch()` call using `async/await` that reads JSON from a public API
@@ -168,10 +171,8 @@ When you update `status.textContent` with "Loading..." or an error message, scre
 
 5. **Using `async` on a function and then not `await`-ing it at the call site.** Calling `loadData()` without `await` starts it immediately and returns a Promise. If it fails later, the failure becomes a rejected Promise and may surface as an unhandled rejection. Either `await` the call or attach a `.catch()` handler.
 
-## Accessibility connection
-Asynchronous content updates are one of the most common accessibility failures in modern web apps. When a fetch completes and new content appears, sighted users see it instantly — but screen reader users receive no notification unless you explicitly mark regions with `aria-live`. Error messages are equally important: an error that appears visually but is never announced leaves keyboard-only and screen reader users unable to understand why their action failed.
-
 ## Demo walkthrough
+
 1. Start with a static HTML page: a search input, a button, an empty `<div id="results">`, and a `<div id="status" aria-live="polite">`.
 2. Write a bare `fetch()` call in the console, show the Promise object before it resolves.
 3. Add `await` inside an `async` function — show the resolved response object.
@@ -180,13 +181,8 @@ Asynchronous content updates are one of the most common accessibility failures i
 6. Wire up the button to call the async function; show the four UI states in sequence by temporarily adding `throw new Error()` lines.
 7. Add `aria-live="polite"` to the status div; use a screen reader or accessibility tree to verify the announcement fires.
 
-## Practice prompt
-Using the [Dog CEO API](https://dog.ceo/api/breeds/image/random) or the [JSONPlaceholder API](https://jsonplaceholder.typicode.com/posts), build a small page with:
-- A button that triggers a `fetch()` call
-- A loading state displayed while the request is in flight
-- The result rendered to the DOM on success
-- An error message rendered to the DOM on failure (test it by mistyping the URL)
-- An `aria-live` region that announces status changes
+## Session 2: the studio
 
-## Bridge
-Lab 08 has you build a full API-powered viewer using the patterns from this lecture — you will need the four-state UI model and the `aria-live` region. Quiz 5 will test whether you can read async code and trace its execution order, and whether you know what happens when `response.ok` is false. Assignment 4 extends the lab into a more complete feature; the cleaner you keep your state-management functions, the easier that extension will be.
+The rest of this week's material lives in the studio notes — Wednesday's live session for the virtual section, and the second half of the week's work for the online section: [Week 09 Studio Notes: API Viewer Studio and Response-Shape Clinic](week-09-studio.md).
+
+Read the *Before class* list there before you start, and bring what it asks for.

@@ -4,17 +4,19 @@
 - Theme: Async JavaScript and APIs
 - Lecture: Promises, Fetch, Async/Await, and Failure States
 - Lab: Lab 08 – Build an API-Powered Viewer
+- Studio: API Viewer Studio and Response-Shape Clinic
 - Deliverables: Quiz 5, Assignment 4
 
 ## Success plan
 1. Read the module overview and chapter
-2. Work through lecture notes
-3. Complete the lab or studio activity
+2. Work through the Session 1 lecture notes
+3. Complete the lab, then work the Session 2 studio plan
 4. Finish the weekly assessment or milestone
 5. Commit and deploy your work
 
 ## Resources
 - [Lecture notes: Promises, Fetch, Async/Await, and Failure States](../lectures/week-09-lecture.md)
+- [Studio notes: API Viewer Studio and Response-Shape Clinic](../lectures/week-09-studio.md)
 - [Chapter 9: Fetch, JSON, and Remote Data](../textbook/chapters/chapter-09-fetch-json-and-remote-data.md)
 - [API Troubleshooting Guide](../course/api-troubleshooting-guide.md) — Use this if your API response shape, null values, or rate limits slow down Assignment 4.
 - **Time estimate:** 10–12 hours (reading, lab, quiz, Assignment 4)

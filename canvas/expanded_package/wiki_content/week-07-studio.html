@@ -1,0 +1,32 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>Week 07 Studio Notes: Accessible Validation Studio and Build Check-Ins</title>
+<meta name="identifier" content="i15202b2f41f6d16f06e5265e420dd3bd"/>
+<meta name="workflow_state" content="active"/>
+</head>
+<body>
+<h1>Week 07 Studio Notes: Accessible Validation Studio and Build Check-Ins</h1>
+<h2>Session focus</h2>
+<p>Session 1 covered listeners, <code>preventDefault</code>, delegation, and the ARIA attributes that make validation perceivable. Session 2 builds an accessible validated form in the Lab 07 studio and gives quick live feedback on Project 1 builds in progress.</p>
+<h2>Before class</h2>
+<ul>
+<li>Have your Lab 07 form markup written. Markup first means the studio time goes to behavior.</li>
+<li>Push your current Project 1 build and bring the deployed URL.</li>
+</ul>
+<h2>Studio plan</h2>
+<ol>
+<li><strong>Delegation versus per-element listeners (10 min).</strong> The same list wired both ways. Add an item at runtime and watch which version keeps working.</li>
+<li><strong>Lab 07 validation studio (25 min).</strong> Constraint attributes first, custom messages second, then <code>aria-invalid</code> and <code>aria-describedby</code> wired to a real error element, and one <code>aria-live</code> region for the summary.</li>
+<li><strong>Keyboard and screen-reader pass (15 min).</strong> Tab through the form. Confirm the error is announced, not just displayed, and that focus lands somewhere the user can act on.</li>
+<li><strong>Project 1 build check-ins (25 min).</strong> Short live reviews of in-progress builds. Bring a URL, not a description — five minutes on a running page beats twenty on a summary.</li>
+</ol>
+<p>The virtual section runs this plan live, Wednesday 9:30–10:45 AM (75 minutes). The online section works the same sequence self-paced; where the plan says "the room" or "a volunteer," use the Help &amp; Questions discussion board.</p>
+<h2>Accessibility connection</h2>
+<p>Event-driven validation is one of the highest-impact areas for accessibility in front-end development. WCAG Success Criterion 3.3.1 requires that input errors be identified and described to the user in text — <code>aria-live</code> regions and <code>aria-describedby</code> are the technical implementation of that requirement. Focus management after form submission or error display is required by 2.4.3 (Focus Order) so that keyboard users are not stranded at a submit button after errors appear. Getting these right in Week 07 means your Project 1 form will meet real accessibility standards, not just pass visual inspection.</p>
+<h2>Practice prompt</h2>
+<p>Build a contact form with Name, Email, and Message fields. Requirements: (1) validate each field on <code>blur</code> and show a specific error message next to the field using <code>aria-describedby</code> and <code>aria-live=&quot;polite&quot;</code>, (2) prevent submission if any field is invalid, (3) use event delegation on a button group (three preset subject buttons: "Question", "Feedback", "Bug Report") so only one listener handles all three, storing the selection in a <code>dataset</code> attribute, and (4) on successful submission, display a <code>&lt;div role=&quot;alert&quot;&gt;</code> confirmation message and move focus to it.</p>
+<h2>Bridge</h2>
+<p>Lab 07 is Accessible Form Validation — it is a direct application of everything in this week's notes, so the <code>showError</code>/<code>clearError</code> pattern from the Session 1 demo is a strong starting point. Quiz 4 will ask you to trace through event delegation code and predict which element <code>event.target</code> refers to in different click scenarios. Project 1 Build begins this week: if your project includes any form or interactive UI, the patterns here — <code>addEventListener</code>, <code>event.preventDefault</code>, and live ARIA regions — are the core tools you will reach for throughout the build.</p>
+</body>
+</html>

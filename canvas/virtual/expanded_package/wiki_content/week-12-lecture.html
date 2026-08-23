@@ -149,8 +149,6 @@ const cards = ref([
 <li><strong>Editing <code>dist/</code> files.</strong> Vite outputs a <code>dist/</code> folder when you run <code>npm run build</code>. Those files are generated and will be overwritten. All edits belong in <code>src/</code>.</li>
 <li><strong>Importing a component but forgetting to use it.</strong> In <code>&lt;script setup&gt;</code>, imported components are automatically available in the template — you do not need to register them. But the import line still must be present.</li>
 </ol>
-<h2>Accessibility connection</h2>
-<p>The <code>&lt;style scoped&gt;</code> feature does not affect the semantic structure of your HTML. A card component that uses a <code>&lt;div&gt;</code> for its container is still a <code>&lt;div&gt;</code> after scoping. Choose semantic elements — <code>&lt;article&gt;</code>, <code>&lt;section&gt;</code>, <code>&lt;h2&gt;</code> — inside each component, because the compiled output is what assistive technology reads. When using <code>v-for</code> to render images, the <code>:alt</code> binding must be dynamic so each image gets a meaningful, unique description rather than a repeated empty or placeholder value.</p>
 <h2>Demo walkthrough</h2>
 <ol>
 <li>Scaffold a new project: <code>npm create vite@latest ui-cards -- --template vue</code>, then <code>cd ui-cards &amp;&amp; npm install &amp;&amp; npm run dev</code>.</li>
@@ -161,9 +159,8 @@ const cards = ref([
 <li>Open the browser. Show Vue DevTools: click a component in the tree and inspect its props in the right panel.</li>
 <li>Add a <code>ref(true)</code> called <code>showCards</code> and a button that toggles it. Wrap the list in <code>v-if=&quot;showCards&quot;</code>. Show it disappear and reappear.</li>
 </ol>
-<h2>Practice prompt</h2>
-<p>Create a <code>TagBadge.vue</code> component that accepts a <code>label</code> prop (String) and a <code>color</code> prop (String, default <code>&#x27;blue&#x27;</code>). In <code>App.vue</code>, declare an array of five tag objects and render them with <code>v-for</code>. Add a button that appends a new tag to the array and confirm that Vue re-renders the list without a page reload.</p>
-<h2>Bridge</h2>
-<p>Lab 11 — Vue UI Card System asks you to build a card display driven by a data array, which is exactly the <code>v-for</code> + component pattern from today. Quiz 7 covers <code>ref()</code>, <code>computed()</code>, <code>v-for</code>, and <code>defineProps</code>. Project 2 Build begins this week; the card system you build in the lab is a direct starting point for the project's component layer.</p>
+<h2>Session 2: the studio</h2>
+<p>The rest of this week's material lives in the studio notes — Wednesday's live session for the virtual section, and the second half of the week's work for the online section: <a href="$WIKI_REFERENCE$/pages/week-12-studio-notes-card-system-studio-and-pitch-workshop">Week 12 Studio Notes: Card System Studio and Pitch Workshop</a>.</p>
+<p>Read the <em>Before class</em> list there before you start, and bring what it asks for.</p>
 </body>
 </html>

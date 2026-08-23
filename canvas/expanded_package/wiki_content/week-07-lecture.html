@@ -146,8 +146,6 @@ function clearError(fieldId) {
 <li><strong>Setting <code>aria-invalid</code> without an associated error message.</strong> Marking a field invalid without explaining why is worse than saying nothing. Always pair <code>aria-invalid=&quot;true&quot;</code> with a visible, linked error message.</li>
 <li><strong>Running validation only on submit.</strong> If a user fills out ten fields and submits once, seeing ten errors at once is overwhelming. Add <code>blur</code> listeners to validate each field when the user leaves it so errors surface one at a time.</li>
 </ol>
-<h2>Accessibility connection</h2>
-<p>Event-driven validation is one of the highest-impact areas for accessibility in front-end development. WCAG Success Criterion 3.3.1 requires that input errors be identified and described to the user in text — <code>aria-live</code> regions and <code>aria-describedby</code> are the technical implementation of that requirement. Focus management after form submission or error display is required by 2.4.3 (Focus Order) so that keyboard users are not stranded at a submit button after errors appear. Getting these right in Week 07 means your Project 1 form will meet real accessibility standards, not just pass visual inspection.</p>
 <h2>Demo walkthrough</h2>
 <p><strong>Demo: Accessible Signup Form with Live Validation</strong></p>
 <ol>
@@ -158,9 +156,8 @@ function clearError(fieldId) {
 <li>If all fields pass, hide the form, create a separate success <code>&lt;div role=&quot;alert&quot; tabindex=&quot;-1&quot;&gt;</code>, set its <code>textContent</code>, append it next to the form, and move focus to that success message.</li>
 <li>Use a screen reader (macOS VoiceOver: Cmd+F5) to demonstrate that the live region announces errors without the student having to navigate to them manually.</li>
 </ol>
-<h2>Practice prompt</h2>
-<p>Build a contact form with Name, Email, and Message fields. Requirements: (1) validate each field on <code>blur</code> and show a specific error message next to the field using <code>aria-describedby</code> and <code>aria-live=&quot;polite&quot;</code>, (2) prevent submission if any field is invalid, (3) use event delegation on a button group (three preset subject buttons: "Question", "Feedback", "Bug Report") so only one listener handles all three, storing the selection in a <code>dataset</code> attribute, and (4) on successful submission, display a <code>&lt;div role=&quot;alert&quot;&gt;</code> confirmation message and move focus to it.</p>
-<h2>Bridge</h2>
-<p>Lab 07 is Accessible Form Validation — it is a direct application of everything in this lecture, so the <code>showError</code>/<code>clearError</code> pattern from the demo is a strong starting point. Quiz 4 will ask you to trace through event delegation code and predict which element <code>event.target</code> refers to in different click scenarios. Project 1 Build begins this week: if your project includes any form or interactive UI, the patterns here — <code>addEventListener</code>, <code>event.preventDefault</code>, and live ARIA regions — are the core tools you will reach for throughout the build.</p>
+<h2>Session 2: the studio</h2>
+<p>The rest of this week's material lives in the studio notes — Wednesday's live session for the virtual section, and the second half of the week's work for the online section: <a href="$WIKI_REFERENCE$/pages/week-07-studio-notes-accessible-validation-studio-and-build-check-ins">Week 07 Studio Notes: Accessible Validation Studio and Build Check-Ins</a>.</p>
+<p>Read the <em>Before class</em> list there before you start, and bring what it asks for.</p>
 </body>
 </html>

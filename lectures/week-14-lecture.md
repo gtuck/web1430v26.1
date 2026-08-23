@@ -1,12 +1,15 @@
 # Week 14 Lecture Notes: Quality Checks, Accessibility Audits, and Shipping to the Web
 
 ## Weekly focus
+
 Running a Lighthouse audit, fixing the most common accessibility failures, and deploying a Vite project to GitHub Pages or Netlify.
 
 ## Why this matters
+
 Shipping is not the last step — auditing before shipping is. A project with a Lighthouse accessibility score of 62 communicates to a reviewer that accessibility was not a priority. Knowing how to run a Lighthouse audit, interpret each category, and fix the most common failures in under an hour is a concrete, employable skill. Deployment is the step that turns a local project into something you can link on a resume.
 
 ## Learning targets
+
 - Run a Lighthouse audit in Chrome DevTools and explain what each of the four score categories measures
 - Identify and fix the five most common accessibility failures flagged by Lighthouse
 - Manually verify keyboard navigation and check a page with a screen reader
@@ -145,10 +148,8 @@ Never commit `node_modules/` or `dist/`. Both are generated and can be reproduce
 
 5. **Committing `node_modules/` to the repository.** This is a common mistake on first deployments. It bloats the repository, slows clones, and can cause version conflicts. Verify `.gitignore` includes `node_modules/` before the first `git add`.
 
-## Accessibility connection
-Lighthouse accessibility scores measure automated rule compliance, not lived experience. The goal of this week's audit is not a number — it is building the habit of checking your work against the needs of real users. Keyboard-only navigation is used by people with motor disabilities, power users, and people with broken pointing devices. Screen readers are used by people who are blind or have low vision. Both groups are part of your audience on any public web project, and building with them in mind from the start is far less work than retrofitting accessibility at the end.
-
 ## Demo walkthrough
+
 1. Open the completed Project 2 build (or the Week 12/13 card project) in Chrome.
 2. Open DevTools > Lighthouse. Run an audit (Desktop mode, all categories).
 3. Walk through each score. Click into the Accessibility section and expand the failing items.
@@ -157,8 +158,8 @@ Lighthouse accessibility scores measure automated rule compliance, not lived exp
 6. Run `npm run build`. Show the `dist/` folder in the file system. Serve it locally: `npx serve dist`.
 7. Add `gh-pages` to the project, add a `deploy` script, set `base` in `vite.config.js`, and run `npm run deploy`. Open the live URL.
 
-## Practice prompt
-Run a Lighthouse audit on your Project 2. Document every Accessibility failure in a short list. Fix at least three failures. Re-run Lighthouse and screenshot the before and after scores. Then deploy the fixed build to GitHub Pages or Netlify and submit the live URL alongside your fix list.
+## Session 2: the studio
 
-## Bridge
-Lab 13 — Lighthouse, Accessibility, and Deployment walks you through this exact sequence: audit, fix, deploy, and document what changed. Quiz 8 is now a short readiness check on the core concepts behind that work: Lighthouse categories, common accessibility failures, and deployment verification steps. Project 2 final submission requires a live deployed URL, and Final Project Beta asks you to carry those same QA habits forward.
+The rest of this week's material lives in the studio notes — Wednesday's live session for the virtual section, and the second half of the week's work for the online section: [Week 14 Studio Notes: QA Audit Studio and Fix Triage](week-14-studio.md).
+
+Read the *Before class* list there before you start, and bring what it asks for.

@@ -4,6 +4,7 @@
 - Theme: Tooling and Modular JavaScript
 - Lecture: File Organization, ES Modules, and Build Tooling
 - Lab: Lab 10 – Convert a Script Bundle into Modules
+- Studio: Modularization Studio and Vite Setup
 - Deliverables: Assignment 5, Late-Course Check-In Survey
 
 ## Live sessions
@@ -14,12 +15,13 @@
 ## Success plan
 1. Before Monday: skim the module overview and read the chapter
 2. Attend Monday's live session for the week's core concepts and demo
-3. Start the lab or studio activity; bring blockers to Wednesday's session
+3. Start the lab and read the studio notes; bring blockers to Wednesday's session
 4. Attend Wednesday's live session for guided lab work, code review, and Q&A
 5. Finish the weekly assessment or milestone, then commit and deploy your work
 
 ## Resources
 - [Lecture notes: File Organization, ES Modules, and Build Tooling](../lectures/week-11-lecture.md)
+- [Studio notes: Modularization Studio and Vite Setup](../lectures/week-11-studio.md)
 - [Chapter 11: Modules, npm, and Vite](../textbook/chapters/chapter-11-modules-npm-and-vite.md)
 - [Late-Course Check-In Survey](../course/student-survey-week-11.md) — Complete this after Module 11 so pacing and Vue-readiness concerns are visible before Week 12.
 - **Time estimate:** 10–12 hours (reading, lab, Assignment 5)

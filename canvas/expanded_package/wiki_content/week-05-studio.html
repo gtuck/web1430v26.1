@@ -1,0 +1,32 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>Week 05 Studio Notes: Data Explorer Studio and Proposal Workshop</title>
+<meta name="identifier" content="i514106b33ffc0443d1f1d21984941200"/>
+<meta name="workflow_state" content="active"/>
+</head>
+<body>
+<h1>Week 05 Studio Notes: Data Explorer Studio and Proposal Workshop</h1>
+<h2>Session focus</h2>
+<p>Session 1 was about data shape. Session 2 turns shapes into working code in the Lab 05 studio, then applies the same skill to your own Project 1 idea — a proposal that names its data is a proposal you can actually build.</p>
+<h2>Before class</h2>
+<ul>
+<li>Draft the <code>products</code> array for Lab 05 before the session. Six objects is enough.</li>
+<li>Bring one Project 1 idea you can state in a single sentence.</li>
+</ul>
+<h2>Studio plan</h2>
+<ol>
+<li><strong>Reading chained methods (10 min).</strong> Read <code>products.filter(...).map(...)</code> chains aloud and predict each intermediate array. Quiz 3 asks you to do exactly this on paper.</li>
+<li><strong>Lab 05 data-explorer studio (25 min).</strong> Build the data layer first and log it. Only once the array transformations are right do you touch the display code — that separation is the whole lesson of the week.</li>
+<li><strong>Project 1 proposal workshop (25 min).</strong> Pitch your idea in one sentence, then sketch its data as an array of objects. The room stress-tests scope: too big usually shows up as too many properties.</li>
+<li><strong>Milestone and survey logistics (15 min).</strong> What Milestone 1 asks for, how it is graded, and the Mid-Course Check-In Survey. Complete the survey after the session while the week is fresh.</li>
+</ol>
+<p>The virtual section runs this plan live, Wednesday 9:30–10:45 AM (75 minutes). The online section works the same sequence self-paced; where the plan says "the room" or "a volunteer," use the Help &amp; Questions discussion board.</p>
+<h2>Accessibility connection</h2>
+<p>Structuring data as arrays of objects — rather than scraping values directly out of the DOM — keeps your accessible markup clean and authoritative. When you build the DOM from a data array, every element is created deliberately: you can ensure that <code>alt</code> text, <code>aria-label</code> values, and semantic roles are set from the data rather than inferred or forgotten. It also makes it straightforward to regenerate or update the page without inadvertently stripping ARIA attributes that were added by hand.</p>
+<h2>Practice prompt</h2>
+<p>Create a <code>students</code> array with at least five objects. Each object should have <code>name</code>, <code>grade</code> (a number 0–100), and <code>enrolled</code> (boolean) properties. Then write three things: (1) use <code>.filter()</code> to get only enrolled students, (2) use <code>.map()</code> to produce an array of strings in the format <code>&quot;Alice: B&quot;</code> using a helper function that converts the grade number to a letter, and (3) use <code>.find()</code> to locate a student by name. Log all three results to the console.</p>
+<h2>Bridge</h2>
+<p>The data structures you build this week are exactly what Lab 05's Product Data Explorer will render to the page. For Quiz 3, you should be able to trace through a chain like <code>products.filter(...).map(...)</code> and predict its output. Your Project 1 Proposal should include a rough data sketch — an array of objects showing what properties your project's main data will have. That sketch will save you significant time when you start building in Week 06.</p>
+</body>
+</html>

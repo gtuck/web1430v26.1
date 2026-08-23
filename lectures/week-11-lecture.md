@@ -1,12 +1,15 @@
 # Week 11 Lecture Notes: File Organization, ES Modules, and Build Tooling
 
 ## Weekly focus
+
 Split a single-file JavaScript project into modules with clear responsibilities, and use Vite to run a development server and produce an optimized build.
 
 ## Why this matters
+
 A single JavaScript file works fine for small projects, but it does not scale — global variables from one section collide with variables from another, it becomes impossible to know what depends on what, and loading one large file is slower than loading only what a page needs. ES Modules give you a standard, browser-native way to split code into focused files with explicit imports and exports. Build tools like Vite remove the friction from that workflow and add capabilities (hot reload, bundling, minification) that are standard in professional development environments.
 
 ## Learning targets
+
 - Explain what global scope pollution is and why it is a problem in large projects
 - Write named exports and default exports in a module file
 - Import named and default exports into another file using correct syntax
@@ -162,10 +165,8 @@ Key concepts:
 
 5. **Confusing the Vite dev server port with a deployed site.** `localhost:5173` only works on your machine while `npm run dev` is running. To share or deploy the project, run `npm run build` and use the `dist/` folder.
 
-## Accessibility connection
-Module organization does not directly change what users experience, but it has real indirect accessibility benefits. When rendering logic is isolated in a dedicated module (like `card.js`), you can ensure that every rendered component includes proper semantic markup, ARIA attributes, and keyboard-accessible controls in one place — rather than replicating (and potentially forgetting) that work across many scattered locations. Build tooling also enables automated accessibility auditing as part of the build pipeline in more advanced setups.
-
 ## Demo walkthrough
+
 1. Start with a single `main.js` that has validation helpers, rendering functions, and event handlers all in one place — approximately 80 lines.
 2. Identify three groups: formatting utilities, DOM rendering functions, and app logic.
 3. Create `utils/format.js` and move the formatting functions there with `export`.
@@ -175,13 +176,8 @@ Module organization does not directly change what users experience, but it has r
 7. Run `npm run build`, open `dist/`, point out the single bundled and minified `assets/index-[hash].js`.
 8. Show the Network tab comparing the dev server (multiple small module requests) to the build (one request).
 
-## Practice prompt
-Take the JavaScript from your Assignment 4 solution (the API viewer) and split it into at least three files:
-- `api.js` — exports the fetch function (and nothing else)
-- `render.js` — exports functions that build and insert DOM nodes
-- `main.js` — imports from both and handles event listeners and app startup
+## Session 2: the studio
 
-Set up a Vite project, move your files in, run `npm run dev`, and verify everything still works. Then run `npm run build` and inspect the `dist/` folder.
+The rest of this week's material lives in the studio notes — Wednesday's live session for the virtual section, and the second half of the week's work for the online section: [Week 11 Studio Notes: Modularization Studio and Vite Setup](week-11-studio.md).
 
-## Bridge
-Lab 10 has you do exactly this conversion on a provided single-file project — the practice prompt above is the same skill. Assignment 5 asks you to deliver your work as a Vite project with a proper module structure, so the `dist/` folder must build without errors before you submit. Starting in Week 12, you will build new features directly into modular projects rather than retrofitting them.
+Read the *Before class* list there before you start, and bring what it asks for.

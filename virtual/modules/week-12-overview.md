@@ -4,6 +4,7 @@
 - Theme: Component Thinking with Vue
 - Lecture: Props, State, Templates, and Simple Components
 - Lab: Lab 11 – Vue UI Card System
+- Studio: Card System Studio and Pitch Workshop
 - Deliverables: Quiz 7, Project 2 Build, Final Project Pitch and Planning Starter
 
 ## Live sessions
@@ -14,12 +15,13 @@
 ## Success plan
 1. Before Monday: skim the module overview and read the chapter
 2. Attend Monday's live session for the week's core concepts and demo
-3. Start the lab or studio activity; bring blockers to Wednesday's session
+3. Start the lab and read the studio notes; bring blockers to Wednesday's session
 4. Attend Wednesday's live session for guided lab work, code review, and Q&A
 5. Finish the weekly assessment or milestone, then commit and deploy your work
 
 ## Resources
 - [Lecture notes: Props, State, Templates, and Simple Components](../lectures/week-12-lecture.md)
+- [Studio notes: Card System Studio and Pitch Workshop](../lectures/week-12-studio.md)
 - [Chapter 12: Introductory Component-Based Development](../textbook/chapters/chapter-12-introductory-component-based-development.md)
 - [Chapter 13: Accessibility Synthesis](../textbook/chapters/chapter-13-accessibility-synthesis.md) — **read the first half this week** (through the ARIA patterns and keyboard-contract sections). It is the longest chapter in the book and Week 13 is the heaviest week of the term; splitting it here keeps that week manageable.
 - [Vue Transition Guide](../course/vue-transition-guide.md) — Use this if the switch from DOM code to components feels abrupt; it breaks the week into one working Vue pattern at a time.

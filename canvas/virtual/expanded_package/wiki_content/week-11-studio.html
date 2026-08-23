@@ -1,0 +1,38 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>Week 11 Studio Notes: Modularization Studio and Vite Setup</title>
+<meta name="identifier" content="i42b4100cbf854a62d9f64e97587d573d"/>
+<meta name="workflow_state" content="active"/>
+</head>
+<body>
+<h1>Week 11 Studio Notes: Modularization Studio and Vite Setup</h1>
+<h2>Session focus</h2>
+<p>Session 1 split a script into ES modules and introduced Vite. Session 2 performs that conversion on real code in the Lab 10 studio and checks in on Assignment 5, which is the same move at a larger scale.</p>
+<h2>Before class</h2>
+<ul>
+<li>Skim the Lab 10 starter and note which functions belong together. Grouping is the design decision; <code>export</code> is just the syntax.</li>
+<li>Run <code>npm create vite</code> once on your own machine so installation problems surface before the session, not during it.</li>
+</ul>
+<h2>Studio plan</h2>
+<ol>
+<li><strong>Scaffold and run (10 min).</strong> <code>npm create vite</code>, install, <code>npm run dev</code>. Confirm your Node version meets Vite's requirement first — a version error here looks nothing like a version error.</li>
+<li><strong>Draw the module boundaries (15 min).</strong> Group the starter's functions on screen before touching a file. Boundaries first, <code>export</code> statements second.</li>
+<li><strong>Lab 10 conversion studio (30 min).</strong> Move functions out, add named exports, fix imports until the console is clean. Expect the module-scope surprise: what used to be global is not any more, and that is the feature.</li>
+<li><strong>Assignment 5 check-ins and survey (20 min).</strong> Short reviews of in-progress refactors. Complete the Late-Course Check-In Survey afterwards — the responses shape how the last four weeks run.</li>
+</ol>
+<p>The virtual section runs this plan live, Wednesday 9:30–10:45 AM (75 minutes). The online section works the same sequence self-paced; where the plan says "the room" or "a volunteer," use the Help &amp; Questions discussion board.</p>
+<h2>Accessibility connection</h2>
+<p>Module organization does not directly change what users experience, but it has real indirect accessibility benefits. When rendering logic is isolated in a dedicated module (like <code>card.js</code>), you can ensure that every rendered component includes proper semantic markup, ARIA attributes, and keyboard-accessible controls in one place — rather than replicating (and potentially forgetting) that work across many scattered locations. Build tooling also enables automated accessibility auditing as part of the build pipeline in more advanced setups.</p>
+<h2>Practice prompt</h2>
+<p>Take the JavaScript from your Assignment 4 solution (the API viewer) and split it into at least three files:</p>
+<ul>
+<li><code>api.js</code> — exports the fetch function (and nothing else)</li>
+<li><code>render.js</code> — exports functions that build and insert DOM nodes</li>
+<li><code>main.js</code> — imports from both and handles event listeners and app startup</li>
+</ul>
+<p>Set up a Vite project, move your files in, run <code>npm run dev</code>, and verify everything still works. Then run <code>npm run build</code> and inspect the <code>dist/</code> folder.</p>
+<h2>Bridge</h2>
+<p>Lab 10 has you do exactly this conversion on a provided single-file project — the practice prompt above is the same skill. Assignment 5 asks you to deliver your work as a Vite project with a proper module structure, so the <code>dist/</code> folder must build without errors before you submit. Starting in Week 12, you will build new features directly into modular projects rather than retrofitting them.</p>
+</body>
+</html>

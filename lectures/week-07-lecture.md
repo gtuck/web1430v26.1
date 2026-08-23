@@ -189,10 +189,6 @@ For `focus()` to work, the element must be focusable. If it is not an interactiv
 4. **Setting `aria-invalid` without an associated error message.** Marking a field invalid without explaining why is worse than saying nothing. Always pair `aria-invalid="true"` with a visible, linked error message.
 5. **Running validation only on submit.** If a user fills out ten fields and submits once, seeing ten errors at once is overwhelming. Add `blur` listeners to validate each field when the user leaves it so errors surface one at a time.
 
-## Accessibility connection
-
-Event-driven validation is one of the highest-impact areas for accessibility in front-end development. WCAG Success Criterion 3.3.1 requires that input errors be identified and described to the user in text — `aria-live` regions and `aria-describedby` are the technical implementation of that requirement. Focus management after form submission or error display is required by 2.4.3 (Focus Order) so that keyboard users are not stranded at a submit button after errors appear. Getting these right in Week 07 means your Project 1 form will meet real accessibility standards, not just pass visual inspection.
-
 ## Demo walkthrough
 
 **Demo: Accessible Signup Form with Live Validation**
@@ -204,10 +200,8 @@ Event-driven validation is one of the highest-impact areas for accessibility in 
 5. If all fields pass, hide the form, create a separate success `<div role="alert" tabindex="-1">`, set its `textContent`, append it next to the form, and move focus to that success message.
 6. Use a screen reader (macOS VoiceOver: Cmd+F5) to demonstrate that the live region announces errors without the student having to navigate to them manually.
 
-## Practice prompt
+## Session 2: the studio
 
-Build a contact form with Name, Email, and Message fields. Requirements: (1) validate each field on `blur` and show a specific error message next to the field using `aria-describedby` and `aria-live="polite"`, (2) prevent submission if any field is invalid, (3) use event delegation on a button group (three preset subject buttons: "Question", "Feedback", "Bug Report") so only one listener handles all three, storing the selection in a `dataset` attribute, and (4) on successful submission, display a `<div role="alert">` confirmation message and move focus to it.
+The rest of this week's material lives in the studio notes — Wednesday's live session for the virtual section, and the second half of the week's work for the online section: [Week 07 Studio Notes: Accessible Validation Studio and Build Check-Ins](week-07-studio.md).
 
-## Bridge
-
-Lab 07 is Accessible Form Validation — it is a direct application of everything in this lecture, so the `showError`/`clearError` pattern from the demo is a strong starting point. Quiz 4 will ask you to trace through event delegation code and predict which element `event.target` refers to in different click scenarios. Project 1 Build begins this week: if your project includes any form or interactive UI, the patterns here — `addEventListener`, `event.preventDefault`, and live ARIA regions — are the core tools you will reach for throughout the build.
+Read the *Before class* list there before you start, and bring what it asks for.

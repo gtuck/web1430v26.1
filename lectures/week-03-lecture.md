@@ -1,12 +1,15 @@
 # Week 03 Lecture Notes: Variables, Types, Operators, and Debugging
 
 ## Weekly focus
+
 Building a reliable mental model of JavaScript values and how to inspect them when things go wrong.
 
 ## Why this matters
+
 JavaScript's type system behaves differently from most languages beginners have encountered. Silent type coercion — where `"5" + 3` produces `"53"` instead of an error — is the source of bugs that are genuinely hard to find without a clear mental model of what types are and how operators work on them. Learning to read error messages and use `console.log` strategically this week will save you hours of confusion in every subsequent week of the course.
 
 ## Learning targets
+
 - Declare variables with `const` and `let` and explain why `var` is avoided in modern JavaScript
 - Identify and distinguish the seven primitive types — `string`, `number`, `boolean`, `null`, `undefined`, `symbol`, and `bigint` — and know the five you will use constantly
 - Use `typeof` to inspect a value's type and predict its output for edge cases like `null` and functions
@@ -154,16 +157,15 @@ Common error types you will see this week:
 - `SyntaxError: Unexpected token` — a typo in your code structure (missing bracket, mismatched quotes)
 
 ## Common mistakes
+
 1. **Using `var` because old tutorials do.** Most JavaScript tutorials on the internet predate 2015 and use `var`. When you encounter it, mentally substitute `let`. Do not write new `var` declarations.
 2. **Treating `null` and `undefined` as the same thing.** `null` is an intentional "no value" set by a programmer. `undefined` means a variable was declared but never assigned, or a property does not exist. They behave similarly in many contexts but come from different causes — distinguish them when debugging.
 3. **Using `==` to compare form input values to numbers.** Form input `.value` is always a string. `inputEl.value == 5` might return `true` due to coercion, masking a type problem. Use `Number(inputEl.value) === 5` or `parseInt(inputEl.value, 10) === 5` to be explicit.
 4. **Forgetting that `const` objects are still mutable.** `const user = { name: 'Alex' }` — you cannot reassign `user`, but `user.name = 'Sam'` works fine. Students sometimes expect `const` to freeze the object.
 5. **Ignoring `typeof` output when debugging.** When a value behaves unexpectedly, the first question is always "what type is this?" Log `typeof` alongside the value to confirm your assumption.
 
-## Accessibility connection
-JavaScript that runs in the browser can add, remove, or modify DOM content dynamically. When your scripts change content without updating the accessibility tree — for example, toggling a section visible without updating an associated `aria-expanded` attribute — screen reader users may not know the change occurred. This week's debugging skills apply directly: use the Console to verify that JavaScript is executing and that the DOM changes you intend are actually happening before worrying about accessibility attributes. Correct behavior is a prerequisite for accessible behavior.
-
 ## Demo walkthrough
+
 **Goal:** Demonstrate type coercion causing a real bug, then fix it using strict equality and explicit type conversion.
 
 1. Open the browser Console (`F12`, Console tab).
@@ -189,15 +191,8 @@ JavaScript that runs in the browser can add, remove, or modify DOM content dynam
    ```
 8. Show a `ReferenceError` deliberately: type `console.log(undeclaredVar)`. Point to the file/line indicator in the Console and explain how to read it.
 
-## Practice prompt
-Open the browser Console and work through these exercises, logging each result and writing down whether it matches your prediction before you run it:
-1. `typeof null` — predict, then check
-2. `'3' * '4'` — predict the type and value
-3. `null == undefined` vs `null === undefined`
-4. `` `${2 + 2} is ${2 + 2 === 4 ? 'correct' : 'wrong'}` ``
-5. Declare `const colors = ['red', 'green']` then run `colors.push('blue')` — does `const` prevent this?
+## Session 2: the studio
 
-Document your predictions and the actual results. Note which ones surprised you and why.
+The rest of this week's material lives in the studio notes — Wednesday's live session for the virtual section, and the second half of the week's work for the online section: [Week 03 Studio Notes: Console Studio and Type-Coercion Clinic](week-03-studio.md).
 
-## Bridge
-Lab 03 – Console Exercises and Small Programs consists of small JavaScript problems solved entirely in the browser Console and in a `.js` file — the same environment used in today's demo. Quiz 2 will include questions on `typeof` output, the result of specific coercion expressions, and when to use `const` vs `let`; review the type table and the `==` vs `===` examples before taking it. The Chapter 3 reading goes deeper on expressions and operator precedence, which will fill in the gaps between what was covered here and what you encounter in the lab.
+Read the *Before class* list there before you start, and bring what it asks for.

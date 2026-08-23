@@ -4,17 +4,19 @@
 - Theme: Control Flow and Functions
 - Lecture: Conditionals, Loops, Functions, Scope, and Parameters
 - Lab: Lab 04 – Form Logic and Decision Trees
+- Studio: Decision-Tree Studio and Build Order
 - Deliverables: Assignment 2
 
 ## Success plan
 1. Read the module overview and chapter
-2. Work through lecture notes
-3. Complete the lab or studio activity
+2. Work through the Session 1 lecture notes
+3. Complete the lab, then work the Session 2 studio plan
 4. Finish the weekly assessment or milestone
 5. Commit and deploy your work
 
 ## Resources
 - [Lecture notes: Conditionals, Loops, Functions, Scope, and Parameters](../lectures/week-04-lecture.md)
+- [Studio notes: Decision-Tree Studio and Build Order](../lectures/week-04-studio.md)
 - [Chapter 4: Decisions, Loops, and Reusable Logic](../textbook/chapters/chapter-04-decisions-loops-and-reusable-logic.md)
 - **Time estimate:** 10–12 hours (reading, lab, Assignment 2)
 

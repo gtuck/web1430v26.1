@@ -4,17 +4,19 @@
 - Theme: Events, Forms, and Accessible Interaction
 - Lecture: Event Listeners, Validation, and UX Feedback
 - Lab: Lab 07 – Accessible Form Validation
+- Studio: Accessible Validation Studio and Build Check-Ins
 - Deliverables: Quiz 4, Project 1 Build
 
 ## Success plan
 1. Read the module overview and chapter
-2. Work through lecture notes
-3. Complete the lab or studio activity
+2. Work through the Session 1 lecture notes
+3. Complete the lab, then work the Session 2 studio plan
 4. Finish the weekly assessment or milestone
 5. Commit and deploy your work
 
 ## Resources
 - [Lecture notes: Event Listeners, Validation, and UX Feedback](../lectures/week-07-lecture.md)
+- [Studio notes: Accessible Validation Studio and Build Check-Ins](../lectures/week-07-studio.md)
 - [Chapter 7: Event-Driven Interfaces and Forms](../textbook/chapters/chapter-07-event-driven-interfaces-and-forms.md)
 - [Project 1 brief](../projects/project-1-interactive-style-guide.md) — **Milestone 2 — Build Checkpoint** is due this week: a deployed, in-progress style guide with tokens defined and two components working.
 - **Time estimate:** 10–12 hours (reading, lab, quiz, Project 1 Build checkpoint)

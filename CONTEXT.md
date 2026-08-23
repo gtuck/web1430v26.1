@@ -36,7 +36,7 @@ The course builds in two modalities from the same sources:
 - **online** (default): the original fully asynchronous section → `canvas/WEB1430-Canvas-Export.imscc`
 - **virtual**: synchronous section meeting live over Zoom (Mon/Wed 9:30–10:45 AM MT, Fall 2026) → `canvas/WEB1430-Virtual-Canvas-Export.imscc` and `canvas/virtual/expanded_package/`
 
-Virtual overrides live at `virtual/<same relative path as the base file>`; any source without an override is shared. Current overrides: `virtual/home.md`, `virtual/course/syllabus.md`, `virtual/course/schedule.md`, `virtual/lectures/week-00-lecture.md`, and all 16 `virtual/modules/week-*-overview.md`. Rules enforced by lint: every override must shadow a real base file, keep the base H1 title (Canvas slug stability), and keep `- Deliverables:` lines identical to the base (due dates never differ by modality). Editing a shared file requires rebuilding both packages; editing an override requires rebuilding only the virtual one. Instructor-side virtual logistics are in `instructor/virtual-delivery-guide.md`.
+Virtual overrides live at `virtual/<same relative path as the base file>`; any source without an override is shared. Current overrides: `virtual/home.md`, `virtual/course/syllabus.md`, `virtual/course/schedule.md`, `virtual/lectures/week-00-lecture.md`, `virtual/lectures/week-00-studio.md`, and all 16 `virtual/modules/week-*-overview.md`. Rules enforced by lint: every override must shadow a real base file, keep the base H1 title (Canvas slug stability), and keep `- Deliverables:` lines identical to the base (due dates never differ by modality). Editing a shared file requires rebuilding both packages; editing an override requires rebuilding only the virtual one. Instructor-side virtual logistics are in `instructor/virtual-delivery-guide.md`.
 
 The build script regenerates:
 
@@ -63,7 +63,7 @@ The build script regenerates:
 | `course/` | Syllabus (single canonical copy), schedule, outcomes, quiz alignment, published support guides, and student surveys |
 | `instructor/` | Instructor-only material: Canvas import/setup guide, first-delivery monitoring guide, and the Canvas Outcomes/Rubrics import CSVs (never part of the Canvas export) |
 | `textbook/chapters/` | 14 Markdown chapters |
-| `lectures/` | Weekly lecture notes (`week-00` through `week-15`) |
+| `lectures/` | Two session files per week: `week-NN-lecture.md` (session 1) and `week-NN-studio.md` (session 2), `week-00` through `week-15` |
 | `modules/` | Weekly module overviews (`week-00` through `week-15`) |
 | `labs/` | 14 lab handouts (`lab00` through `lab13`) |
 | `assignments/` | 6 assignment briefs plus 2 Week 00 orientation briefs (Welcome Survey, GitHub Repo Setup) |
@@ -77,6 +77,19 @@ The build script regenerates:
 | `scripts/` | Canvas package build/validation tool, rubrics CSV generator, and course lint |
 | `reports/` | Analysis, review, and redesign reports |
 | `memory/` | Project memory / current-state notes |
+
+## Weekly session structure
+
+Each week is delivered as **two session-sized units** matching the two class meetings:
+
+- **Session 1 — `lectures/week-NN-lecture.md`** (Monday for the virtual section). Weekly focus, Why this matters, Learning targets, Core concepts, Common mistakes, Demo walkthrough, and a closing `## Session 2: the studio` pointer to the studio page.
+- **Session 2 — `lectures/week-NN-studio.md`** (Wednesday). H1 is `Week NN Studio Notes: <subtitle>`. Sections: Session focus, Before class, Studio plan (a timed agenda totalling 75 minutes), then Accessibility connection, Practice prompt, and Bridge — the three sections that moved out of the lecture file.
+
+The lecture file keeps its original filename, H1, and Canvas slug so existing live pages and every cross-link continue to resolve; the studio page is new.
+
+Both pages are published for both modalities. The studio notes are written to work asynchronously as well: the closing paragraph of the Studio plan tells online students to treat the plan as a self-paced sequence and to use the Help & Questions board where the plan says "the room."
+
+Wiring: `publishable_wiki_specs()` globs `lectures/*.md`, so a studio page becomes a Canvas page automatically. `studio_module_items` in `create_expected_file_outputs()` places a `Week NN Studio Notes` module item directly after the `Week NN Lecture Notes` item in all 16 modules, in both `module_meta.xml` and the manifest organization. The module item uses the short title; the page keeps the long one. `- Studio:` lines in `course/schedule.md`, `virtual/course/schedule.md`, and every module overview name each week's studio subtitle, and each overview links the studio notes under Resources.
 
 ## Canvas export boundary
 
@@ -151,7 +164,7 @@ When changing major course content, check these related files together:
 - `instructor/canvas-outcomes.csv` when `course/learning_outcomes.md` changes
 - `instructor/canvas-rubrics.csv` (regenerate with `scripts/build_canvas_rubrics_csv.py`) when any rubric table in a brief changes
 
-When changing files that have virtual overrides (`home.md`, `course/syllabus.md`, `course/schedule.md`, `lectures/week-00-lecture.md`, `modules/week-*-overview.md`), check whether the corresponding `virtual/` override needs the same edit.
+When changing files that have virtual overrides (`home.md`, `course/syllabus.md`, `course/schedule.md`, `lectures/week-00-lecture.md`, `lectures/week-00-studio.md`, `modules/week-*-overview.md`), check whether the corresponding `virtual/` override needs the same edit.
 
 Most of these rules are enforced mechanically by `scripts/lint_course.py` (links, fences, rubric-table shape, quiz points/alignment, due weeks vs schedule, outcomes/rubrics CSV freshness, module format, single syllabus, virtual-override consistency). Run it plus `build --check` and `validate` before finishing; if you change any source content that feeds Canvas, rebuild the package first. The step-by-step editing workflow (order of commands, failure handling, and a when-to-run-what table) is documented in `README.md` under "Editing workflow".
 

@@ -166,10 +166,6 @@ Once you have the data shape, the display code becomes mechanical: loop over the
 4. **Using dot notation with a dynamic key.** `obj.key` always looks for a property literally named `"key"`. If you have a variable called `key`, you must use `obj[key]`.
 5. **Editing the JSON string directly instead of the object.** JSON is a serialization format for transport or storage — not a working data structure. Parse it back to an object before modifying it.
 
-## Accessibility connection
-
-Structuring data as arrays of objects — rather than scraping values directly out of the DOM — keeps your accessible markup clean and authoritative. When you build the DOM from a data array, every element is created deliberately: you can ensure that `alt` text, `aria-label` values, and semantic roles are set from the data rather than inferred or forgotten. It also makes it straightforward to regenerate or update the page without inadvertently stripping ARIA attributes that were added by hand.
-
 ## Demo walkthrough
 
 **Demo: Product Data Explorer (Data Layer)**
@@ -182,10 +178,8 @@ Structuring data as arrays of objects — rather than scraping values directly o
 6. Use `JSON.stringify(products, null, 2)` and paste the output into a `<pre>` tag to show how the data looks as JSON — the same format a real API would return.
 7. Ask students: "If we needed to add a `rating` property, where in this code would we change it? Would we need to touch the display code?" (Answer: no — that is the benefit of data-first design.)
 
-## Practice prompt
+## Session 2: the studio
 
-Create a `students` array with at least five objects. Each object should have `name`, `grade` (a number 0–100), and `enrolled` (boolean) properties. Then write three things: (1) use `.filter()` to get only enrolled students, (2) use `.map()` to produce an array of strings in the format `"Alice: B"` using a helper function that converts the grade number to a letter, and (3) use `.find()` to locate a student by name. Log all three results to the console.
+The rest of this week's material lives in the studio notes — Wednesday's live session for the virtual section, and the second half of the week's work for the online section: [Week 05 Studio Notes: Data Explorer Studio and Proposal Workshop](week-05-studio.md).
 
-## Bridge
-
-The data structures you build this week are exactly what Lab 05's Product Data Explorer will render to the page. For Quiz 3, you should be able to trace through a chain like `products.filter(...).map(...)` and predict its output. Your Project 1 Proposal should include a rough data sketch — an array of objects showing what properties your project's main data will have. That sketch will save you significant time when you start building in Week 06.
+Read the *Before class* list there before you start, and bring what it asks for.
