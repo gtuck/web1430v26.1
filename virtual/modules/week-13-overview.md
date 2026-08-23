@@ -9,6 +9,7 @@
 ## Live sessions
 - **Monday 9:30–10:45 AM:** Component communication, reactive forms, and derived state, demonstrated one workflow step at a time.
 - **Wednesday 9:30–10:45 AM:** Lab 12 dashboard studio, an Assignment 6 build-order clinic, and a Milestone 2 revision workshop for the Final Project.
+- Thanksgiving falls on Thursday, November 26, so both sessions this week meet as normal (Monday Nov 23 and Wednesday Nov 25). If you are travelling, watch the recordings and keep the Sunday deadline in view — this is one of the heaviest weeks of the term.
 - Sessions meet in the [class Zoom room](https://weber.zoom.us/j/82982068432); recordings are posted to Canvas.
 
 ## Success plan

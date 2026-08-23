@@ -31,12 +31,14 @@ Download and install VS Code from code.visualstudio.com. After installing, open 
 
 ### 1.2 Node.js
 
-Download and install the **LTS** version of Node.js from nodejs.org. After installing, open a terminal (VS Code → Terminal → New Terminal) and verify:
+Download and install the current **LTS** version of Node.js (Node 22) from nodejs.org. After installing, open a terminal (VS Code → Terminal → New Terminal) and verify:
 
 ```bash
-node --version    # should print v18.x.x or higher
-npm --version     # should print 9.x.x or higher
+node --version    # must print v22.12.0 or higher
+npm --version     # should print 10.x.x or higher
 ```
+
+**Node 22 is a hard requirement, not a suggestion.** The build tool this course uses in Week 11 (Vite) refuses to run on Node 18 or Node 20.18 and below. If you install an older version now, everything will work until Week 11 and then stop — so get this right today. If `node --version` prints anything lower than v22.12.0, install the LTS build from nodejs.org over the top of it and check again.
 
 If either command returns "command not found," restart your terminal and try again. If the problem persists, reinstall Node.js.
 
@@ -147,7 +149,7 @@ If `git pull --ff-only` fails because you have local edits, do **not** panic. Ru
 
 Before submitting, confirm every item below:
 
-- [ ] `node --version` prints v18 or higher
+- [ ] `node --version` prints v22.12.0 or higher
 - [ ] `npm --version` prints a version number
 - [ ] `git --version` prints a version number
 - [ ] `git config user.name` and `git config user.email` show your details
@@ -171,15 +173,27 @@ Before submitting, confirm every item below:
 
 **Live Server shows a blank page**: Check that you saved the file (Cmd/Ctrl+S). Check that there are no errors in the VS Code terminal.
 
-**npm install errors**: Make sure you installed the LTS version of Node.js, not the "Current" version.
+**npm install errors**: Make sure you installed the LTS version of Node.js (Node 22), not the "Current" version.
+
+**`node --version` still prints an old version after installing**: You probably have more than one Node installed. On Mac, `which -a node` lists them all; a version manager such as `nvm` or `fnm` will shadow the installer's copy. Run `nvm install --lts && nvm alias default lts/*` (or the equivalent for your manager), open a new terminal, and check again.
 
 ---
 
 ## Deliverable
 
+Take a screenshot of your terminal showing the output of `node --version`, `npm --version`, `git --version`, and `git status`. Save it into your repository as `labs/lab00/setup-check.png`, then commit and push it:
+
+```bash
+git add labs/lab00/setup-check.png
+git commit -m "lab00: add setup verification screenshot"
+git push
+```
+
+Canvas accepts a URL and a text entry for this assignment — not a file upload — so the screenshot reaches your instructor through your repository. This is the same pattern every later lab uses for screenshots.
+
 Submit to Canvas:
-- The URL of your GitHub repository (it will look like `https://github.com/web1430-fall26/your-repo-name`)
-- A screenshot showing your terminal with `node --version`, `npm --version`, `git --version`, and `git status` output
+- **URL:** your GitHub repository (it will look like `https://github.com/web1430-fall26/your-repo-name`)
+- **Text entry:** the direct link to your committed screenshot (`https://github.com/web1430-fall26/your-repo-name/blob/main/labs/lab00/setup-check.png`), plus your process reflection below
 
 ## Process reflection
 

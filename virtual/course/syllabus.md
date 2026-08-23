@@ -68,6 +68,18 @@ Students maintain a course GitHub repository — created for them in the course'
 - Sunday: major weekly due date window
 - Short anonymous course check-in surveys run in Weeks 5 and 11, with an additional Week 13 Vue and workload pulse check
 
+## Semester calendar
+
+Classes run **August 24 – December 4, 2026**. The university final exam period is **December 7–10**.
+
+University holidays and no-class days, and what they mean for our Monday/Wednesday sessions:
+
+- **Labor Day — Monday, September 7 (Week 02).** No live session. Read the Week 02 lecture notes in place of that session and bring questions to Wednesday, September 9, which covers a condensed version of the Monday demo before the Lab 02 studio.
+- **Fall Break — Friday, October 9.** No effect; both sessions that week meet as normal.
+- **Thanksgiving — Thursday, November 26 and Friday, November 27 (Week 13).** No effect on our sessions: Monday, November 23 and Wednesday, November 25 both meet as normal. If you are travelling, watch the recordings — Week 13 is one of the heaviest weeks of the term.
+
+Weekly deliverables keep their normal Sunday window during holiday weeks unless a brief or an announcement says otherwise.
+
 ## Attendance and participation
 
 Live sessions are where concepts are introduced, demos are run, and lab work is scaffolded — treat them like face-to-face class meetings. Expectations:

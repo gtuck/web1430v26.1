@@ -48,6 +48,18 @@ Students maintain a course GitHub repository — created for them in the course'
 - Sunday: major weekly due date window
 - Short anonymous course check-in surveys run in Weeks 5 and 11, with an additional Week 13 Vue and workload pulse check
 
+## Semester calendar
+
+Classes run **August 24 – December 4, 2026**. The university final exam period is **December 7–10**.
+
+University holidays and no-class days:
+
+- **Labor Day** — Monday, September 7 (Week 02)
+- **Fall Break** — Friday, October 9
+- **Thanksgiving** — Thursday, November 26 and Friday, November 27 (Week 13)
+
+Weekly deliverables keep their normal Sunday window during holiday weeks unless a brief or an announcement says otherwise.
+
 ## Lecture delivery
 
 Weekly lectures are published as written notes in Canvas each week. Each lecture file covers the week's core concepts with code examples, a demo walkthrough, and a practice prompt. Lectures are designed to be read alongside the corresponding textbook chapter — the chapter provides conceptual grounding and the lecture provides worked examples and common mistakes. Both are required; neither alone is sufficient.

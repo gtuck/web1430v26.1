@@ -71,7 +71,7 @@ Apply the same cleanup steps as Lab 11. Then read the Lab 12 instructions before
 
 ### Common Vite troubleshooting
 
-- **"command not found: npm"** — Node.js is not installed. Download it from nodejs.org (LTS version).
+- **"command not found: npm"** — Node.js is not installed. Download the current LTS version (Node 22) from nodejs.org. Node 22.12 or higher is required; Vite will not run on older versions.
 - **Port 5173 already in use** — Another Vite dev server is running. Stop it with Ctrl+C in the other terminal, or Vite will automatically pick the next available port.
 - **Changes not showing in browser** — Vite's hot module replacement (HMR) updates automatically. If you don't see changes, check the terminal for errors.
 - **`dist/` folder appears after `npm run build`** — This is the production build output. Do not commit it; it is already in `.gitignore`.

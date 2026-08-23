@@ -1,5 +1,7 @@
 # Weekly Schedule
 
+**Semester calendar:** classes run August 24 – December 4, 2026; the final exam period is December 7–10. University holidays and no-class days: **Labor Day, Monday September 7**; **Fall Break (no classes), Friday October 9**; **Thanksgiving, Thursday November 26 – Friday November 27**. Weekly deliverables keep their normal Sunday window during holiday weeks unless a brief or announcement says otherwise.
+
 ## Week 00: Start Here: Orientation and Workflow
 - Lecture: Online Learning, Canvas, GitHub, and the Course Toolchain
 - Lab: Lab 00 – Local Setup and GitHub Workflow

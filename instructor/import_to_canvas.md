@@ -63,12 +63,24 @@ After import, complete these instructor-side setup steps before the term starts:
    **Notes:**
    - Rubric point totals (4 points per criterion) intentionally differ from assignment point values — the rubrics are grading guides and outcome-mastery instruments, not point calculators. Leave "Use this rubric for assignment grading" off unless you want rubric-driven scores.
    - If a brief's rubric table changes, regenerate the CSV with `python3 scripts/build_canvas_rubrics_csv.py`, delete the affected rubric in Canvas, and re-import.
-3. Create actual anonymous response forms for:
+3. **Create the "Help & Questions" discussion board.** The `.imscc` contains no discussion topics, so this must be created by hand in every fresh shell — and it cannot be skipped. Six student-facing documents route students to it (Lab 00, the GitHub Repo Setup and Welcome Survey briefs, the Week 00 lecture and its virtual override, and the course-template README), and **"Post in the Help & Questions board with what you tried and the exact error message" is the keyed correct answer to Question 7 of the Canvas Orientation Quiz.** Without it, Week 00 sends every student to a page that does not exist.
+
+   - Go to Course > Discussions > **+ Discussion**.
+   - Title: **Help & Questions** (exact — the student-facing docs use this wording).
+   - Body: state what belongs there (setup errors, tool problems, assignment clarifications), and ask students to include what they tried and the exact error text. Keep the "post here before emailing" expectation from the Week 00 lecture.
+   - Check **Allow threaded replies** and **Students must post before seeing replies = off**.
+   - Leave it ungraded, and do **not** set an availability window — it must stay open all term.
+   - Publish it, then use the kebab menu on the Discussions index to **Pin** it.
+   - Add it to **Module 0 – Start Here** immediately **before** the Canvas Orientation Quiz. Question 7 of that quiz keys to this board, so students need to have met it before they answer.
+
+4. **Unhide `Modules` and `Discussions` in course navigation.** Weber State's course template ships with both hidden from students (Settings > Navigation). Leaving them hidden breaks Week 00 in two ways: the Help & Questions board created in step 3 becomes unreachable, and Question 1 of the Canvas Orientation Quiz keys "Modules" as the authoritative weekly list — a page students cannot open. Drag **Modules** into the visible group just under Announcements and **Discussions** just under Zoom, then save. Verify with **View as Student** before the term opens. (`Pages` and `Files` can stay hidden; every page students need is linked from a module.)
+
+5. Create actual anonymous response forms for:
    - Week 05 Mid-Course Check-In
    - Week 11 Late-Course Check-In
    - Week 13 Vue and Workload Pulse Check
-4. Use the question banks in:
+6. Use the question banks in:
    - `course/student-survey-week-05.md`
    - `course/student-survey-week-11.md`
    - `course/student-survey-week-13.md`
-5. Review `instructor/first-delivery-monitoring-guide.md` and set up the tracking sheet before students reach Week 11.
+7. Review `instructor/first-delivery-monitoring-guide.md` and set up the tracking sheet before students reach Week 11.

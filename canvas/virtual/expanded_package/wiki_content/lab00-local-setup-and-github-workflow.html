@@ -30,9 +30,10 @@
 <li><strong>Live Server</strong> (ritwickdey.LiveServer)</li>
 </ul>
 <h3>1.2 Node.js</h3>
-<p>Download and install the <strong>LTS</strong> version of Node.js from nodejs.org. After installing, open a terminal (VS Code → Terminal → New Terminal) and verify:</p>
-<pre><code class="language-bash">node --version    # should print v18.x.x or higher
-npm --version     # should print 9.x.x or higher</code></pre>
+<p>Download and install the current <strong>LTS</strong> version of Node.js (Node 22) from nodejs.org. After installing, open a terminal (VS Code → Terminal → New Terminal) and verify:</p>
+<pre><code class="language-bash">node --version    # must print v22.12.0 or higher
+npm --version     # should print 10.x.x or higher</code></pre>
+<p><strong>Node 22 is a hard requirement, not a suggestion.</strong> The build tool this course uses in Week 11 (Vite) refuses to run on Node 18 or Node 20.18 and below. If you install an older version now, everything will work until Week 11 and then stop — so get this right today. If <code>node --version</code> prints anything lower than v22.12.0, install the LTS build from nodejs.org over the top of it and check again.</p>
 <p>If either command returns "command not found," restart your terminal and try again. If the problem persists, reinstall Node.js.</p>
 <h3>1.3 Git</h3>
 <p><strong>Mac</strong>: Git is installed with Xcode Command Line Tools. Run <code>git --version</code> in the terminal. If it's not installed, macOS will prompt you to install it.</p>
@@ -95,7 +96,7 @@ git pull --ff-only</code></pre>
 <h2>Part 8: Smoke test checklist</h2>
 <p>Before submitting, confirm every item below:</p>
 <ul>
-<li>[ ] <code>node --version</code> prints v18 or higher</li>
+<li>[ ] <code>node --version</code> prints v22.12.0 or higher</li>
 <li>[ ] <code>npm --version</code> prints a version number</li>
 <li>[ ] <code>git --version</code> prints a version number</li>
 <li>[ ] <code>git config user.name</code> and <code>git config user.email</code> show your details</li>
@@ -112,13 +113,19 @@ git pull --ff-only</code></pre>
 <p><strong>"Permission denied" when pushing</strong>: You may need to authenticate. GitHub now requires a Personal Access Token instead of a password. Go to GitHub → Settings → Developer Settings → Personal Access Tokens → Generate new token. Use that token as your password when Git prompts for credentials.</p>
 <p><strong>"rejected — fetch first" or "Updates were rejected" when pushing</strong>: Your GitHub copy changed and your local copy is behind. Run <code>git status</code>, then <code>git pull --ff-only</code>. If Git says you have local changes, commit them first. If you see conflict markers in a file, stop and fix them before your next push.</p>
 <p><strong>Live Server shows a blank page</strong>: Check that you saved the file (Cmd/Ctrl+S). Check that there are no errors in the VS Code terminal.</p>
-<p><strong>npm install errors</strong>: Make sure you installed the LTS version of Node.js, not the "Current" version.</p>
+<p><strong>npm install errors</strong>: Make sure you installed the LTS version of Node.js (Node 22), not the "Current" version.</p>
+<p><strong><code>node --version</code> still prints an old version after installing</strong>: You probably have more than one Node installed. On Mac, <code>which -a node</code> lists them all; a version manager such as <code>nvm</code> or <code>fnm</code> will shadow the installer's copy. Run <code>nvm install --lts &amp;&amp; nvm alias default lts/*</code> (or the equivalent for your manager), open a new terminal, and check again.</p>
 <hr />
 <h2>Deliverable</h2>
+<p>Take a screenshot of your terminal showing the output of <code>node --version</code>, <code>npm --version</code>, <code>git --version</code>, and <code>git status</code>. Save it into your repository as <code>labs/lab00/setup-check.png</code>, then commit and push it:</p>
+<pre><code class="language-bash">git add labs/lab00/setup-check.png
+git commit -m &quot;lab00: add setup verification screenshot&quot;
+git push</code></pre>
+<p>Canvas accepts a URL and a text entry for this assignment — not a file upload — so the screenshot reaches your instructor through your repository. This is the same pattern every later lab uses for screenshots.</p>
 <p>Submit to Canvas:</p>
 <ul>
-<li>The URL of your GitHub repository (it will look like <code>https://github.com/web1430-fall26/your-repo-name</code>)</li>
-<li>A screenshot showing your terminal with <code>node --version</code>, <code>npm --version</code>, <code>git --version</code>, and <code>git status</code> output</li>
+<li><strong>URL:</strong> your GitHub repository (it will look like <code>https://github.com/web1430-fall26/your-repo-name</code>)</li>
+<li><strong>Text entry:</strong> the direct link to your committed screenshot (<code>https://github.com/web1430-fall26/your-repo-name/blob/main/labs/lab00/setup-check.png</code>), plus your process reflection below</li>
 </ul>
 <h2>Process reflection</h2>
 <p>In 3–5 sentences: What took longer than expected? What error did you run into and how did you fix it? What does your commit history look like so far? If your local repo and GitHub ever differed, what command would you run first and why?</p>

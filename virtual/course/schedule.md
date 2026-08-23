@@ -4,6 +4,14 @@
 
 Each week, the Monday session introduces the week's lecture topic with a live demo, and the Wednesday session is guided lab/studio work, code review, and Q&A. Deliverables are due in the Sunday window unless a brief says otherwise; Week 15's final exam and presentations follow the university final-exam schedule.
 
+**University holidays and no-class days:**
+
+- **Labor Day — Monday, September 7.** No live session. This is the Week 02 Monday; read the Week 02 lecture notes in its place and bring questions to Wednesday.
+- **Fall Break — Friday, October 9.** No effect on our Monday/Wednesday sessions.
+- **Thanksgiving — Thursday, November 26 and Friday, November 27.** No effect on our sessions: the Week 13 Monday (Nov 23) and Wednesday (Nov 25) sessions both meet as normal.
+
+Classes end Friday, December 4. The university final exam period is December 7–10.
+
 ## Week 00: Start Here: Orientation and Workflow
 - Lecture: Online Learning, Canvas, GitHub, and the Course Toolchain
 - Lab: Lab 00 – Local Setup and GitHub Workflow

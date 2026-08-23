@@ -7,8 +7,8 @@
 - Deliverables: Assignment 1
 
 ## Live sessions
-- **Monday 9:30–10:45 AM:** Semantic HTML, CSS architecture, and a live mobile-first layout demo.
-- **Wednesday 9:30–10:45 AM:** Lab 02 layout studio, then an Assignment 1 kickoff: requirements walkthrough and the accessibility quick-reference checklist.
+- **Monday, September 7 — no session.** Labor Day is a university holiday. Read the Week 02 lecture notes in place of the Monday session: they cover the same semantic HTML, CSS architecture, and mobile-first material, and the mobile-first layout demo is written out step by step. Note anything unclear and bring it to Wednesday.
+- **Wednesday 9:30–10:45 AM:** A condensed live version of the Monday demo and Q&A on the reading, then the Lab 02 layout studio and an Assignment 1 kickoff: requirements walkthrough and the accessibility quick-reference checklist.
 - Sessions meet in the [class Zoom room](https://weber.zoom.us/j/82982068432); recordings are posted to Canvas.
 
 ## Success plan
