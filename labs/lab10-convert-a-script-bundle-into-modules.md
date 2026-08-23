@@ -60,7 +60,7 @@ function renderCard(product) {
 
 function renderAll() {
   const grid = document.getElementById('product-grid');
-  grid.innerHTML = '';
+  grid.replaceChildren();
   const filtered = filterProducts(activeCategory);
   filtered.forEach(p => grid.append(renderCard(p)));
 }
@@ -165,7 +165,7 @@ import { formatPrice } from './utils.js';
 export function renderCard(product) { ... }
 
 export function renderGrid(productList, container) {
-  container.innerHTML = '';
+  container.replaceChildren();   // safe way to clear all children
   productList.forEach(p => container.append(renderCard(p)));
 }
 ```

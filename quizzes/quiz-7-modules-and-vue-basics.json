@@ -1,6 +1,6 @@
 {
   "slug": "quiz-7-modules-and-vue-basics",
-  "title": "Quiz 7 \u2013 Modules and Vue Basics",
+  "title": "Quiz 7 – Modules and Vue Basics",
   "group": "Quizzes",
   "points": 7,
   "questions": [
@@ -12,27 +12,27 @@
       "answers": [
         {
           "id": "es-modules_a1",
-          "text": "Deletes a function",
-          "html": "<p>Deletes a function</p>",
+          "text": "Makes a value available globally on the window object",
+          "html": "<p>Makes a value available globally on the window object</p>",
           "weight": 0
         },
         {
           "id": "es-modules_a2",
-          "text": "Makes code available to other modules",
-          "html": "<p>Makes code available to other modules</p>",
-          "weight": 100
+          "text": "Runs the module immediately when the page loads",
+          "html": "<p>Runs the module immediately when the page loads</p>",
+          "weight": 0
         },
         {
           "id": "es-modules_a3",
-          "text": "Compiles CSS",
-          "html": "<p>Compiles CSS</p>",
+          "text": "Prevents the value from being reassigned",
+          "html": "<p>Prevents the value from being reassigned</p>",
           "weight": 0
         },
         {
           "id": "es-modules_a4",
-          "text": "Creates a DOM node",
-          "html": "<p>Creates a DOM node</p>",
-          "weight": 0
+          "text": "Makes a value available to other modules that import it",
+          "html": "<p>Makes a value available to other modules that import it</p>",
+          "weight": 100
         }
       ]
     },
@@ -44,26 +44,26 @@
       "answers": [
         {
           "id": "vite_a1",
-          "text": "It replaces HTML",
-          "html": "<p>It replaces HTML</p>",
-          "weight": 0
-        },
-        {
-          "id": "vite_a2",
-          "text": "It provides a modern development workflow with quick feedback",
-          "html": "<p>It provides a modern development workflow with quick feedback</p>",
+          "text": "It serves modules over HTTP and updates instantly as you save",
+          "html": "<p>It serves modules over HTTP and updates instantly as you save</p>",
           "weight": 100
         },
         {
+          "id": "vite_a2",
+          "text": "It converts JavaScript into static HTML pages",
+          "html": "<p>It converts JavaScript into static HTML pages</p>",
+          "weight": 0
+        },
+        {
           "id": "vite_a3",
-          "text": "It stores passwords",
-          "html": "<p>It stores passwords</p>",
+          "text": "It replaces the need for a package manager",
+          "html": "<p>It replaces the need for a package manager</p>",
           "weight": 0
         },
         {
           "id": "vite_a4",
-          "text": "It removes the need for JavaScript",
-          "html": "<p>It removes the need for JavaScript</p>",
+          "text": "It lets you run JavaScript without a browser",
+          "html": "<p>It lets you run JavaScript without a browser</p>",
           "weight": 0
         }
       ]
@@ -76,26 +76,26 @@
       "answers": [
         {
           "id": "vue-component_a1",
-          "text": "A random folder",
-          "html": "<p>A random folder</p>",
+          "text": "A CSS class applied to a section of the page",
+          "html": "<p>A CSS class applied to a section of the page</p>",
           "weight": 0
         },
         {
           "id": "vue-component_a2",
-          "text": "A reusable, state-aware interface building block",
-          "html": "<p>A reusable, state-aware interface building block</p>",
+          "text": "A reusable template bundled with its own state and behaviour",
+          "html": "<p>A reusable template bundled with its own state and behaviour</p>",
           "weight": 100
         },
         {
           "id": "vue-component_a3",
-          "text": "A database table",
-          "html": "<p>A database table</p>",
+          "text": "A function that returns a DOM element",
+          "html": "<p>A function that returns a DOM element</p>",
           "weight": 0
         },
         {
           "id": "vue-component_a4",
-          "text": "A network cable",
-          "html": "<p>A network cable</p>",
+          "text": "A single HTML file loaded by the router",
+          "html": "<p>A single HTML file loaded by the router</p>",
           "weight": 0
         }
       ]
@@ -128,26 +128,26 @@
       "answers": [
         {
           "id": "props_a1",
-          "text": "Emit an event or call a parent-provided handler so the parent updates the prop value",
-          "html": "<p>Emit an event or call a parent-provided handler so the parent updates the prop value</p>",
-          "weight": 100
+          "text": "Write the new count to localStorage for the parent to read",
+          "html": "<p>Write the new count to localStorage for the parent to read</p>",
+          "weight": 0
         },
         {
           "id": "props_a2",
-          "text": "Mutate the prop directly because props are writable local state",
-          "html": "<p>Mutate the prop directly because props are writable local state</p>",
+          "text": "Query the parent's DOM and overwrite the rendered text",
+          "html": "<p>Query the parent&#x27;s DOM and overwrite the rendered text</p>",
           "weight": 0
         },
         {
           "id": "props_a3",
-          "text": "Store the new count in localStorage so the parent sees it",
-          "html": "<p>Store the new count in <code>localStorage</code> so the parent sees it</p>",
-          "weight": 0
+          "text": "Emit an event and let the parent update the value",
+          "html": "<p>Emit an event and let the parent update the value</p>",
+          "weight": 100
         },
         {
           "id": "props_a4",
-          "text": "Query the parent DOM and overwrite the rendered text directly",
-          "html": "<p>Query the parent DOM and overwrite the rendered text directly</p>",
+          "text": "Mutate the prop directly, since props are local state",
+          "html": "<p>Mutate the prop directly, since props are local state</p>",
           "weight": 0
         }
       ]
@@ -160,27 +160,27 @@
       "answers": [
         {
           "id": "ref-dot-value_a1",
-          "text": "ref values must be read and updated through .value — the correct expression is count.value = count.value + 1",
-          "html": "<p>ref values must be read and updated through .value — the correct expression is count.value = count.value + 1</p>",
-          "weight": 100
+          "text": "ref() cannot be used inside script setup",
+          "html": "<p>ref() cannot be used inside script setup</p>",
+          "weight": 0
         },
         {
           "id": "ref-dot-value_a2",
-          "text": "ref() is not available inside script setup",
-          "html": "<p>ref() is not available inside script setup</p>",
+          "text": "count must be declared with let rather than const",
+          "html": "<p>count must be declared with let rather than const</p>",
           "weight": 0
         },
         {
           "id": "ref-dot-value_a3",
-          "text": "count must be declared with let, not const",
-          "html": "<p>count must be declared with let, not const</p>",
+          "text": "The handler must be an arrow function for refs to work",
+          "html": "<p>The handler must be an arrow function for refs to work</p>",
           "weight": 0
         },
         {
           "id": "ref-dot-value_a4",
-          "text": "The click handler must use an arrow function for ref to work",
-          "html": "<p>The click handler must use an arrow function for ref to work</p>",
-          "weight": 0
+          "text": "A ref must be updated through .value, not reassigned",
+          "html": "<p>A ref must be updated through .value, not reassigned</p>",
+          "weight": 100
         }
       ]
     },
@@ -193,25 +193,25 @@
         {
           "id": "named-export-import_a1",
           "text": "import { formatPrice } from './utils.js'",
-          "html": "<p>import { formatPrice } from './utils.js'</p>",
+          "html": "<p>import { formatPrice } from &#x27;./utils.js&#x27;</p>",
           "weight": 100
         },
         {
           "id": "named-export-import_a2",
           "text": "import formatPrice from './utils.js'",
-          "html": "<p>import formatPrice from './utils.js'</p>",
+          "html": "<p>import formatPrice from &#x27;./utils.js&#x27;</p>",
           "weight": 0
         },
         {
           "id": "named-export-import_a3",
           "text": "import * formatPrice from './utils.js'",
-          "html": "<p>import * formatPrice from './utils.js'</p>",
+          "html": "<p>import * formatPrice from &#x27;./utils.js&#x27;</p>",
           "weight": 0
         },
         {
           "id": "named-export-import_a4",
-          "text": "require('./utils.js').formatPrice",
-          "html": "<p>require('./utils.js').formatPrice</p>",
+          "text": "import './utils.js' as formatPrice",
+          "html": "<p>import &#x27;./utils.js&#x27; as formatPrice</p>",
           "weight": 0
         }
       ]

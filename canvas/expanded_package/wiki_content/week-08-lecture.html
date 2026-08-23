@@ -41,17 +41,19 @@ if (nameB === &quot;&quot;) {
   return;
 }</code></pre>
 <p><strong>After — one function, called twice:</strong></p>
-<pre><code class="language-js">function requireField(inputId, errorId) {
+<pre><code class="language-js">function requireField(inputId, errorId, label) {
   const value = document.getElementById(inputId).value.trim();
   if (value === &quot;&quot;) {
-    document.getElementById(errorId).textContent = &quot;Name is required.&quot;;
+    document.getElementById(errorId).textContent = `${label} is required.`;
     return false;
   }
   return true;
 }
 
-if (!requireField(&quot;name-a&quot;, &quot;error-a&quot;)) return;
-if (!requireField(&quot;name-b&quot;, &quot;error-b&quot;)) return;</code></pre>
+// inside the submit handler
+if (!requireField(&quot;name-a&quot;, &quot;error-a&quot;, &quot;Name&quot;)) return;
+if (!requireField(&quot;name-b&quot;, &quot;error-b&quot;, &quot;Name&quot;)) return;</code></pre>
+<p>Note the third parameter. The first version of this refactor hardcoded <code>&quot;Name is required.&quot;</code>, which works until the second caller is an email field. If an extracted function still contains a value that only makes sense for one of its callers, it is not finished — pass that value in.</p>
 <p>The behavior is identical. But now the rule "what makes a field invalid" lives in one place. If you need to change it — say, add a minimum length — you change one function instead of hunting for every copy.</p>
 <h3>Naming functions well</h3>
 <p>A function name should answer: "what does this do?" not "how does it do it?"</p>

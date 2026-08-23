@@ -1,6 +1,6 @@
 {
   "slug": "quiz-5-fetch-and-apis",
-  "title": "Quiz 5 \u2013 Fetch and APIs",
+  "title": "Quiz 5 – Fetch and APIs",
   "group": "Quizzes",
   "points": 7,
   "questions": [
@@ -12,27 +12,27 @@
       "answers": [
         {
           "id": "fetch-result_a1",
-          "text": "An HTML element",
-          "html": "<p>An HTML element</p>",
+          "text": "A Response object",
+          "html": "<p>A Response object</p>",
           "weight": 0
         },
         {
           "id": "fetch-result_a2",
-          "text": "A Promise",
-          "html": "<p>A Promise</p>",
-          "weight": 100
+          "text": "The parsed JSON data",
+          "html": "<p>The parsed JSON data</p>",
+          "weight": 0
         },
         {
           "id": "fetch-result_a3",
-          "text": "A CSS rule",
-          "html": "<p>A CSS rule</p>",
+          "text": "The raw response text",
+          "html": "<p>The raw response text</p>",
           "weight": 0
         },
         {
           "id": "fetch-result_a4",
-          "text": "A local file handle",
-          "html": "<p>A local file handle</p>",
-          "weight": 0
+          "text": "A Promise",
+          "html": "<p>A Promise</p>",
+          "weight": 100
         }
       ]
     },
@@ -44,26 +44,26 @@
       "answers": [
         {
           "id": "json-response_a1",
-          "text": "response.textOnly()",
-          "html": "<p>response.textOnly()</p>",
-          "weight": 0
-        },
-        {
-          "id": "json-response_a2",
-          "text": "response.parse()",
-          "html": "<p>response.parse()</p>",
-          "weight": 0
-        },
-        {
-          "id": "json-response_a3",
           "text": "response.json()",
           "html": "<p>response.json()</p>",
           "weight": 100
         },
         {
-          "id": "json-response_a4",
+          "id": "json-response_a2",
           "text": "response.body()",
           "html": "<p>response.body()</p>",
+          "weight": 0
+        },
+        {
+          "id": "json-response_a3",
+          "text": "response.textOnly()",
+          "html": "<p>response.textOnly()</p>",
+          "weight": 0
+        },
+        {
+          "id": "json-response_a4",
+          "text": "response.parse()",
+          "html": "<p>response.parse()</p>",
           "weight": 0
         }
       ]
@@ -96,26 +96,26 @@
       "answers": [
         {
           "id": "error-handling_a1",
-          "text": "Show nothing and hope it works later",
-          "html": "<p>Show nothing and hope it works later</p>",
+          "text": "Show the raw error object returned by the browser",
+          "html": "<p>Show the raw error object returned by the browser</p>",
           "weight": 0
         },
         {
           "id": "error-handling_a2",
-          "text": "Provide a helpful error state and recovery option",
-          "html": "<p>Provide a helpful error state and recovery option</p>",
+          "text": "Provide a helpful error state and a way to retry",
+          "html": "<p>Provide a helpful error state and a way to retry</p>",
           "weight": 100
         },
         {
           "id": "error-handling_a3",
-          "text": "Delete all page content permanently",
-          "html": "<p>Delete all page content permanently</p>",
+          "text": "Log the error to the console and leave the UI unchanged",
+          "html": "<p>Log the error to the console and leave the UI unchanged</p>",
           "weight": 0
         },
         {
           "id": "error-handling_a4",
-          "text": "Reload every 100 milliseconds",
-          "html": "<p>Reload every 100 milliseconds</p>",
+          "text": "Retry the request in a loop until it succeeds",
+          "html": "<p>Retry the request in a loop until it succeeds</p>",
           "weight": 0
         }
       ]
@@ -128,26 +128,26 @@
       "answers": [
         {
           "id": "loading-state_a1",
-          "text": "To hide all delays from users forever",
-          "html": "<p>To hide all delays from users forever</p>",
+          "text": "To make the request itself complete more quickly",
+          "html": "<p>To make the request itself complete more quickly</p>",
           "weight": 0
         },
         {
           "id": "loading-state_a2",
-          "text": "To communicate that work is in progress and prevent confusion",
-          "html": "<p>To communicate that work is in progress and prevent confusion</p>",
-          "weight": 100
-        },
-        {
-          "id": "loading-state_a3",
-          "text": "To disable CSS",
-          "html": "<p>To disable CSS</p>",
+          "text": "Because fetch() requires one before it will run",
+          "html": "<p>Because fetch() requires one before it will run</p>",
           "weight": 0
         },
         {
+          "id": "loading-state_a3",
+          "text": "To show that work is in progress so users are not confused",
+          "html": "<p>To show that work is in progress so users are not confused</p>",
+          "weight": 100
+        },
+        {
           "id": "loading-state_a4",
-          "text": "To replace validation",
-          "html": "<p>To replace validation</p>",
+          "text": "To stop the user from submitting the same request twice",
+          "html": "<p>To stop the user from submitting the same request twice</p>",
           "weight": 0
         }
       ]
@@ -160,27 +160,27 @@
       "answers": [
         {
           "id": "missing-ok-check_a1",
-          "text": "A check for res.ok — a 404 or 500 response resolves the Promise but res.ok is false, and calling .json() on an error response may throw or return unexpected data",
-          "html": "<p>A check for res.ok — a 404 or 500 response resolves the Promise but res.ok is false, and calling .json() on an error response may throw or return unexpected data</p>",
-          "weight": 100
+          "text": "A second await, because .json() is synchronous",
+          "html": "<p>A second await, because .json() is synchronous</p>",
+          "weight": 0
         },
         {
           "id": "missing-ok-check_a2",
-          "text": "await should not be used with .json()",
-          "html": "<p>await should not be used with .json()</p>",
+          "text": "A clone of the response before reading it",
+          "html": "<p>A clone of the response before reading it</p>",
           "weight": 0
         },
         {
           "id": "missing-ok-check_a3",
-          "text": "fetch() already throws an error for 404 responses automatically",
-          "html": "<p>fetch() already throws an error for 404 responses automatically</p>",
+          "text": "Nothing — fetch() throws automatically on a 404",
+          "html": "<p>Nothing — fetch() throws automatically on a 404</p>",
           "weight": 0
         },
         {
           "id": "missing-ok-check_a4",
-          "text": "The response must be cloned before calling .json()",
-          "html": "<p>The response must be cloned before calling .json()</p>",
-          "weight": 0
+          "text": "A res.ok check before parsing the body",
+          "html": "<p>A res.ok check before parsing the body</p>",
+          "weight": 100
         }
       ]
     },
@@ -192,26 +192,26 @@
       "answers": [
         {
           "id": "fetch-resolves-on-404_a1",
-          "text": "fetch() only rejects on network failures (no connection, DNS failure). HTTP error status codes like 404 resolve successfully — the developer must check res.ok",
-          "html": "<p>fetch() only rejects on network failures (no connection, DNS failure). HTTP error status codes like 404 resolve successfully — the developer must check res.ok</p>",
+          "text": "fetch() rejects only on network failures, not HTTP error codes",
+          "html": "<p>fetch() rejects only on network failures, not HTTP error codes</p>",
           "weight": 100
         },
         {
           "id": "fetch-resolves-on-404_a2",
-          "text": "404 errors are automatically retried by the browser",
-          "html": "<p>404 errors are automatically retried by the browser</p>",
+          "text": "The browser retries 404 responses automatically",
+          "html": "<p>The browser retries 404 responses automatically</p>",
           "weight": 0
         },
         {
           "id": "fetch-resolves-on-404_a3",
-          "text": "fetch() always throws for any non-200 status",
-          "html": "<p>fetch() always throws for any non-200 status</p>",
+          "text": "The surrounding try/catch swallowed the error",
+          "html": "<p>The surrounding try/catch swallowed the error</p>",
           "weight": 0
         },
         {
           "id": "fetch-resolves-on-404_a4",
-          "text": "The try/catch block suppressed the error",
-          "html": "<p>The try/catch block suppressed the error</p>",
+          "text": "404 counts as a redirect, which fetch() follows silently",
+          "html": "<p>404 counts as a redirect, which fetch() follows silently</p>",
           "weight": 0
         }
       ]

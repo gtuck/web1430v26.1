@@ -78,6 +78,15 @@ const searchQuery = ref('');
 const minScore = ref(0);
 const maxScore = ref(100);
 const passFilter = ref('all');   // 'all' | 'passing' | 'failing'
+
+// Called when GradeTable emits 'clear-filters'. The parent owns this state,
+// so the parent is the only place that resets it.
+function resetFilters() {
+  searchQuery.value = '';
+  minScore.value = 0;
+  maxScore.value = 100;
+  passFilter.value = 'all';
+}
 ```
 
 ---
@@ -165,7 +174,7 @@ const summary = computed(() => {
     </section>
 
     <SummaryPanel :summary="summary" />
-    <GradeTable :students="filteredStudents" />
+    <GradeTable :students="filteredStudents" @clear-filters="resetFilters" />
   </div>
 </template>
 ```
@@ -226,11 +235,18 @@ defineProps({
     required: true,
   },
 });
+
+// Data flows down through props; this component never edits the filters itself.
+// When the user wants them cleared it emits upward and lets App.vue decide.
+const emit = defineEmits(['clear-filters']);
 </script>
 
 <template>
   <div class="table-wrapper">
-    <p v-if="students.length === 0" class="empty-msg">No students match the current filters.</p>
+    <div v-if="students.length === 0" class="empty-msg">
+      <p>No students match the current filters.</p>
+      <button type="button" @click="emit('clear-filters')">Clear all filters</button>
+    </div>
 
     <table v-else aria-label="Student grades">
       <thead>
@@ -273,6 +289,8 @@ defineProps({
 - [ ] All four filters can be active simultaneously and work together
 - [ ] Summary stats reflect the *filtered* data, not the full dataset
 - [ ] Empty state message shows when no students match
+- [ ] With filters that match nothing, the empty state appears with a working "Clear all filters" button
+- [ ] Clicking it resets all four controls and the full table returns — and `GradeTable` never writes to the filter state itself
 - [ ] `aria-live="polite"` is on the summary panel
 
 ---
@@ -291,6 +309,7 @@ Answer in 4–6 sentences:
 - What is `v-model.number` and why did you need it for the score inputs?
 - How does the summary panel stay synchronized with the filtered data without any additional event listeners?
 - What happens to the summary if all students are filtered out — how did you handle that edge case?
+- Why does `GradeTable` emit `clear-filters` instead of just resetting the filter refs itself?
 
 ---
 
@@ -300,7 +319,7 @@ Answer in 4–6 sentences:
 |-----------|--------------|----------------|----------------|----------------|
 | **Computed filtering** | All four filters work via `computed`; no manual DOM updates; all filters combine correctly | Three filters in computed | Two filters; one manual DOM update | No computed filtering |
 | **Summary panel** | All five stats correct; derived from filtered data; updates with each filter change | Four stats correct; one not filtered | Stats present but use full dataset | No summary |
-| **Component structure** | Two child components with correct `defineProps`; data flows parent → child | Two components; prop type missing | One component extracted | Everything in App.vue |
+| **Component structure** | Two child components with correct `defineProps`; data flows parent → child via props and child → parent via `defineEmits`; no child mutates a prop | Two components with props and emits; a prop type or emit declaration missing | One component extracted, or the child resets filter state directly instead of emitting | Everything in App.vue |
 | **Accessibility** | `aria-live` on summary; table uses `scope`; empty state present | Two of three | One | None |
 | **Edge cases** | Empty filter result shows message; summary shows "N/A" when count is 0 | Empty state only | Edge cases attempted but broken or inconsistent | No edge case handling |
 | **Reflection** | Specific; all three prompts addressed | Two prompts | Vague | Missing |

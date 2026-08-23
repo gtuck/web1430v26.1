@@ -96,24 +96,28 @@ Every async operation can be in one of four states. Your UI should reflect all o
 A clean pattern that handles all four:
 
 ```js
-async function searchPokemon(name) {
+async function searchBooks(query) {
   showLoading();
 
   try {
-    const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${name.toLowerCase()}`);
+    const url = `https://openlibrary.org/search.json?title=${encodeURIComponent(query)}&limit=12`;
+    const response = await fetch(url);
 
     if (!response.ok) {
-      throw new Error(`Pokemon not found (status ${response.status})`);
+      throw new Error(`Search failed (status ${response.status})`);
     }
 
-    const pokemon = await response.json();
+    const data = await response.json();
 
-    if (!pokemon) {
+    // The empty state is a *successful* response that happens to contain
+    // nothing. It is not an error, and it needs its own branch — a parsed
+    // JSON object is always truthy, so `if (!data)` would never catch it.
+    if (data.docs.length === 0) {
       showEmpty();
       return;
     }
 
-    renderPokemon(pokemon);
+    renderBooks(data.docs);
   } catch (error) {
     showError(error.message);
   } finally {

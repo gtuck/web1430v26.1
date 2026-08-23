@@ -7,7 +7,7 @@
 - Deliverables: Final Exam, Final Project, Course Reflection
 
 ## Success plan
-1. Read the module overview and chapter
+1. Re-read the module overview and your Week 14 beta notes (no new chapter this week)
 2. Work through lecture notes
 3. Complete the lab or studio activity
 4. Finish the weekly assessment or milestone

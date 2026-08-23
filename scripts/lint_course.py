@@ -6,8 +6,9 @@ Encodes the cross-file consistency rules from CONTEXT.md as automated checks:
  1. Relative markdown links resolve to real files
  2. Code fences are balanced in every source file
  3. Rubric tables use the exact four-level header and every cell is filled
- 4. Quiz JSON integrity: points == sum of question points == question count,
-    and every question has exactly one correct answer
+ 4. Quiz JSON integrity: declared points == sum of question points, every
+    question carries positive points, and every question has exactly one
+    correct answer
  5. course/quiz-alignment.md question counts match the quiz JSON
  6. Assignment/project Due weeks match course/schedule.md deliverables
  7. instructor/canvas-outcomes.csv matches course/learning_outcomes.md
@@ -130,9 +131,11 @@ def check_quiz_json() -> None:
         questions = data.get("questions", [])
         points = data.get("points")
         total = sum(q.get("points_possible", 0) for q in questions)
-        if not (points == total == len(questions)):
-            fail(f"{rel}: points={points}, sum={total}, questions={len(questions)} "
-                 f"— all three must be equal")
+        if points != total:
+            fail(f"{rel}: points={points} but question points sum to {total}")
+        for idx, question in enumerate(questions, 1):
+            if question.get("points_possible", 0) <= 0:
+                fail(f"{rel}: question {idx} has no positive points_possible")
         for idx, question in enumerate(questions, 1):
             correct = [a for a in question.get("answers", []) if a.get("weight", 0) > 0]
             if len(correct) != 1:
@@ -164,7 +167,7 @@ def check_due_weeks() -> None:
         deliverables = re.search(r"^- Deliverables: (.+)$", block, re.MULTILINE)
         week_deliverables[int(match.group(1))] = deliverables.group(1) if deliverables else ""
 
-    for folder in ("assignments", "projects"):
+    for folder in ("assignments", "projects", "milestones"):
         for path in sorted((ROOT / folder).glob("*.md")):
             rel = path.relative_to(ROOT)
             text = path.read_text(encoding="utf-8")

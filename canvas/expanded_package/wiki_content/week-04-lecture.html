@@ -67,12 +67,13 @@ function greet(name) {
 }
 
 // Expression — stored in a variable, not hoisted
-const greet = function(name) {
+const greetExpr = function(name) {
   return `Hello, ${name}!`;
 };
 
 // Arrow function — concise, preferred in modern code
-const greet = (name) =&gt; `Hello, ${name}!`;</code></pre>
+const greetArrow = (name) =&gt; `Hello, ${name}!`;</code></pre>
+<p>(The three are named differently here only so the whole block can be pasted into the console at once — in real code you would pick one form and call it <code>greet</code>.)</p>
 <p>For beginners, start with declarations while learning. Move to arrow functions once you are comfortable, because you will see them everywhere in modern JavaScript.</p>
 <h3>Parameters and return values</h3>
 <p>Parameters are placeholders defined in the function signature. Arguments are the actual values passed when the function is called. <code>return</code> sends a value back — without it, a function returns <code>undefined</code>.</p>

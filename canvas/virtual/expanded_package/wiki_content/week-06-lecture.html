@@ -19,6 +19,7 @@
 <li>Manipulate CSS classes with <code>classList.add</code>, <code>.remove</code>, <code>.toggle</code>, and <code>.contains</code></li>
 <li>Read and write <code>data-*</code> attributes using the <code>dataset</code> API</li>
 <li>Navigate the DOM tree using <code>parentElement</code>, <code>children</code>, and <code>nextElementSibling</code></li>
+<li>Implement the roving-tabindex keyboard pattern so a composite widget (tabs) is operable with arrow keys</li>
 </ul>
 <h2>Core concepts</h2>
 <h3>querySelector and querySelectorAll</h3>
@@ -82,6 +83,47 @@ btn.addEventListener(&quot;click&quot;, () =&gt; {
   const isOpen = nav.classList.contains(&quot;is-open&quot;);
   btn.setAttribute(&quot;aria-expanded&quot;, isOpen); // keep ARIA in sync
 });</code></pre>
+<h3>Keyboard behaviour for composite widgets: roving tabindex</h3>
+<p>Toggling classes is only half of an interactive component. The other half is deciding what the keyboard does — and for some widgets, the browser's default is wrong.</p>
+<p>A row of plain <code>&lt;button&gt;</code> elements is fine: every button is in the tab order, and Tab walks through them one at a time. But the moment you give those buttons <code>role=&quot;tab&quot;</code> inside a <code>role=&quot;tablist&quot;</code>, you have promised assistive technology that this is a <strong>single composite widget</strong>, not five separate controls. Screen reader users then expect the widget to behave the way every other tablist behaves: <strong>one</strong> Tab press moves into the tablist, <strong>arrow keys</strong> move between the tabs, and the next Tab press moves out of the tablist entirely.</p>
+<p>Leaving all five tabs in the natural tab order breaks that promise. The widget announces itself as a tablist but behaves like five buttons — which is <em>worse</em> than plain buttons, because now the user's expectations are wrong too.</p>
+<p>The fix is a pattern called <strong>roving tabindex</strong>: exactly one element in the group is focusable at a time, and you move that focusability around as the user arrows through.</p>
+<pre><code class="language-js">// Only the active tab is reachable by Tab; the rest are removed from the tab order.
+// tabindex=&quot;-1&quot; means &quot;not in the tab order, but still focusable by script&quot;.
+function setActiveTab(tabs, panels, newIndex) {
+  tabs.forEach((tab, i) =&gt; {
+    const selected = i === newIndex;
+    tab.setAttribute(&quot;aria-selected&quot;, String(selected));
+    tab.tabIndex = selected ? 0 : -1;      // roving tabindex
+    panels[i].hidden = !selected;
+  });
+  tabs[newIndex].focus();                   // move focus with the selection
+}
+
+tabList.addEventListener(&quot;keydown&quot;, (event) =&gt; {
+  const tabs = Array.from(tabList.querySelectorAll(&#x27;[role=&quot;tab&quot;]&#x27;));
+  const current = tabs.indexOf(document.activeElement);
+  if (current === -1) return;
+
+  let next = null;
+  if (event.key === &quot;ArrowRight&quot;) next = (current + 1) % tabs.length;
+  if (event.key === &quot;ArrowLeft&quot;)  next = (current - 1 + tabs.length) % tabs.length;
+  if (event.key === &quot;Home&quot;)       next = 0;
+  if (event.key === &quot;End&quot;)        next = tabs.length - 1;
+
+  if (next !== null) {
+    event.preventDefault();   // stop the arrow key from scrolling the page
+    setActiveTab(tabs, panels, next);
+  }
+});</code></pre>
+<p>Three details worth naming:</p>
+<ul>
+<li><code>tab.tabIndex = 0</code> puts an element in the natural tab order; <code>-1</code> takes it out while leaving it focusable by <code>.focus()</code>. This is the whole mechanism.</li>
+<li><code>event.preventDefault()</code> matters — without it the arrow key also scrolls the page.</li>
+<li>Focus and selection move together here. That is the "automatic activation" pattern, and it is the right default for tabs whose panels are already in the page.</li>
+</ul>
+<p><strong>Accordions are different.</strong> Each accordion header is an independent toggle, not one widget with one active member, so every header stays in the tab order and arrow keys are optional. <code>aria-expanded</code> carries the state instead of <code>aria-selected</code>. Do not apply roving tabindex to an accordion.</p>
+<p>Chapter 13 revisits this pattern in its full form alongside dialogs and focus trapping.</p>
 <h3>dataset attributes</h3>
 <p><code>data-*</code> attributes let you embed custom data directly in HTML elements. The <code>dataset</code> property on a DOM node exposes them as a plain object. Camel-case in JavaScript maps to hyphenated HTML: <code>dataset.productId</code> corresponds to <code>data-product-id</code>.</p>
 <pre><code class="language-js">// HTML: &lt;button data-product-id=&quot;42&quot; data-category=&quot;footwear&quot;&gt;View&lt;/button&gt;
@@ -109,6 +151,7 @@ const prev = item.previousElementSibling; // previous sibling element</code></pr
 <li><strong>Using <code>innerHTML</code> with form input values.</strong> Students often write <code>el.innerHTML = inputField.value</code> — this is the textbook XSS bug. Always use <code>textContent</code> for user-supplied content.</li>
 <li><strong>Forgetting that <code>querySelectorAll</code> returns a NodeList, not an array.</strong> <code>NodeList</code> has <code>.forEach</code> but not <code>.map</code> or <code>.filter</code>. Use <code>Array.from(nodeList)</code> to get a real array.</li>
 <li><strong>Re-rendering without clearing the container first.</strong> If you call a render function twice (e.g., on filter change), you get duplicate cards unless you clear the container with <code>list.textContent = &quot;&quot;</code> before appending.</li>
+<li><strong>Giving buttons <code>role=&quot;tab&quot;</code> without adding arrow-key navigation.</strong> ARIA roles are a promise about behaviour. If you claim <code>role=&quot;tablist&quot;</code> you owe the user roving tabindex and arrow keys; if you are not going to implement that, use plain buttons with no roles and the widget is honest about what it is.</li>
 <li><strong>Reading <code>dataset</code> values as numbers without converting.</strong> <code>dataset.productId === 42</code> is always <code>false</code> because <code>dataset</code> returns strings. Always convert: <code>Number(btn.dataset.productId) === 42</code>.</li>
 </ol>
 <h2>Accessibility connection</h2>
@@ -127,6 +170,6 @@ const prev = item.previousElementSibling; // previous sibling element</code></pr
 <h2>Practice prompt</h2>
 <p>Build a page with a <code>&lt;ul id=&quot;task-list&quot;&gt;&lt;/ul&gt;</code> and an <code>&lt;input&gt;</code>/<code>&lt;button&gt;</code> for adding tasks. Write an <code>addTask(text)</code> function that creates a <code>&lt;li&gt;</code> with the task text and a "Done" button. When "Done" is clicked, toggle a <code>.completed</code> CSS class on the <code>&lt;li&gt;</code> (style it with strikethrough in your CSS). Add a <code>data-created</code> attribute to each <code>&lt;li&gt;</code> storing the timestamp of when it was added (<code>Date.now()</code>). Log the timestamp to the console when the "Done" button is clicked.</p>
 <h2>Bridge</h2>
-<p>Lab 06 asks you to build an interactive FAQ and tabs interface — both require <code>classList.toggle</code> for show/hide and <code>querySelector</code> for finding the right panel to reveal. Assignment 3 will have you render a data array into the DOM, which is exactly the <code>renderProducts</code> pattern from the demo. As you work, keep rendering and data logic in separate functions — that separation will make Assignment 3 much easier to debug and extend.</p>
+<p>Lab 06 asks you to build an interactive FAQ and tabs interface — both require <code>classList.toggle</code> for show/hide and <code>querySelector</code> for finding the right panel to reveal, and the tabs need the roving-tabindex pattern from this lecture. Assignment 3 grades that arrow-key behaviour directly, so get it working in the lab first. Assignment 3 will have you render a data array into the DOM, which is exactly the <code>renderProducts</code> pattern from the demo. As you work, keep rendering and data logic in separate functions — that separation will make Assignment 3 much easier to debug and extend.</p>
 </body>
 </html>

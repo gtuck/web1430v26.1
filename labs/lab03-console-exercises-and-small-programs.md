@@ -133,7 +133,7 @@ Hint: `.trim().split(' ')` — but you may get empty strings from double spaces.
 
 ## Part 3: Debugging exercise
 
-The following code contains **three bugs**. Copy it into a new file `labs/lab03/debug.js`, open it in a browser, read the errors in the Console, and fix all three. Do not rewrite the logic — find and fix only the bugs.
+The following code contains **three bugs**: two typos that throw, and one comparison whose comment does not match what the code actually does. Copy it into a new file `labs/lab03/debug.js`, add `<script src="debug.js" defer></script>` to a small `labs/lab03/debug.html` page (or temporarily swap the `src` in your `index.html`), open it in a browser, read the errors in the Console, and fix all three. Do not restructure the code — find and fix only the bugs.
 
 ```js
 const userName = 'Casey';
@@ -153,10 +153,12 @@ if (userAge == 28) {
 }
 ```
 
+Two of the three bugs throw an error that names the problem. The third does not throw at all: read the comparison and the message it prints, decide what the code was *meant* to do, and make the code and the comment agree. Either fixing the comparison or correcting the claim in the message is acceptable — but say which you chose and why.
+
 In `notes.md`, under a "Debugging" section:
 1. List each bug you found (line number and what was wrong)
 2. Show the fixed code
-3. Explain what the error message said and how it pointed you to the problem
+3. Explain what the error message said and how it pointed you to the problem — and for the third bug, which fix you chose and why
 
 ---
 

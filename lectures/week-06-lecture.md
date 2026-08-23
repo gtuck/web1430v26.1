@@ -16,6 +16,7 @@ The DOM (Document Object Model) is the bridge between your JavaScript data and w
 - Manipulate CSS classes with `classList.add`, `.remove`, `.toggle`, and `.contains`
 - Read and write `data-*` attributes using the `dataset` API
 - Navigate the DOM tree using `parentElement`, `children`, and `nextElementSibling`
+- Implement the roving-tabindex keyboard pattern so a composite widget (tabs) is operable with arrow keys
 
 ## Core concepts
 
@@ -109,6 +110,57 @@ btn.addEventListener("click", () => {
 });
 ```
 
+### Keyboard behaviour for composite widgets: roving tabindex
+
+Toggling classes is only half of an interactive component. The other half is deciding what the keyboard does — and for some widgets, the browser's default is wrong.
+
+A row of plain `<button>` elements is fine: every button is in the tab order, and Tab walks through them one at a time. But the moment you give those buttons `role="tab"` inside a `role="tablist"`, you have promised assistive technology that this is a **single composite widget**, not five separate controls. Screen reader users then expect the widget to behave the way every other tablist behaves: **one** Tab press moves into the tablist, **arrow keys** move between the tabs, and the next Tab press moves out of the tablist entirely.
+
+Leaving all five tabs in the natural tab order breaks that promise. The widget announces itself as a tablist but behaves like five buttons — which is *worse* than plain buttons, because now the user's expectations are wrong too.
+
+The fix is a pattern called **roving tabindex**: exactly one element in the group is focusable at a time, and you move that focusability around as the user arrows through.
+
+```js
+// Only the active tab is reachable by Tab; the rest are removed from the tab order.
+// tabindex="-1" means "not in the tab order, but still focusable by script".
+function setActiveTab(tabs, panels, newIndex) {
+  tabs.forEach((tab, i) => {
+    const selected = i === newIndex;
+    tab.setAttribute("aria-selected", String(selected));
+    tab.tabIndex = selected ? 0 : -1;      // roving tabindex
+    panels[i].hidden = !selected;
+  });
+  tabs[newIndex].focus();                   // move focus with the selection
+}
+
+tabList.addEventListener("keydown", (event) => {
+  const tabs = Array.from(tabList.querySelectorAll('[role="tab"]'));
+  const current = tabs.indexOf(document.activeElement);
+  if (current === -1) return;
+
+  let next = null;
+  if (event.key === "ArrowRight") next = (current + 1) % tabs.length;
+  if (event.key === "ArrowLeft")  next = (current - 1 + tabs.length) % tabs.length;
+  if (event.key === "Home")       next = 0;
+  if (event.key === "End")        next = tabs.length - 1;
+
+  if (next !== null) {
+    event.preventDefault();   // stop the arrow key from scrolling the page
+    setActiveTab(tabs, panels, next);
+  }
+});
+```
+
+Three details worth naming:
+
+- `tab.tabIndex = 0` puts an element in the natural tab order; `-1` takes it out while leaving it focusable by `.focus()`. This is the whole mechanism.
+- `event.preventDefault()` matters — without it the arrow key also scrolls the page.
+- Focus and selection move together here. That is the "automatic activation" pattern, and it is the right default for tabs whose panels are already in the page.
+
+**Accordions are different.** Each accordion header is an independent toggle, not one widget with one active member, so every header stays in the tab order and arrow keys are optional. `aria-expanded` carries the state instead of `aria-selected`. Do not apply roving tabindex to an accordion.
+
+Chapter 13 revisits this pattern in its full form alongside dialogs and focus trapping.
+
 ### dataset attributes
 
 `data-*` attributes let you embed custom data directly in HTML elements. The `dataset` property on a DOM node exposes them as a plain object. Camel-case in JavaScript maps to hyphenated HTML: `dataset.productId` corresponds to `data-product-id`.
@@ -148,7 +200,8 @@ Traversal is useful inside event handlers when `event.target` gives you a child 
 2. **Using `innerHTML` with form input values.** Students often write `el.innerHTML = inputField.value` — this is the textbook XSS bug. Always use `textContent` for user-supplied content.
 3. **Forgetting that `querySelectorAll` returns a NodeList, not an array.** `NodeList` has `.forEach` but not `.map` or `.filter`. Use `Array.from(nodeList)` to get a real array.
 4. **Re-rendering without clearing the container first.** If you call a render function twice (e.g., on filter change), you get duplicate cards unless you clear the container with `list.textContent = ""` before appending.
-5. **Reading `dataset` values as numbers without converting.** `dataset.productId === 42` is always `false` because `dataset` returns strings. Always convert: `Number(btn.dataset.productId) === 42`.
+5. **Giving buttons `role="tab"` without adding arrow-key navigation.** ARIA roles are a promise about behaviour. If you claim `role="tablist"` you owe the user roving tabindex and arrow keys; if you are not going to implement that, use plain buttons with no roles and the widget is honest about what it is.
+6. **Reading `dataset` values as numbers without converting.** `dataset.productId === 42` is always `false` because `dataset` returns strings. Always convert: `Number(btn.dataset.productId) === 42`.
 
 ## Accessibility connection
 
@@ -172,4 +225,4 @@ Build a page with a `<ul id="task-list"></ul>` and an `<input>`/`<button>` for a
 
 ## Bridge
 
-Lab 06 asks you to build an interactive FAQ and tabs interface — both require `classList.toggle` for show/hide and `querySelector` for finding the right panel to reveal. Assignment 3 will have you render a data array into the DOM, which is exactly the `renderProducts` pattern from the demo. As you work, keep rendering and data logic in separate functions — that separation will make Assignment 3 much easier to debug and extend.
+Lab 06 asks you to build an interactive FAQ and tabs interface — both require `classList.toggle` for show/hide and `querySelector` for finding the right panel to reveal, and the tabs need the roving-tabindex pattern from this lecture. Assignment 3 grades that arrow-key behaviour directly, so get it working in the lab first. Assignment 3 will have you render a data array into the DOM, which is exactly the `renderProducts` pattern from the demo. As you work, keep rendering and data logic in separate functions — that separation will make Assignment 3 much easier to debug and extend.

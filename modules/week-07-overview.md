@@ -16,6 +16,7 @@
 ## Resources
 - [Lecture notes: Event Listeners, Validation, and UX Feedback](../lectures/week-07-lecture.md)
 - [Chapter 7: Event-Driven Interfaces and Forms](../textbook/chapters/chapter-07-event-driven-interfaces-and-forms.md)
+- [Project 1 brief](../projects/project-1-interactive-style-guide.md) — **Milestone 2 — Build Checkpoint** is due this week: a deployed, in-progress style guide with tokens defined and two components working.
 - **Time estimate:** 10–12 hours (reading, lab, quiz, Project 1 Build checkpoint)
 
 ## Checkpoint question

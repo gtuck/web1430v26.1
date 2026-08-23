@@ -6,26 +6,53 @@
 
 ---
 
-## Update — August 23, later the same day
+## Update — August 23, all ten sections resolved
 
-**All four Section 1 blocking items are fixed**, plus the Week 02 Labor Day conflict from Section 8.
+Every section of this report has been fixed in the repo, and the live Canvas course (631246) has been synced to match. **Repo changes are made but not committed** — they need a push from your terminal. Lint, both package builds, and both validations pass.
 
-- **1.1 Help & Questions board** — created in course 631246: published, pinned, threaded, ungraded, no availability window, body written from the Week 00 lecture's help workflow. Placed in Module 0 immediately *before* the Canvas Orientation Quiz, so students meet it before Q7 asks about it. Added as step 3 of `import_to_canvas.md`.
-- **1.2 Node version** — Lab 00 now requires Node 22 (v22.12.0+) in the install step, code comment, and smoke-test checklist, with an explicit "this stops working in Week 11 otherwise" warning and a new troubleshooting entry for a shadowed old Node. `starters/README.md` matched.
-- **1.3 Lab 00 screenshot** — students now commit it as `labs/lab00/setup-check.png` and submit the repo URL plus a text-entry link, matching Labs 01/02/13.
-- **1.4 Final exam slot** — **answered, not set.** The registrar's Fall 2026 grid assigns a MW 9:30 class to **Monday, December 7, 9:30–11:20 a.m.** Finals run Dec 7–10; Dec 11 is graduation, so the current placeholder falls after the exam period closes. Setting the actual dates is a pedagogical call, left open.
-- **8 Holidays** — a Semester calendar section now appears in both schedules and both syllabi. Virtual Week 02 states **no Monday session on September 7**; Wednesday opens with a condensed version of the Monday demo. Week 13 states both its sessions meet as normal. Fall Break is Friday, October 9 (no MW impact); Thanksgiving is Thu Nov 26 – Fri Nov 27.
+### Decisions taken
+Milestones are **graded, with points carved out of the parent project**. Arrow-key tab navigation is **taught in Week 06** rather than demoted to stretch. Grading weights were fixed **by changing the points**, leaving the syllabus wording as students already have it. Quiz fixes were applied to **both the repo and the live New Quizzes**.
 
-**Two things surfaced while applying the fixes:**
+### §1 Blocking — done
+Help & Questions board created (published, pinned, threaded, ungraded), placed in Module 0 immediately before the Orientation Quiz. Lab 00 now requires Node 22 (v22.12.0+) with a "this breaks in Week 11 otherwise" warning and an nvm troubleshooting entry. The screenshot deliverable routes through the repo as `labs/lab00/setup-check.png`.
 
-1. **Modules and Discussions were hidden from student navigation** on the live course, which would have made both the new help board and the Modules page unreachable — while Orientation Quiz Q1 keys "Modules" as the authoritative weekly list. Both are now visible (student nav: Home, Announcements, Modules, Zoom, Discussions, Syllabus, Assignments, Quizzes, Grades…). Documented as step 4 of `import_to_canvas.md`.
-2. **The live syllabus has diverged from the repo.** Canvas `syllabus_body` carries an "Instructor information" block (name, department, EH 371, Zoom office link, office hours) that does not exist in `virtual/course/syllabus.md`. The calendar section was therefore inserted surgically rather than pushed as a whole-body PUT. A course reset or re-import would lose that block — worth adding to the repo source.
+**Final exam slot — answered, not set.** The registrar's Fall 2026 grid assigns a MW 9:30 class to **Monday, December 7, 9:30–11:20 a.m.**; finals run Dec 7–10 and Dec 11 is graduation. The live placeholder is still Fri Dec 11 — your call.
 
-**Live objects updated in course 631246:** page `lab00-local-setup-and-github-workflow`, assignment 7551867 (Lab 00) description, page `week-02-overview`, page `week-13-overview`, course `syllabus_body`, plus the new discussion and the two navigation tabs. Each write was read back and verified.
+### §2 Eight milestones — done
+A new `milestones/` source directory generates Canvas **assignments only** (no wiki pages; the authoritative requirements stay in the parent brief). All eight are live, published, dated on the normal Sunday 11:59 PM window, and placed in the correct module. Points are carved from the parent so the Projects group weight is unchanged: Project 1 = 20 + 25 + 96, Project 2 = 25 + 30 + 120, Final Project = 20 + 20 + 25 + 24 + 140. The Course Reflection now has its own assignment with the existing **Final Project – Course Reflection** rubric attached — the 24th rubric, which previously had nowhere to go.
 
-**Repo edits are made but not committed** — they need a push from your terminal. Lint, both builds, and both validations pass.
+Wiring this required a build-script fix: `assignment_body_specs()` only looked up sources from wiki pages, so milestone descriptions rendered empty until non-page sources were added to the lookup.
 
-Everything in Sections 2 through 10 is still open.
+### §3 Arrow-key tabs — done
+The Week 06 lecture gains a **roving tabindex** section: why `role="tab"` is a promise about behaviour, the `tabIndex = 0 / -1` mechanism, Arrow/Home/End handling, `preventDefault()`, and why accordions must *not* use the pattern. Lab 06 now teaches and tests it (five new checklist items, updated keyboard and ARIA rubric rows, `tabindex` in the starter markup). Project 1's modal option now points at Chapter 13 for focus trapping.
+
+### §4 Grading weights — done
+Final Exam items are now 2 points each (34 vs the midterm's 15) — a **69% / 31%** split, matching the syllabus's stated two-thirds. All six assignments are 24 points; Assignment 1 gained a sixth rubric row ("Constraints and validation") so the set is genuinely equal. Every lab and assignment is now worth exactly its rubric maximum, and each project final is a clean multiple of its rubric (×4, ×5, ×5, ×2), so a rubric score converts with one multiplication. The conversion table is in `import_to_canvas.md`. Live group totals now match the repo exactly.
+
+### §5 Quiz bank — done, repo and live
+Correct-answer positions went from **37/34/7/0 (never slot 4)** to **20/20/19/19**. "Correct answer is the single longest option" dropped from **69% to 38%** (chance is ~25%). Roughly 65 items were rewritten with plausible near-miss distractors — `event.currentTarget` as a foil for `event.target`, a `Response` object against a `Promise`, graceful degradation against progressive enhancement — replacing "Network routing", "GPU memory" and "A network cable". Three final-exam true/false items were retyped (they had to be deleted and recreated; New Quizzes refuses an in-place type change). Quiz 8 Q1 now includes SEO. Answer shuffling is enabled on all 78 multiple-choice items as a second defence.
+
+### §6 Code defects — done
+`formatDate` now uses `T12:00:00` with a note explaining the UTC-parsing trap. The Vite scaffold tree shows `src/`. The Week 04 example is `greetExpr` / `greetArrow` so it can be pasted whole. Lab 04 expects Lakeside Loop. The Week 09 empty-state branch is reachable — the example moved to a search endpoint that can genuinely return nothing.
+
+### §7 Contradictions — done
+All twelve: Assignment 5's required-vs-stretch collision, Project 2's checkpoint asking about its own week, both empty Milestone 3 headings, the two wrong lecture Bridges, Lab 12 now genuinely using `defineEmits` (GradeTable emits `clear-filters`), Lab 10 and Assignment 5 on `replaceChildren()`, Weeks 00/15 no longer told to read a chapter that does not exist, Lab 13's sixth checklist item and the `base:` GitHub Pages fix, Assignment 6's component count, and the Final Project's "End-to-end front-end".
+
+### §8 Calendar — done
+Verified against the registrar's calendar image: Labor Day **Mon Sep 7**, Fall Break **Fri Oct 9**, Thanksgiving **Thu Nov 26 – Fri Nov 27**. Only Labor Day hits a session. Week 02 now states no Monday session; Week 13 states both sessions do meet. A Semester calendar section is in both schedules and both syllabi.
+
+### §9/§10 Workload and small items — done
+Chapter 13 is split across Weeks 12–13 in all four module overviews. Weeks 05/07/10 now link their project briefs. Fixed: the `typeof null` age, the 304 cache wording, the `requireField` hardcoded message, Chapter 13's forward reference to Lighthouse, the reflection length-versus-depth mismatch, and Lab 03's ambiguous third bug.
+
+### Two things that surfaced along the way
+1. **Modules and Discussions were hidden from student navigation** on the live course — which would have made both the new help board and the Modules page unreachable, while Orientation Quiz Q1 keys "Modules" as the authoritative weekly list. Both are now visible.
+2. **The live syllabus has diverged from the repo** — it carries an "Instructor information" block the sources do not have. All syllabus edits were made surgically. A course reset or re-import would lose that block; worth adding to the repo source.
+
+### Verification
+A sweep of all 80 live pages and 44 live assignments found **no remaining stale strings** from any finding in this report. Live quizzes read back as 78 multiple-choice + 14 true/false, positions 20/20/19/19, shuffle on, every item with exactly one correct answer. Live assignment-group totals match the repo: Orientation 23, Labs 312, Assignments 144, Projects 545, Quizzes 52, Exams 49.
+
+### Still open
+The Week 15 exam and final-project dates, and the decision about whether support pages should be placed in modules rather than reached only through inline links.
 
 ---
 
@@ -70,7 +97,7 @@ Memory records the Week 15 Final Exam and Final Project as a **placeholder** due
 
 ---
 
-## 2. Structural — eight deliverables with nowhere to submit
+## 2. Structural — eight deliverables with nowhere to submit  ✅ resolved
 
 The schedule and module overviews promise these as weekly deliverables. **None of them exists as a Canvas assignment.** The package contains exactly 25 assignments: 14 labs, 2 orientation items, 6 assignments, and one each for Project 1, Project 2, and the Final Project.
 
@@ -93,7 +120,7 @@ This matters beyond bookkeeping. The whole late-term pacing strategy — which t
 
 ---
 
-## 3. Sequencing — content required before it's taught
+## 3. Sequencing — content required before it's taught  ✅ resolved
 
 **Arrow-key tab navigation.** Assignment 3 (Week 06) requires it as a graded rubric row:
 
@@ -116,7 +143,7 @@ Related: **focus trapping** is required by Project 1 Option C (modal) and taught
 
 ---
 
-## 4. Grading weights that contradict the syllabus
+## 4. Grading weights that contradict the syllabus  ✅ resolved
 
 Canvas computes group grades by total points. Three places where the points don't produce the promised weighting:
 
@@ -136,7 +163,7 @@ Assignment 1 is 12.0% of the assignment grade; Assignments 4 and 6 are 19.3% eac
 
 ---
 
-## 5. Quiz bank — a real test-validity problem
+## 5. Quiz bank — a real test-validity problem  ✅ resolved
 
 The quiz sources are technically clean (lint passes; every item has exactly one 100-weight answer; points match counts). The design has two measurable weaknesses across all 78 non-true/false multiple-choice items:
 
@@ -164,7 +191,7 @@ The quiz sources are technically clean (lint passes; every item has exactly one 
 
 ---
 
-## 6. Code examples that don't produce the stated output
+## 6. Code examples that don't produce the stated output  ✅ resolved
 
 **`lectures/week-11-lecture.md:51`** — verified wrong for this course's own timezone:
 
@@ -188,7 +215,7 @@ console.log(formatDate("2025-03-15"));   // claims "March 15, 2025"
 
 ---
 
-## 7. Cross-document contradictions
+## 7. Cross-document contradictions  ✅ resolved
 
 **Assignment 5 — the same items are both required and optional.** `constants.js` and `ARCHITECTURE.md` appear under "Required output structure" ("You must also include:"), in the verification checklist, and in the rubric's Excellent column — *and* as the first two bullets under **"Above baseline (stretch)"** (`assignment-5:154`). A student reading top-down and a student reading bottom-up build different projects.
 
@@ -232,7 +259,7 @@ There is **not one mention** of Labor Day, Fall Break, or Thanksgiving in any mo
 
 ---
 
-## 9. Workload
+## 9. Workload  ✅ resolved
 
 Summing the module time estimates gives **~163 hours** across 16 weeks. The federal credit-hour standard for a 3-credit course is ~135 hours. The course is honestly self-reporting about **20% over** — and the estimates look realistic, not padded.
 
@@ -250,7 +277,7 @@ The mitigations already in place are good — the Vue transition guide, Assignme
 
 ---
 
-## 10. Smaller items
+## 10. Smaller items  ✅ resolved
 
 - `lectures/week-03-lecture.md:54` — "a 25-year-old bug." JavaScript shipped in 1995; it's ~31 years old in 2026. Say "a bug from the language's first version."
 - `lectures/week-01-lecture.md` — "served from cache (status 304)." A 304 is a revalidation response; true cache hits show "(from disk cache)" with no status.

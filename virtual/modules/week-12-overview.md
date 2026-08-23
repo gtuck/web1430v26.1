@@ -21,6 +21,7 @@
 ## Resources
 - [Lecture notes: Props, State, Templates, and Simple Components](../lectures/week-12-lecture.md)
 - [Chapter 12: Introductory Component-Based Development](../textbook/chapters/chapter-12-introductory-component-based-development.md)
+- [Chapter 13: Accessibility Synthesis](../textbook/chapters/chapter-13-accessibility-synthesis.md) — **read the first half this week** (through the ARIA patterns and keyboard-contract sections). It is the longest chapter in the book and Week 13 is the heaviest week of the term; splitting it here keeps that week manageable.
 - [Vue Transition Guide](../course/vue-transition-guide.md) — Use this if the switch from DOM code to components feels abrupt; it breaks the week into one working Vue pattern at a time.
 - [Final Project brief](../projects/final-project-campus-or-community-tool.md) — Read the start-ahead plan and Milestone 1 section now; the goal is to leave Week 12 with a real audience, a starter sketch, and a draft data model so Week 13 is revision work instead of a cold start.
 - **Time estimate:** 11–13 hours (reading, lab, quiz, Project 2 Build checkpoint, Final Project Pitch and Planning Starter)

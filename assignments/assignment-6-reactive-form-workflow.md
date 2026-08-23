@@ -187,7 +187,7 @@ Write 4–6 sentences addressing:
 
 | Criterion | Excellent (4) | Proficient (3) | Developing (2) | Incomplete (1) |
 |-----------|--------------|----------------|----------------|----------------|
-| **Component decomposition** | All five component types present with correct responsibilities; data flows down via props, events flow up via emits | Four components; one minor responsibility leak | Three components; some prop mutation | Single-component app |
+| **Component decomposition** | All six child components present (`StepIndicator`, `Step1`, `Step2`, `Step3`, `ReviewStep`, `SuccessView`) with correct responsibilities; data flows down via props, events flow up via emits | Four components; one minor responsibility leak | Three components; some prop mutation | Single-component app |
 | **Reactive form state** | `v-model` on all inputs; `computed` used for derived value; review reflects parent data via props | `v-model` used; no `computed` | Mixed `v-model` and manual handlers | Manual DOM reads |
 | **Validation** | All three steps validate before advancing; error messages inline and linked via `aria-describedby`; `aria-invalid` set correctly | Two steps validate; error messages present | One step validates | No validation |
 | **Step flow** | Advancing, going back, and submitting work correctly; review shows complete data; success view resets app | Advancing and submitting work; back navigation missing | Forward flow works; review incomplete | Flow non-functional |

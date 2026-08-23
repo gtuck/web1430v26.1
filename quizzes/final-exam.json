@@ -2,25 +2,25 @@
   "slug": "final-exam",
   "title": "Final Exam",
   "group": "Exams",
-  "points": 17,
+  "points": 34,
   "questions": [
     {
       "name": "Architecture",
-      "question_type": "multiple_choice_question",
+      "question_type": "true_false_question",
       "question_text": "<p>A maintainable front-end usually separates concerns by organizing data, rendering, and interaction logic.</p>",
-      "points_possible": 1,
+      "points_possible": 2,
       "answers": [
         {
           "id": "architecture_a1",
-          "text": "False",
-          "html": "<p>False</p>",
-          "weight": 0
-        },
-        {
-          "id": "architecture_a2",
           "text": "True",
           "html": "<p>True</p>",
           "weight": 100
+        },
+        {
+          "id": "architecture_a2",
+          "text": "False",
+          "html": "<p>False</p>",
+          "weight": 0
         }
       ]
     },
@@ -28,30 +28,30 @@
       "name": "Enhancement",
       "question_type": "multiple_choice_question",
       "question_text": "<p>Which statement best fits progressive enhancement?</p>",
-      "points_possible": 1,
+      "points_possible": 2,
       "answers": [
         {
           "id": "enhancement_a1",
-          "text": "Start with the richest animation possible",
-          "html": "<p>Start with the richest animation possible</p>",
-          "weight": 0
-        },
-        {
-          "id": "enhancement_a2",
           "text": "Start with meaningful content and add richer behavior when supported",
           "html": "<p>Start with meaningful content and add richer behavior when supported</p>",
           "weight": 100
         },
         {
-          "id": "enhancement_a3",
+          "id": "enhancement_a2",
           "text": "Assume JavaScript will always succeed",
           "html": "<p>Assume JavaScript will always succeed</p>",
           "weight": 0
         },
         {
-          "id": "enhancement_a4",
+          "id": "enhancement_a3",
           "text": "Hide content until all APIs return",
           "html": "<p>Hide content until all APIs return</p>",
+          "weight": 0
+        },
+        {
+          "id": "enhancement_a4",
+          "text": "Start with the richest animation possible",
+          "html": "<p>Start with the richest animation possible</p>",
           "weight": 0
         }
       ]
@@ -60,12 +60,12 @@
       "name": "Form UX",
       "question_type": "multiple_choice_question",
       "question_text": "<p>Good validation feedback should be:</p>",
-      "points_possible": 1,
+      "points_possible": 2,
       "answers": [
         {
           "id": "form-ux_a1",
-          "text": "Delayed until after grading",
-          "html": "<p>Delayed until after grading</p>",
+          "text": "Consistent in colour with the rest of the interface",
+          "html": "<p>Consistent in colour with the rest of the interface</p>",
           "weight": 0
         },
         {
@@ -76,14 +76,14 @@
         },
         {
           "id": "form-ux_a3",
-          "text": "Only shown in developer tools",
-          "html": "<p>Only shown in developer tools</p>",
+          "text": "Brief, so the form stays visually uncluttered",
+          "html": "<p>Brief, so the form stays visually uncluttered</p>",
           "weight": 0
         },
         {
           "id": "form-ux_a4",
-          "text": "Based only on color",
-          "html": "<p>Based only on color</p>",
+          "text": "Shown only once the whole form has been submitted",
+          "html": "<p>Shown only once the whole form has been submitted</p>",
           "weight": 0
         }
       ]
@@ -92,39 +92,39 @@
       "name": "Async model",
       "question_type": "multiple_choice_question",
       "question_text": "<p>Which phrase best describes async/await?</p>",
-      "points_possible": 1,
+      "points_possible": 2,
       "answers": [
         {
           "id": "async-model_a1",
-          "text": "A styling method",
-          "html": "<p>A styling method</p>",
+          "text": "A method for pausing the browser's main thread",
+          "html": "<p>A method for pausing the browser&#x27;s main thread</p>",
           "weight": 0
         },
         {
           "id": "async-model_a2",
+          "text": "A replacement for the browser's event loop",
+          "html": "<p>A replacement for the browser&#x27;s event loop</p>",
+          "weight": 0
+        },
+        {
+          "id": "async-model_a3",
           "text": "A readable way to coordinate promises",
           "html": "<p>A readable way to coordinate promises</p>",
           "weight": 100
         },
         {
-          "id": "async-model_a3",
-          "text": "A database schema",
-          "html": "<p>A database schema</p>",
-          "weight": 0
-        },
-        {
           "id": "async-model_a4",
-          "text": "A file format",
-          "html": "<p>A file format</p>",
+          "text": "A way to run two functions at the same time",
+          "html": "<p>A way to run two functions at the same time</p>",
           "weight": 0
         }
       ]
     },
     {
       "name": "API design",
-      "question_type": "multiple_choice_question",
+      "question_type": "true_false_question",
       "question_text": "<p>When rendering remote data, a robust interface should handle loading, success, and error states.</p>",
-      "points_possible": 1,
+      "points_possible": 2,
       "answers": [
         {
           "id": "api-design_a1",
@@ -144,31 +144,31 @@
       "name": "Storage choice",
       "question_type": "multiple_choice_question",
       "question_text": "<p>A user selects dark mode on your site, closes the browser, and expects that preference to still be there tomorrow. Which storage option is the best fit?</p>",
-      "points_possible": 1,
+      "points_possible": 2,
       "answers": [
         {
           "id": "storage-choice_a1",
-          "text": "DNS cache",
-          "html": "<p>DNS cache</p>",
+          "text": "sessionStorage",
+          "html": "<p>sessionStorage</p>",
           "weight": 0
         },
         {
           "id": "storage-choice_a2",
-          "text": "localStorage",
-          "html": "<p>localStorage</p>",
-          "weight": 100
+          "text": "A cookie with no expiry set",
+          "html": "<p>A cookie with no expiry set</p>",
+          "weight": 0
         },
         {
           "id": "storage-choice_a3",
-          "text": "GPU memory",
-          "html": "<p>GPU memory</p>",
+          "text": "An in-memory JavaScript variable",
+          "html": "<p>An in-memory JavaScript variable</p>",
           "weight": 0
         },
         {
           "id": "storage-choice_a4",
-          "text": "HTML comments",
-          "html": "<p>HTML comments</p>",
-          "weight": 0
+          "text": "localStorage",
+          "html": "<p>localStorage</p>",
+          "weight": 100
         }
       ]
     },
@@ -176,30 +176,30 @@
       "name": "Modules",
       "question_type": "multiple_choice_question",
       "question_text": "<p>Why use modules?</p>",
-      "points_possible": 1,
+      "points_possible": 2,
       "answers": [
         {
           "id": "modules_a1",
-          "text": "To hide all code from teammates",
-          "html": "<p>To hide all code from teammates</p>",
-          "weight": 0
-        },
-        {
-          "id": "modules_a2",
           "text": "To organize and reuse code with clearer boundaries",
           "html": "<p>To organize and reuse code with clearer boundaries</p>",
           "weight": 100
         },
         {
+          "id": "modules_a2",
+          "text": "To make every file load in a guaranteed order",
+          "html": "<p>To make every file load in a guaranteed order</p>",
+          "weight": 0
+        },
+        {
           "id": "modules_a3",
-          "text": "To avoid browsers entirely",
-          "html": "<p>To avoid browsers entirely</p>",
+          "text": "To reduce the total number of network requests",
+          "html": "<p>To reduce the total number of network requests</p>",
           "weight": 0
         },
         {
           "id": "modules_a4",
-          "text": "To remove testing",
-          "html": "<p>To remove testing</p>",
+          "text": "To make variables available across every file",
+          "html": "<p>To make variables available across every file</p>",
           "weight": 0
         }
       ]
@@ -208,30 +208,30 @@
       "name": "Components",
       "question_type": "multiple_choice_question",
       "question_text": "<p>A component-based framework is most useful when you need to:</p>",
-      "points_possible": 1,
+      "points_possible": 2,
       "answers": [
         {
           "id": "components_a1",
-          "text": "Repeat structured UI patterns with state and behavior",
-          "html": "<p>Repeat structured UI patterns with state and behavior</p>",
-          "weight": 100
-        },
-        {
-          "id": "components_a2",
-          "text": "Write SQL joins",
-          "html": "<p>Write SQL joins</p>",
+          "text": "Query and transform data before it reaches the server",
+          "html": "<p>Query and transform data before it reaches the server</p>",
           "weight": 0
         },
         {
+          "id": "components_a2",
+          "text": "Repeat structured UI patterns with state and behaviour",
+          "html": "<p>Repeat structured UI patterns with state and behaviour</p>",
+          "weight": 100
+        },
+        {
           "id": "components_a3",
-          "text": "Configure Wi-Fi",
-          "html": "<p>Configure Wi-Fi</p>",
+          "text": "Render a single page that never changes after load",
+          "html": "<p>Render a single page that never changes after load</p>",
           "weight": 0
         },
         {
           "id": "components_a4",
-          "text": "Generate PDFs",
-          "html": "<p>Generate PDFs</p>",
+          "text": "Replace CSS with JavaScript-driven styling",
+          "html": "<p>Replace CSS with JavaScript-driven styling</p>",
           "weight": 0
         }
       ]
@@ -240,30 +240,30 @@
       "name": "Accessibility",
       "question_type": "multiple_choice_question",
       "question_text": "<p>A user can open a dialog with the keyboard, but after it opens the Tab key skips behind the dialog and lands on the page underneath. What is the biggest accessibility problem?</p>",
-      "points_possible": 1,
+      "points_possible": 2,
       "answers": [
         {
           "id": "accessibility_a1",
-          "text": "Keyboard users do not have a usable focus path within the active interface",
-          "html": "<p>Keyboard users do not have a usable focus path within the active interface</p>",
-          "weight": 100
+          "text": "The dialog needs a mouse to be dismissed",
+          "html": "<p>The dialog needs a mouse to be dismissed</p>",
+          "weight": 0
         },
         {
           "id": "accessibility_a2",
-          "text": "Browsers require a mouse for dialogs",
-          "html": "<p>Browsers require a mouse for dialogs</p>",
+          "text": "The dialog is missing an aria-label on its container",
+          "html": "<p>The dialog is missing an aria-label on its container</p>",
           "weight": 0
         },
         {
           "id": "accessibility_a3",
-          "text": "GitHub Pages does not support keyboard events",
-          "html": "<p>GitHub Pages does not support keyboard events</p>",
-          "weight": 0
+          "text": "Keyboard users have no usable focus path inside the dialog",
+          "html": "<p>Keyboard users have no usable focus path inside the dialog</p>",
+          "weight": 100
         },
         {
           "id": "accessibility_a4",
-          "text": "Screen readers turn off when a dialog opens",
-          "html": "<p>Screen readers turn off when a dialog opens</p>",
+          "text": "Screen readers stop announcing once a dialog opens",
+          "html": "<p>Screen readers stop announcing once a dialog opens</p>",
           "weight": 0
         }
       ]
@@ -272,31 +272,31 @@
       "name": "Performance habit",
       "question_type": "multiple_choice_question",
       "question_text": "<p>Which is a healthy performance habit?</p>",
-      "points_possible": 1,
+      "points_possible": 2,
       "answers": [
         {
           "id": "performance-habit_a1",
-          "text": "Measure before and after changes",
-          "html": "<p>Measure before and after changes</p>",
-          "weight": 100
+          "text": "Minify everything, then check whether it helped",
+          "html": "<p>Minify everything, then check whether it helped</p>",
+          "weight": 0
         },
         {
           "id": "performance-habit_a2",
-          "text": "Guess and assume improvements",
-          "html": "<p>Guess and assume improvements</p>",
+          "text": "Optimise the slowest function you can find first",
+          "html": "<p>Optimise the slowest function you can find first</p>",
           "weight": 0
         },
         {
           "id": "performance-habit_a3",
-          "text": "Add every library by default",
-          "html": "<p>Add every library by default</p>",
+          "text": "Compare your scores against a competitor's site",
+          "html": "<p>Compare your scores against a competitor&#x27;s site</p>",
           "weight": 0
         },
         {
           "id": "performance-habit_a4",
-          "text": "Ignore image dimensions",
-          "html": "<p>Ignore image dimensions</p>",
-          "weight": 0
+          "text": "Measure before and after each change",
+          "html": "<p>Measure before and after each change</p>",
+          "weight": 100
         }
       ]
     },
@@ -304,39 +304,39 @@
       "name": "Deployment review",
       "question_type": "multiple_choice_question",
       "question_text": "<p>After deployment, which task is still necessary?</p>",
-      "points_possible": 1,
+      "points_possible": 2,
       "answers": [
         {
           "id": "deployment-review_a1",
-          "text": "No further work is needed",
-          "html": "<p>No further work is needed</p>",
-          "weight": 0
-        },
-        {
-          "id": "deployment-review_a2",
           "text": "Verify links, layout, and interactions in the live environment",
           "html": "<p>Verify links, layout, and interactions in the live environment</p>",
           "weight": 100
         },
         {
+          "id": "deployment-review_a2",
+          "text": "Re-run the local dev server to confirm nothing changed",
+          "html": "<p>Re-run the local dev server to confirm nothing changed</p>",
+          "weight": 0
+        },
+        {
           "id": "deployment-review_a3",
-          "text": "Delete the repo",
-          "html": "<p>Delete the repo</p>",
+          "text": "Tag the release and archive the source files",
+          "html": "<p>Tag the release and archive the source files</p>",
           "weight": 0
         },
         {
           "id": "deployment-review_a4",
-          "text": "Turn off version control",
-          "html": "<p>Turn off version control</p>",
+          "text": "Clear the browser cache and reload once",
+          "html": "<p>Clear the browser cache and reload once</p>",
           "weight": 0
         }
       ]
     },
     {
       "name": "Portfolio readiness",
-      "question_type": "multiple_choice_question",
+      "question_type": "true_false_question",
       "question_text": "<p>A strong final presentation should explain audience, problem, decisions, and evidence of quality.</p>",
-      "points_possible": 1,
+      "points_possible": 2,
       "answers": [
         {
           "id": "portfolio-readiness_a1",
@@ -356,30 +356,30 @@
       "name": "async-state-machine",
       "question_type": "multiple_choice_question",
       "question_text": "<p>A fetch function renders new content but the loading indicator never disappears after the request completes, even when it succeeds. Where should the code that hides the loading indicator be placed?</p>",
-      "points_possible": 1,
+      "points_possible": 2,
       "answers": [
         {
           "id": "async-state-machine_a1",
-          "text": "In a finally block — finally runs whether the request succeeds or fails, ensuring the loading state is always cleared",
-          "html": "<p>In a finally block — finally runs whether the request succeeds or fails, ensuring the loading state is always cleared</p>",
-          "weight": 100
-        },
-        {
-          "id": "async-state-machine_a2",
-          "text": "In the catch block only",
-          "html": "<p>In the catch block only</p>",
+          "text": "In a DOMContentLoaded listener",
+          "html": "<p>In a DOMContentLoaded listener</p>",
           "weight": 0
         },
         {
+          "id": "async-state-machine_a2",
+          "text": "In a finally block, which runs on success and failure alike",
+          "html": "<p>In a finally block, which runs on success and failure alike</p>",
+          "weight": 100
+        },
+        {
           "id": "async-state-machine_a3",
-          "text": "Before the await fetch() call",
-          "html": "<p>Before the await fetch() call</p>",
+          "text": "In the catch block, so failures are covered",
+          "html": "<p>In the catch block, so failures are covered</p>",
           "weight": 0
         },
         {
           "id": "async-state-machine_a4",
-          "text": "In the DOMContentLoaded event listener",
-          "html": "<p>In the DOMContentLoaded event listener</p>",
+          "text": "Immediately before the await fetch() call",
+          "html": "<p>Immediately before the await fetch() call</p>",
           "weight": 0
         }
       ]
@@ -388,30 +388,30 @@
       "name": "module-dependency-direction",
       "question_type": "multiple_choice_question",
       "question_text": "<p>In a modular Vite project, <code>api.js</code> contains a function that calls <code>document.getElementById('results')</code>. What design rule does this violate?</p>",
-      "points_possible": 1,
+      "points_possible": 2,
       "answers": [
         {
           "id": "module-dependency-direction_a1",
-          "text": "api.js should have no DOM access — it is responsible for network requests only; DOM manipulation belongs in render.js",
-          "html": "<p>api.js should have no DOM access — it is responsible for network requests only; DOM manipulation belongs in render.js</p>",
-          "weight": 100
-        },
-        {
-          "id": "module-dependency-direction_a2",
-          "text": "api.js functions must be async, and getElementById is synchronous",
-          "html": "<p>api.js functions must be async, and getElementById is synchronous</p>",
-          "weight": 0
-        },
-        {
-          "id": "module-dependency-direction_a3",
           "text": "getElementById can only be called from main.js",
           "html": "<p>getElementById can only be called from main.js</p>",
           "weight": 0
         },
         {
+          "id": "module-dependency-direction_a2",
+          "text": "Nothing, as long as api.js does not also use localStorage",
+          "html": "<p>Nothing, as long as api.js does not also use localStorage</p>",
+          "weight": 0
+        },
+        {
+          "id": "module-dependency-direction_a3",
+          "text": "api.js should make requests only; DOM work belongs in render.js",
+          "html": "<p>api.js should make requests only; DOM work belongs in render.js</p>",
+          "weight": 100
+        },
+        {
           "id": "module-dependency-direction_a4",
-          "text": "This is acceptable as long as api.js does not also use localStorage",
-          "html": "<p>This is acceptable as long as api.js does not also use localStorage</p>",
+          "text": "api.js functions must be async, and getElementById is not",
+          "html": "<p>api.js functions must be async, and getElementById is not</p>",
           "weight": 0
         }
       ]
@@ -420,31 +420,31 @@
       "name": "vue-props-direction",
       "question_type": "multiple_choice_question",
       "question_text": "<p>A child Vue component needs to tell its parent that a button was clicked. Which pattern should the component use?</p>",
-      "points_possible": 1,
+      "points_possible": 2,
       "answers": [
         {
           "id": "vue-props-direction_a1",
-          "text": "Emit a custom event with defineEmits and $emit — data flows up via events, not by directly modifying the parent's data",
-          "html": "<p>Emit a custom event with defineEmits and $emit — data flows up via events, not by directly modifying the parent's data</p>",
-          "weight": 100
+          "text": "Modify the prop it received from the parent",
+          "html": "<p>Modify the prop it received from the parent</p>",
+          "weight": 0
         },
         {
           "id": "vue-props-direction_a2",
-          "text": "Directly modify the prop passed from the parent",
-          "html": "<p>Directly modify the prop passed from the parent</p>",
+          "text": "Write the change to localStorage for the parent to read",
+          "html": "<p>Write the change to localStorage for the parent to read</p>",
           "weight": 0
         },
         {
           "id": "vue-props-direction_a3",
-          "text": "Use localStorage to communicate between components",
-          "html": "<p>Use localStorage to communicate between components</p>",
+          "text": "Call into the parent with document.querySelector",
+          "html": "<p>Call into the parent with document.querySelector</p>",
           "weight": 0
         },
         {
           "id": "vue-props-direction_a4",
-          "text": "Call a function on the parent component using document.querySelector",
-          "html": "<p>Call a function on the parent component using document.querySelector</p>",
-          "weight": 0
+          "text": "Emit a custom event so the parent can act on it",
+          "html": "<p>Emit a custom event so the parent can act on it</p>",
+          "weight": 100
         }
       ]
     },
@@ -452,30 +452,30 @@
       "name": "gitignore-purpose",
       "question_type": "multiple_choice_question",
       "question_text": "<p>Which files should be listed in a <code>.gitignore</code> for a Vite/Node.js project, and why?</p>",
-      "points_possible": 1,
+      "points_possible": 2,
       "answers": [
         {
           "id": "gitignore-purpose_a1",
-          "text": "node_modules/ and dist/ — they can be rebuilt from package.json and source files, so committing them wastes space and creates merge conflicts",
-          "html": "<p><code>node_modules/</code> and <code>dist/</code> — they can be rebuilt from <code>package.json</code> and source files, so committing them wastes space and creates merge conflicts</p>",
+          "text": "node_modules/ and dist/, because both can be rebuilt",
+          "html": "<p>node_modules/ and dist/, because both can be rebuilt</p>",
           "weight": 100
         },
         {
           "id": "gitignore-purpose_a2",
-          "text": "index.html and style.css — HTML and CSS should never be committed",
-          "html": "<p><code>index.html</code> and <code>style.css</code> — HTML and CSS should never be committed</p>",
+          "text": "index.html and style.css, which belong on the server only",
+          "html": "<p>index.html and style.css, which belong on the server only</p>",
           "weight": 0
         },
         {
           "id": "gitignore-purpose_a3",
-          "text": "All JavaScript files — only configuration files belong in git",
-          "html": "<p>All JavaScript files — only configuration files belong in git</p>",
+          "text": "Every JavaScript file, leaving only configuration tracked",
+          "html": "<p>Every JavaScript file, leaving only configuration tracked</p>",
           "weight": 0
         },
         {
           "id": "gitignore-purpose_a4",
-          "text": "The .gitignore file itself — it is generated automatically on push",
-          "html": "<p>The <code>.gitignore</code> file itself — it is generated automatically on push</p>",
+          "text": "The .gitignore file itself, which is generated on push",
+          "html": "<p>The .gitignore file itself, which is generated on push</p>",
           "weight": 0
         }
       ]
@@ -484,30 +484,30 @@
       "name": "lighthouse-render-blocking",
       "question_type": "multiple_choice_question",
       "question_text": "<p>A Lighthouse audit flags a page's First Contentful Paint as 'poor.' The page includes <code>&lt;script src=\"app.js\"&gt;</code> in <code>&lt;head&gt;</code> without any attributes. Which change would most directly improve this score?</p>",
-      "points_possible": 1,
+      "points_possible": 2,
       "answers": [
         {
           "id": "lighthouse-render-blocking_a1",
-          "text": "Add defer — the browser can then parse HTML and download the script in parallel, unblocking the initial render",
-          "html": "<p>Add <code>defer</code> — the browser can then parse HTML and download the script in parallel, unblocking the initial render</p>",
-          "weight": 100
-        },
-        {
-          "id": "lighthouse-render-blocking_a2",
-          "text": "Move the script tag to the bottom of body and remove defer",
-          "html": "<p>Move the script tag to the bottom of <code>&lt;body&gt;</code> and remove <code>defer</code></p>",
+          "text": "Replace arrow functions with function declarations",
+          "html": "<p>Replace arrow functions with function declarations</p>",
           "weight": 0
         },
         {
+          "id": "lighthouse-render-blocking_a2",
+          "text": "Add defer so parsing and downloading happen in parallel",
+          "html": "<p>Add defer so parsing and downloading happen in parallel</p>",
+          "weight": 100
+        },
+        {
           "id": "lighthouse-render-blocking_a3",
-          "text": "Add more CSS custom properties to reduce JavaScript size",
-          "html": "<p>Add more CSS custom properties to reduce JavaScript size</p>",
+          "text": "Move the tag to the end of body and remove defer",
+          "html": "<p>Move the tag to the end of body and remove defer</p>",
           "weight": 0
         },
         {
           "id": "lighthouse-render-blocking_a4",
-          "text": "Replace all arrow functions with regular function declarations",
-          "html": "<p>Replace all arrow functions with regular function declarations</p>",
+          "text": "Inline the script directly into the head",
+          "html": "<p>Inline the script directly into the head</p>",
           "weight": 0
         }
       ]

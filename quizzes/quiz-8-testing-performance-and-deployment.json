@@ -1,6 +1,6 @@
 {
   "slug": "quiz-8-testing-performance-and-deployment",
-  "title": "Quiz 8 \u2013 Testing, Performance, and Deployment",
+  "title": "Quiz 8 – Testing, Performance, and Deployment",
   "group": "Quizzes",
   "points": 4,
   "questions": [
@@ -12,26 +12,26 @@
       "answers": [
         {
           "id": "lighthouse_a1",
-          "text": "Only typography",
-          "html": "<p>Only typography</p>",
+          "text": "Page weight, load time, and server response only",
+          "html": "<p>Page weight, load time, and server response only</p>",
           "weight": 0
         },
         {
           "id": "lighthouse_a2",
-          "text": "Performance, accessibility, and best practices",
-          "html": "<p>Performance, accessibility, and best practices</p>",
+          "text": "Performance, Accessibility, Best Practices, and SEO",
+          "html": "<p>Performance, Accessibility, Best Practices, and SEO</p>",
           "weight": 100
         },
         {
           "id": "lighthouse_a3",
-          "text": "Only backend queries",
-          "html": "<p>Only backend queries</p>",
+          "text": "Performance and Accessibility only",
+          "html": "<p>Performance and Accessibility only</p>",
           "weight": 0
         },
         {
           "id": "lighthouse_a4",
-          "text": "Only image creation",
-          "html": "<p>Only image creation</p>",
+          "text": "Accessibility, SEO, and code coverage",
+          "html": "<p>Accessibility, SEO, and code coverage</p>",
           "weight": 0
         }
       ]
@@ -64,26 +64,26 @@
       "answers": [
         {
           "id": "lighthouse-accessibility-failure_a1",
-          "text": "Form inputs are missing associated label elements, or images are missing alt attributes — these are the most common Lighthouse accessibility failures",
-          "html": "<p>Form inputs are missing associated label elements, or images are missing alt attributes — these are the most common Lighthouse accessibility failures</p>",
-          "weight": 100
+          "text": "JavaScript running before the DOM is ready",
+          "html": "<p>JavaScript running before the DOM is ready</p>",
+          "weight": 0
         },
         {
           "id": "lighthouse-accessibility-failure_a2",
-          "text": "The page uses too many CSS custom properties",
-          "html": "<p>The page uses too many CSS custom properties</p>",
+          "text": "The site not being served over HTTPS",
+          "html": "<p>The site not being served over HTTPS</p>",
           "weight": 0
         },
         {
           "id": "lighthouse-accessibility-failure_a3",
-          "text": "JavaScript runs before the DOM is ready",
-          "html": "<p>JavaScript runs before the DOM is ready</p>",
-          "weight": 0
+          "text": "Form inputs without labels, or images without alt text",
+          "html": "<p>Form inputs without labels, or images without alt text</p>",
+          "weight": 100
         },
         {
           "id": "lighthouse-accessibility-failure_a4",
-          "text": "The site is not deployed over HTTPS",
-          "html": "<p>The site is not deployed over HTTPS</p>",
+          "text": "Too many CSS custom properties on the page",
+          "html": "<p>Too many CSS custom properties on the page</p>",
           "weight": 0
         }
       ]
@@ -96,27 +96,27 @@
       "answers": [
         {
           "id": "vite-github-pages-base_a1",
-          "text": "Add base: '/my-repo/' to vite.config.js — without it, Vite generates absolute paths from / which break under a subdirectory",
-          "html": "<p>Add base: '/my-repo/' to vite.config.js — without it, Vite generates absolute paths from / which break under a subdirectory</p>",
-          "weight": 100
+          "text": "Delete the dist/ folder and rebuild the project",
+          "html": "<p>Delete the dist/ folder and rebuild the project</p>",
+          "weight": 0
         },
         {
           "id": "vite-github-pages-base_a2",
-          "text": "Delete the dist/ folder and rebuild",
-          "html": "<p>Delete the dist/ folder and rebuild</p>",
+          "text": "Rewrite the import statements to use absolute URLs",
+          "html": "<p>Rewrite the import statements to use absolute URLs</p>",
           "weight": 0
         },
         {
           "id": "vite-github-pages-base_a3",
-          "text": "Change all import statements to use http:// URLs",
-          "html": "<p>Change all import statements to use http:// URLs</p>",
+          "text": "Enable HTTPS in the repository settings",
+          "html": "<p>Enable HTTPS in the repository settings</p>",
           "weight": 0
         },
         {
           "id": "vite-github-pages-base_a4",
-          "text": "Enable HTTPS in the GitHub repository settings",
-          "html": "<p>Enable HTTPS in the GitHub repository settings</p>",
-          "weight": 0
+          "text": "Set base: '/my-repo/' in vite.config.js",
+          "html": "<p>Set base: &#x27;/my-repo/&#x27; in vite.config.js</p>",
+          "weight": 100
         }
       ]
     }

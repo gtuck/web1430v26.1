@@ -98,7 +98,7 @@ console.log(getInitials(&#x27;  Sam   Lee  &#x27;));        // &quot;S.L.&quot;<
 <p>Hint: <code>.trim().split(&#x27; &#x27;)</code> — but you may get empty strings from double spaces. Filter them out.</p>
 <hr />
 <h2>Part 3: Debugging exercise</h2>
-<p>The following code contains <strong>three bugs</strong>. Copy it into a new file <code>labs/lab03/debug.js</code>, open it in a browser, read the errors in the Console, and fix all three. Do not rewrite the logic — find and fix only the bugs.</p>
+<p>The following code contains <strong>three bugs</strong>: two typos that throw, and one comparison whose comment does not match what the code actually does. Copy it into a new file <code>labs/lab03/debug.js</code>, add <code>&lt;script src=&quot;debug.js&quot; defer&gt;&lt;/script&gt;</code> to a small <code>labs/lab03/debug.html</code> page (or temporarily swap the <code>src</code> in your <code>index.html</code>), open it in a browser, read the errors in the Console, and fix all three. Do not restructure the code — find and fix only the bugs.</p>
 <pre><code class="language-js">const userName = &#x27;Casey&#x27;;
 const userAge = &#x27;28&#x27;;
 
@@ -114,11 +114,12 @@ console.log(mesage);
 if (userAge == 28) {
   console.log(&#x27;Age matched with strict equality&#x27;);
 }</code></pre>
+<p>Two of the three bugs throw an error that names the problem. The third does not throw at all: read the comparison and the message it prints, decide what the code was <em>meant</em> to do, and make the code and the comment agree. Either fixing the comparison or correcting the claim in the message is acceptable — but say which you chose and why.</p>
 <p>In <code>notes.md</code>, under a "Debugging" section:</p>
 <ol>
 <li>List each bug you found (line number and what was wrong)</li>
 <li>Show the fixed code</li>
-<li>Explain what the error message said and how it pointed you to the problem</li>
+<li>Explain what the error message said and how it pointed you to the problem — and for the third bug, which fix you chose and why</li>
 </ol>
 <hr />
 <h2>Deliverable</h2>

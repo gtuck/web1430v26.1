@@ -12,7 +12,7 @@
 - Sessions meet in the [class Zoom room](https://weber.zoom.us/j/82982068432); recordings are posted to Canvas.
 
 ## Success plan
-1. Before Monday: skim the module overview and read the chapter
+1. Before Monday: skim the module overview (no textbook chapter this week)
 2. Attend Monday's live session for the week's core concepts and demo
 3. Start the lab or studio activity; bring blockers to Wednesday's session
 4. Attend Wednesday's live session for guided lab work, code review, and Q&A

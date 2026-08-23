@@ -1,6 +1,6 @@
 {
   "slug": "quiz-2-javascript-fundamentals",
-  "title": "Quiz 2 \u2013 JavaScript Fundamentals",
+  "title": "Quiz 2 – JavaScript Fundamentals",
   "group": "Quizzes",
   "points": 8,
   "questions": [
@@ -12,26 +12,26 @@
       "answers": [
         {
           "id": "const_a1",
+          "text": "When a value is known before the program runs",
+          "html": "<p>When a value is known before the program runs</p>",
+          "weight": 0
+        },
+        {
+          "id": "const_a2",
           "text": "When a binding should not be reassigned",
           "html": "<p>When a binding should not be reassigned</p>",
           "weight": 100
         },
         {
-          "id": "const_a2",
-          "text": "When a variable must be global",
-          "html": "<p>When a variable must be global</p>",
-          "weight": 0
-        },
-        {
           "id": "const_a3",
-          "text": "When a value is always a string",
-          "html": "<p>When a value is always a string</p>",
+          "text": "When a value should never change, including object properties",
+          "html": "<p>When a value should never change, including object properties</p>",
           "weight": 0
         },
         {
           "id": "const_a4",
-          "text": "When code must run on a server",
-          "html": "<p>When code must run on a server</p>",
+          "text": "When a variable is used in more than one function",
+          "html": "<p>When a variable is used in more than one function</p>",
           "weight": 0
         }
       ]
@@ -88,15 +88,15 @@
         },
         {
           "id": "template-literal_a3",
-          "text": "`backticks`",
-          "html": "<p>`backticks`</p>",
-          "weight": 100
+          "text": "String.concat()",
+          "html": "<p>String.concat()</p>",
+          "weight": 0
         },
         {
           "id": "template-literal_a4",
-          "text": "<tag>",
-          "html": "<p>&lt;tag&gt;</p>",
-          "weight": 0
+          "text": "`backticks`",
+          "html": "<p>`backticks`</p>",
+          "weight": 100
         }
       ]
     },
@@ -108,20 +108,20 @@
       "answers": [
         {
           "id": "array-access_a1",
-          "text": "colors(0)",
-          "html": "<p>colors(0)</p>",
-          "weight": 0
-        },
-        {
-          "id": "array-access_a2",
           "text": "colors[0]",
           "html": "<p>colors[0]</p>",
           "weight": 100
         },
         {
+          "id": "array-access_a2",
+          "text": "colors(0)",
+          "html": "<p>colors(0)</p>",
+          "weight": 0
+        },
+        {
           "id": "array-access_a3",
-          "text": "colors.first",
-          "html": "<p>colors.first</p>",
+          "text": "colors.first()",
+          "html": "<p>colors.first()</p>",
           "weight": 0
         },
         {
@@ -160,26 +160,26 @@
       "answers": [
         {
           "id": "coercion-output_a1",
-          "text": "'12' (string concatenation because one operand is a string)",
-          "html": "<p>&#x27;12&#x27; (string concatenation because one operand is a string)</p>",
-          "weight": 100
+          "text": "A TypeError is thrown",
+          "html": "<p>A TypeError is thrown</p>",
+          "weight": 0
         },
         {
           "id": "coercion-output_a2",
+          "text": "'12'",
+          "html": "<p>&#x27;12&#x27;</p>",
+          "weight": 100
+        },
+        {
+          "id": "coercion-output_a3",
           "text": "3",
           "html": "<p>3</p>",
           "weight": 0
         },
         {
-          "id": "coercion-output_a3",
+          "id": "coercion-output_a4",
           "text": "NaN",
           "html": "<p>NaN</p>",
-          "weight": 0
-        },
-        {
-          "id": "coercion-output_a4",
-          "text": "A TypeError is thrown",
-          "html": "<p>A TypeError is thrown</p>",
           "weight": 0
         }
       ]
@@ -192,26 +192,26 @@
       "answers": [
         {
           "id": "loose-equality-risk_a1",
-          "text": "It uses type coercion — == converts types before comparing, which can produce unexpected matches",
-          "html": "<p>It uses type coercion &mdash; == converts types before comparing, which can produce unexpected matches</p>",
-          "weight": 100
+          "text": "It compares object identity rather than value",
+          "html": "<p>It compares object identity rather than value</p>",
+          "weight": 0
         },
         {
           "id": "loose-equality-risk_a2",
-          "text": "It always returns false because the types are different",
-          "html": "<p>It always returns false because the types are different</p>",
+          "text": "It throws a TypeError when the types differ",
+          "html": "<p>It throws a TypeError when the types differ</p>",
           "weight": 0
         },
         {
           "id": "loose-equality-risk_a3",
-          "text": "The if statement requires braces to work correctly",
-          "html": "<p>The if statement requires braces to work correctly</p>",
-          "weight": 0
+          "text": "It coerces types before comparing, so different types can match",
+          "html": "<p>It coerces types before comparing, so different types can match</p>",
+          "weight": 100
         },
         {
           "id": "loose-equality-risk_a4",
-          "text": "This will throw a ReferenceError at runtime",
-          "html": "<p>This will throw a ReferenceError at runtime</p>",
+          "text": "It always returns false because the types are different",
+          "html": "<p>It always returns false because the types are different</p>",
           "weight": 0
         }
       ]
@@ -224,27 +224,27 @@
       "answers": [
         {
           "id": "devtools-debugging_a1",
-          "text": "Open the Console tab and add console.log() calls inside the function to inspect intermediate values and confirm which line produces undefined",
-          "html": "<p>Open the Console tab and add <code>console.log()</code> calls inside the function to inspect intermediate values and confirm which line produces <code>undefined</code></p>",
-          "weight": 100
+          "text": "Check the response status code in the Network tab",
+          "html": "<p>Check the response status code in the Network tab</p>",
+          "weight": 0
         },
         {
           "id": "devtools-debugging_a2",
-          "text": "Open the Network tab and check the HTTP status code",
-          "html": "<p>Open the Network tab and check the HTTP status code</p>",
+          "text": "Inspect the rendered DOM structure in the Elements tab",
+          "html": "<p>Inspect the rendered DOM structure in the Elements tab</p>",
           "weight": 0
         },
         {
           "id": "devtools-debugging_a3",
-          "text": "Open the Elements tab and inspect the DOM structure",
-          "html": "<p>Open the Elements tab and inspect the DOM structure</p>",
+          "text": "Clear the stored data in the Application tab",
+          "html": "<p>Clear the stored data in the Application tab</p>",
           "weight": 0
         },
         {
           "id": "devtools-debugging_a4",
-          "text": "Open the Application tab and clear localStorage",
-          "html": "<p>Open the Application tab and clear localStorage</p>",
-          "weight": 0
+          "text": "Log values inside the function to find which line returns undefined",
+          "html": "<p>Log values inside the function to find which line returns undefined</p>",
+          "weight": 100
         }
       ]
     }

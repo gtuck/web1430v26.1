@@ -61,7 +61,7 @@ function renderCard(product) {
 
 function renderAll() {
   const grid = document.getElementById(&#x27;product-grid&#x27;);
-  grid.innerHTML = &#x27;&#x27;;
+  grid.replaceChildren();
   const filtered = filterProducts(activeCategory);
   filtered.forEach(p =&gt; grid.append(renderCard(p)));
 }
@@ -132,7 +132,7 @@ import { formatPrice } from &#x27;./utils.js&#x27;;
 export function renderCard(product) { ... }
 
 export function renderGrid(productList, container) {
-  container.innerHTML = &#x27;&#x27;;
+  container.replaceChildren();   // safe way to clear all children
   productList.forEach(p =&gt; container.append(renderCard(p)));
 }</code></pre>
 <h3><code>src/events.js</code></h3>

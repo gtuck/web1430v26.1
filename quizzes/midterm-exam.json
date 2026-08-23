@@ -12,26 +12,26 @@
       "answers": [
         {
           "id": "semantic-html_a1",
-          "text": "It reduces the need for internet access",
-          "html": "<p>It reduces the need for internet access</p>",
+          "text": "It applies default styling that removes the need for CSS",
+          "html": "<p>It applies default styling that removes the need for CSS</p>",
           "weight": 0
         },
         {
           "id": "semantic-html_a2",
+          "text": "It is required for a page to pass HTML validation",
+          "html": "<p>It is required for a page to pass HTML validation</p>",
+          "weight": 0
+        },
+        {
+          "id": "semantic-html_a3",
           "text": "It communicates meaning to browsers, assistive tech, and developers",
           "html": "<p>It communicates meaning to browsers, assistive tech, and developers</p>",
           "weight": 100
         },
         {
-          "id": "semantic-html_a3",
-          "text": "It replaces CSS entirely",
-          "html": "<p>It replaces CSS entirely</p>",
-          "weight": 0
-        },
-        {
           "id": "semantic-html_a4",
-          "text": "It stores user settings",
-          "html": "<p>It stores user settings</p>",
+          "text": "It renders faster than an equivalent set of div elements",
+          "html": "<p>It renders faster than an equivalent set of div elements</p>",
           "weight": 0
         }
       ]
@@ -44,27 +44,27 @@
       "answers": [
         {
           "id": "mobile-first_a1",
-          "text": "Large desktop screens first",
-          "html": "<p>Large desktop screens first</p>",
+          "text": "Large desktop screens first, then scale down",
+          "html": "<p>Large desktop screens first, then scale down</p>",
           "weight": 0
         },
         {
           "id": "mobile-first_a2",
-          "text": "Printed documents first",
-          "html": "<p>Printed documents first</p>",
+          "text": "The most common screen size first, then adjust outward",
+          "html": "<p>The most common screen size first, then adjust outward</p>",
           "weight": 0
         },
         {
           "id": "mobile-first_a3",
-          "text": "Small screens first, then enhance upward",
-          "html": "<p>Small screens first, then enhance upward</p>",
-          "weight": 100
+          "text": "A fixed-width layout first, then add breakpoints",
+          "html": "<p>A fixed-width layout first, then add breakpoints</p>",
+          "weight": 0
         },
         {
           "id": "mobile-first_a4",
-          "text": "Only tablets",
-          "html": "<p>Only tablets</p>",
-          "weight": 0
+          "text": "Small screens first, then enhance upward",
+          "html": "<p>Small screens first, then enhance upward</p>",
+          "weight": 100
         }
       ]
     },
@@ -76,26 +76,26 @@
       "answers": [
         {
           "id": "function-purpose_a1",
-          "text": "They automatically style HTML",
-          "html": "<p>They automatically style HTML</p>",
-          "weight": 0
-        },
-        {
-          "id": "function-purpose_a2",
           "text": "They reduce repeated logic and improve readability",
           "html": "<p>They reduce repeated logic and improve readability</p>",
           "weight": 100
         },
         {
+          "id": "function-purpose_a2",
+          "text": "They run faster than the same code written inline",
+          "html": "<p>They run faster than the same code written inline</p>",
+          "weight": 0
+        },
+        {
           "id": "function-purpose_a3",
-          "text": "They eliminate the need for variables",
-          "html": "<p>They eliminate the need for variables</p>",
+          "text": "They prevent variables from leaking into global scope",
+          "html": "<p>They prevent variables from leaking into global scope</p>",
           "weight": 0
         },
         {
           "id": "function-purpose_a4",
-          "text": "They guarantee fast performance",
-          "html": "<p>They guarantee fast performance</p>",
+          "text": "They make the order of statements in a file irrelevant",
+          "html": "<p>They make the order of statements in a file irrelevant</p>",
           "weight": 0
         }
       ]
@@ -108,26 +108,26 @@
       "answers": [
         {
           "id": "truthy_a1",
-          "text": "'0'",
-          "html": "<p>&#x27;0&#x27;</p>",
-          "weight": 0
-        },
-        {
-          "id": "truthy_a2",
           "text": "[]",
           "html": "<p>[]</p>",
           "weight": 0
         },
         {
-          "id": "truthy_a3",
+          "id": "truthy_a2",
           "text": "0",
           "html": "<p>0</p>",
           "weight": 100
         },
         {
-          "id": "truthy_a4",
+          "id": "truthy_a3",
           "text": "{}",
           "html": "<p>{}</p>",
+          "weight": 0
+        },
+        {
+          "id": "truthy_a4",
+          "text": "'0'",
+          "html": "<p>&#x27;0&#x27;</p>",
           "weight": 0
         }
       ]
@@ -160,26 +160,26 @@
       "answers": [
         {
           "id": "dom-update_a1",
+          "text": "className",
+          "html": "<p>className</p>",
+          "weight": 0
+        },
+        {
+          "id": "dom-update_a2",
           "text": "innerHTML",
           "html": "<p>innerHTML</p>",
           "weight": 0
         },
         {
-          "id": "dom-update_a2",
+          "id": "dom-update_a3",
           "text": "textContent",
           "html": "<p>textContent</p>",
           "weight": 100
         },
         {
-          "id": "dom-update_a3",
+          "id": "dom-update_a4",
           "text": "outerHTML",
           "html": "<p>outerHTML</p>",
-          "weight": 0
-        },
-        {
-          "id": "dom-update_a4",
-          "text": "className",
-          "html": "<p>className</p>",
           "weight": 0
         }
       ]
@@ -192,27 +192,27 @@
       "answers": [
         {
           "id": "event-target_a1",
-          "text": "The browser window",
-          "html": "<p>The browser window</p>",
+          "text": "The stylesheet that styled the element",
+          "html": "<p>The stylesheet that styled the element</p>",
           "weight": 0
         },
         {
           "id": "event-target_a2",
-          "text": "The specific element that initiated the event, such as the button that was clicked",
-          "html": "<p>The specific element that initiated the event, such as the button that was clicked</p>",
-          "weight": 100
+          "text": "The element the listener was attached to",
+          "html": "<p>The element the listener was attached to</p>",
+          "weight": 0
         },
         {
           "id": "event-target_a3",
-          "text": "The stylesheet",
-          "html": "<p>The stylesheet</p>",
+          "text": "The outermost element in the document",
+          "html": "<p>The outermost element in the document</p>",
           "weight": 0
         },
         {
           "id": "event-target_a4",
-          "text": "The server",
-          "html": "<p>The server</p>",
-          "weight": 0
+          "text": "The specific element that initiated the event",
+          "html": "<p>The specific element that initiated the event</p>",
+          "weight": 100
         }
       ]
     },
@@ -224,26 +224,26 @@
       "answers": [
         {
           "id": "validation_a1",
-          "text": "Only after deployment",
-          "html": "<p>Only after deployment</p>",
-          "weight": 0
-        },
-        {
-          "id": "validation_a2",
-          "text": "Inside the browser interface near the field",
-          "html": "<p>Inside the browser interface near the field</p>",
+          "text": "In the browser interface, next to the field that failed",
+          "html": "<p>In the browser interface, next to the field that failed</p>",
           "weight": 100
         },
         {
+          "id": "validation_a2",
+          "text": "In a summary at the top of the page, after submission only",
+          "html": "<p>In a summary at the top of the page, after submission only</p>",
+          "weight": 0
+        },
+        {
           "id": "validation_a3",
-          "text": "Only in a README file",
-          "html": "<p>Only in a README file</p>",
+          "text": "In the browser console, where developers can read it",
+          "html": "<p>In the browser console, where developers can read it</p>",
           "weight": 0
         },
         {
           "id": "validation_a4",
-          "text": "Only in database logs",
-          "html": "<p>Only in database logs</p>",
+          "text": "On the server, once the form has been submitted",
+          "html": "<p>On the server, once the form has been submitted</p>",
           "weight": 0
         }
       ]
@@ -276,26 +276,26 @@
       "answers": [
         {
           "id": "array-search_a1",
-          "text": "products.map(p => p.inStock)",
-          "html": "<p>products.map(p =&gt; p.inStock)</p>",
-          "weight": 0
-        },
-        {
-          "id": "array-search_a2",
           "text": "products.filter(p => p.inStock)",
           "html": "<p>products.filter(p =&gt; p.inStock)</p>",
           "weight": 0
         },
         {
-          "id": "array-search_a3",
+          "id": "array-search_a2",
           "text": "products.find(p => p.inStock)",
           "html": "<p>products.find(p =&gt; p.inStock)</p>",
           "weight": 100
         },
         {
-          "id": "array-search_a4",
+          "id": "array-search_a3",
           "text": "products.reduce((p) => p.inStock)",
           "html": "<p>products.reduce((p) =&gt; p.inStock)</p>",
+          "weight": 0
+        },
+        {
+          "id": "array-search_a4",
+          "text": "products.map(p => p.inStock)",
+          "html": "<p>products.map(p =&gt; p.inStock)</p>",
           "weight": 0
         }
       ]
@@ -308,26 +308,26 @@
       "answers": [
         {
           "id": "scope_a1",
-          "text": "Available everywhere",
-          "html": "<p>Available everywhere</p>",
+          "text": "Shared with any function called from inside it",
+          "html": "<p>Shared with any function called from inside it</p>",
           "weight": 0
         },
         {
           "id": "scope_a2",
+          "text": "Attached to the window object automatically",
+          "html": "<p>Attached to the window object automatically</p>",
+          "weight": 0
+        },
+        {
+          "id": "scope_a3",
           "text": "Scoped to that function",
           "html": "<p>Scoped to that function</p>",
           "weight": 100
         },
         {
-          "id": "scope_a3",
-          "text": "Automatically saved to storage",
-          "html": "<p>Automatically saved to storage</p>",
-          "weight": 0
-        },
-        {
           "id": "scope_a4",
-          "text": "Always constants",
-          "html": "<p>Always constants</p>",
+          "text": "Available anywhere after the function has run once",
+          "html": "<p>Available anywhere after the function has run once</p>",
           "weight": 0
         }
       ]
@@ -340,27 +340,27 @@
       "answers": [
         {
           "id": "github-workflow_a1",
-          "text": "Commit only once at the end",
-          "html": "<p>Commit only once at the end</p>",
+          "text": "Commit once at the end, when the work is finished",
+          "html": "<p>Commit once at the end, when the work is finished</p>",
           "weight": 0
         },
         {
           "id": "github-workflow_a2",
-          "text": "Write short, meaningful commit messages during progress",
-          "html": "<p>Write short, meaningful commit messages during progress</p>",
-          "weight": 100
+          "text": "Commit every file change separately, without messages",
+          "html": "<p>Commit every file change separately, without messages</p>",
+          "weight": 0
         },
         {
           "id": "github-workflow_a3",
-          "text": "Avoid version control for front-end code",
-          "html": "<p>Avoid version control for front-end code</p>",
+          "text": "Push only after the assignment has been graded",
+          "html": "<p>Push only after the assignment has been graded</p>",
           "weight": 0
         },
         {
           "id": "github-workflow_a4",
-          "text": "Rename files randomly",
-          "html": "<p>Rename files randomly</p>",
-          "weight": 0
+          "text": "Write short, meaningful commit messages as you go",
+          "html": "<p>Write short, meaningful commit messages as you go</p>",
+          "weight": 100
         }
       ]
     },
@@ -372,26 +372,26 @@
       "answers": [
         {
           "id": "defer-benefit_a1",
-          "text": "The browser starts downloading the script earlier while HTML continues parsing, without blocking rendering",
-          "html": "<p>The browser starts downloading the script earlier while HTML continues parsing, without blocking rendering</p>",
+          "text": "The script downloads earlier while HTML parsing continues",
+          "html": "<p>The script downloads earlier while HTML parsing continues</p>",
           "weight": 100
         },
         {
           "id": "defer-benefit_a2",
-          "text": "The script now runs before the DOM is ready, which is faster",
-          "html": "<p>The script now runs before the DOM is ready, which is faster</p>",
+          "text": "The script runs before the DOM is built, which is faster",
+          "html": "<p>The script runs before the DOM is built, which is faster</p>",
           "weight": 0
         },
         {
           "id": "defer-benefit_a3",
-          "text": "defer causes the script to be cached permanently",
-          "html": "<p>defer causes the script to be cached permanently</p>",
+          "text": "The browser caches the script permanently",
+          "html": "<p>The browser caches the script permanently</p>",
           "weight": 0
         },
         {
           "id": "defer-benefit_a4",
-          "text": "Moving scripts to head is required for defer to work",
-          "html": "<p>Moving scripts to head is required for defer to work</p>",
+          "text": "defer only takes effect when the script is in head",
+          "html": "<p>defer only takes effect when the script is in head</p>",
           "weight": 0
         }
       ]
@@ -404,26 +404,26 @@
       "answers": [
         {
           "id": "innerhtml-xss_a1",
-          "text": "Cross-site scripting (XSS) — if userInput contains script tags or event attributes, they will execute in the browser",
-          "html": "<p>Cross-site scripting (XSS) &mdash; if userInput contains script tags or event attributes, they will execute in the browser</p>",
-          "weight": 100
-        },
-        {
-          "id": "innerhtml-xss_a2",
-          "text": "The element's existing children will be duplicated",
-          "html": "<p>The element&#x27;s existing children will be duplicated</p>",
+          "text": "The browser blocks the assignment and logs a warning",
+          "html": "<p>The browser blocks the assignment and logs a warning</p>",
           "weight": 0
         },
         {
+          "id": "innerhtml-xss_a2",
+          "text": "Cross-site scripting — injected markup will execute",
+          "html": "<p>Cross-site scripting — injected markup will execute</p>",
+          "weight": 100
+        },
+        {
           "id": "innerhtml-xss_a3",
-          "text": "innerHTML is slower than textContent by 100x",
-          "html": "<p>innerHTML is slower than textContent by 100x</p>",
+          "text": "The element's existing children are silently duplicated",
+          "html": "<p>The element&#x27;s existing children are silently duplicated</p>",
           "weight": 0
         },
         {
           "id": "innerhtml-xss_a4",
-          "text": "The browser will block the assignment automatically",
-          "html": "<p>The browser will block the assignment automatically</p>",
+          "text": "innerHTML is dramatically slower than textContent",
+          "html": "<p>innerHTML is dramatically slower than textContent</p>",
           "weight": 0
         }
       ]
@@ -436,26 +436,26 @@
       "answers": [
         {
           "id": "array-method-output_a1",
-          "text": "2",
-          "html": "<p>2</p>",
-          "weight": 100
-        },
-        {
-          "id": "array-method-output_a2",
-          "text": "3",
-          "html": "<p>3</p>",
-          "weight": 0
-        },
-        {
-          "id": "array-method-output_a3",
           "text": "1",
           "html": "<p>1</p>",
           "weight": 0
         },
         {
-          "id": "array-method-output_a4",
+          "id": "array-method-output_a2",
           "text": "20",
           "html": "<p>20</p>",
+          "weight": 0
+        },
+        {
+          "id": "array-method-output_a3",
+          "text": "2",
+          "html": "<p>2</p>",
+          "weight": 100
+        },
+        {
+          "id": "array-method-output_a4",
+          "text": "3",
+          "html": "<p>3</p>",
           "weight": 0
         }
       ]

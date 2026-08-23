@@ -48,9 +48,11 @@ export function formatCurrency(cents) {
 // main.js
 import { formatDate, formatCurrency } from "./utils/format.js";
 
-console.log(formatDate("2025-03-15"));   // "March 15, 2025"
-console.log(formatCurrency(1999));        // "$19.99"
+console.log(formatDate("2025-03-15T12:00:00"));  // "March 15, 2025"
+console.log(formatCurrency(1999));                // "$19.99"
 ```
+
+> **Why the `T12:00:00`?** A bare date string like `"2025-03-15"` is parsed as **midnight UTC**, but `toLocaleDateString` prints it in the reader's local time. In Mountain Time that is 5 or 6 p.m. the *previous* day, so `formatDate("2025-03-15")` renders "March 14, 2025" — the single most common date bug in JavaScript. Adding a midday time keeps the date stable in every timezone. When the date matters, always check what your formatter actually prints.
 
 The `{ }` braces in the import match the exported names exactly. Importing a name that was not exported causes a `SyntaxError`.
 
@@ -123,13 +125,17 @@ npm run dev
 What this creates:
 ```
 my-project/
-  index.html         # entry point — loads main.js as a module
-  main.js            # your JavaScript entry point
-  style.css
+  index.html         # entry point — loads src/main.js as a module
   package.json       # project metadata and script definitions
-  node_modules/      # installed packages — never commit this
   .gitignore         # already excludes node_modules
+  public/            # static files copied to the build as-is
+  src/
+    main.js          # your JavaScript entry point
+    style.css
+  node_modules/      # installed packages — never commit this
 ```
+
+Note that the vanilla template puts your source in `src/` and leaves `index.html` at the project root — that is why `index.html` references `/src/main.js`. Lab 10 and Assignment 5 both use this layout.
 
 The `package.json` file records your project name, version, and the `scripts` block that defines `npm run dev` and `npm run build`.
 

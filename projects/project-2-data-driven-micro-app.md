@@ -83,7 +83,7 @@ A deployed version with **all of the following**:
 - At least **one** localStorage feature reading and writing correctly (preference restored on page reload)
 
 Submit live URL and repo URL. Include a `checkpoint.md` note (3–5 sentences) covering:
-- What two features remain for Week 12?
+- What two features remain for Weeks 13–14?
 - Did you encounter any API quirks during normalization? How did you handle them?
 
 Before leaving Milestone 2, verify these four things:
@@ -98,6 +98,8 @@ Before leaving Milestone 2, verify these four things:
 ## Milestone 3 — Final Submission
 
 **Due:** End of Week 14
+
+The complete micro-app: everything in the Required features, Required module structure, and Accessibility requirements sections below, deployed and submitted with its `README.md` and `rationale.md`. Weeks 13 and 14 are polish, accessibility review, and deployment — if Milestone 2 was complete, this milestone is refinement rather than new construction.
 
 ---
 

@@ -122,6 +122,25 @@ ORIENTATION_ASSIGNMENTS = (
     (ROOT / "assignments" / "github-repo-setup.md", 10, "online_url,online_text_entry"),
 )
 
+# Project milestone submissions. These are graded checkpoints carved out of the
+# parent project's point total (Project 1: 20+25+96=141, Project 2: 25+30+120=175,
+# Final Project: 20+20+25+24+140=229). Each final-artifact assignment is a clean
+# multiple of its rubric maximum, so a rubric score converts with a single factor.
+# Sources live in milestones/ and generate assignments only -- no wiki page, since
+# the authoritative requirements stay in the parent brief in projects/.
+# Order matters: an entry may anchor on a milestone inserted before it.
+MILESTONE_ASSIGNMENTS = (
+    # (source stem, points, module item this assignment follows)
+    ("project-1-milestone-1-proposal", 20, "Quiz 3 – Arrays, Objects, and JSON"),
+    ("project-1-milestone-2-build-checkpoint", 25, "Quiz 4 – DOM, Events, and Forms"),
+    ("project-2-milestone-1-proposal", 25, "Quiz 6 – Storage and State"),
+    ("project-2-milestone-2-build-checkpoint", 30, "Quiz 7 – Modules and Vue Basics"),
+    ("final-project-milestone-1-pitch", 20, "Project 2 Build – Milestone 2"),
+    ("final-project-milestone-2-wireframes", 20, "Assignment 6 – Reactive Form Workflow"),
+    ("final-project-milestone-3-beta", 25, "Project 2 – Data-Driven Micro-App"),
+    ("course-reflection", 24, "Final Project – Campus or Community Tool"),
+)
+
 # Assessments generated from quizzes/*.json that have no hand-authored resource
 # in the original manifest. Keyed by quiz title. The build creates the manifest
 # resources (QTI + learning-application-resource) with stable identifiers and
@@ -923,6 +942,19 @@ def generated_assignment_specs() -> list[GeneratedAssignmentSpec]:
             submission_types="online_url,online_text_entry",
             insert_after_title=title,  # follows the lab's own wiki (handout) page
         ))
+    for offset, (stem, points, anchor) in enumerate(MILESTONE_ASSIGNMENTS):
+        source = ROOT / "milestones" / f"{stem}.md"
+        text = read_source(source)
+        specs.append(GeneratedAssignmentSpec(
+            source=source,
+            resource_id=stable_id(f"milestone-assignment:{stem}"),
+            title=heading_text(text),
+            group_ref=ASSIGNMENT_GROUP_IDS["Projects"],
+            points=points,
+            position=10 + offset,
+            submission_types="online_url,online_text_entry",
+            insert_after_title=anchor,
+        ))
     return specs
 
 
@@ -1074,6 +1106,10 @@ def assignment_body_specs(manifest_root: ET.Element) -> list[AssignmentBodySpec]
     assert resources is not None
     specs: list[AssignmentBodySpec] = []
     source_lookup = {spec.source.stem: spec.source for spec in publishable_wiki_specs()}
+    # Generated assignments whose source is not also a wiki page (milestones/)
+    # still need their description HTML rendered from the markdown source.
+    source_lookup.update({spec.source.stem: spec.source
+                          for spec in generated_assignment_specs()})
 
     for resource in resources.findall("im:resource", NS):
         href = resource.get("href", "")
@@ -1438,7 +1474,9 @@ def validate_due_dates() -> list[str]:
                 f"Module overview mismatch for Week {week:02d}: expected {expected}, found {actual}"
             )
 
-    for source in sorted((ROOT / "assignments").glob("*.md")) + sorted((ROOT / "projects").glob("*.md")):
+    for source in (sorted((ROOT / "assignments").glob("*.md"))
+                   + sorted((ROOT / "projects").glob("*.md"))
+                   + sorted((ROOT / "milestones").glob("*.md"))):
         text = source.read_text(encoding="utf-8")
         title = heading_text(text)
         due_match = re.search(r"^\*\*Due:\*\*\s*End of Week (\d+)", text, re.MULTILINE)

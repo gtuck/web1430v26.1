@@ -12,6 +12,7 @@ DOM manipulation is most visible when it controls what users can see. This lab f
 - Reading `event.target` and traversing the DOM with `.closest()`
 - Adding `aria-expanded` and `aria-controls` for accessible disclosure patterns
 - Creating tab panels with correct ARIA roles
+- Implementing roving tabindex and arrow-key navigation for a tablist
 
 ## What you're building
 
@@ -95,14 +96,14 @@ For all *other* questions: set `aria-expanded="false"` and `hidden = true` (only
 <section class="tabs-section">
   <h2>Campus Resources</h2>
 
-  <div class="tab-list" role="tablist">
-    <button role="tab" aria-selected="true" aria-controls="panel-library" id="tab-library">
+  <div class="tab-list" role="tablist" aria-label="Campus resources">
+    <button role="tab" aria-selected="true"  aria-controls="panel-library" id="tab-library" tabindex="0">
       Library
     </button>
-    <button role="tab" aria-selected="false" aria-controls="panel-gym" id="tab-gym">
+    <button role="tab" aria-selected="false" aria-controls="panel-gym" id="tab-gym" tabindex="-1">
       Recreation Center
     </button>
-    <button role="tab" aria-selected="false" aria-controls="panel-dining" id="tab-dining">
+    <button role="tab" aria-selected="false" aria-controls="panel-dining" id="tab-dining" tabindex="-1">
       Dining
     </button>
   </div>
@@ -126,14 +127,29 @@ For all *other* questions: set `aria-expanded="false"` and `hidden = true` (only
 
 ### JavaScript
 
-Write a function `initTabs(tabListContainer)` that:
+Write a function `initTabs(tabListContainer)` that handles **both** mouse and keyboard.
 
-1. Adds a `click` listener to `tabListContainer`
+**Click behaviour**
+
+1. Add a `click` listener to `tabListContainer`
 2. When a `[role="tab"]` button is clicked:
-   - Sets `aria-selected="false"` on all tab buttons
-   - Hides all tab panels (set `hidden = true`)
-   - Sets `aria-selected="true"` on the clicked tab
-   - Shows the panel whose `id` matches `event.target.getAttribute('aria-controls')` (remove `hidden`)
+   - Set `aria-selected="false"` on all tab buttons
+   - Hide all tab panels (set `hidden = true`)
+   - Set `aria-selected="true"` on the clicked tab
+   - Show the panel whose `id` matches `event.target.getAttribute('aria-controls')` (remove `hidden`)
+
+**Keyboard behaviour — roving tabindex**
+
+Because these buttons carry `role="tab"` inside a `role="tablist"`, they are one composite widget, not three separate buttons. Assistive technology users expect one Tab press to enter the tablist, arrow keys to move between tabs, and the next Tab press to leave. See the roving-tabindex section of the Week 06 lecture notes for the reasoning and the full pattern.
+
+3. Keep exactly one tab in the tab order: the selected tab gets `tabIndex = 0`, every other tab gets `tabIndex = -1`. Update this every time the selection changes — including on click.
+4. Add a `keydown` listener to `tabListContainer`. On `ArrowRight` / `ArrowLeft`, move the selection one tab forward or backward and wrap around at the ends. On `Home` / `End`, jump to the first or last tab.
+5. Call `event.preventDefault()` when you handle an arrow key, so the page does not scroll.
+6. Call `.focus()` on the newly selected tab, so focus and selection stay together.
+
+Factor the shared work into one `selectTab(index)` helper and call it from both the click and the keydown paths — the two should not have separate copies of the logic.
+
+**Do not apply roving tabindex to the accordion in Part 1.** Each accordion header is an independent toggle, so all of them stay in the natural tab order.
 
 ### CSS
 
@@ -174,7 +190,11 @@ Test each behavior manually:
 **Tabs:**
 - [ ] Clicking each tab shows that panel and hides the others
 - [ ] `aria-selected` updates correctly in the Elements panel
-- [ ] All tabs are keyboard-reachable
+- [ ] One Tab press moves focus into the tablist; the next Tab press moves out of it entirely
+- [ ] Left/Right arrow keys move between tabs and wrap around at both ends
+- [ ] Home and End jump to the first and last tab
+- [ ] Exactly one tab has `tabindex="0"` at any moment; the others are `-1` (check in the Elements panel)
+- [ ] Arrow keys do not scroll the page while focus is in the tablist
 
 ---
 
@@ -198,6 +218,7 @@ Answer in 4–6 sentences:
 - Why is event delegation better than adding a click listener to each individual button?
 - What does `aria-expanded` communicate, and to whom?
 - What would break if you used `display: none` in JavaScript directly instead of toggling the `hidden` attribute and controlling visibility through CSS?
+- Why does the tablist use roving tabindex while the accordion does not?
 
 ---
 
@@ -207,7 +228,7 @@ Answer in 4–6 sentences:
 |-----------|--------------|----------------|----------------|----------------|
 | **Accordion behavior** | Open/close works; only one panel open at a time; `aria-expanded` accurate | Open/close works; multiple panels can open simultaneously | Open works; close doesn't | Not functional |
 | **Tab behavior** | Tabs switch panels correctly; all three panels reachable; `aria-selected` accurate | Tabs switch; ARIA not updated | Partially working | Not functional |
-| **ARIA attributes** | `aria-expanded`, `aria-controls`, `aria-selected`, `role="tab"`, `role="tabpanel"` all present and accurate | Most ARIA present | Some ARIA present | No ARIA |
+| **ARIA attributes** | `aria-expanded`, `aria-controls`, `aria-selected`, `role="tab"`, `role="tabpanel"` all present and accurate, and `tabindex` reflects the selected tab | Most ARIA present | Some ARIA present | No ARIA |
 | **Event delegation** | One listener per component on a parent; `event.target.matches()` or `.closest()` used | Two listeners per component | Individual listeners on each button | No event delegation |
-| **Keyboard accessibility** | All interactive elements reachable by Tab and activatable by Enter/Space | Most reachable | Partially reachable | Not tested |
+| **Keyboard accessibility** | Accordion headers reachable by Tab and activatable by Enter/Space; tablist uses roving tabindex with working Left/Right (and Home/End) arrow navigation | Both components keyboard-operable; arrow navigation present but incomplete (no wrap, or no Home/End) | Everything reachable by Tab, but the tablist has no arrow-key navigation | Not tested |
 | **Reflection** | Specific; addresses all three prompts | Two prompts addressed | Vague | Missing |

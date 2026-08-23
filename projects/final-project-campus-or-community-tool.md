@@ -2,7 +2,7 @@
 
 **Due:** End of Week 15 (five milestones across Weeks 12–15)
 **Weight:** Largest single component of Projects (30% of course grade)
-**Skills:** Full-stack front-end — semantic HTML, responsive CSS, vanilla JS or Vue, Fetch API, localStorage, ES modules, Vite, accessibility, deployment, presentation
+**Skills:** End-to-end front-end — semantic HTML, responsive CSS, vanilla JS or Vue, Fetch API, localStorage, ES modules, Vite, accessibility, deployment, presentation
 
 ---
 
@@ -134,7 +134,7 @@ Include `README.md` in `projects/final-project/` with:
 
 **Due:** End of Week 15 (same deadline as final submission)
 
-Submit `projects/final-project/reflection.md` using the [Course Reflection Prompt](../course/course-reflection-prompt.md). The prompt contains all five questions and the rubric. Write 6–10 sentences total, with specific, honest answers — not generalizations.
+Submit `projects/final-project/reflection.md` using the [Course Reflection Prompt](../course/course-reflection-prompt.md). The prompt contains all five questions and the rubric. Write 3–5 sentences for each prompt — roughly 20 sentences in total — with specific, honest answers, not generalizations. This is submitted through its own Canvas assignment, `Course Reflection – Final Project Milestone 5`.
 
 This reflection is graded separately from the project itself (see rubric below).
 

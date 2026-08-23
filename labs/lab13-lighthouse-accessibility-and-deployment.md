@@ -180,7 +180,7 @@ If you deployed a Vite project, verify the deployment was built correctly:
 Common deployment issues:
 - **Blank screen on Netlify**: Check that the publish directory is set to `dist/`
 - **404 on GitHub Pages**: Ensure you're deploying from the correct branch and folder
-- **Assets not loading**: Check that all import paths are relative, not absolute
+- **Assets 404 on GitHub Pages (page loads, nothing is styled)**: A Vite project served from `https://user.github.io/repo-name/` needs `base: '/repo-name/'` in `vite.config.js`. Without it Vite writes asset paths starting at `/`, which resolve to the wrong place under a subdirectory. This is the single most common Vite + GitHub Pages failure — see the Week 14 lecture notes and Chapter 14.
 
 ---
 
@@ -193,6 +193,7 @@ Do a manual accessibility check before submitting:
 - [ ] No keyboard traps (you can tab into and out of all components)
 - [ ] Test with VoiceOver (Mac: Cmd+F5) or NVDA (Windows: free download) — navigate to the main heading and through at least three interactive elements. See the [Screen Reader Testing Guide](../course/screen-reader-testing-guide.md) for step-by-step instructions.
 - [ ] Color is not the only indicator for any state (error, active, selected)
+- [ ] Every image has an `alt` attribute, and decorative images use `alt=""`
 
 ---
 

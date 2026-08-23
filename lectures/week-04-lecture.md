@@ -83,13 +83,15 @@ function greet(name) {
 }
 
 // Expression — stored in a variable, not hoisted
-const greet = function(name) {
+const greetExpr = function(name) {
   return `Hello, ${name}!`;
 };
 
 // Arrow function — concise, preferred in modern code
-const greet = (name) => `Hello, ${name}!`;
+const greetArrow = (name) => `Hello, ${name}!`;
 ```
+
+(The three are named differently here only so the whole block can be pasted into the console at once — in real code you would pick one form and call it `greet`.)
 
 For beginners, start with declarations while learning. Move to arrow functions once you are comfortable, because you will see them everywhere in modern JavaScript.
 

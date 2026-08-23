@@ -1,6 +1,6 @@
 # Chapter 13: Accessibility Synthesis
 
-You have been applying accessibility practices throughout this course — semantic HTML, ARIA attributes, screen reader testing, Lighthouse audits. This chapter pulls those threads together into a unified reference for building interfaces that work for everyone.
+You have been applying accessibility practices throughout this course — semantic HTML, ARIA attributes, focus management, and screen reader testing. (Automated Lighthouse auditing arrives next week, in Chapter 14.) This chapter pulls those threads together into a unified reference for building interfaces that work for everyone.
 
 ## What this chapter is really about
 

@@ -36,7 +36,7 @@ form.addEventListener(&#x27;submit&#x27;, async (e) =&gt; {
     const res = await fetch(`${API_BASE}?title=${encodeURIComponent(q)}&amp;limit=10`);
     if (!res.ok) throw new Error(res.status);
     const data = await res.json();
-    resultsEl.innerHTML = &#x27;&#x27;;
+    resultsEl.replaceChildren();
     if (!data.docs.length) { resultsEl.textContent = &#x27;No results.&#x27;; return; }
     data.docs.forEach(doc =&gt; {
       const el = document.createElement(&#x27;article&#x27;);
@@ -136,10 +136,13 @@ form.addEventListener(&#x27;submit&#x27;, async (e) =&gt; {
 <h2>Above baseline (stretch)</h2>
 <p>Work in this section is reflected in the Excellent (4) column of the rubric.</p>
 <ul>
-<li>Add a <code>constants.js</code> file that exports <code>API_BASE_URL</code> and any other magic strings, and import them wherever needed</li>
 <li>Use <code>import.meta.env</code> to demonstrate environment-aware configuration (e.g., a different limit in development vs production)</li>
-<li>Write a brief <code>ARCHITECTURE.md</code> inside <code>assignments/assignment-5/</code> that diagrams which files import from which (a simple text diagram is fine)</li>
+<li>Add a <code>barrel</code> file (<code>src/index.js</code>) that re-exports the public functions of each module, and import from it in <code>main.js</code></li>
+<li>Write a short <code>DECISIONS.md</code> recording one refactor you considered and rejected, and why</li>
 </ul>
+<blockquote>
+<p><code>constants.js</code> and <code>ARCHITECTURE.md</code> are <strong>required</strong>, not stretch — see the Required output structure above.</p>
+</blockquote>
 <hr />
 <h2>Deliverable</h2>
 <p>In your course repository: <code>assignments/assignment-5/</code> containing the full Vite project source (without <code>node_modules/</code> or <code>dist/</code>).</p>

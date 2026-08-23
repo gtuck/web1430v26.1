@@ -16,6 +16,7 @@
 ## Resources
 - [Lecture notes: Collections, Objects, Methods, and JSON Thinking](../lectures/week-05-lecture.md)
 - [Chapter 5: Modeling Information in JavaScript](../textbook/chapters/chapter-05-modeling-information-in-javascript.md)
+- [Project 1 brief](../projects/project-1-interactive-style-guide.md) — the **Milestone 1 — Proposal** section is this week's deliverable; read it before you start the lab so the data sketch does double duty.
 - [Mid-Course Check-In Survey](../course/student-survey-week-05.md) — Complete this after your Week 05 work so the course can be adjusted before the midterm stretch.
 - **Time estimate:** 10–12 hours (reading, lab, quiz, Project 1 Proposal)
 

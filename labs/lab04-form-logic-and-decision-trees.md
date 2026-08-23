@@ -153,7 +153,8 @@ Example output for increment=5, rows=4:
 
 Before submitting, test the following scenarios manually and confirm the correct output:
 
-- Experience: beginner, distance: 10, time: 5 → should find "Ridgeline Path" or similar
+- Experience: beginner, distance: 10, time: 5 → should find **"Lakeside Loop"** — `findTrail` returns the *first* trail that matches all three criteria, and Lakeside Loop (2.5 mi, 1.5 h, beginner) is the first beginner trail in the array. If you get "Ridgeline Path", your function is picking the best fit rather than the first match.
+- Experience: beginner, distance: 4, time: 5 → should find **"Lakeside Loop"** (Ridgeline Path is 5 mi, over the limit)
 - Experience: advanced, distance: 5, time: 2 → should display "No trail matches"
 - Distance left blank → should display a validation error
 - Table: increment 5, rows 10 → should render 10 rows correctly

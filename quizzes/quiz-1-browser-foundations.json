@@ -1,6 +1,6 @@
 {
   "slug": "quiz-1-browser-foundations",
-  "title": "Quiz 1 \u2013 Browser Foundations",
+  "title": "Quiz 1 – Browser Foundations",
   "group": "Quizzes",
   "points": 7,
   "questions": [
@@ -12,27 +12,27 @@
       "answers": [
         {
           "id": "html-role_a1",
-          "text": "Structure and meaning",
-          "html": "<p>Structure and meaning</p>",
-          "weight": 100
+          "text": "The visual presentation of the content",
+          "html": "<p>The visual presentation of the content</p>",
+          "weight": 0
         },
         {
           "id": "html-role_a2",
-          "text": "Presentation and layout",
-          "html": "<p>Presentation and layout</p>",
+          "text": "The behaviour that runs when a user interacts",
+          "html": "<p>The behaviour that runs when a user interacts</p>",
           "weight": 0
         },
         {
           "id": "html-role_a3",
-          "text": "Server storage",
-          "html": "<p>Server storage</p>",
+          "text": "How the page is delivered over the network",
+          "html": "<p>How the page is delivered over the network</p>",
           "weight": 0
         },
         {
           "id": "html-role_a4",
-          "text": "Network routing",
-          "html": "<p>Network routing</p>",
-          "weight": 0
+          "text": "The structure and meaning of the content",
+          "html": "<p>The structure and meaning of the content</p>",
+          "weight": 100
         }
       ]
     },
@@ -44,26 +44,26 @@
       "answers": [
         {
           "id": "css-role_a1",
-          "text": "Node.js",
-          "html": "<p>Node.js</p>",
-          "weight": 0
-        },
-        {
-          "id": "css-role_a2",
           "text": "CSS",
           "html": "<p>CSS</p>",
           "weight": 100
         },
         {
+          "id": "css-role_a2",
+          "text": "HTML",
+          "html": "<p>HTML</p>",
+          "weight": 0
+        },
+        {
           "id": "css-role_a3",
-          "text": "DNS",
-          "html": "<p>DNS</p>",
+          "text": "JavaScript",
+          "html": "<p>JavaScript</p>",
           "weight": 0
         },
         {
           "id": "css-role_a4",
-          "text": "JSON",
-          "html": "<p>JSON</p>",
+          "text": "The DOM",
+          "html": "<p>The DOM</p>",
           "weight": 0
         }
       ]
@@ -76,8 +76,8 @@
       "answers": [
         {
           "id": "progressive-enhancement_a1",
-          "text": "Motion design",
-          "html": "<p>Motion design</p>",
+          "text": "The visual design system",
+          "html": "<p>The visual design system</p>",
           "weight": 0
         },
         {
@@ -88,14 +88,14 @@
         },
         {
           "id": "progressive-enhancement_a3",
-          "text": "Framework tooling",
-          "html": "<p>Framework tooling</p>",
+          "text": "The most capable browser, then removing features for older ones",
+          "html": "<p>The most capable browser, then removing features for older ones</p>",
           "weight": 0
         },
         {
           "id": "progressive-enhancement_a4",
-          "text": "Animation libraries",
-          "html": "<p>Animation libraries</p>",
+          "text": "The JavaScript layer, then adding markup around it",
+          "html": "<p>The JavaScript layer, then adding markup around it</p>",
           "weight": 0
         }
       ]
@@ -128,26 +128,26 @@
       "answers": [
         {
           "id": "devtools_a1",
-          "text": "Bookmarks",
-          "html": "<p>Bookmarks</p>",
+          "text": "The browser's reader mode",
+          "html": "<p>The browser&#x27;s reader mode</p>",
           "weight": 0
         },
         {
           "id": "devtools_a2",
-          "text": "Developer tools",
-          "html": "<p>Developer tools</p>",
-          "weight": 100
-        },
-        {
-          "id": "devtools_a3",
           "text": "Print preview",
           "html": "<p>Print preview</p>",
           "weight": 0
         },
         {
+          "id": "devtools_a3",
+          "text": "Developer tools",
+          "html": "<p>Developer tools</p>",
+          "weight": 100
+        },
+        {
           "id": "devtools_a4",
-          "text": "Password manager",
-          "html": "<p>Password manager</p>",
+          "text": "View Page Source",
+          "html": "<p>View Page Source</p>",
           "weight": 0
         }
       ]
@@ -160,27 +160,27 @@
       "answers": [
         {
           "id": "script-blocking_a1",
-          "text": "HTML parsing pauses until the script downloads and executes, delaying visible content",
-          "html": "<p>HTML parsing pauses until the script downloads and executes, delaying visible content</p>",
-          "weight": 100
+          "text": "The script downloads in parallel and runs after parsing finishes",
+          "html": "<p>The script downloads in parallel and runs after parsing finishes</p>",
+          "weight": 0
         },
         {
           "id": "script-blocking_a2",
-          "text": "The script is silently ignored",
-          "html": "<p>The script is silently ignored</p>",
+          "text": "The script runs only after all images have loaded",
+          "html": "<p>The script runs only after all images have loaded</p>",
           "weight": 0
         },
         {
           "id": "script-blocking_a3",
-          "text": "The script runs after all images load",
-          "html": "<p>The script runs after all images load</p>",
+          "text": "The browser defers the script automatically",
+          "html": "<p>The browser defers the script automatically</p>",
           "weight": 0
         },
         {
           "id": "script-blocking_a4",
-          "text": "The script runs in parallel without any delay",
-          "html": "<p>The script runs in parallel without any delay</p>",
-          "weight": 0
+          "text": "HTML parsing pauses until the script downloads and runs",
+          "html": "<p>HTML parsing pauses until the script downloads and runs</p>",
+          "weight": 100
         }
       ]
     },
@@ -192,26 +192,26 @@
       "answers": [
         {
           "id": "elements-vs-source_a1",
-          "text": "JavaScript added the element to the DOM after the page loaded",
-          "html": "<p>JavaScript added the element to the DOM after the page loaded</p>",
+          "text": "JavaScript added the element after the page loaded",
+          "html": "<p>JavaScript added the element after the page loaded</p>",
           "weight": 100
         },
         {
           "id": "elements-vs-source_a2",
-          "text": "The browser downloaded a different file",
-          "html": "<p>The browser downloaded a different file</p>",
+          "text": "The browser is displaying a cached copy of the page",
+          "html": "<p>The browser is displaying a cached copy of the page</p>",
           "weight": 0
         },
         {
           "id": "elements-vs-source_a3",
-          "text": "The HTML validator removed it",
-          "html": "<p>The HTML validator removed it</p>",
+          "text": "The HTML validator removed it from the source",
+          "html": "<p>The HTML validator removed it from the source</p>",
           "weight": 0
         },
         {
           "id": "elements-vs-source_a4",
-          "text": "The p tag is hidden by CSS",
-          "html": "<p>The p tag is hidden by CSS</p>",
+          "text": "The element is present but hidden by CSS",
+          "html": "<p>The element is present but hidden by CSS</p>",
           "weight": 0
         }
       ]

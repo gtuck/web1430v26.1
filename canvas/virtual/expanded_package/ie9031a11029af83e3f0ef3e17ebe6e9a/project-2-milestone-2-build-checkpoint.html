@@ -1,0 +1,36 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>Assignment: Project 2 Build – Milestone 2</title>
+</head>
+<body>
+<h1>Project 2 Build – Milestone 2</h1>
+<p><strong>Due:</strong> End of Week 12<br />
+<strong>Points:</strong> 30<br />
+<strong>Category:</strong> Projects (Milestone 2 of 3)</p>
+<h2>Purpose</h2>
+<p>The heaviest checkpoint in the course, and deliberately so. <a href="$WIKI_REFERENCE$/pages/project-2-data-driven-micro-app">Project 2</a> states it plainly: Milestone 2 must represent a substantially complete application, because Weeks 13 and 14 are for polish, accessibility review, and deployment — not initial scaffolding. An incomplete Milestone 2 means an incomplete final submission.</p>
+<h2>What to submit</h2>
+<p>A deployed version with <strong>all</strong> of the following:</p>
+<ul>
+<li>Vite project scaffolded, running, and deployed — <code>npm run dev</code> works and the live URL loads</li>
+<li>All five module files present (<code>api.js</code>, <code>normalize.js</code>, <code>render.js</code>, <code>state.js</code>, <code>events.js</code>), each with its one-sentence responsibility comment</li>
+<li>Fetch → normalize → render pipeline complete, with real API data passing through <code>normalizeData()</code> before any rendering function touches it</li>
+<li>Loading, success, and error states each producing distinct UI — not placeholder text</li>
+<li>At least <strong>one</strong> interaction type (search, filter, or sort) working end to end</li>
+<li>At least <strong>one</strong> <code>localStorage</code> feature reading and writing correctly, restoring on reload</li>
+</ul>
+<p>Also commit <code>projects/project-2/checkpoint.md</code> with 3–5 sentences covering: which two features remain for Weeks 13–14, and any API quirks you hit during normalization and how you handled them.</p>
+<p><strong>Submit to Canvas:</strong> the live URL, your repository URL, and a link to <code>checkpoint.md</code>.</p>
+<h2>How this is graded</h2>
+<ul>
+<li><strong>All six requirements met (30)</strong> — deployed, modular, one interaction and one persistence feature genuinely working</li>
+<li><strong>Five of six (25)</strong></li>
+<li><strong>Four of six (20)</strong> — typically the persistence feature or the deployed URL is missing</li>
+<li><strong>Pipeline works locally but nothing is deployed (12)</strong></li>
+<li><strong>Scaffolding only (6)</strong></li>
+<li><strong>Not submitted (0)</strong></li>
+</ul>
+<p>Before you submit, verify the four things the project brief lists: it works from the deployed URL and not only <code>npm run dev</code>; one interaction works end to end with real data; one persistence feature restores on reload; and your loading, error, and success states look visibly different.</p>
+</body>
+</html>

@@ -51,7 +51,7 @@ typeof undefined    // "undefined"
 typeof someUndeclaredVariable  // "undefined" (does not throw)
 ```
 
-The `null` / `typeof` result is a 25-year-old bug in the language. It cannot be fixed without breaking the web. To reliably check for `null`, use `=== null`.
+The `null` / `typeof` result is a bug from JavaScript's very first version in 1995. It cannot be fixed without breaking the web. To reliably check for `null`, use `=== null`.
 
 ### Type coercion gotchas
 JavaScript automatically converts types in certain operations. This is called *implicit type coercion*, and it produces results that look like bugs:

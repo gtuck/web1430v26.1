@@ -44,26 +44,26 @@
       "answers": [
         {
           "id": "weekly-deadline_a1",
+          "text": "Whenever the module is marked complete",
+          "html": "<p>Whenever the module is marked complete</p>",
+          "weight": 0
+        },
+        {
+          "id": "weekly-deadline_a2",
           "text": "Sunday at 11:59 PM",
           "html": "<p>Sunday at 11:59 PM</p>",
           "weight": 100
         },
         {
-          "id": "weekly-deadline_a2",
+          "id": "weekly-deadline_a3",
           "text": "Friday at 5:00 PM",
           "html": "<p>Friday at 5:00 PM</p>",
           "weight": 0
         },
         {
-          "id": "weekly-deadline_a3",
+          "id": "weekly-deadline_a4",
           "text": "Monday morning, when the next module opens",
           "html": "<p>Monday morning, when the next module opens</p>",
-          "weight": 0
-        },
-        {
-          "id": "weekly-deadline_a4",
-          "text": "Whenever the module is marked complete",
-          "html": "<p>Whenever the module is marked complete</p>",
           "weight": 0
         }
       ]
@@ -76,26 +76,26 @@
       "answers": [
         {
           "id": "where-to-submit_a1",
-          "text": "Assignments",
-          "html": "<p>Assignments</p>",
-          "weight": 100
-        },
-        {
-          "id": "where-to-submit_a2",
-          "text": "Announcements",
-          "html": "<p>Announcements</p>",
-          "weight": 0
-        },
-        {
-          "id": "where-to-submit_a3",
           "text": "The Help &amp; Questions discussion board",
           "html": "<p>The Help &amp; Questions discussion board</p>",
           "weight": 0
         },
         {
-          "id": "where-to-submit_a4",
+          "id": "where-to-submit_a2",
           "text": "The syllabus page",
           "html": "<p>The syllabus page</p>",
+          "weight": 0
+        },
+        {
+          "id": "where-to-submit_a3",
+          "text": "Assignments",
+          "html": "<p>Assignments</p>",
+          "weight": 100
+        },
+        {
+          "id": "where-to-submit_a4",
+          "text": "Announcements",
+          "html": "<p>Announcements</p>",
           "weight": 0
         }
       ]
@@ -108,27 +108,27 @@
       "answers": [
         {
           "id": "instructor-updates_a1",
-          "text": "Announcements",
-          "html": "<p>Announcements</p>",
-          "weight": 100
-        },
-        {
-          "id": "instructor-updates_a2",
           "text": "Grades",
           "html": "<p>Grades</p>",
           "weight": 0
         },
         {
-          "id": "instructor-updates_a3",
+          "id": "instructor-updates_a2",
           "text": "The GitHub starter repository",
           "html": "<p>The GitHub starter repository</p>",
           "weight": 0
         },
         {
-          "id": "instructor-updates_a4",
+          "id": "instructor-updates_a3",
           "text": "The dashboard tiles",
           "html": "<p>The dashboard tiles</p>",
           "weight": 0
+        },
+        {
+          "id": "instructor-updates_a4",
+          "text": "Announcements",
+          "html": "<p>Announcements</p>",
+          "weight": 100
         }
       ]
     },
@@ -140,26 +140,26 @@
       "answers": [
         {
           "id": "git-vs-github_a1",
-          "text": "Git is version-control software on your computer; GitHub is a website that hosts a remote copy of your repository",
-          "html": "<p>Git is version-control software on your computer; GitHub is a website that hosts a remote copy of your repository</p>",
+          "text": "Git runs on your computer; GitHub hosts a copy online",
+          "html": "<p>Git runs on your computer; GitHub hosts a copy online</p>",
           "weight": 100
         },
         {
           "id": "git-vs-github_a2",
-          "text": "Git is the online service and GitHub is the local software",
-          "html": "<p>Git is the online service and GitHub is the local software</p>",
+          "text": "GitHub runs on your computer; Git hosts a copy online",
+          "html": "<p>GitHub runs on your computer; Git hosts a copy online</p>",
           "weight": 0
         },
         {
           "id": "git-vs-github_a3",
-          "text": "They are two names for the same tool",
-          "html": "<p>They are two names for the same tool</p>",
+          "text": "Git and GitHub are two names for the same tool",
+          "html": "<p>Git and GitHub are two names for the same tool</p>",
           "weight": 0
         },
         {
           "id": "git-vs-github_a4",
-          "text": "Git edits code; GitHub runs it in the browser",
-          "html": "<p>Git edits code; GitHub runs it in the browser</p>",
+          "text": "Git edits your code; GitHub runs it in the browser",
+          "html": "<p>Git edits your code; GitHub runs it in the browser</p>",
           "weight": 0
         }
       ]
@@ -172,26 +172,26 @@
       "answers": [
         {
           "id": "first-recovery-command_a1",
+          "text": "Delete the folder and clone again",
+          "html": "<p>Delete the folder and clone again</p>",
+          "weight": 0
+        },
+        {
+          "id": "first-recovery-command_a2",
           "text": "git status",
           "html": "<p><code>git status</code></p>",
           "weight": 100
         },
         {
-          "id": "first-recovery-command_a2",
+          "id": "first-recovery-command_a3",
           "text": "git push",
           "html": "<p><code>git push</code></p>",
           "weight": 0
         },
         {
-          "id": "first-recovery-command_a3",
+          "id": "first-recovery-command_a4",
           "text": "git commit -m \"fix\"",
           "html": "<p><code>git commit -m \"fix\"</code></p>",
-          "weight": 0
-        },
-        {
-          "id": "first-recovery-command_a4",
-          "text": "Delete the folder and clone again",
-          "html": "<p>Delete the folder and clone again</p>",
           "weight": 0
         }
       ]
@@ -204,26 +204,26 @@
       "answers": [
         {
           "id": "asking-for-help_a1",
-          "text": "Post in the Help &amp; Questions board with what you tried and the exact error message",
-          "html": "<p>Post in the Help &amp; Questions board with what you tried and the exact error message</p>",
-          "weight": 100
-        },
-        {
-          "id": "asking-for-help_a2",
-          "text": "Email the instructor a screenshot with no other details",
-          "html": "<p>Email the instructor a screenshot with no other details</p>",
-          "weight": 0
-        },
-        {
-          "id": "asking-for-help_a3",
           "text": "Wait until the deadline and request an extension",
           "html": "<p>Wait until the deadline and request an extension</p>",
           "weight": 0
         },
         {
+          "id": "asking-for-help_a2",
+          "text": "Try different Git commands until one of them works",
+          "html": "<p>Try different Git commands until one of them works</p>",
+          "weight": 0
+        },
+        {
+          "id": "asking-for-help_a3",
+          "text": "Post in Help &amp; Questions with what you tried and the error",
+          "html": "<p>Post in Help &amp; Questions with what you tried and the error</p>",
+          "weight": 100
+        },
+        {
           "id": "asking-for-help_a4",
-          "text": "Try random Git commands until one works",
-          "html": "<p>Try random Git commands until one works</p>",
+          "text": "Email the instructor a screenshot with no other details",
+          "html": "<p>Email the instructor a screenshot with no other details</p>",
           "weight": 0
         }
       ]

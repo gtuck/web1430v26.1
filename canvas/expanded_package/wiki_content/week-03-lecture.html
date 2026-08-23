@@ -48,7 +48,7 @@ typeof true         // &quot;boolean&quot;
 typeof null         // &quot;object&quot;  ← this is a known JavaScript bug, not your mistake
 typeof undefined    // &quot;undefined&quot;
 typeof someUndeclaredVariable  // &quot;undefined&quot; (does not throw)</code></pre>
-<p>The <code>null</code> / <code>typeof</code> result is a 25-year-old bug in the language. It cannot be fixed without breaking the web. To reliably check for <code>null</code>, use <code>=== null</code>.</p>
+<p>The <code>null</code> / <code>typeof</code> result is a bug from JavaScript's very first version in 1995. It cannot be fixed without breaking the web. To reliably check for <code>null</code>, use <code>=== null</code>.</p>
 <h3>Type coercion gotchas</h3>
 <p>JavaScript automatically converts types in certain operations. This is called <em>implicit type coercion</em>, and it produces results that look like bugs:</p>
 <pre><code class="language-javascript">// The + operator with a string converts the number to a string

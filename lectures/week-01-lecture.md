@@ -78,7 +78,7 @@ The Elements tab is the fastest way to answer: "Why is this element positioned t
 The **Network** tab records every resource the browser requests: HTML, CSS, JS, images, fonts. Reload the page with the tab open to see the waterfall. Key things to notice:
 - The order resources are requested
 - Which resources block rendering (shown with a long initial bar)
-- File sizes and whether responses are served from cache (status 304)
+- File sizes and how each response was served: `200` fresh from the server, `304 Not Modified` when the browser revalidated and the server said the cached copy is still good, or a Size column reading `(from disk cache)` / `(from memory cache)` when the browser skipped the network entirely
 - Response headers, including `Content-Type` and caching directives
 
 Filter by type (JS, CSS, Img) to reduce noise. Click any row to see the full request and response headers.

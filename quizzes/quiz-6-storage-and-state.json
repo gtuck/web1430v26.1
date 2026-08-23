@@ -1,6 +1,6 @@
 {
   "slug": "quiz-6-storage-and-state",
-  "title": "Quiz 6 \u2013 Storage and State",
+  "title": "Quiz 6 – Storage and State",
   "group": "Quizzes",
   "points": 7,
   "questions": [
@@ -12,8 +12,8 @@
       "answers": [
         {
           "id": "localstorage_a1",
-          "text": "Large relational databases",
-          "html": "<p>Large relational databases</p>",
+          "text": "Data that must be shared across different origins",
+          "html": "<p>Data that must be shared across different origins</p>",
           "weight": 0
         },
         {
@@ -24,14 +24,14 @@
         },
         {
           "id": "localstorage_a3",
-          "text": "Server-side authentication logic",
-          "html": "<p>Server-side authentication logic</p>",
+          "text": "Session tokens and passwords",
+          "html": "<p>Session tokens and passwords</p>",
           "weight": 0
         },
         {
           "id": "localstorage_a4",
-          "text": "Compiling JavaScript",
-          "html": "<p>Compiling JavaScript</p>",
+          "text": "Datasets of several hundred megabytes",
+          "html": "<p>Datasets of several hundred megabytes</p>",
           "weight": 0
         }
       ]
@@ -64,26 +64,26 @@
       "answers": [
         {
           "id": "sessionstorage_a1",
-          "text": "The current browsing session",
-          "html": "<p>The current browsing session</p>",
-          "weight": 100
+          "text": "The browser profile, until it is manually cleared",
+          "html": "<p>The browser profile, until it is manually cleared</p>",
+          "weight": 0
         },
         {
           "id": "sessionstorage_a2",
-          "text": "The entire internet",
-          "html": "<p>The entire internet</p>",
+          "text": "The current page only, cleared on any navigation",
+          "html": "<p>The current page only, cleared on any navigation</p>",
           "weight": 0
         },
         {
           "id": "sessionstorage_a3",
-          "text": "The operating system user account",
-          "html": "<p>The operating system user account</p>",
-          "weight": 0
+          "text": "The current tab's session",
+          "html": "<p>The current tab&#x27;s session</p>",
+          "weight": 100
         },
         {
           "id": "sessionstorage_a4",
-          "text": "The Git branch",
-          "html": "<p>The Git branch</p>",
+          "text": "Every tab currently open on the same site",
+          "html": "<p>Every tab currently open on the same site</p>",
           "weight": 0
         }
       ]
@@ -96,27 +96,27 @@
       "answers": [
         {
           "id": "state-model_a1",
-          "text": "The postal location of a user",
-          "html": "<p>The postal location of a user</p>",
+          "text": "The DOM tree as the browser has currently rendered it",
+          "html": "<p>The DOM tree as the browser has currently rendered it</p>",
           "weight": 0
         },
         {
           "id": "state-model_a2",
-          "text": "The current data that determines what the interface shows",
-          "html": "<p>The current data that determines what the interface shows</p>",
-          "weight": 100
+          "text": "The set of CSS classes applied to the page",
+          "html": "<p>The set of CSS classes applied to the page</p>",
+          "weight": 0
         },
         {
           "id": "state-model_a3",
-          "text": "Only CSS colors",
-          "html": "<p>Only CSS colors</p>",
+          "text": "The user's saved preferences, and nothing else",
+          "html": "<p>The user&#x27;s saved preferences, and nothing else</p>",
           "weight": 0
         },
         {
           "id": "state-model_a4",
-          "text": "The browser vendor",
-          "html": "<p>The browser vendor</p>",
-          "weight": 0
+          "text": "The current data that determines what the interface shows",
+          "html": "<p>The current data that determines what the interface shows</p>",
+          "weight": 100
         }
       ]
     },
@@ -128,26 +128,26 @@
       "answers": [
         {
           "id": "serialization_a1",
-          "text": "JSON.parse(prefs)",
-          "html": "<p>JSON.parse(prefs)</p>",
-          "weight": 0
-        },
-        {
-          "id": "serialization_a2",
           "text": "JSON.stringify(prefs)",
           "html": "<p>JSON.stringify(prefs)</p>",
           "weight": 100
         },
         {
+          "id": "serialization_a2",
+          "text": "JSON.parse(prefs)",
+          "html": "<p>JSON.parse(prefs)</p>",
+          "weight": 0
+        },
+        {
           "id": "serialization_a3",
-          "text": "Object.freeze(prefs)",
-          "html": "<p>Object.freeze(prefs)</p>",
+          "text": "Object.entries(prefs)",
+          "html": "<p>Object.entries(prefs)</p>",
           "weight": 0
         },
         {
           "id": "serialization_a4",
-          "text": "prefs.join(',')",
-          "html": "<p>prefs.join(&#x27;,&#x27;)</p>",
+          "text": "prefs.toString()",
+          "html": "<p>prefs.toString()</p>",
           "weight": 0
         }
       ]
@@ -160,26 +160,26 @@
       "answers": [
         {
           "id": "boolean-string-gotcha_a1",
-          "text": "The condition is true, because localStorage stores the string 'false', and any non-empty string is truthy in JavaScript",
-          "html": "<p>The condition is true, because localStorage stores the string 'false', and any non-empty string is truthy in JavaScript</p>",
-          "weight": 100
-        },
-        {
-          "id": "boolean-string-gotcha_a2",
-          "text": "The condition is false, as expected, because false was stored",
-          "html": "<p>The condition is false, as expected, because false was stored</p>",
+          "text": "getItem returns null, because false is treated as empty",
+          "html": "<p>getItem returns null, because false is treated as empty</p>",
           "weight": 0
         },
         {
+          "id": "boolean-string-gotcha_a2",
+          "text": "The condition is true, because 'false' is a non-empty string",
+          "html": "<p>The condition is true, because &#x27;false&#x27; is a non-empty string</p>",
+          "weight": 100
+        },
+        {
           "id": "boolean-string-gotcha_a3",
-          "text": "A TypeError is thrown because localStorage cannot store booleans",
-          "html": "<p>A TypeError is thrown because localStorage cannot store booleans</p>",
+          "text": "The condition is false, because the boolean was preserved",
+          "html": "<p>The condition is false, because the boolean was preserved</p>",
           "weight": 0
         },
         {
           "id": "boolean-string-gotcha_a4",
-          "text": "getItem returns null when the value is false",
-          "html": "<p>getItem returns null when the value is false</p>",
+          "text": "A TypeError is thrown, because booleans cannot be stored",
+          "html": "<p>A TypeError is thrown, because booleans cannot be stored</p>",
           "weight": 0
         }
       ]
@@ -192,26 +192,26 @@
       "answers": [
         {
           "id": "storage-persistence_a1",
-          "text": "localStorage — it persists until explicitly cleared, regardless of tab or browser restarts",
-          "html": "<p>localStorage — it persists until explicitly cleared, regardless of tab or browser restarts</p>",
-          "weight": 100
+          "text": "Neither — both are cleared when the tab closes",
+          "html": "<p>Neither — both are cleared when the tab closes</p>",
+          "weight": 0
         },
         {
           "id": "storage-persistence_a2",
-          "text": "sessionStorage — it persists across all sessions",
-          "html": "<p>sessionStorage — it persists across all sessions</p>",
+          "text": "Both — their persistence behaviour is identical",
+          "html": "<p>Both — their persistence behaviour is identical</p>",
           "weight": 0
         },
         {
           "id": "storage-persistence_a3",
-          "text": "Neither — all Web Storage is cleared when the tab closes",
-          "html": "<p>Neither — all Web Storage is cleared when the tab closes</p>",
-          "weight": 0
+          "text": "localStorage, which persists until it is explicitly cleared",
+          "html": "<p>localStorage, which persists until it is explicitly cleared</p>",
+          "weight": 100
         },
         {
           "id": "storage-persistence_a4",
-          "text": "Both — they have identical persistence behavior",
-          "html": "<p>Both — they have identical persistence behavior</p>",
+          "text": "sessionStorage, which persists across browser restarts",
+          "html": "<p>sessionStorage, which persists across browser restarts</p>",
           "weight": 0
         }
       ]

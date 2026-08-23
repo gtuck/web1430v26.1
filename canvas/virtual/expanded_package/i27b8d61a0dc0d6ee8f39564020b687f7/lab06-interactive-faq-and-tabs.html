@@ -15,6 +15,7 @@
 <li>Reading <code>event.target</code> and traversing the DOM with <code>.closest()</code></li>
 <li>Adding <code>aria-expanded</code> and <code>aria-controls</code> for accessible disclosure patterns</li>
 <li>Creating tab panels with correct ARIA roles</li>
+<li>Implementing roving tabindex and arrow-key navigation for a tablist</li>
 </ul>
 <h2>What you're building</h2>
 <p>A <strong>Campus Services</strong> help page with two sections:</p>
@@ -83,14 +84,14 @@
 <pre><code class="language-html">&lt;section class=&quot;tabs-section&quot;&gt;
   &lt;h2&gt;Campus Resources&lt;/h2&gt;
 
-  &lt;div class=&quot;tab-list&quot; role=&quot;tablist&quot;&gt;
-    &lt;button role=&quot;tab&quot; aria-selected=&quot;true&quot; aria-controls=&quot;panel-library&quot; id=&quot;tab-library&quot;&gt;
+  &lt;div class=&quot;tab-list&quot; role=&quot;tablist&quot; aria-label=&quot;Campus resources&quot;&gt;
+    &lt;button role=&quot;tab&quot; aria-selected=&quot;true&quot;  aria-controls=&quot;panel-library&quot; id=&quot;tab-library&quot; tabindex=&quot;0&quot;&gt;
       Library
     &lt;/button&gt;
-    &lt;button role=&quot;tab&quot; aria-selected=&quot;false&quot; aria-controls=&quot;panel-gym&quot; id=&quot;tab-gym&quot;&gt;
+    &lt;button role=&quot;tab&quot; aria-selected=&quot;false&quot; aria-controls=&quot;panel-gym&quot; id=&quot;tab-gym&quot; tabindex=&quot;-1&quot;&gt;
       Recreation Center
     &lt;/button&gt;
-    &lt;button role=&quot;tab&quot; aria-selected=&quot;false&quot; aria-controls=&quot;panel-dining&quot; id=&quot;tab-dining&quot;&gt;
+    &lt;button role=&quot;tab&quot; aria-selected=&quot;false&quot; aria-controls=&quot;panel-dining&quot; id=&quot;tab-dining&quot; tabindex=&quot;-1&quot;&gt;
       Dining
     &lt;/button&gt;
   &lt;/div&gt;
@@ -111,17 +112,28 @@
   &lt;/div&gt;
 &lt;/section&gt;</code></pre>
 <h3>JavaScript</h3>
-<p>Write a function <code>initTabs(tabListContainer)</code> that:</p>
+<p>Write a function <code>initTabs(tabListContainer)</code> that handles <strong>both</strong> mouse and keyboard.</p>
+<p><strong>Click behaviour</strong></p>
 <ol>
-<li>Adds a <code>click</code> listener to <code>tabListContainer</code></li>
+<li>Add a <code>click</code> listener to <code>tabListContainer</code></li>
 <li>When a <code>[role=&quot;tab&quot;]</code> button is clicked:</li>
 </ol>
 <ul>
-<li>Sets <code>aria-selected=&quot;false&quot;</code> on all tab buttons</li>
-<li>Hides all tab panels (set <code>hidden = true</code>)</li>
-<li>Sets <code>aria-selected=&quot;true&quot;</code> on the clicked tab</li>
-<li>Shows the panel whose <code>id</code> matches <code>event.target.getAttribute(&#x27;aria-controls&#x27;)</code> (remove <code>hidden</code>)</li>
+<li>Set <code>aria-selected=&quot;false&quot;</code> on all tab buttons</li>
+<li>Hide all tab panels (set <code>hidden = true</code>)</li>
+<li>Set <code>aria-selected=&quot;true&quot;</code> on the clicked tab</li>
+<li>Show the panel whose <code>id</code> matches <code>event.target.getAttribute(&#x27;aria-controls&#x27;)</code> (remove <code>hidden</code>)</li>
 </ul>
+<p><strong>Keyboard behaviour — roving tabindex</strong></p>
+<p>Because these buttons carry <code>role=&quot;tab&quot;</code> inside a <code>role=&quot;tablist&quot;</code>, they are one composite widget, not three separate buttons. Assistive technology users expect one Tab press to enter the tablist, arrow keys to move between tabs, and the next Tab press to leave. See the roving-tabindex section of the Week 06 lecture notes for the reasoning and the full pattern.</p>
+<ol>
+<li>Keep exactly one tab in the tab order: the selected tab gets <code>tabIndex = 0</code>, every other tab gets <code>tabIndex = -1</code>. Update this every time the selection changes — including on click.</li>
+<li>Add a <code>keydown</code> listener to <code>tabListContainer</code>. On <code>ArrowRight</code> / <code>ArrowLeft</code>, move the selection one tab forward or backward and wrap around at the ends. On <code>Home</code> / <code>End</code>, jump to the first or last tab.</li>
+<li>Call <code>event.preventDefault()</code> when you handle an arrow key, so the page does not scroll.</li>
+<li>Call <code>.focus()</code> on the newly selected tab, so focus and selection stay together.</li>
+</ol>
+<p>Factor the shared work into one <code>selectTab(index)</code> helper and call it from both the click and the keydown paths — the two should not have separate copies of the logic.</p>
+<p><strong>Do not apply roving tabindex to the accordion in Part 1.</strong> Each accordion header is an independent toggle, so all of them stay in the natural tab order.</p>
 <h3>CSS</h3>
 <pre><code class="language-css">[role=&quot;tabpanel&quot;][hidden] {
   display: none;
@@ -150,7 +162,11 @@ initTabs(document.querySelector(&#x27;.tab-list&#x27;));</code></pre>
 <ul>
 <li>[ ] Clicking each tab shows that panel and hides the others</li>
 <li>[ ] <code>aria-selected</code> updates correctly in the Elements panel</li>
-<li>[ ] All tabs are keyboard-reachable</li>
+<li>[ ] One Tab press moves focus into the tablist; the next Tab press moves out of it entirely</li>
+<li>[ ] Left/Right arrow keys move between tabs and wrap around at both ends</li>
+<li>[ ] Home and End jump to the first and last tab</li>
+<li>[ ] Exactly one tab has <code>tabindex=&quot;0&quot;</code> at any moment; the others are <code>-1</code> (check in the Elements panel)</li>
+<li>[ ] Arrow keys do not scroll the page while focus is in the tablist</li>
 </ul>
 <hr />
 <h2>Deliverable</h2>
@@ -170,6 +186,7 @@ initTabs(document.querySelector(&#x27;.tab-list&#x27;));</code></pre>
 <li>Why is event delegation better than adding a click listener to each individual button?</li>
 <li>What does <code>aria-expanded</code> communicate, and to whom?</li>
 <li>What would break if you used <code>display: none</code> in JavaScript directly instead of toggling the <code>hidden</code> attribute and controlling visibility through CSS?</li>
+<li>Why does the tablist use roving tabindex while the accordion does not?</li>
 </ul>
 <hr />
 <h2>Rubric</h2>
@@ -178,9 +195,9 @@ initTabs(document.querySelector(&#x27;.tab-list&#x27;));</code></pre>
 <tbody>
 <tr><td><strong>Accordion behavior</strong></td><td>Open/close works; only one panel open at a time; <code>aria-expanded</code> accurate</td><td>Open/close works; multiple panels can open simultaneously</td><td>Open works; close doesn't</td><td>Not functional</td></tr>
 <tr><td><strong>Tab behavior</strong></td><td>Tabs switch panels correctly; all three panels reachable; <code>aria-selected</code> accurate</td><td>Tabs switch; ARIA not updated</td><td>Partially working</td><td>Not functional</td></tr>
-<tr><td><strong>ARIA attributes</strong></td><td><code>aria-expanded</code>, <code>aria-controls</code>, <code>aria-selected</code>, <code>role=&quot;tab&quot;</code>, <code>role=&quot;tabpanel&quot;</code> all present and accurate</td><td>Most ARIA present</td><td>Some ARIA present</td><td>No ARIA</td></tr>
+<tr><td><strong>ARIA attributes</strong></td><td><code>aria-expanded</code>, <code>aria-controls</code>, <code>aria-selected</code>, <code>role=&quot;tab&quot;</code>, <code>role=&quot;tabpanel&quot;</code> all present and accurate, and <code>tabindex</code> reflects the selected tab</td><td>Most ARIA present</td><td>Some ARIA present</td><td>No ARIA</td></tr>
 <tr><td><strong>Event delegation</strong></td><td>One listener per component on a parent; <code>event.target.matches()</code> or <code>.closest()</code> used</td><td>Two listeners per component</td><td>Individual listeners on each button</td><td>No event delegation</td></tr>
-<tr><td><strong>Keyboard accessibility</strong></td><td>All interactive elements reachable by Tab and activatable by Enter/Space</td><td>Most reachable</td><td>Partially reachable</td><td>Not tested</td></tr>
+<tr><td><strong>Keyboard accessibility</strong></td><td>Accordion headers reachable by Tab and activatable by Enter/Space; tablist uses roving tabindex with working Left/Right (and Home/End) arrow navigation</td><td>Both components keyboard-operable; arrow navigation present but incomplete (no wrap, or no Home/End)</td><td>Everything reachable by Tab, but the tablist has no arrow-key navigation</td><td>Not tested</td></tr>
 <tr><td><strong>Reflection</strong></td><td>Specific; addresses all three prompts</td><td>Two prompts addressed</td><td>Vague</td><td>Missing</td></tr>
 </tbody>
 </table>

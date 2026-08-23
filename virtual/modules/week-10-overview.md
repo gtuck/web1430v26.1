@@ -21,6 +21,7 @@
 ## Resources
 - [Lecture notes: localStorage, sessionStorage, and UI State](../lectures/week-10-lecture.md)
 - [Chapter 10: Storage, Preferences, and State](../textbook/chapters/chapter-10-storage-preferences-and-state.md)
+- [Project 2 brief](../projects/project-2-data-driven-micro-app.md) — **Milestone 1 — Proposal and Data Plan** is due this week. Test the API and normalize one real object before you write UI code.
 - **Time estimate:** 10–12 hours (reading, lab, quiz, Project 2 Proposal)
 
 ## Checkpoint question

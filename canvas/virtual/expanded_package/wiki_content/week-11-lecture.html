@@ -47,8 +47,11 @@ export function formatCurrency(cents) {
 <pre><code class="language-js">// main.js
 import { formatDate, formatCurrency } from &quot;./utils/format.js&quot;;
 
-console.log(formatDate(&quot;2025-03-15&quot;));   // &quot;March 15, 2025&quot;
-console.log(formatCurrency(1999));        // &quot;$19.99&quot;</code></pre>
+console.log(formatDate(&quot;2025-03-15T12:00:00&quot;));  // &quot;March 15, 2025&quot;
+console.log(formatCurrency(1999));                // &quot;$19.99&quot;</code></pre>
+<blockquote>
+<p><strong>Why the <code>T12:00:00</code>?</strong> A bare date string like <code>&quot;2025-03-15&quot;</code> is parsed as <strong>midnight UTC</strong>, but <code>toLocaleDateString</code> prints it in the reader's local time. In Mountain Time that is 5 or 6 p.m. the <em>previous</em> day, so <code>formatDate(&quot;2025-03-15&quot;)</code> renders "March 14, 2025" — the single most common date bug in JavaScript. Adding a midday time keeps the date stable in every timezone. When the date matters, always check what your formatter actually prints.</p>
+</blockquote>
 <p>The <code>{ }</code> braces in the import match the exported names exactly. Importing a name that was not exported causes a <code>SyntaxError</code>.</p>
 <h3>ES module syntax: default exports</h3>
 <p>A default export represents the primary thing a file provides. A file can have only one default export.</p>
@@ -96,12 +99,15 @@ npm install
 npm run dev</code></pre>
 <p>What this creates:</p>
 <pre><code>my-project/
-  index.html         # entry point — loads main.js as a module
-  main.js            # your JavaScript entry point
-  style.css
+  index.html         # entry point — loads src/main.js as a module
   package.json       # project metadata and script definitions
-  node_modules/      # installed packages — never commit this
-  .gitignore         # already excludes node_modules</code></pre>
+  .gitignore         # already excludes node_modules
+  public/            # static files copied to the build as-is
+  src/
+    main.js          # your JavaScript entry point
+    style.css
+  node_modules/      # installed packages — never commit this</code></pre>
+<p>Note that the vanilla template puts your source in <code>src/</code> and leaves <code>index.html</code> at the project root — that is why <code>index.html</code> references <code>/src/main.js</code>. Lab 10 and Assignment 5 both use this layout.</p>
 <p>The <code>package.json</code> file records your project name, version, and the <code>scripts</code> block that defines <code>npm run dev</code> and <code>npm run build</code>.</p>
 <h3>npm and package.json</h3>
 <p><code>npm</code> (Node Package Manager) manages third-party libraries. When you run <code>npm install</code>, npm reads <code>package.json</code> and downloads every listed dependency into <code>node_modules/</code>.</p>

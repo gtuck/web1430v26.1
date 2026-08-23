@@ -65,7 +65,7 @@ Content-Type: text/html; charset=UTF-8
 <ul>
 <li>The order resources are requested</li>
 <li>Which resources block rendering (shown with a long initial bar)</li>
-<li>File sizes and whether responses are served from cache (status 304)</li>
+<li>File sizes and how each response was served: <code>200</code> fresh from the server, <code>304 Not Modified</code> when the browser revalidated and the server said the cached copy is still good, or a Size column reading <code>(from disk cache)</code> / <code>(from memory cache)</code> when the browser skipped the network entirely</li>
 <li>Response headers, including <code>Content-Type</code> and caching directives</li>
 </ul>
 <p>Filter by type (JS, CSS, Img) to reduce noise. Click any row to see the full request and response headers.</p>

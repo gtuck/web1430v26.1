@@ -5,7 +5,7 @@
 
 ---
 
-This reflection is graded separately from your project (see the Final Project rubric). A vague or single-sentence answer to each prompt does not meet the standard. Write 6–10 sentences total — focused, honest, and specific.
+This reflection is graded separately from your project (see the Final Project rubric). A vague or single-sentence answer does not meet the standard. Write **3–5 sentences for each of the five prompts** — roughly 20 sentences in total. Focused, honest, and specific beats long.
 
 ## Prompts
 

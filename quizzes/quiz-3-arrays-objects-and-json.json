@@ -1,6 +1,6 @@
 {
   "slug": "quiz-3-arrays-objects-and-json",
-  "title": "Quiz 3 \u2013 Arrays, Objects, and JSON",
+  "title": "Quiz 3 – Arrays, Objects, and JSON",
   "group": "Quizzes",
   "points": 7,
   "questions": [
@@ -12,26 +12,26 @@
       "answers": [
         {
           "id": "object-use_a1",
-          "text": "Array",
-          "html": "<p>Array</p>",
-          "weight": 0
-        },
-        {
-          "id": "object-use_a2",
           "text": "Object",
           "html": "<p>Object</p>",
           "weight": 100
         },
         {
+          "id": "object-use_a2",
+          "text": "Array",
+          "html": "<p>Array</p>",
+          "weight": 0
+        },
+        {
           "id": "object-use_a3",
-          "text": "Loop",
-          "html": "<p>Loop</p>",
+          "text": "Set",
+          "html": "<p>Set</p>",
           "weight": 0
         },
         {
           "id": "object-use_a4",
-          "text": "Boolean",
-          "html": "<p>Boolean</p>",
+          "text": "Map keyed by index",
+          "html": "<p>Map keyed by index</p>",
           "weight": 0
         }
       ]
@@ -44,8 +44,8 @@
       "answers": [
         {
           "id": "json_a1",
-          "text": "A browser layout engine",
-          "html": "<p>A browser layout engine</p>",
+          "text": "A query language for reading data from a server",
+          "html": "<p>A query language for reading data from a server</p>",
           "weight": 0
         },
         {
@@ -56,14 +56,14 @@
         },
         {
           "id": "json_a3",
-          "text": "A CSS preprocessor",
-          "html": "<p>A CSS preprocessor</p>",
+          "text": "A JavaScript object held in memory",
+          "html": "<p>A JavaScript object held in memory</p>",
           "weight": 0
         },
         {
           "id": "json_a4",
-          "text": "A command line shell",
-          "html": "<p>A command line shell</p>",
+          "text": "A binary format for transferring files",
+          "html": "<p>A binary format for transferring files</p>",
           "weight": 0
         }
       ]
@@ -76,26 +76,26 @@
       "answers": [
         {
           "id": "array-method_a1",
-          "text": "forEach",
-          "html": "<p>forEach</p>",
-          "weight": 0
-        },
-        {
-          "id": "array-method_a2",
-          "text": "map",
-          "html": "<p>map</p>",
-          "weight": 100
-        },
-        {
-          "id": "array-method_a3",
           "text": "find",
           "html": "<p>find</p>",
           "weight": 0
         },
         {
+          "id": "array-method_a2",
+          "text": "reduce",
+          "html": "<p>reduce</p>",
+          "weight": 0
+        },
+        {
+          "id": "array-method_a3",
+          "text": "map",
+          "html": "<p>map</p>",
+          "weight": 100
+        },
+        {
           "id": "array-method_a4",
-          "text": "push",
-          "html": "<p>push</p>",
+          "text": "forEach",
+          "html": "<p>forEach</p>",
           "weight": 0
         }
       ]
@@ -134,21 +134,21 @@
         },
         {
           "id": "property-access_a2",
-          "text": "user.name",
-          "html": "<p>user.name</p>",
-          "weight": 100
+          "text": "user->name",
+          "html": "<p>user-&gt;name</p>",
+          "weight": 0
         },
         {
           "id": "property-access_a3",
-          "text": "name.user",
-          "html": "<p>name.user</p>",
+          "text": "name(user)",
+          "html": "<p>name(user)</p>",
           "weight": 0
         },
         {
           "id": "property-access_a4",
-          "text": "user->name",
-          "html": "<p>user-&gt;name</p>",
-          "weight": 0
+          "text": "user.name",
+          "html": "<p>user.name</p>",
+          "weight": 100
         }
       ]
     },
@@ -178,8 +178,8 @@
         },
         {
           "id": "map-vs-filter_a4",
-          "text": "prices.find(p => p * 2)",
-          "html": "<p>prices.find(p =&gt; p * 2)</p>",
+          "text": "prices.reduce((a, p) => p * 2)",
+          "html": "<p>prices.reduce((a, p) =&gt; p * 2)</p>",
           "weight": 0
         }
       ]
@@ -192,26 +192,26 @@
       "answers": [
         {
           "id": "filter-empty-result_a1",
+          "text": "false",
+          "html": "<p>false</p>",
+          "weight": 0
+        },
+        {
+          "id": "filter-empty-result_a2",
           "text": "An empty array []",
           "html": "<p>An empty array []</p>",
           "weight": 100
         },
         {
-          "id": "filter-empty-result_a2",
+          "id": "filter-empty-result_a3",
           "text": "null",
           "html": "<p>null</p>",
           "weight": 0
         },
         {
-          "id": "filter-empty-result_a3",
+          "id": "filter-empty-result_a4",
           "text": "undefined",
           "html": "<p>undefined</p>",
-          "weight": 0
-        },
-        {
-          "id": "filter-empty-result_a4",
-          "text": "false",
-          "html": "<p>false</p>",
           "weight": 0
         }
       ]

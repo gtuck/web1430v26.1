@@ -40,7 +40,7 @@ form.addEventListener('submit', async (e) => {
     const res = await fetch(`${API_BASE}?title=${encodeURIComponent(q)}&limit=10`);
     if (!res.ok) throw new Error(res.status);
     const data = await res.json();
-    resultsEl.innerHTML = '';
+    resultsEl.replaceChildren();
     if (!data.docs.length) { resultsEl.textContent = 'No results.'; return; }
     data.docs.forEach(doc => {
       const el = document.createElement('article');
@@ -155,9 +155,11 @@ Before submitting, confirm:
 
 Work in this section is reflected in the Excellent (4) column of the rubric.
 
-- Add a `constants.js` file that exports `API_BASE_URL` and any other magic strings, and import them wherever needed
 - Use `import.meta.env` to demonstrate environment-aware configuration (e.g., a different limit in development vs production)
-- Write a brief `ARCHITECTURE.md` inside `assignments/assignment-5/` that diagrams which files import from which (a simple text diagram is fine)
+- Add a `barrel` file (`src/index.js`) that re-exports the public functions of each module, and import from it in `main.js`
+- Write a short `DECISIONS.md` recording one refactor you considered and rejected, and why
+
+> `constants.js` and `ARCHITECTURE.md` are **required**, not stretch — see the Required output structure above.
 
 ---
 

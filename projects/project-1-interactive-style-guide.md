@@ -45,7 +45,6 @@ A deployed, in-progress version with:
 - All CSS custom properties defined in `:root`
 - The typography section and color swatch section complete
 - At least two interactive components functional (even if not polished)
-- `node_modules/` and `dist/` absent from the repo
 
 Submit the live URL and repo URL to Canvas with a brief note on what is remaining.
 
@@ -54,6 +53,8 @@ Submit the live URL and repo URL to Canvas with a brief note on what is remainin
 ## Milestone 3 — Final Submission
 
 **Due:** End of Week 8
+
+The complete style guide: every item in the Required sections, Technical requirements, and Accessibility requirements below, deployed and submitted with `rationale.md`. Week 8 is polish and refactoring — apply Chapter 8's design-token and file-organization patterns rather than starting new components.
 
 ---
 
@@ -112,7 +113,7 @@ At least four items. One-open-at-a-time behavior. `aria-expanded` and `aria-cont
 At least three tabs. Correct ARIA roles (`tablist`, `tab`, `tabpanel`). Arrow key navigation between tabs.
 
 **Option C – Modal/Dialog**
-A trigger button that opens a dialog overlay. Focus trapped inside the modal while open. Closed by Escape key, a close button, or clicking the backdrop. `role="dialog"` and `aria-labelledby` referencing the dialog title.
+A trigger button that opens a dialog overlay. Focus trapped inside the modal while open. Closed by Escape key, a close button, or clicking the backdrop. `role="dialog"` and `aria-labelledby` referencing the dialog title. Focus trapping is the one technique in this list the weekly lectures do not cover — read the modal section of [Chapter 13: Accessibility Synthesis](../textbook/chapters/chapter-13-accessibility-synthesis.md) before choosing this option, or pick Option A or B instead.
 
 ---
 

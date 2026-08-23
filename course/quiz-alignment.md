@@ -2,7 +2,7 @@
 
 This document maps the current assessment source files in `quizzes/` to the week they are administered, the chapter range they cover, the learning outcomes they assess, and the number of questions currently present in each JSON file.
 
-All current assessment source files use **1 point per question**, so each assessment's `points` value now matches its question count.
+Most assessment source files use **1 point per question**, so their `points` value matches their question count. The **Final Exam is the exception**: its 17 items are worth 2 points each (34 points total), which gives the Final roughly two-thirds of the exam credit and the Midterm one-third, as the syllabus states.
 The Canvas assessment package is now regenerated directly from these JSON sources, so the quiz files are the assessment source of truth.
 
 ---
@@ -21,7 +21,7 @@ The Canvas assessment package is now regenerated directly from these JSON source
 | Quiz 6 | 10 | Ch 10 | 7 / 7 | `localStorage`, `sessionStorage`, serialization, persistence gotchas |
 | Quiz 7 | 12 | Ch 11–12 | 7 / 7 | ES modules, Vite, Vue components, props, refs, imports |
 | Quiz 8 | 14 | Ch 13–14 | 4 / 4 | Lighthouse categories, accessibility failures, production verification, GitHub Pages base path |
-| Final Exam | 15 | Ch 1–14 | 17 / 17 | Cumulative; stronger emphasis on async/state, modules/Vue, accessibility, deployment |
+| Final Exam | 15 | Ch 1–14 | 17 / 34 | Cumulative; stronger emphasis on async/state, modules/Vue, accessibility, deployment |
 
 ---
 
@@ -243,7 +243,7 @@ The Canvas assessment package is now regenerated directly from these JSON source
 
 **Covers:** Chapters 1–14 (cumulative), with stronger emphasis on later-course integration topics  
 **Administered:** Week 15  
-**Current format:** 17 selected-response questions, 17 points  
+**Current format:** 17 selected-response questions at 2 points each, 34 points  
 **Time limit:** 90 minutes
 
 **Learning outcomes addressed:** All 10 course learning outcomes.

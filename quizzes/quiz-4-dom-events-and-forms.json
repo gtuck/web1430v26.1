@@ -1,6 +1,6 @@
 {
   "slug": "quiz-4-dom-events-and-forms",
-  "title": "Quiz 4 \u2013 DOM, Events, and Forms",
+  "title": "Quiz 4 – DOM, Events, and Forms",
   "group": "Quizzes",
   "points": 5,
   "questions": [
@@ -12,26 +12,26 @@
       "answers": [
         {
           "id": "selector_a1",
-          "text": "getElementByStyle",
-          "html": "<p>getElementByStyle</p>",
+          "text": "getElementsByTagName",
+          "html": "<p>getElementsByTagName</p>",
           "weight": 0
         },
         {
           "id": "selector_a2",
+          "text": "matchSelector",
+          "html": "<p>matchSelector</p>",
+          "weight": 0
+        },
+        {
+          "id": "selector_a3",
           "text": "querySelector",
           "html": "<p>querySelector</p>",
           "weight": 100
         },
         {
-          "id": "selector_a3",
-          "text": "firstElement",
-          "html": "<p>firstElement</p>",
-          "weight": 0
-        },
-        {
           "id": "selector_a4",
-          "text": "matchNode",
-          "html": "<p>matchNode</p>",
+          "text": "getElementById",
+          "html": "<p>getElementById</p>",
           "weight": 0
         }
       ]
@@ -44,27 +44,27 @@
       "answers": [
         {
           "id": "event-listener_a1",
+          "text": "button.bindClick(saveProfile)",
+          "html": "<p>button.bindClick(saveProfile)</p>",
+          "weight": 0
+        },
+        {
+          "id": "event-listener_a2",
           "text": "button.listen('click', saveProfile)",
           "html": "<p>button.listen(&#x27;click&#x27;, saveProfile)</p>",
           "weight": 0
         },
         {
-          "id": "event-listener_a2",
+          "id": "event-listener_a3",
           "text": "button.onClick(saveProfile)",
           "html": "<p>button.onClick(saveProfile)</p>",
           "weight": 0
         },
         {
-          "id": "event-listener_a3",
+          "id": "event-listener_a4",
           "text": "button.addEventListener('click', saveProfile)",
           "html": "<p>button.addEventListener(&#x27;click&#x27;, saveProfile)</p>",
           "weight": 100
-        },
-        {
-          "id": "event-listener_a4",
-          "text": "button.bindClick(saveProfile)",
-          "html": "<p>button.bindClick(saveProfile)</p>",
-          "weight": 0
         }
       ]
     },
@@ -76,26 +76,26 @@
       "answers": [
         {
           "id": "accessible-feedback_a1",
-          "text": "Only color-based errors",
-          "html": "<p>Only color-based errors</p>",
-          "weight": 0
-        },
-        {
-          "id": "accessible-feedback_a2",
-          "text": "Clear labels and error text tied to fields",
-          "html": "<p>Clear labels and error text tied to fields</p>",
+          "text": "Clear labels and error text tied to their fields",
+          "html": "<p>Clear labels and error text tied to their fields</p>",
           "weight": 100
         },
         {
+          "id": "accessible-feedback_a2",
+          "text": "A red border on each field that fails validation",
+          "html": "<p>A red border on each field that fails validation</p>",
+          "weight": 0
+        },
+        {
           "id": "accessible-feedback_a3",
-          "text": "Placeholder text instead of labels",
-          "html": "<p>Placeholder text instead of labels</p>",
+          "text": "Placeholder text describing the expected format",
+          "html": "<p>Placeholder text describing the expected format</p>",
           "weight": 0
         },
         {
           "id": "accessible-feedback_a4",
-          "text": "Hidden submit buttons",
-          "html": "<p>Hidden submit buttons</p>",
+          "text": "An alert() dialog listing every error at once",
+          "html": "<p>An alert() dialog listing every error at once</p>",
           "weight": 0
         }
       ]
@@ -128,26 +128,26 @@
       "answers": [
         {
           "id": "state-source_a1",
-          "text": "The placeholder text shown in the field",
-          "html": "<p>The placeholder text shown in the field</p>",
+          "text": "The text content of the surrounding label",
+          "html": "<p>The text content of the surrounding label</p>",
           "weight": 0
         },
         {
           "id": "state-source_a2",
           "text": "The control's current .value",
-          "html": "<p>The control&#x27;s current <code>.value</code></p>",
+          "html": "<p>The control&#x27;s current .value</p>",
           "weight": 100
         },
         {
           "id": "state-source_a3",
-          "text": "A hard-coded default",
-          "html": "<p>A hard-coded default</p>",
+          "text": "The value attribute written in the HTML source",
+          "html": "<p>The value attribute written in the HTML source</p>",
           "weight": 0
         },
         {
           "id": "state-source_a4",
-          "text": "The page title",
-          "html": "<p>The page title</p>",
+          "text": "The placeholder text shown in the field",
+          "html": "<p>The placeholder text shown in the field</p>",
           "weight": 0
         }
       ]

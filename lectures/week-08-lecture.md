@@ -43,18 +43,21 @@ if (nameB === "") {
 
 **After — one function, called twice:**
 ```js
-function requireField(inputId, errorId) {
+function requireField(inputId, errorId, label) {
   const value = document.getElementById(inputId).value.trim();
   if (value === "") {
-    document.getElementById(errorId).textContent = "Name is required.";
+    document.getElementById(errorId).textContent = `${label} is required.`;
     return false;
   }
   return true;
 }
 
-if (!requireField("name-a", "error-a")) return;
-if (!requireField("name-b", "error-b")) return;
+// inside the submit handler
+if (!requireField("name-a", "error-a", "Name")) return;
+if (!requireField("name-b", "error-b", "Name")) return;
 ```
+
+Note the third parameter. The first version of this refactor hardcoded `"Name is required."`, which works until the second caller is an email field. If an extracted function still contains a value that only makes sense for one of its callers, it is not finished — pass that value in.
 
 The behavior is identical. But now the rule "what makes a field invalid" lives in one place. If you need to change it — say, add a minimum length — you change one function instead of hunting for every copy.
 

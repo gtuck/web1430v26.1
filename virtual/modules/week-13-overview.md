@@ -22,7 +22,7 @@
 ## Resources
 - [Lecture notes: Component Communication, Reactive Forms, and Derived State](../lectures/week-13-lecture.md)
 - [Chapter 12: Introductory Component-Based Development](../textbook/chapters/chapter-12-introductory-component-based-development.md) (continued)
-- [Chapter 13: Accessibility Synthesis](../textbook/chapters/chapter-13-accessibility-synthesis.md) — WCAG conformance, ARIA patterns, focus management, prefers-reduced-motion, 3-minute manual audit checklist
+- [Chapter 13: Accessibility Synthesis](../textbook/chapters/chapter-13-accessibility-synthesis.md) — **finish the second half** (focus management, `prefers-reduced-motion`, and the 3-minute manual audit checklist); you read the WCAG and ARIA-pattern sections in Week 12
 - [Vue Transition Guide](../course/vue-transition-guide.md) — Use the parent/child event checklist before debugging your entire app.
 - [Assignment 6 brief](../assignments/assignment-6-reactive-form-workflow.md) — Follow the build-order section so the workflow works one step at a time instead of all at once.
 - [Final Project brief](../projects/final-project-campus-or-community-tool.md) — Use your Milestone 1 feedback and planning starter to revise the wireframes and data plan after one core interaction or scaffold already exists.

@@ -68,6 +68,7 @@ The build script regenerates:
 | `labs/` | 14 lab handouts (`lab00` through `lab13`) |
 | `assignments/` | 6 assignment briefs plus 2 Week 00 orientation briefs (Welcome Survey, GitHub Repo Setup) |
 | `projects/` | Project 1, Project 2, and Final Project briefs |
+| `milestones/` | Eight graded project-milestone submissions (proposals, build checkpoints, beta review, course reflection). Generate Canvas **assignments only** — no wiki page — because the authoritative requirements stay in the parent brief in `projects/`. Points are carved out of the parent project's total, so the Projects group weight is unchanged. |
 | `quizzes/` | 8 quizzes plus midterm and final exam source JSON |
 | `starters/` | Student-facing lab starter files (`lab00`–`lab10`; see its README); pre-seeded into student repos via the course template, not part of the Canvas export |
 | `course-template/` | Source for the `web1430-fall26/course-template` starter repo that the crsapps repo-creation system copies for each student (see `instructor/course-template-setup.md`); keep its `labs/` in sync with `starters/` |
@@ -101,6 +102,7 @@ These sources **do** feed the Canvas export:
 - everything in `labs/`
 - everything in `assignments/`
 - everything in `projects/`
+- everything in `milestones/` (as assignments, not pages)
 - published learner-support pages in `course/` that are included by `PUBLISHED_COURSE_GUIDES` in `scripts/build_canvas_package.py`
 
 ## Current course state
@@ -112,7 +114,8 @@ These sources **do** feed the Canvas export:
 - Published support pages include the accessibility primer, API troubleshooting guide, screen reader testing guide, course reflection prompt, Week 5 / Week 11 / Week 13 surveys, and the Vue transition guide. The course reflection prompt's rubric matches the Final Project brief's reflection rubric verbatim.
 - The weekly schedule and late-course module overviews surface Final Project milestones; `Assignment 6`, `Project 2`, and the `Final Project` include pacing/build-order guidance; the Final Project uses a Week 12 planning starter followed by Week 13 revision work.
 - Week 14 assessment leans on Lab 13 as applied QA evidence, with Quiz 8 as a short readiness check.
-- Quizzes and exams include code-reading and debugging stems, though all items are selected-response.
+- Quizzes and exams include code-reading and debugging stems, though all items are selected-response. An August 2026 validity pass rebalanced the bank: correct-answer positions are now spread across all four slots (previously 37/34/7/0 — never position 4), implausible "joke" distractors were replaced with near-misses, explanatory clauses were removed from correct answers so option lengths are comparable, and three true/false items in the final exam were retyped from `multiple_choice_question`.
+- Gradebook points line up with the rubrics: every lab and assignment is worth exactly its rubric maximum (4 x criteria), and each project's final artifact is a clean multiple of its rubric maximum (Project 1 96 = 24x4, Project 2 120 = 24x5, Final Project 140 = 28x5). Assignment 1 gained a sixth rubric row so all six assignments are equally weighted at 24 points.
 - API-driven assignments and projects require an API viability check (browser access, rate limits/auth, attribution/terms, data reliability); major project briefs and syllabus docs require lightweight `README.md` documentation.
 - Week 00 materials teach `git status` and `git pull --ff-only` as baseline sync/recovery habits; student repos are created per-student in the `web1430-fall26` GitHub org by the WSU repo-creation system (crsapps; template source in `course-template/`, publish/sync steps in `instructor/course-template-setup.md`).
 - The 10 course learning outcomes are packaged for Canvas as `instructor/canvas-outcomes.csv`; the 24 rubrics (from the briefs' rubric tables) are packaged as `instructor/canvas-rubrics.csv`, regenerable via `scripts/build_canvas_rubrics_csv.py`.
@@ -144,6 +147,7 @@ When changing major course content, check these related files together:
 - `course/syllabus.md`
 - `course/quiz-alignment.md`
 - `quizzes/*.json`
+- `milestones/*.md` when a project brief's milestone requirements change
 - `instructor/canvas-outcomes.csv` when `course/learning_outcomes.md` changes
 - `instructor/canvas-rubrics.csv` (regenerate with `scripts/build_canvas_rubrics_csv.py`) when any rubric table in a brief changes
 
@@ -182,7 +186,7 @@ Every rubric row must have all four cells filled (4/3/2/1 points). These tables 
 ### Assessment conventions
 
 - `quizzes/*.json` is the assessment source of truth
-- all current items are 1 point each
+- most items are 1 point each; the Final Exam is 2 points per item (34 total), giving the Final roughly two-thirds of the exam credit and the Midterm one-third, as the syllabus states
 - the build expects supported selected-response question types
 - applied reasoning is embedded through richer stems rather than separate free-response items
 

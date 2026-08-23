@@ -66,7 +66,16 @@ const students = ref([
 <pre><code class="language-js">const searchQuery = ref(&#x27;&#x27;);
 const minScore = ref(0);
 const maxScore = ref(100);
-const passFilter = ref(&#x27;all&#x27;);   // &#x27;all&#x27; | &#x27;passing&#x27; | &#x27;failing&#x27;</code></pre>
+const passFilter = ref(&#x27;all&#x27;);   // &#x27;all&#x27; | &#x27;passing&#x27; | &#x27;failing&#x27;
+
+// Called when GradeTable emits &#x27;clear-filters&#x27;. The parent owns this state,
+// so the parent is the only place that resets it.
+function resetFilters() {
+  searchQuery.value = &#x27;&#x27;;
+  minScore.value = 0;
+  maxScore.value = 100;
+  passFilter.value = &#x27;all&#x27;;
+}</code></pre>
 <hr />
 <h2>Part 4: Computed values</h2>
 <h3>Letter grade helper</h3>
@@ -135,7 +144,7 @@ const passFilter = ref(&#x27;all&#x27;);   // &#x27;all&#x27; | &#x27;passing&#x
     &lt;/section&gt;
 
     &lt;SummaryPanel :summary=&quot;summary&quot; /&gt;
-    &lt;GradeTable :students=&quot;filteredStudents&quot; /&gt;
+    &lt;GradeTable :students=&quot;filteredStudents&quot; @clear-filters=&quot;resetFilters&quot; /&gt;
   &lt;/div&gt;
 &lt;/template&gt;</code></pre>
 <hr />
@@ -184,11 +193,18 @@ defineProps({
     required: true,
   },
 });
+
+// Data flows down through props; this component never edits the filters itself.
+// When the user wants them cleared it emits upward and lets App.vue decide.
+const emit = defineEmits([&#x27;clear-filters&#x27;]);
 &lt;/script&gt;
 
 &lt;template&gt;
   &lt;div class=&quot;table-wrapper&quot;&gt;
-    &lt;p v-if=&quot;students.length === 0&quot; class=&quot;empty-msg&quot;&gt;No students match the current filters.&lt;/p&gt;
+    &lt;div v-if=&quot;students.length === 0&quot; class=&quot;empty-msg&quot;&gt;
+      &lt;p&gt;No students match the current filters.&lt;/p&gt;
+      &lt;button type=&quot;button&quot; @click=&quot;emit(&#x27;clear-filters&#x27;)&quot;&gt;Clear all filters&lt;/button&gt;
+    &lt;/div&gt;
 
     &lt;table v-else aria-label=&quot;Student grades&quot;&gt;
       &lt;thead&gt;
@@ -228,6 +244,8 @@ defineProps({
 <li>[ ] All four filters can be active simultaneously and work together</li>
 <li>[ ] Summary stats reflect the <em>filtered</em> data, not the full dataset</li>
 <li>[ ] Empty state message shows when no students match</li>
+<li>[ ] With filters that match nothing, the empty state appears with a working "Clear all filters" button</li>
+<li>[ ] Clicking it resets all four controls and the full table returns — and <code>GradeTable</code> never writes to the filter state itself</li>
 <li>[ ] <code>aria-live=&quot;polite&quot;</code> is on the summary panel</li>
 </ul>
 <hr />
@@ -241,6 +259,7 @@ defineProps({
 <li>What is <code>v-model.number</code> and why did you need it for the score inputs?</li>
 <li>How does the summary panel stay synchronized with the filtered data without any additional event listeners?</li>
 <li>What happens to the summary if all students are filtered out — how did you handle that edge case?</li>
+<li>Why does <code>GradeTable</code> emit <code>clear-filters</code> instead of just resetting the filter refs itself?</li>
 </ul>
 <hr />
 <h2>Rubric</h2>
@@ -249,7 +268,7 @@ defineProps({
 <tbody>
 <tr><td><strong>Computed filtering</strong></td><td>All four filters work via <code>computed</code>; no manual DOM updates; all filters combine correctly</td><td>Three filters in computed</td><td>Two filters; one manual DOM update</td><td>No computed filtering</td></tr>
 <tr><td><strong>Summary panel</strong></td><td>All five stats correct; derived from filtered data; updates with each filter change</td><td>Four stats correct; one not filtered</td><td>Stats present but use full dataset</td><td>No summary</td></tr>
-<tr><td><strong>Component structure</strong></td><td>Two child components with correct <code>defineProps</code>; data flows parent → child</td><td>Two components; prop type missing</td><td>One component extracted</td><td>Everything in App.vue</td></tr>
+<tr><td><strong>Component structure</strong></td><td>Two child components with correct <code>defineProps</code>; data flows parent → child via props and child → parent via <code>defineEmits</code>; no child mutates a prop</td><td>Two components with props and emits; a prop type or emit declaration missing</td><td>One component extracted, or the child resets filter state directly instead of emitting</td><td>Everything in App.vue</td></tr>
 <tr><td><strong>Accessibility</strong></td><td><code>aria-live</code> on summary; table uses <code>scope</code>; empty state present</td><td>Two of three</td><td>One</td><td>None</td></tr>
 <tr><td><strong>Edge cases</strong></td><td>Empty filter result shows message; summary shows "N/A" when count is 0</td><td>Empty state only</td><td>Edge cases attempted but broken or inconsistent</td><td>No edge case handling</td></tr>
 <tr><td><strong>Reflection</strong></td><td>Specific; all three prompts addressed</td><td>Two prompts</td><td>Vague</td><td>Missing</td></tr>
