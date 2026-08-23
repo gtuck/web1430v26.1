@@ -55,4 +55,4 @@ The student flow (request page → username → passcode → Create Repo → acc
 - `lectures/week-00-lecture.md` and `virtual/lectures/week-00-lecture.md` ("Cloning the course starter repo")
 - `assignments/github-repo-setup.md`
 
-The passcode appears verbatim in those files. If the passcode changes, update all four (search the repo for the old passcode) and rebuild both Canvas packages.
+The passcode is deliberately NOT stored in this repo. It lives only in the **Course Repo Passcode** announcement in the Canvas shell (and in the crsapps faculty configuration). If the passcode changes, update that announcement — the repo docs only point to it, so they need no edit.

@@ -68,9 +68,9 @@ Verify: `git config --list` should show your name and email.
 Your course repository is created for you — with the starter files already in it — through the course repo request page:
 
 1. Don't have a GitHub account? Create one first at `https://github.com/join` using your `@mail.weber.edu` email address — you'll use the same username in the next step.
-2. Go to <https://crsapps.netlify.app/gh?instructor=gt&course=WEB1430&task=CourseTemplate>
+2. Go to [https://crsapps.netlify.app/gh?instructor=gt&course=WEB1430&task=CourseTemplate](https://crsapps.netlify.app/gh?instructor=gt&course=WEB1430&task=CourseTemplate)
 3. Enter your GitHub username exactly as it appears on GitHub (typos will block submission).
-4. Enter this passcode: `MrC0der2shoe$`
+4. Enter the course passcode — it is posted in the **Course Repo Passcode** announcement in Canvas (Announcements → Course Repo Passcode).
 5. Click **Create Repo**. You'll get an invitation link — accept it (sign in to GitHub first), and your repository is ready to clone from the `web1430-fall26` organization.
 
 ---
@@ -152,8 +152,8 @@ Before submitting, confirm every item below:
 - [ ] `git --version` prints a version number
 - [ ] `git config user.name` and `git config user.email` show your details
 - [ ] Your GitHub repository exists in the `web1430-fall26` organization and you accepted the invitation
-- [ ] Your personalized `README.md` is committed and visible on GitHub, and `labs/lab00/index.html` opens in Live Server
-- [ ] The page opens correctly in Live Server
+- [ ] Your personalized `README.md` is committed and visible on GitHub
+- [ ] `labs/lab00/index.html` opens correctly in Live Server
 - [ ] `git status` shows a clean working tree after your first push
 - [ ] `git pull --ff-only` runs successfully after your first push
 

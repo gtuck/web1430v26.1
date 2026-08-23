@@ -110,9 +110,9 @@ You are not expected to be fast at this in Week 00. You are expected to recogniz
 Your course repository is created for you — pre-loaded with the semester's folder structure (`labs/`, `assignments/`, `projects/`) and starter files — through the course repo request page:
 
 1. Don't have a GitHub account? Create one first at `https://github.com/join` using your `@mail.weber.edu` email address — you'll use the same username in the next step.
-2. Go to <https://crsapps.netlify.app/gh?instructor=gt&course=WEB1430&task=CourseTemplate>
+2. Go to [https://crsapps.netlify.app/gh?instructor=gt&course=WEB1430&task=CourseTemplate](https://crsapps.netlify.app/gh?instructor=gt&course=WEB1430&task=CourseTemplate)
 3. Enter your GitHub username exactly as it appears on GitHub (typos will block submission).
-4. Enter this passcode: `MrC0der2shoe$`
+4. Enter the course passcode — it is posted in the **Course Repo Passcode** announcement in Canvas (Announcements → Course Repo Passcode).
 5. Click **Create Repo**. You'll get an invitation link — accept it, and your repository is ready to clone from the `web1430-fall26` organization.
 
 To get it onto your machine:
