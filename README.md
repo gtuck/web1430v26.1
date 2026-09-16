@@ -28,6 +28,7 @@ Recent alignment work also updated:
 
 - `course/` – syllabus (single canonical copy), schedule, outcomes, quiz alignment, published support guides, and survey question banks
 - `instructor/` – instructor-only material: Canvas import/setup guide, first-delivery monitoring guide, and the `canvas-outcomes.csv` / `canvas-rubrics.csv` files for Canvas's Outcomes and Rubrics import features
+- `instructor/solutions/` – local instructor reference solutions; excluded from Git and not included in repository clones
 - `starters/` – student-facing lab starter files (see its README for the lab-by-lab list)
 - `virtual/` – virtual-modality (synchronous Zoom section) source overrides; mirrors the base layout, everything not overridden is shared
 - `textbook/` – original textbook chapters

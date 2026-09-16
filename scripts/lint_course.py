@@ -76,7 +76,10 @@ def fail(message: str) -> None:
 def source_markdown_files() -> list[Path]:
     files = [ROOT / name for name in ROOT_SOURCES if (ROOT / name).exists()]
     for folder in SOURCE_DIRS:
-        files.extend(sorted((ROOT / folder).rglob("*.md")))
+        files.extend(sorted(
+            path for path in (ROOT / folder).rglob("*.md")
+            if not {"node_modules", "dist"}.intersection(path.relative_to(ROOT).parts)
+        ))
     return files
 
 
